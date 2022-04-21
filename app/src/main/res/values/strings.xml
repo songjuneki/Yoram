@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Yoram</string>
+    <attr name="colorInversePrimary" format="reference|color"/>
+    <attr name="colorShadow" format="reference|color"/>
+</resources>
