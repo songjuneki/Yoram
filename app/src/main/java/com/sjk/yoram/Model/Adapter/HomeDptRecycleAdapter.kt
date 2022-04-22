@@ -54,7 +54,10 @@ class HomeDptRecycleAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             button.setOnClickListener {
                 // department button click event
-                itemListener!!.onItemClick(data.type)
+                if (data.code == null)
+                    itemListener!!.onItemClick(data.type, 0)
+                else
+                    itemListener!!.onItemClick(data.type, data.code!!)
             }
         }
     }

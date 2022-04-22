@@ -1,12 +1,7 @@
 package com.sjk.yoram.Model.Adapter
 
-import android.animation.LayoutTransition
-import android.graphics.BlendMode
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.graphics.PorterDuff
-import android.util.DisplayMetrics
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -19,19 +14,15 @@ import androidx.core.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.size.Dimension
 import com.sjk.yoram.Model.Department
-import com.sjk.yoram.Model.DepartmentV2
-import com.sjk.yoram.Model.MyRetrofit
 import com.sjk.yoram.Model.dto.User
 import com.sjk.yoram.R
-import kotlinx.coroutines.*
 import java.lang.IllegalArgumentException
 
 data class dptSubData (val child: Department?, val users: User?, val type: dptSubDataType)
 enum class dptSubDataType { CHILD, USER }
 
-class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: Department): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: Department, val parentPos: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var cardListener: DepartmentCardAdapter.onDptSubClickListener? = null
     val items: MutableList<dptSubData> = mutableListOf()
 
@@ -166,7 +157,7 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
 
             val recycler = RecyclerView(layout.context)
             val manager = LinearLayoutManager(layout.context)
-            val adapter = DptCardRecycleAdapter(departments, items[position].child!!)
+            val adapter = DptCardRecycleAdapter(departments, items[position].child!!, position)
             manager.orientation = LinearLayoutManager.VERTICAL
             recycler.layoutManager = manager
             recycler.adapter = adapter
@@ -179,6 +170,7 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
                 val show = toggleLayout(sub.isExpanded, arrow, recycler)
                 cardListener!!.onDptSubClick(sub.code)
                 notifyItemChanged(adapterPosition)
+//                cardListener!!.onDptParentNotify(parentPos)
             }
 
             layout.addView(rowLayout)

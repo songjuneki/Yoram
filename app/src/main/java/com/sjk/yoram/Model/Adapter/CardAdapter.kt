@@ -23,6 +23,7 @@ import com.sjk.yoram.databinding.CardMainIdBinding
 class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var cards = mutableListOf<Card>()
     private var dptItemClickListener: OnDptItemClickListener? = null
+    var rootDptsData = mutableListOf<SimpleDpt>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var inflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -121,14 +122,14 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             adapter.itemListener = dptItemClickListener
 
             val dptButtonData = mutableListOf<DptButton>()
-            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서1"))
-            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서2"))
-            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서3"))
-            dptButtonData.add(DptButton(DptButtonType.POSITION, "직급1"))
-            dptButtonData.add(DptButton(DptButtonType.POSITION, "직급2"))
-            dptButtonData.add(DptButton(DptButtonType.POSITION, "직급3"))
-            dptButtonData.add(DptButton(DptButtonType.NAME, ""))
-
+            this@CardAdapter.rootDptsData.forEach { dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, it.name, it.code)) }
+//            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서1"))
+//            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서2"))
+//            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서3"))
+            dptButtonData.add(DptButton(DptButtonType.POSITION, "직급1", null))
+            dptButtonData.add(DptButton(DptButtonType.POSITION, "직급2", null))
+            dptButtonData.add(DptButton(DptButtonType.POSITION, "직급3", null))
+            dptButtonData.add(DptButton(DptButtonType.NAME, "", null))
 
 
             dptRecycler.adapter = adapter
@@ -170,8 +171,13 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun fetchDpts(dpts: MutableList<SimpleDpt>) {
+        this.rootDptsData = dpts
+        notifyDataSetChanged()
+    }
+
     interface OnDptItemClickListener {
-        fun onItemClick(type: DptButtonType)
+        fun onItemClick(type: DptButtonType, dptCode: Int)
     }
 
     fun setOnDptItemClickListener(listener: OnDptItemClickListener) {

@@ -1,21 +1,12 @@
 package com.sjk.yoram.Model.Adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.Transformation
-import androidx.core.view.get
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.sjk.yoram.Model.Department
-import com.sjk.yoram.Model.DepartmentV2
-import com.sjk.yoram.Model.dto.User
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.CardDepartmentBinding
 
@@ -45,7 +36,7 @@ class DepartmentCardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val arrow = binding.cardDptArrow
         val layoutManager = LinearLayoutManager(binding.root.context)
         fun bind(position: Int) {
-            val adapter = DptCardRecycleAdapter(departments, departments[position])
+            val adapter = DptCardRecycleAdapter(departments, departments[position], position)
             adapter.cardListener = subClickListener
             recycler.adapter = adapter
             layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -84,8 +75,13 @@ class DepartmentCardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //        notifyDataSetChanged()
     }
 
+    fun parentListener(parentPos: Int) {
+        notifyItemChanged(parentPos)
+    }
+
     interface onDptSubClickListener {
         fun onDptSubClick(dptCode: Int)
+        fun onDptParentNotify(parentPos: Int)
     }
 
     fun setOnDptSubClickListener(listener: onDptSubClickListener) {

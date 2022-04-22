@@ -36,22 +36,28 @@ class HomeFragment: Fragment() {
         //Log.d("jk", "${title} 오픈")
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_home, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(FragHomeViewModel::class.java)
+        dptFragViewModel = ViewModelProvider(requireActivity()).get(FragDptmentViewModel::class.java)
+
+        viewModel.loadRootDpts()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.dptFragViewModel = ViewModelProvider(requireActivity()).get(FragDptmentViewModel::class.java)
+
+
         val adapter = CardAdapter()
         val layoutManager = LinearLayoutManager(this.context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
-        adapter.setOnDptItemClickListener(object: CardAdapter.OnDptItemClickListener {
-            override fun onItemClick(type: DptButtonType) {
-                mainViewModel.moveDptFrag()
-                dptFragViewModel.setSortType(type)
 
+        adapter.setOnDptItemClickListener(object: CardAdapter.OnDptItemClickListener {
+            override fun onItemClick(type: DptButtonType, dptCode: Int) {
+                dptFragViewModel.setSortType(type)
+                dptFragViewModel.collapseAllDepartment()
+                dptFragViewModel.expandDepartment(dptCode)
+                mainViewModel.moveDptFrag()
             }
         })
 
@@ -62,6 +68,10 @@ class HomeFragment: Fragment() {
 
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             (binding.fragHomeRecycler.adapter as CardAdapter).fetchCard(it)
+        })
+
+        viewModel.rootDpts.observe(viewLifecycleOwner, Observer {
+            (binding.fragHomeRecycler.adapter as CardAdapter).fetchDpts(it)
         })
 
 

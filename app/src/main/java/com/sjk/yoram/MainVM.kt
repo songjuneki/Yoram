@@ -7,9 +7,10 @@ import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.Model.FragmentType
 
 class MainVM: ViewModel() {
-
     private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)
     val currentFragmentType: LiveData<FragmentType> = _currentFragmentType
+
+    val dptClickState = MutableLiveData<Boolean>(false)
 
     fun setCurrentFragment(menuItemId: Int): Boolean {
         val fragType = getFragmentType(menuItemId)
@@ -19,6 +20,7 @@ class MainVM: ViewModel() {
 
     fun moveDptFrag() {
         changeCurrentFragment(FragmentType.Fragment_DPTMENT)
+        dptClickState.value = !dptClickState.value!!
     }
 
 
