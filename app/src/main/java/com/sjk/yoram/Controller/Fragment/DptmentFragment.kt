@@ -1,6 +1,8 @@
 package com.sjk.yoram.Controller.Fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +14,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mancj.materialsearchbar.MaterialSearchBar
 import com.sjk.yoram.MainVM
 import com.sjk.yoram.Model.Adapter.DepartmentCardAdapter
 import com.sjk.yoram.Model.Department
 import com.sjk.yoram.Model.DptButtonType
+import com.sjk.yoram.Model.SearchActionListener
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
@@ -25,6 +29,7 @@ class DptmentFragment: Fragment() {
     private lateinit var binding: FragDptmentBinding
     private val mainViewModel: MainVM by activityViewModels()
     private lateinit var viewModel: FragDptmentViewModel
+    private lateinit var searchBar: MaterialSearchBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +52,7 @@ class DptmentFragment: Fragment() {
         val recycleManager = LinearLayoutManager(this.context)
         recycleManager.orientation = LinearLayoutManager.VERTICAL
 
-        var searchBar = binding.fragDptmentSearchbar
+        this.searchBar = binding.fragDptmentSearchbar
         val recyclerAdapter = DepartmentCardAdapter()
         recyclerAdapter.setOnDptSubClickListener(object : DepartmentCardAdapter.onDptSubClickListener {
             override fun onDptSubClick(dptCode: Int) {
@@ -64,7 +69,7 @@ class DptmentFragment: Fragment() {
 
         viewModel.dptSortType.observe(viewLifecycleOwner, Observer {
             binding.fragDptmentDropdown.setSelection(it.ordinal)
-            viewModel.clearData(it)
+            viewModel.clearData()
             when (it) {
                 DptButtonType.DEPARTMENT -> viewModel.loadAllDepartmentsByDpt()
                 DptButtonType.POSITION -> viewModel.loadAllDepartmentsByPos()
@@ -75,7 +80,6 @@ class DptmentFragment: Fragment() {
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(it)
             if (!viewModel.dptFetched.value!!)
                 (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
-
         })
 
         viewModel.dptFetched.observe(viewLifecycleOwner, Observer {
@@ -98,6 +102,44 @@ class DptmentFragment: Fragment() {
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
         })
 
+        searchBar.setOnSearchActionListener(object: MaterialSearchBar.OnSearchActionListener {
+            override fun onSearchStateChanged(enabled: Boolean) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSearchConfirmed(text: CharSequence?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onButtonClicked(buttonCode: Int) {
+                when (buttonCode) {
+                    MaterialSearchBar.BUTTON_NAVIGATION -> {
+
+                    }
+                    MaterialSearchBar.BUTTON_BACK -> {
+
+                    }
+                    else -> {}
+                }
+            }
+
+        })
+        searchBar.addTextChangeListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.searchDpt(searchBar.text)
+                viewModel.isSearch.value = true
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
     }
 
     companion object {
@@ -106,6 +148,10 @@ class DptmentFragment: Fragment() {
                 putString("title", title)
             }
         }
+    }
+
+    fun focusSearchbar() {
+        this.searchBar.openSearch()
     }
 
 }

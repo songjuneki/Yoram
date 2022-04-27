@@ -2,9 +2,11 @@ package com.sjk.yoram.Model.dto
 
 data class SimpleUser(
     val id: Int,
-    val Fname: String,
-    val Lname: String,
+    val fname: String,
+    val lname: String,
     val sex: Boolean,
     val position: Int,
     val department: Int
-)
+) {
+    constructor(user: User): this(user.id, user.fname, user.lname, user.sex, user.position, user.department)
+}

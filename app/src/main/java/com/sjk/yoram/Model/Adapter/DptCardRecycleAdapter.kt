@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.sjk.yoram.Model.Department
+import com.sjk.yoram.Model.dto.SimpleUser
 import com.sjk.yoram.Model.dto.User
 import com.sjk.yoram.R
 import java.lang.IllegalArgumentException
 
-data class dptSubData (val child: Department?, val users: User?, val type: dptSubDataType)
+data class dptSubData (val child: Department?, val users: SimpleUser?, val type: dptSubDataType)
 enum class dptSubDataType { CHILD, USER }
 
 class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: Department, val parentPos: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -94,7 +95,7 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
             name.layoutParams = innerParam
             name.setTextColor(Color.BLACK)
             name.setTextSize(androidx.annotation.Dimension.SP, 18F)
-            name.text = items[position].users!!.Fname + items[position].users!!.Lname
+            name.text = items[position].users!!.fname + items[position].users!!.lname
 
             rowLayout.addView(img)
             rowLayout.addView(name)

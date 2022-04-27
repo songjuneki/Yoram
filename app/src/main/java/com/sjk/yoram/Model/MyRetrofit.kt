@@ -2,6 +2,8 @@ package com.sjk.yoram.Model
 
 import android.util.Log
 import com.sjk.yoram.Model.dto.Department
+import com.sjk.yoram.Model.dto.Position
+import com.sjk.yoram.Model.dto.SimpleUser
 import com.sjk.yoram.Model.dto.User
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -46,16 +48,24 @@ interface MyApi {
     @GET("hello")
     suspend fun serverCheck(): Response<HashMap<String, Any>>
 
-    @GET("user/all")
-    suspend fun getAllUsers(): MutableList<User>
+    @GET("user/dpt/sp")
+    suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
     @GET("user/dpt")
     suspend fun getUsersDepartment(@Query("dpt")dpt: Int): MutableList<User>
-    @GET("dpt/all")
-    suspend fun getAllDepartments(): MutableList<Department>
+    @GET("user/pos/sp")
+    suspend fun getSimpleUsersPosition(@Query("pos")pos: Int): MutableList<SimpleUser>
+    @GET("user/pos")
+    suspend fun getUsersPosition(@Query("pos")pos: Int): MutableList<User>
+
     @GET("dpt/has")
     suspend fun getChildDepartments(@Query("parent")parent: Int): MutableList<Department>
     @GET("dpt/childs")
     suspend fun getAllChildDepartments(): MutableList<Department>
     @GET("dpt/tops")
     suspend fun getAllTopDepartments(): MutableList<Department>
+
+    @GET("pos/parent")
+    suspend fun getAllParentPositions(): MutableList<Position>
+    @GET("pos/childs")
+    suspend fun getAllChildPositions(): MutableList<Position>
 }

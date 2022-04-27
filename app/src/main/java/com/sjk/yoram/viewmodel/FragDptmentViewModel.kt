@@ -7,25 +7,24 @@ import androidx.lifecycle.viewModelScope
 import com.sjk.yoram.Model.Department
 import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.Model.MyRetrofit
+import com.sjk.yoram.Model.dto.Position
 import kotlinx.coroutines.launch
 
 class FragDptmentViewModel: ViewModel() {
     val departments = MutableLiveData<MutableList<Department>>()
     private val _departments = mutableListOf<Department>()
-    var dptFetched = MutableLiveData<Boolean>()
+    var dptFetched = MutableLiveData<Boolean>(false)
 
-    val positons = MutableLiveData<MutableList<Department>>()
-    private val _positions= mutableListOf<Department>()
+    val searchResult = MutableLiveData<MutableList<Department>>()
+    private val _searchResult = mutableListOf<Department>()
+    val isSearch = MutableLiveData<Boolean>(false)
 
     private val _dptSortType = MutableLiveData(DptButtonType.DEPARTMENT)
     val dptSortType: LiveData<DptButtonType> = _dptSortType
 
-    fun clearData(type: DptButtonType) {
-        when(type) {
-            DptButtonType.DEPARTMENT -> this._departments.clear()
-            DptButtonType.POSITION -> this._positions.clear()
-            DptButtonType.NAME -> this._positions.clear()
-        }
+    fun clearData() {
+        _departments.clear()
+        departments.value = _departments
         dptFetched.value = false
     }
 
@@ -33,27 +32,25 @@ class FragDptmentViewModel: ViewModel() {
         viewModelScope.launch {
             val topList = MyRetrofit.getMyApi().getAllTopDepartments()
             val childList = MyRetrofit.getMyApi().getAllChildDepartments()
-            topList.forEach {
-                this@FragDptmentViewModel._departments.add(Department(it))
-            }
-            childList.forEach {
-                if (it.parent != 0)
-                    this@FragDptmentViewModel._departments.add(Department(it))
-            }
+            topList.forEach { this@FragDptmentViewModel._departments.add(Department(it)) }
+            childList.forEach { if (it.parent != 0) this@FragDptmentViewModel._departments.add(Department(it)) }
             departments.postValue(_departments)
             dptFetched.value = true
         }
     }
 
     fun loadAllDepartmentsByPos() {
-        this._positions.clear()
         viewModelScope.launch {
-
+            val parent = MyRetrofit.getMyApi().getAllParentPositions()
+            val childs = MyRetrofit.getMyApi().getAllChildPositions()
+            parent.forEach { this@FragDptmentViewModel._departments.add(Department(it)) }
+            childs.forEach { if (it.cat != it.code) this@FragDptmentViewModel._departments.add(Department(it)) }
+            departments.postValue(_departments)
+            dptFetched.value = true
         }
     }
 
     fun loadAllDepartmentsByName() {
-        this._departments.clear()
         viewModelScope.launch {
 
         }
@@ -72,6 +69,10 @@ class FragDptmentViewModel: ViewModel() {
             it.isExpanded = false
         }
         departments.postValue(_departments)
+    }
+
+    fun searchDpt(str: String) {
+
     }
 
 
