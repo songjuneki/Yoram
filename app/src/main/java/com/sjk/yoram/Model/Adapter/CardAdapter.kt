@@ -1,5 +1,6 @@
 package com.sjk.yoram.Model.Adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.mancj.materialsearchbar.MaterialSearchBar
 import com.sjk.yoram.Model.*
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.CardMainBannerBinding
@@ -23,6 +23,7 @@ import com.sjk.yoram.databinding.CardMainIdBinding
 class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var cards = mutableListOf<Card>()
     private var dptItemClickListener: OnDptItemClickListener? = null
+    private var dptSearchBarClickListener: OnSearchBarClickListener? = null
     var rootDptsData = mutableListOf<SimpleDpt>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -101,16 +102,15 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class HomeDptCardViewHolder(val binding: CardMainDptmentBinding): RecyclerView.ViewHolder(binding.root) {
-        val searchBar = binding.cardMainDptmentSearchbar
+        val searchBar = binding.cardMainDptmentSearchbarCard
+        val searchBarEt = binding.cardMainDptmentSearchbarEt
+        val searchBarIcon = binding.cardMainDptmentSearchbarIcon
         val dptRecycler = binding.cardMainDptmentRecycler
+        @SuppressLint("ClickableViewAccessibility")
         fun bind() {
-            searchBar.setOnClickListener { object: View.OnClickListener {
-                override fun onClick(p0: View?) {
-
-                }
-
-            } }
-            searchBar.setPlaceHolder("이름 검색")
+            searchBar.setOnTouchListener { _, _ -> dptSearchBarClickListener!!.onSearchBarClick(); return@setOnTouchListener false }
+            searchBarEt.setOnTouchListener { _, _ -> dptSearchBarClickListener!!.onSearchBarClick(); return@setOnTouchListener true }
+            searchBarIcon.setOnTouchListener { _, _ -> dptSearchBarClickListener!!.onSearchBarClick(); return@setOnTouchListener false }
 
             val layoutManager = LinearLayoutManager(binding.root.context)
             layoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -123,9 +123,6 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             val dptButtonData = mutableListOf<DptButton>()
             this@CardAdapter.rootDptsData.forEach { dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, it.name, it.code)) }
-//            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서1"))
-//            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서2"))
-//            dptButtonData.add(DptButton(DptButtonType.DEPARTMENT, "부서3"))
             dptButtonData.add(DptButton(DptButtonType.POSITION, "직급1", null))
             dptButtonData.add(DptButton(DptButtonType.POSITION, "직급2", null))
             dptButtonData.add(DptButton(DptButtonType.POSITION, "직급3", null))
@@ -182,6 +179,13 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setOnDptItemClickListener(listener: OnDptItemClickListener) {
         this.dptItemClickListener = listener
+    }
+
+    interface OnSearchBarClickListener {
+        fun onSearchBarClick()
+    }
+    fun setOnSearchBarClickListener(listener: OnSearchBarClickListener) {
+        this.dptSearchBarClickListener = listener
     }
 
 }

@@ -21,26 +21,52 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-
-        <com.mancj.materialsearchbar.MaterialSearchBar
-            android:id="@+id/frag_dptment_searchbar"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/frag_dptment_searchbar_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_margin="8dp"
-            app:mt_placeholder="이름 검색"
-            app:mt_roundedSearchBarEnabled="true"
-            app:mt_maxSuggestionsCount="0"
-            app:mt_hint="이름 검색"
-            app:mt_speechMode="false" />
+            android:layout_margin="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/frag_dptment_searchbar_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="8dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_baseline_search_24"
+                    android:background="#00000000"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+                <com.cielyang.android.clearableedittext.ClearableEditText
+                    android:id="@+id/frag_dptment_searchbar_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:hint="이름 검색"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/frag_dptment_searchbar_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="8dp"
+                    android:background="#00000000" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <Spinner
             android:id="@+id/frag_dptment_dropdown"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/frag_dptment_searchbar"
+            app:layout_constraintTop_toBottomOf="@id/frag_dptment_searchbar_card"
             app:layout_constraintWidth_percent="0.3"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_margin="12dp"
@@ -49,7 +75,7 @@
             android:id="@+id/frag_dptment_dropdown_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/frag_dptment_searchbar"
+            app:layout_constraintTop_toBottomOf="@id/frag_dptment_searchbar_card"
             app:layout_constraintLeft_toRightOf="@id/frag_dptment_dropdown"
             app:layout_constraintWidth_percent="0.3"
             android:layout_margin="12dp"

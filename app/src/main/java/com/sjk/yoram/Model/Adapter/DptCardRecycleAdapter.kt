@@ -81,17 +81,19 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
 
             val img = ImageView(rowLayout.context)
             val innerParam = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            val dp_30 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30F, rowLayout.context.resources.displayMetrics)
             innerParam.setMargins(dp_4.toInt())
             innerParam.gravity = Gravity.CENTER
-            img.layoutParams = innerParam
-            val dp_30 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30F, rowLayout.context.resources.displayMetrics)
+            innerParam.width = dp_30.toInt()
+            innerParam.height = dp_30.toInt()
 
-            img.load(R.drawable.ic_baseline_face_24) {
-                size(dp_30.toInt(), dp_30.toInt())
-            }
-            img.imageTintMode = PorterDuff.Mode.DARKEN
+            img.layoutParams = innerParam
+            img.setImageResource(R.drawable.ic_baseline_face_24)
 
             val name = TextView(rowLayout.context)
+            innerParam.width = LinearLayout.LayoutParams.WRAP_CONTENT
+            innerParam.height = LinearLayout.LayoutParams.WRAP_CONTENT
+
             name.layoutParams = innerParam
             name.setTextColor(Color.BLACK)
             name.setTextSize(androidx.annotation.Dimension.SP, 18F)
@@ -122,38 +124,45 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
                 4F,
                 rowLayout.context.resources.displayMetrics
             )
-            param.setMargins(dp_8.toInt())
-            rowLayout.orientation = LinearLayout.HORIZONTAL
-            rowLayout.layoutParams = param
-
-            val innerParam = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            innerParam.setMargins(dp_4.toInt())
-            innerParam.gravity = Gravity.CENTER
-            val img = ImageView(rowLayout.context)
             val dp_30 = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 30F,
                 rowLayout.context.resources.displayMetrics
             )
-            img.load(R.drawable.ic_baseline_perm_contact_calendar_24) {
-                size(dp_30.toInt())
-            }
-            img.layoutParams = innerParam
+
+            param.setMargins(dp_8.toInt())
+            rowLayout.orientation = LinearLayout.HORIZONTAL
+            rowLayout.layoutParams = param
+
+            val img30Param = LinearLayout.LayoutParams(
+                dp_30.toInt(),
+                dp_30.toInt()
+            )
+            img30Param.setMargins(dp_4.toInt())
+            img30Param.gravity = Gravity.CENTER
+
+            val wrapParam = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            wrapParam.setMargins(dp_4.toInt())
+            wrapParam.gravity = Gravity.CENTER
+
+            val img = ImageView(rowLayout.context)
+
+            img.layoutParams = img30Param
+            img.setImageResource(R.drawable.ic_baseline_perm_contact_calendar_24)
+
 
             val title = TextView(rowLayout.context)
             title.text = sub.name
             title.setTextColor(Color.BLACK)
             title.setTextSize(androidx.annotation.Dimension.SP, 20F)
-            title.layoutParams = innerParam
+            title.layoutParams = wrapParam
 
             val arrow = ImageView(rowLayout.context)
-            arrow.load(R.drawable.ic_baseline_arrow_drop_down_24) {
-                size(dp_30.toInt())
-            }
-            arrow.layoutParams = innerParam
+            arrow.layoutParams = img30Param
+            arrow.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
 
 
             val recycler = RecyclerView(layout.context)

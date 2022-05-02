@@ -19,6 +19,7 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragHomeBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import com.sjk.yoram.viewmodel.FragHomeViewModel
+import kotlinx.coroutines.*
 
 class HomeFragment: Fragment() {
     //private val binding by lazy { FragHomeBinding.inflate(layoutInflater) }
@@ -54,10 +55,24 @@ class HomeFragment: Fragment() {
 
         adapter.setOnDptItemClickListener(object: CardAdapter.OnDptItemClickListener {
             override fun onItemClick(type: DptButtonType, dptCode: Int) {
-                dptFragViewModel.setSortType(type)
-                dptFragViewModel.collapseAllDepartment()
-                dptFragViewModel.expandDepartment(dptCode)
+                CoroutineScope(Dispatchers.Main).async {
+                    async {
+                        mainViewModel.moveDptFrag()
+                    }
+                    async {
+                        dptFragViewModel.setSortType(type)
+                        delay(2000L)
+                        dptFragViewModel.collapseAllDepartment()
+                        dptFragViewModel.expandDepartment(dptCode)
+                    }
+                }
+            }
+        })
+        adapter.setOnSearchBarClickListener(object: CardAdapter.OnSearchBarClickListener {
+            override fun onSearchBarClick() {
+                // change department fragment and focus searchbar
                 mainViewModel.moveDptFrag()
+                dptFragViewModel.isMoved.value = true
             }
         })
 

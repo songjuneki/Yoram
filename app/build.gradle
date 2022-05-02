@@ -43,7 +43,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.activity:activity-ktx:1.4.0'
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation 'com.tbuonomo:dotsindicator:4.2'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
@@ -51,6 +50,9 @@ dependencies {
     implementation 'com.github.skydoves:expandablelayout:1.0.7'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.github.cielsk:clearable-edittext:0.0.8'
+    implementation files('/Users/devsjk/AndroidStudioProjects/Yoram/app/libs/KoreanTextMatcher-3.99.jar')
+    implementation 'io.coil-kt:coil-svg:2.0.0-rc03'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

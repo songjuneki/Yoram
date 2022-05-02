@@ -1,5 +1,7 @@
 package com.sjk.yoram.viewmodel
 
+import android.util.Log
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,9 @@ import com.sjk.yoram.Model.Department
 import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.Model.MyRetrofit
 import com.sjk.yoram.Model.dto.Position
+import io.github.bangjunyoung.KoreanTextMatch
+import io.github.bangjunyoung.KoreanTextMatcher
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class FragDptmentViewModel: ViewModel() {
@@ -21,6 +26,8 @@ class FragDptmentViewModel: ViewModel() {
 
     private val _dptSortType = MutableLiveData(DptButtonType.DEPARTMENT)
     val dptSortType: LiveData<DptButtonType> = _dptSortType
+
+    val isMoved = MutableLiveData<Boolean>(false)
 
     fun clearData() {
         _departments.clear()
@@ -64,6 +71,14 @@ class FragDptmentViewModel: ViewModel() {
         departments.postValue(_departments)
     }
 
+    fun expandSearchDepartment(dptCode: Int) {
+        _searchResult.forEach {
+            if (it.code == dptCode)
+                it.isExpanded = !it.isExpanded
+        }
+        searchResult.postValue(_searchResult)
+    }
+
     fun collapseAllDepartment() {
         _departments.forEach {
             it.isExpanded = false
@@ -71,8 +86,28 @@ class FragDptmentViewModel: ViewModel() {
         departments.postValue(_departments)
     }
 
-    fun searchDpt(str: String) {
+    fun searchDptName(str: String) {
+        viewModelScope.async {
+            this@FragDptmentViewModel._searchResult.clear()
+            if (str.isDigitsOnly()) {
 
+            } else {
+                val matcher = KoreanTextMatcher(str)
+                this@FragDptmentViewModel._departments.reversed().forEach { dpt ->
+                    val searched = dpt.users.filter { matcher.match(it.fname+it.lname).success() }.toMutableList()
+
+                    if (searched.isNotEmpty() || _searchResult.filter { it.parentCode == dpt.code }.isNotEmpty()) {
+                        val existDpt = Department(dpt.parentCode, dpt.name, dpt.code)
+                        existDpt.users.addAll(searched)
+                        existDpt.isExpanded = true
+                        _searchResult.add(existDpt)
+                    }
+                }
+            }
+            _searchResult.reverse()
+            this@FragDptmentViewModel.searchResult.postValue(_searchResult)
+            this@FragDptmentViewModel.isSearch.value = true
+        }
     }
 
 

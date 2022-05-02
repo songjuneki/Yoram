@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         transaction.commitAllowingStateLoss()
+        dptFragViewModel.isMoved.value = false
     }
 
 
