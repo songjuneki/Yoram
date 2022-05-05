@@ -57,6 +57,9 @@ interface MyApi {
     @GET("user/pos")
     suspend fun getUsersPosition(@Query("pos")pos: Int): MutableList<User>
 
+    @GET("user/name/all")
+    suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
+
     @GET("dpt/has")
     suspend fun getChildDepartments(@Query("parent")parent: Int): MutableList<Department>
     @GET("dpt/childs")

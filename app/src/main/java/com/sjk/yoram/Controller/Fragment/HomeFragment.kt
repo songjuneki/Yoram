@@ -56,15 +56,8 @@ class HomeFragment: Fragment() {
         adapter.setOnDptItemClickListener(object: CardAdapter.OnDptItemClickListener {
             override fun onItemClick(type: DptButtonType, dptCode: Int) {
                 CoroutineScope(Dispatchers.Main).async {
-                    async {
-                        mainViewModel.moveDptFrag()
-                    }
-                    async {
-                        dptFragViewModel.setSortType(type)
-                        delay(2000L)
-                        dptFragViewModel.collapseAllDepartment()
-                        dptFragViewModel.expandDepartment(dptCode)
-                    }
+                    mainViewModel.moveDptFrag()
+                    dptFragViewModel.sortAndExpandDepartment(type, dptCode)
                 }
             }
         })

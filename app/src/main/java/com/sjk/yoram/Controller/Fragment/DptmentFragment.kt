@@ -25,6 +25,10 @@ import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class DptmentFragment: Fragment() {
     // private val binding by lazy { FragDptmentBinding.inflate(layoutInflater) }
@@ -74,18 +78,22 @@ class DptmentFragment: Fragment() {
         binding.fragDptmentRecycler.adapter = recyclerAdapter
         binding.fragDptmentRecycler.layoutManager = recycleManager
 
+        viewModel.recycler = binding.fragDptmentRecycler
+
         viewModel.dptSortType.observe(viewLifecycleOwner, Observer {
-            binding.fragDptmentDropdown.setSelection(it.ordinal)
-            viewModel.clearData()
-            when (it) {
-                DptButtonType.DEPARTMENT -> viewModel.loadAllDepartmentsByDpt()
-                DptButtonType.POSITION -> viewModel.loadAllDepartmentsByPos()
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.clearData()
+                when (it) {
+                    DptButtonType.DEPARTMENT -> viewModel.loadAllDepartmentsByDpt()
+                    DptButtonType.POSITION -> viewModel.loadAllDepartmentsByPos()
+                }
+                binding.fragDptmentDropdown.setSelection(it.ordinal)
             }
         })
 
         viewModel.departments.observe(viewLifecycleOwner, Observer {
             if (viewModel.isSearch.value!!)
-                    return@Observer
+                return@Observer
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(it)
             if (!viewModel.dptFetched.value!!)
                 (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()

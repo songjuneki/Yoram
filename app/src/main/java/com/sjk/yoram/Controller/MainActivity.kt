@@ -13,6 +13,9 @@ import com.sjk.yoram.databinding.ActivityMainBinding
 import com.sjk.yoram.MainVM
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import com.sjk.yoram.viewmodel.FragHomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +44,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        dptFragViewModel.loadAllDepartmentsByDpt()
+        CoroutineScope(Dispatchers.Main).launch {
+            dptFragViewModel.loadAllDepartmentsByDpt()
+        }
 
         this.navi = binding.bottomNavi
         changeFragment(FragmentType.Fragment_HOME)

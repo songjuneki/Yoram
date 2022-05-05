@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.Model.Department
 import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.Model.MyRetrofit
@@ -13,6 +14,7 @@ import com.sjk.yoram.Model.dto.Position
 import io.github.bangjunyoung.KoreanTextMatch
 import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FragDptmentViewModel: ViewModel() {
@@ -28,6 +30,8 @@ class FragDptmentViewModel: ViewModel() {
     val dptSortType: LiveData<DptButtonType> = _dptSortType
 
     val isMoved = MutableLiveData<Boolean>(false)
+    var recycler: RecyclerView? = null
+
 
     fun clearData() {
         _departments.clear()
@@ -35,8 +39,8 @@ class FragDptmentViewModel: ViewModel() {
         dptFetched.value = false
     }
 
-    fun loadAllDepartmentsByDpt() {
-        viewModelScope.launch {
+    suspend fun loadAllDepartmentsByDpt() =
+        viewModelScope.async {
             val topList = MyRetrofit.getMyApi().getAllTopDepartments()
             val childList = MyRetrofit.getMyApi().getAllChildDepartments()
             topList.forEach { this@FragDptmentViewModel._departments.add(Department(it)) }
@@ -44,10 +48,10 @@ class FragDptmentViewModel: ViewModel() {
             departments.postValue(_departments)
             dptFetched.value = true
         }
-    }
 
-    fun loadAllDepartmentsByPos() {
-        viewModelScope.launch {
+
+    suspend fun loadAllDepartmentsByPos() =
+        viewModelScope.async {
             val parent = MyRetrofit.getMyApi().getAllParentPositions()
             val childs = MyRetrofit.getMyApi().getAllChildPositions()
             parent.forEach { this@FragDptmentViewModel._departments.add(Department(it)) }
@@ -55,7 +59,7 @@ class FragDptmentViewModel: ViewModel() {
             departments.postValue(_departments)
             dptFetched.value = true
         }
-    }
+
 
     fun loadAllDepartmentsByName() {
         viewModelScope.launch {
@@ -84,6 +88,20 @@ class FragDptmentViewModel: ViewModel() {
             it.isExpanded = false
         }
         departments.postValue(_departments)
+    }
+
+    fun sortAndExpandDepartment(type: DptButtonType, dptCode: Int) {
+        viewModelScope.async {
+            if (dptSortType.value == type) {
+                collapseAllDepartment()
+                expandDepartment(dptCode)
+            } else {
+                setSortType(type)
+                delay(1000L)
+                expandDepartment(dptCode)
+            }
+            recycler!!.adapter!!.notifyDataSetChanged()
+        }
     }
 
     fun searchDptName(str: String) {
