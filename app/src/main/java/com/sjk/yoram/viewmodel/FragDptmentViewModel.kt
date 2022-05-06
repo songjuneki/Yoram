@@ -1,6 +1,5 @@
 package com.sjk.yoram.viewmodel
 
-import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,20 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.Model.Department
 import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.Model.MyRetrofit
-import com.sjk.yoram.Model.dto.Position
-import io.github.bangjunyoung.KoreanTextMatch
+import com.sjk.yoram.Model.dto.SimpleUser
 import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class FragDptmentViewModel: ViewModel() {
     val departments = MutableLiveData<MutableList<Department>>()
     private val _departments = mutableListOf<Department>()
     var dptFetched = MutableLiveData<Boolean>(false)
 
-    val searchResult = MutableLiveData<MutableList<Department>>()
-    private val _searchResult = mutableListOf<Department>()
+    val users = MutableLiveData<MutableList<SimpleUser>>()
+    private var _users = mutableListOf<SimpleUser>()
+    var userFetched = MutableLiveData<Boolean>(false)
+
+    val dptSearchResult = MutableLiveData<MutableList<Department>>()
+    private val _dptSearchResult = mutableListOf<Department>()
+    val searchResult = MutableLiveData<MutableList<SimpleUser>>()
+    private var _searchResult = mutableListOf<SimpleUser>()
     val isSearch = MutableLiveData<Boolean>(false)
 
     private val _dptSortType = MutableLiveData(DptButtonType.DEPARTMENT)
@@ -35,8 +38,11 @@ class FragDptmentViewModel: ViewModel() {
 
     fun clearData() {
         _departments.clear()
+        _users.clear()
         departments.value = _departments
+        users.value = _users
         dptFetched.value = false
+        userFetched.value = false
     }
 
     suspend fun loadAllDepartmentsByDpt() =
@@ -47,6 +53,7 @@ class FragDptmentViewModel: ViewModel() {
             childList.forEach { if (it.parent != 0) this@FragDptmentViewModel._departments.add(Department(it)) }
             departments.postValue(_departments)
             dptFetched.value = true
+            userFetched.value = false
         }
 
 
@@ -58,12 +65,16 @@ class FragDptmentViewModel: ViewModel() {
             childs.forEach { if (it.cat != it.code) this@FragDptmentViewModel._departments.add(Department(it)) }
             departments.postValue(_departments)
             dptFetched.value = true
+            userFetched.value = false
         }
 
 
     fun loadAllDepartmentsByName() {
-        viewModelScope.launch {
-
+        viewModelScope.async {
+            this@FragDptmentViewModel._users = MyRetrofit.getMyApi().getAllSimpleUsersByName()
+            users.postValue(_users)
+            dptFetched.value = false
+            userFetched.value = true
         }
     }
 
@@ -76,11 +87,11 @@ class FragDptmentViewModel: ViewModel() {
     }
 
     fun expandSearchDepartment(dptCode: Int) {
-        _searchResult.forEach {
+        _dptSearchResult.forEach {
             if (it.code == dptCode)
                 it.isExpanded = !it.isExpanded
         }
-        searchResult.postValue(_searchResult)
+        dptSearchResult.postValue(_dptSearchResult)
     }
 
     fun collapseAllDepartment() {
@@ -106,7 +117,7 @@ class FragDptmentViewModel: ViewModel() {
 
     fun searchDptName(str: String) {
         viewModelScope.async {
-            this@FragDptmentViewModel._searchResult.clear()
+            this@FragDptmentViewModel._dptSearchResult.clear()
             if (str.isDigitsOnly()) {
 
             } else {
@@ -114,17 +125,32 @@ class FragDptmentViewModel: ViewModel() {
                 this@FragDptmentViewModel._departments.reversed().forEach { dpt ->
                     val searched = dpt.users.filter { matcher.match(it.fname+it.lname).success() }.toMutableList()
 
-                    if (searched.isNotEmpty() || _searchResult.filter { it.parentCode == dpt.code }.isNotEmpty()) {
+                    if (searched.isNotEmpty() || _dptSearchResult.filter { it.parentCode == dpt.code }.isNotEmpty()) {
                         val existDpt = Department(dpt.parentCode, dpt.name, dpt.code)
                         existDpt.users.addAll(searched)
                         existDpt.isExpanded = true
-                        _searchResult.add(existDpt)
+                        _dptSearchResult.add(existDpt)
                     }
                 }
             }
-            _searchResult.reverse()
-            this@FragDptmentViewModel.searchResult.postValue(_searchResult)
+            _dptSearchResult.reverse()
+            this@FragDptmentViewModel.dptSearchResult.postValue(_dptSearchResult)
             this@FragDptmentViewModel.isSearch.value = true
+        }
+    }
+
+    fun searchName(str: String) {
+        viewModelScope.async {
+            this@FragDptmentViewModel._searchResult.clear()
+            if (str.isDigitsOnly()) {
+
+            } else {
+                val matcher = KoreanTextMatcher(str)
+                val searched = _users.filter { matcher.match(it.fname+it.lname).success() }.toMutableList()
+                this@FragDptmentViewModel._searchResult = searched
+                this@FragDptmentViewModel.searchResult.postValue(_searchResult)
+                this@FragDptmentViewModel.isSearch.value = true
+            }
         }
     }
 

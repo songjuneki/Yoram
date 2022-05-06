@@ -21,13 +21,13 @@ import com.cielyang.android.clearableedittext.ClearableEditText
 import com.cielyang.android.clearableedittext.OnTextClearedListener
 import com.sjk.yoram.MainVM
 import com.sjk.yoram.Model.Adapter.DepartmentCardAdapter
+import com.sjk.yoram.Model.Adapter.DepartmentNameAdapter
 import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class DptmentFragment: Fragment() {
@@ -62,6 +62,7 @@ class DptmentFragment: Fragment() {
         this.searchBarEditText = binding.fragDptmentSearchbarEt
         this.searchBarIcon = binding.fragDptmentSearchbarIcon
         val recyclerAdapter = DepartmentCardAdapter()
+        val recyclerNameAdapter = DepartmentNameAdapter()
         recyclerAdapter.setOnDptSubClickListener(object : DepartmentCardAdapter.onDptSubClickListener {
             override fun onDptSubClick(dptCode: Int) {
                 if (viewModel.isSearch.value!!)
@@ -78,43 +79,91 @@ class DptmentFragment: Fragment() {
         binding.fragDptmentRecycler.adapter = recyclerAdapter
         binding.fragDptmentRecycler.layoutManager = recycleManager
 
+
         viewModel.recycler = binding.fragDptmentRecycler
 
         viewModel.dptSortType.observe(viewLifecycleOwner, Observer {
             CoroutineScope(Dispatchers.Main).launch {
                 viewModel.clearData()
                 when (it) {
-                    DptButtonType.DEPARTMENT -> viewModel.loadAllDepartmentsByDpt()
-                    DptButtonType.POSITION -> viewModel.loadAllDepartmentsByPos()
+                    DptButtonType.DEPARTMENT -> {
+                        binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        viewModel.loadAllDepartmentsByDpt()
+                    }
+                    DptButtonType.POSITION -> {
+                        binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        viewModel.loadAllDepartmentsByPos()
+                    }
+                    DptButtonType.NAME -> {
+                        binding.fragDptmentRecycler.adapter = recyclerNameAdapter
+                        viewModel.loadAllDepartmentsByName()
+                    }
                 }
                 binding.fragDptmentDropdown.setSelection(it.ordinal)
             }
         })
 
         viewModel.departments.observe(viewLifecycleOwner, Observer {
-            if (viewModel.isSearch.value!!)
+            if (viewModel.isSearch.value!! || viewModel.dptSortType.value == DptButtonType.NAME)
                 return@Observer
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(it)
             if (!viewModel.dptFetched.value!!)
                 (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
         })
 
-        viewModel.searchResult.observe(viewLifecycleOwner, Observer {
-            if (viewModel.isSearch.value!!) {
+        viewModel.users.observe(viewLifecycleOwner, Observer {
+            if (it.isNullOrEmpty())
+                return@Observer
+            if (viewModel.dptSortType.value != DptButtonType.NAME)
+                return@Observer
+            (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).fetchUsers(it)
+            if (!viewModel.userFetched.value!!)
+                (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).notifyDataSetChanged()
+        })
+
+
+        viewModel.isSearch.observe(viewLifecycleOwner, Observer {
+            if (!it) {
+                when (viewModel.dptSortType.value) {
+                    DptButtonType.DEPARTMENT, DptButtonType.POSITION -> {
+                        if (viewModel.dptFetched.value!!) {
+                            (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(viewModel.departments.value!!)
+                            (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
+                        }
+                    }
+                    DptButtonType.NAME -> {
+                        if (viewModel.userFetched.value!!) {
+                            (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).fetchUsers(viewModel.users.value!!)
+//                            (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.dptSearchResult.observe(viewLifecycleOwner, Observer {
+            if (viewModel.isSearch.value!! && viewModel.dptFetched.value!!) {
                 (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(it)
                 (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
             }
         })
 
-        viewModel.isSearch.observe(viewLifecycleOwner, Observer {
-            if (!it && viewModel.dptFetched.value!!) {
-                (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(viewModel.departments.value!!)
-                (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
+        viewModel.searchResult.observe(viewLifecycleOwner, Observer {
+            if (viewModel.isSearch.value!! && viewModel.userFetched.value!!) {
+                (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).fetchUsers(it)
+//                (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).notifyDataSetChanged()
             }
         })
 
         viewModel.dptFetched.observe(viewLifecycleOwner, Observer {
+            if (viewModel.dptSortType.value == DptButtonType.NAME)
+                return@Observer
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
+        })
+        viewModel.userFetched.observe(viewLifecycleOwner, Observer {
+            if (viewModel.dptSortType.value != DptButtonType.NAME)
+                return@Observer
+            (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).notifyDataSetChanged()
         })
 
         binding.fragDptmentDropdown.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
@@ -122,9 +171,18 @@ class DptmentFragment: Fragment() {
                 searchBarEditText.setText("")
                 searchBarEditText.afterTextChanged(searchBarEditText.text)
                 when (p2) {
-                    DptButtonType.DEPARTMENT.ordinal -> viewModel.setSortType(DptButtonType.DEPARTMENT)
-                    DptButtonType.POSITION.ordinal -> viewModel.setSortType(DptButtonType.POSITION)
-                    DptButtonType.NAME.ordinal -> viewModel.setSortType(DptButtonType.NAME)
+                    DptButtonType.DEPARTMENT.ordinal -> {
+                        this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        viewModel.setSortType(DptButtonType.DEPARTMENT)
+                    }
+                    DptButtonType.POSITION.ordinal -> {
+                        this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        viewModel.setSortType(DptButtonType.POSITION)
+                    }
+                    DptButtonType.NAME.ordinal -> {
+                        this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerNameAdapter
+                        viewModel.setSortType(DptButtonType.NAME)
+                    }
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -132,6 +190,8 @@ class DptmentFragment: Fragment() {
         }
 
         mainViewModel.dptClickState.observe(viewLifecycleOwner, Observer {
+            if (viewModel.dptSortType.value == DptButtonType.NAME)
+                return@Observer
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
         })
 
@@ -162,7 +222,10 @@ class DptmentFragment: Fragment() {
                     viewModel.isSearch.value = false
                     searchBarIcon.setImageResource(R.drawable.ic_baseline_search_24)
                 } else {
-                    viewModel.searchDptName(p0.toString())
+                    when(viewModel.dptSortType.value) {
+                        DptButtonType.DEPARTMENT, DptButtonType.POSITION -> viewModel.searchDptName(p0.toString())
+                        DptButtonType.NAME -> viewModel.searchName(p0.toString())
+                    }
                     searchBarIcon.setImageResource(R.drawable.ic_baseline_arrow_back_24)
                 }
             }
