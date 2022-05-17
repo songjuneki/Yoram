@@ -1,15 +1,16 @@
 package com.sjk.yoram.Model
 
+import android.util.Log
 import com.sjk.yoram.Model.dto.Position
 import com.sjk.yoram.Model.dto.SimpleUser
-import com.sjk.yoram.Model.dto.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 data class Department (
     var parentCode: Int,
-    val name: String,
+    var name: String,
     val code: Int,
     var users: MutableList<SimpleUser>,
     var childDepartment: MutableList<Department>,
@@ -24,6 +25,14 @@ data class Department (
         if (dtoPos.cat != dtoPos.code)
             this.parentCode = dtoPos.cat
         loadUsersForPosition()
+    }
+
+    constructor(dptCode: Int): this("", dptCode) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val dpt = MyRetrofit.getMyApi().loadDepartmentbyCode(dptCode)
+            name = dpt.name
+            parentCode = dpt.parent
+        }
     }
 
     private fun loadChildsForDepartment() {

@@ -8,13 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import com.sjk.yoram.Model.LoginCheck
 import com.sjk.yoram.Model.MyRetrofit
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.SplashBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SplashActivity: AppCompatActivity() {
     private lateinit var binding: SplashBinding
@@ -23,12 +21,30 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.splash)
         val serverCheck = CoroutineScope(Dispatchers.Default).async { MyRetrofit.checkServer() }
+        suspend fun isLogin(id:Int, pw:String) = CoroutineScope(Dispatchers.Default).async { MyRetrofit.getMyApi().checkMyUser(LoginCheck(id, pw)) }
 
         CoroutineScope(Dispatchers.Main).launch {
             if (serverCheck.await()) {
                 Log.d("JKJK", "server success")
                 val intent = Intent(this@SplashActivity, MainActivity::class.java)
-                startActivity(intent)
+                val sharedPref = this@SplashActivity.getSharedPreferences(getString(R.string.YORAM_LOCAL_PREF), MODE_PRIVATE)
+                val localId = sharedPref.getInt(getString(R.string.YORAM_LOCAL_PREF_MYID), -1)
+                val localPw = sharedPref.getString(getString(R.string.YORAM_LOCAL_PREF_MYPW), "@")!!
+
+                val builder = AlertDialog.Builder(this@SplashActivity)
+
+                Log.d("JKJK", "SplashActivity -- id=${localId}, pw=${localPw}")
+                val idCheck = isLogin(localId, localPw).await()
+
+                if (!idCheck && localId != -1) {
+                    builder.setMessage("로그인한 정보가 다릅니다. 다시 로그인 해주세요")
+                        .setPositiveButton("확인", DialogInterface.OnClickListener{_, _ -> startActivity(intent); return@OnClickListener})
+                        .create().show()
+                } else {
+                    intent.putExtra("loginedID", localId)
+                    intent.putExtra("isLogin", idCheck)
+                    startActivity(intent)
+                }
             }
             else {
                 Log.d("JKJK", "server failure")

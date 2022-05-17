@@ -5,12 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sjk.yoram.Model.DptButtonType
 import com.sjk.yoram.Model.FragmentType
+import com.sjk.yoram.Model.LoginState
+import com.sjk.yoram.Model.MyLoginData
 
 class MainVM: ViewModel() {
     private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)
     val currentFragmentType: LiveData<FragmentType> = _currentFragmentType
 
     val dptClickState = MutableLiveData<Boolean>(false)
+
+    val loginState = MutableLiveData(LoginState.NONE)
+    var loginData: MyLoginData? = null
 
     fun setCurrentFragment(menuItemId: Int): Boolean {
         val fragType = getFragmentType(menuItemId)

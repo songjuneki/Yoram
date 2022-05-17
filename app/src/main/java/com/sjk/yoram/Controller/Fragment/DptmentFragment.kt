@@ -28,6 +28,7 @@ import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class DptmentFragment: Fragment() {
@@ -87,15 +88,15 @@ class DptmentFragment: Fragment() {
                 viewModel.clearData()
                 when (it) {
                     DptButtonType.DEPARTMENT -> {
-                        binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerAdapter
                         viewModel.loadAllDepartmentsByDpt()
                     }
                     DptButtonType.POSITION -> {
-                        binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerAdapter
                         viewModel.loadAllDepartmentsByPos()
                     }
                     DptButtonType.NAME -> {
-                        binding.fragDptmentRecycler.adapter = recyclerNameAdapter
+                        this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerNameAdapter
                         viewModel.loadAllDepartmentsByName()
                     }
                 }
@@ -106,6 +107,8 @@ class DptmentFragment: Fragment() {
         viewModel.departments.observe(viewLifecycleOwner, Observer {
             if (viewModel.isSearch.value!! || viewModel.dptSortType.value == DptButtonType.NAME)
                 return@Observer
+            if (this.binding.fragDptmentRecycler.adapter != recyclerAdapter)
+                    this.binding.fragDptmentRecycler.adapter = recyclerAdapter
             (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).fetchData(it)
             if (!viewModel.dptFetched.value!!)
                 (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).notifyDataSetChanged()
@@ -203,12 +206,11 @@ class DptmentFragment: Fragment() {
             }
         })
 
-        searchBarIcon.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(p0: View?) {
-                val imm: InputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(p0!!.windowToken, 0)
-            }
-        })
+        searchBarIcon.setOnClickListener { p0 ->
+            val imm: InputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(p0!!.windowToken, 0)
+        }
 
         searchBarEditText.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

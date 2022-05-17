@@ -23,6 +23,9 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        <activity android:name=".Controller.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

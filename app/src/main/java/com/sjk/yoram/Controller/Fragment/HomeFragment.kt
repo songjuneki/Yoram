@@ -83,9 +83,20 @@ class HomeFragment: Fragment() {
         })
 
 
+        var user = mainViewModel.loginData!!
+        Log.d("JKJK", "HomeFrag -- loginData=${user}")
         viewModel.addCard(Card(CardType.HOME_BANNER))
         viewModel.addCard(Card(CardType.HOME_DEPARTMENT))
-        viewModel.addCard(Card(CardType.HOME_ID, userData("홍길동", Department("부서1", 100000))))
+        Log.d("JKJK", "HomeFrag -- loginState=${mainViewModel.loginState}")
+        viewModel.addCard(Card(CardType.HOME_ID, userData(user.fname + user.lname, Department("무소속",0))))
+
+        mainViewModel.loginState.observe(viewLifecycleOwner, Observer {
+            user = mainViewModel.loginData!!
+            when(it) {
+                LoginState.LOGIN -> viewModel.modifyCard(2, Card(CardType.HOME_ID, userData(user.fname + user.lname, Department(user.department))))
+                else -> viewModel.modifyCard(2, Card(CardType.HOME_ID, userData(user.fname + user.lname, Department("무소속",0))))
+            }
+        })
 
     }
 

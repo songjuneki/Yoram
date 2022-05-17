@@ -2,4 +2,13 @@
     <string name="app_name">Yoram</string>
     <attr name="colorInversePrimary" format="reference|color"/>
     <attr name="colorShadow" format="reference|color"/>
+    <string name="YORAM_LOCAL_PREF">097A0F1E209E6D912A02BDB0201C6EBD</string>
+    <string name="YORAM_LOCAL_PREF_MYID">666B6F23E63ADF6A78ECB8D37F31C605</string>
+    <string name="YORAM_LOCAL_PREF_MYPW">06493983A52632C557BF8A34789746E8</string>
+    <string name="privacy_policy">개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침
+    개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침
+     개인정보처리방침 개인정보처리방침 개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침
+    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침 개인정보처리방침 개인정보처리방침
+    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침 개인정보처리방침
+    개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침개인정보처리방침</string>
 </resources>

@@ -5,13 +5,17 @@ import com.sjk.yoram.Model.dto.Department
 import com.sjk.yoram.Model.dto.Position
 import com.sjk.yoram.Model.dto.SimpleUser
 import com.sjk.yoram.Model.dto.User
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
+import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
@@ -39,6 +43,9 @@ object MyRetrofit {
         }catch(e: SocketTimeoutException){
             Log.d("JKJk", "retrofit exception : $e")
             return false
+        } catch (e: ConnectException) {
+            Log.d("JKJK", "retrofit exception : $e")
+            return false
         }
         return true
     }
@@ -56,6 +63,10 @@ interface MyApi {
     suspend fun getSimpleUsersPosition(@Query("pos")pos: Int): MutableList<SimpleUser>
     @GET("user/pos")
     suspend fun getUsersPosition(@Query("pos")pos: Int): MutableList<User>
+    @GET("user/find")
+    suspend fun getUserByName(@Query("name")name: String): MutableList<User>
+    @GET("user/find")
+    suspend fun getUserByNameAndBD(@Query("name")name: String, @Query("bd")bd: String): MutableList<User>
 
     @GET("user/name/all")
     suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
@@ -66,9 +77,16 @@ interface MyApi {
     suspend fun getAllChildDepartments(): MutableList<Department>
     @GET("dpt/tops")
     suspend fun getAllTopDepartments(): MutableList<Department>
+    @GET("dpt")
+    suspend fun loadDepartmentbyCode(@Query("code")code: Int): Department
 
     @GET("pos/parent")
     suspend fun getAllParentPositions(): MutableList<Position>
     @GET("pos/childs")
     suspend fun getAllChildPositions(): MutableList<Position>
+
+    @POST("user/check")
+    suspend fun checkMyUser(@Body checkData: LoginCheck): Boolean
+    @GET("user/my")
+    suspend fun getMyUserInfo(@Query("id")id: Int): MyLoginData
 }

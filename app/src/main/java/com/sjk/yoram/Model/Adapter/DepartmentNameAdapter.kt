@@ -38,7 +38,7 @@ class DepartmentNameAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             (holder as DepartmentNameHolder).bind(position)
         else
             (holder as DepartmentNameHeaderHolder).bind(position)
-        holder.setIsRecyclable(false)
+//        holder.setIsRecyclable(false)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -77,7 +77,7 @@ class DepartmentNameAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ',
             'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         )
-        val i: Int = (((kor.code - 0xAC00) / 28).toInt() / 21).toInt() % 19
+        val i: Int = (((kor.code - 0xAC00) / 28) / 21) % 19
         return initialList[i]
     }
 

@@ -31,4 +31,9 @@ open class FragHomeViewModel: ViewModel() {
         _cards.add(card)
         cards.value = _cards
     }
+
+    fun modifyCard(pos: Int, card: Card) {
+        _cards[pos] = card
+        cards.value = _cards
+    }
 }
