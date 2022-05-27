@@ -7,10 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.Model.Department
+import com.sjk.yoram.Model.UserPermission
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.CardDepartmentBinding
 
 class DepartmentCardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var isLogin = false
     var departments = mutableListOf<Department>()
     private var subClickListener : onDptSubClickListener? = null
 
@@ -36,7 +38,7 @@ class DepartmentCardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val arrow = binding.cardDptArrow
         val layoutManager = LinearLayoutManager(binding.root.context)
         fun bind(position: Int) {
-            val adapter = DptCardRecycleAdapter(departments, departments[position], position)
+            val adapter = DptCardRecycleAdapter(departments, departments[position], position, isLogin)
             adapter.cardListener = subClickListener
             recycler.adapter = adapter
             layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -75,6 +77,7 @@ class DepartmentCardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //        notifyDataSetChanged()
     }
 
+
     fun parentListener(parentPos: Int) {
         notifyItemChanged(parentPos)
     }
@@ -86,6 +89,11 @@ class DepartmentCardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setOnDptSubClickListener(listener: onDptSubClickListener) {
         this.subClickListener = listener
+    }
+
+    fun loginDataChanged(isLogin: Boolean) {
+        this.isLogin = isLogin
+        notifyDataSetChanged()
     }
 
 }

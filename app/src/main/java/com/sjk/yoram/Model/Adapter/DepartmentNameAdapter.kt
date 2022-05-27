@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 data class nameData(val user: SimpleUser?, val header: String?)
 
 class DepartmentNameAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var isLogin = false
     var users = mutableListOf<SimpleUser>()
     var data = mutableListOf<nameData>()
 
@@ -57,6 +58,10 @@ class DepartmentNameAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private fun makeData() {
         this.data.clear()
+        if (this.users.isEmpty()) {
+            notifyDataSetChanged()
+            return
+        }
         var x: Char = makeInitialKor(this.users[0].fname[0])
         var y: Char
         this.users.forEach {
@@ -84,7 +89,15 @@ class DepartmentNameAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class DepartmentNameHolder(binding: DptNameItemBinding): RecyclerView.ViewHolder(binding.root) {
         val nameTv: TextView = binding.dptNameTv
         fun bind(position: Int) {
-            nameTv.text = this@DepartmentNameAdapter.data[position].user!!.fname + this@DepartmentNameAdapter.data[position].user!!.lname
+            if (isLogin)
+                nameTv.text = this@DepartmentNameAdapter.data[position].user!!.fname + this@DepartmentNameAdapter.data[position].user!!.lname
+            else {
+                val olname = data[position].user!!.lname
+                var lname =""
+                for (i in olname)
+                    lname += "Ｏ"
+                nameTv.text = data[position].user!!.fname + lname
+            }
         }
     }
 
@@ -93,6 +106,11 @@ class DepartmentNameAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(position: Int) {
             headerTv.text = this@DepartmentNameAdapter.data[position].header ?: "?"
         }
+    }
+
+    fun loginDataChanged(isLogin: Boolean) {
+        this.isLogin = isLogin
+        notifyDataSetChanged()
     }
 
 }

@@ -5,10 +5,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
 import android.util.Base64InputStream
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.sjk.yoram.Model.NewUser
 import com.sjk.yoram.Model.dto.User
 import com.sjk.yoram.databinding.ActivityJoinUserBinding
+import com.sjk.yoram.viewmodel.JoinUserViewModel
 import okhttp3.internal.and
 import java.security.DigestException
 import java.security.MessageDigest
@@ -17,11 +20,14 @@ import kotlin.experimental.and
 
 class JoinActivity: AppCompatActivity() {
     private val binding by lazy { ActivityJoinUserBinding.inflate(layoutInflater) }
+    private val viewmodel: JoinUserViewModel by viewModels()
     lateinit var reqBool: MutableList<Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.vm = viewmodel
+
         var newUser = NewUser()
         reqBool = mutableListOf(false, false, false, false)
 
@@ -85,10 +91,21 @@ class JoinActivity: AppCompatActivity() {
 
 
         binding.joinDoneButton.setOnClickListener {
-            newUser.fname = binding.joinFnameEt.text.toString()
-            newUser.lname = binding.joinLnameEt.text.toString()
-            newUser.sex = binding.joinSexM.isChecked
-            val key = binding.joinPwEt.text.toString()
+//            newUser.fname = binding.joinFnameEt.text.toString()
+//            newUser.lname = binding.joinLnameEt.text.toString()
+//            newUser.sex = binding.joinSexM.isChecked
+//            val key = binding.joinPwEt.text.toString()
+//            newUser.pw = EncryptKey(key)
+//
+//            newUser.tel1 = binding.joinTel1Et.text.toString()
+//            newUser.tel2 = binding.joinTel2Et.text.toString()
+//            newUser.address = binding.joinAddressEt.text.toString()
+//            newUser.carno = binding.joinCarnoEt.text.toString()
+
+            newUser.fname = viewmodel.fname.value!!
+            newUser.lname = viewmodel.lname.value!!
+            newUser.sex = viewmodel.sex.value!!
+            val key = viewmodel.pw.value!!
             newUser.pw = EncryptKey(key)
 
             newUser.tel1 = binding.joinTel1Et.text.toString()
@@ -96,7 +113,12 @@ class JoinActivity: AppCompatActivity() {
             newUser.address = binding.joinAddressEt.text.toString()
             newUser.carno = binding.joinCarnoEt.text.toString()
 
+            Toast.makeText(this, "newUser = ${newUser}", Toast.LENGTH_SHORT).show()
+        }
 
+        binding.joinCancel.setOnClickListener {
+            setResult(RESULT_CANCELED)
+            finish()
         }
     }
 

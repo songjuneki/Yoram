@@ -42,6 +42,9 @@
                         android:id="@+id/login_name_input"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:hint="이름" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -61,6 +64,9 @@
                         android:id="@+id/login_bd_input"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:inputType="numberDecimal"
                         android:hint="생년월일" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -80,31 +86,37 @@
                         android:id="@+id/login_pw_input"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
                         android:hint="비밀번호"
                         android:inputType="textPassword"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
+            <TextView
                 android:id="@+id/login_join_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/login_et_layout"
                 app:layout_constraintRight_toRightOf="@id/login_et_layout"
                 android:layout_margin="8dp"
-                android:text="계정생성"
-                android:textColor="#000000"
-                android:background="#00000000"/>
-            <Button
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:text="계정생성" />
+            <TextView
                 android:id="@+id/login_find_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/login_et_layout"
                 app:layout_constraintRight_toLeftOf="@id/login_join_btn"
                 android:layout_margin="8dp"
-                android:text="계정찾기"
-                android:textColor="#000000"
-                android:background="#00000000" />
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:text="계정찾기" />
             <Button
                 android:id="@+id/login_ok_button"
                 android:layout_width="match_parent"

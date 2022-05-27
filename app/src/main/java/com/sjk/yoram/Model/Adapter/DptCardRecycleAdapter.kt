@@ -23,7 +23,8 @@ import java.lang.IllegalArgumentException
 data class dptSubData (val child: Department?, val users: SimpleUser?, val type: dptSubDataType)
 enum class dptSubDataType { CHILD, USER }
 
-class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: Department, val parentPos: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: Department, val parentPos: Int, val isLogin: Boolean): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var isUser = false
     var cardListener: DepartmentCardAdapter.onDptSubClickListener? = null
     val items: MutableList<dptSubData> = mutableListOf()
 
@@ -97,7 +98,15 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
             name.layoutParams = innerParam
             name.setTextColor(Color.BLACK)
             name.setTextSize(androidx.annotation.Dimension.SP, 18F)
-            name.text = items[position].users!!.fname + items[position].users!!.lname
+            if (isLogin)
+                name.text = items[position].users!!.fname + items[position].users!!.lname
+            else {
+                val olname = items[position].users!!.lname
+                var lname = ""
+                for (i in olname)
+                    lname += "Ｏ"
+                name.text = items[position].users!!.fname + lname
+            }
 
             rowLayout.addView(img)
             rowLayout.addView(name)
@@ -167,7 +176,7 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
 
             val recycler = RecyclerView(layout.context)
             val manager = LinearLayoutManager(layout.context)
-            val adapter = DptCardRecycleAdapter(departments, items[position].child!!, position)
+            val adapter = DptCardRecycleAdapter(departments, items[position].child!!, position, isLogin)
             manager.orientation = LinearLayoutManager.VERTICAL
             recycler.layoutManager = manager
             recycler.adapter = adapter
@@ -204,6 +213,11 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
 
             return isExpanded
         }
+    }
+
+    fun userChange(isUser: Boolean) {
+        this.isUser = isUser
+        notifyDataSetChanged()
     }
 
 }

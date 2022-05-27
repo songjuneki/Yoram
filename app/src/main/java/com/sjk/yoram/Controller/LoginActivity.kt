@@ -1,11 +1,15 @@
 package com.sjk.yoram.Controller
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -15,12 +19,11 @@ import com.sjk.yoram.MainVM
 import com.sjk.yoram.Model.LoginState
 import com.sjk.yoram.Model.MyRetrofit
 import com.sjk.yoram.Model.dto.User
+import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityLoginBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.security.MessageDigest
+import kotlin.coroutines.CoroutineContext
 import kotlin.experimental.and
 
 class LoginActivity: AppCompatActivity() {
@@ -55,59 +58,126 @@ class LoginActivity: AppCompatActivity() {
         user.pw == key
     }
 
+    private suspend fun doneBtnJob() =
+        CoroutineScope(Dispatchers.Main).async {
+            when (loginState) {
+                LoginState.NONE, LoginState.NAME_FAIL -> {
+                    val find = nameCheckJob().await()
+                    if (find == 0) {
+                        binding.loginNameInput.error = "존재하지 않는 이름입니다."
+                        this@LoginActivity.loginState = LoginState.NAME_FAIL
+                        return@async true
+                    } else if (find == 1) {
+                        binding.loginPwInputLayout.visibility = View.VISIBLE
+                        this@LoginActivity.loginState = LoginState.NAME_SUCCESS
+                        binding.loginPwInput.requestFocus()
+                        return@async true
+                    } else {
+                        binding.loginBdInputLayout.visibility = View.VISIBLE
+                        this@LoginActivity.loginState = LoginState.NAME_SUCCESS_NEED_BD
+                        binding.loginBdInput.requestFocus()
+                        return@async true
+                    }
+                }
+                LoginState.BD_FAIL, LoginState.NAME_SUCCESS_NEED_BD -> {
+                    val find = bdCheckJob().await()
+                    if (find != 1) {
+                        binding.loginBdInput.error = "잘못 입력하였습니다."
+                        loginState = LoginState.BD_FAIL
+                        return@async true
+                    } else {
+                        binding.loginBdInput.error = ""
+                        binding.loginPwInputLayout.visibility = View.VISIBLE
+                        loginState = LoginState.BD_SUCCESS_NEED_PW
+                        return@async true
+                    }
+                    return@async false
+                }
+                LoginState.PW_FAIL, LoginState.NAME_SUCCESS, LoginState.BD_SUCCESS_NEED_PW -> {
+                    val check = userCheckJob().await()
+                    if (check) {
+                        loginState = LoginState.LOGIN
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                            putExtra("LOGIN_ID", user.id)
+                            putExtra("LOGIN_PW", user.pw)
+                        }
+                        this@LoginActivity.setResult(RESULT_OK, intent)
+                        this@LoginActivity.finish()
+                        return@async false
+                    } else {
+                        loginState = LoginState.PW_FAIL
+                        binding.loginPwInput.error = "잘못 입력하였습니다."
+                        return@async true
+                    }
+                }
+                else -> { }
+            }
+            return@async true
+        }
+
+
+    private val joinResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {  // 계정 생성 성공
+            val data = it.data!!
+            val joinIn = data.getIntExtra("NEW_USER_ID", -1)
+            val joinPw = data.getStringExtra("NEW_USER_PW")
+
+            val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                putExtra("LOGIN_ID", joinIn)
+                putExtra("LOGIN_PW", joinPw)
+            }
+            this.setResult(RESULT_OK, intent)
+            this.finish()
+        } else if (it.resultCode == Activity.RESULT_CANCELED) {
+            // 계정 생성 닫음
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.loginNameInput.setOnEditorActionListener { textView, i, keyEvent ->
+            var flag = true
+            CoroutineScope(Dispatchers.Main).async {
+                flag = doneBtnJob().await()
+            }.start()
+            return@setOnEditorActionListener flag
+        }
+        binding.loginBdInput.setOnEditorActionListener { textView, i, keyEvent ->
+            var flag = true
+            CoroutineScope(Dispatchers.Main).async {
+                flag = doneBtnJob().await()
+            }.start()
+            return@setOnEditorActionListener flag
+        }
+        binding.loginPwInput.setOnEditorActionListener { textView, i, keyEvent ->
+            var flag = true
+            CoroutineScope(Dispatchers.Main).async {
+                flag = doneBtnJob().await()
+            }.start()
+            return@setOnEditorActionListener flag
+        }
+
         binding.loginOkButton.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                when (loginState) {
-                    LoginState.NONE, LoginState.NAME_FAIL -> {
-                        val find = nameCheckJob().await()
-                        if (find == 0) {
-                            binding.loginNameInput.error = "존재하지 않는 이름입니다."
-                            this@LoginActivity.loginState = LoginState.NAME_FAIL
-                        } else if (find == 1) {
-                            binding.loginPwInputLayout.visibility = View.VISIBLE
-                            this@LoginActivity.loginState = LoginState.NAME_SUCCESS
-                        } else {
-                            binding.loginBdInputLayout.visibility = View.VISIBLE
-                            this@LoginActivity.loginState = LoginState.NAME_SUCCESS_NEED_BD
-                        }
-                    }
-                    LoginState.BD_FAIL, LoginState.NAME_SUCCESS_NEED_BD -> {
-                        val find = bdCheckJob().await()
-                        if (find != 1) {
-                            binding.loginBdInput.error = "잘못 입력하였습니다."
-                            loginState = LoginState.BD_FAIL
-                        } else {
-                            binding.loginBdInput.error = ""
-                            binding.loginPwInputLayout.visibility = View.VISIBLE
-                            loginState = LoginState.BD_SUCCESS_NEED_PW
-                        }
-                    }
-                    LoginState.PW_FAIL, LoginState.NAME_SUCCESS, LoginState.BD_SUCCESS_NEED_PW -> {
-                        val check = userCheckJob().await()
-                        if (check) {
-                            loginState = LoginState.LOGIN
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                                putExtra("LOGIN_ID", user.id)
-                                putExtra("LOGIN_PW", user.pw)
-                            }
-                            this@LoginActivity.setResult(RESULT_OK, intent)
-                            this@LoginActivity.finish()
-                        } else {
-                            loginState = LoginState.PW_FAIL
-                        }
-                    }
-                }
+                doneBtnJob().await()
             }
         }
 
         binding.loginCancel.setOnClickListener {
             setResult(RESULT_CANCELED)
             finish()
+        }
+
+        binding.loginJoinBtn.setOnClickListener {
+            val joinIntent = Intent(this, JoinActivity::class.java)
+            joinResult.launch(joinIntent)
+        }
+
+        binding.loginFindButton.setOnClickListener {
+
         }
 
 
@@ -126,4 +196,5 @@ class LoginActivity: AppCompatActivity() {
         }
         return enc.toString()
     }
+
 }

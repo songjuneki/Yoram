@@ -23,6 +23,7 @@ import com.sjk.yoram.MainVM
 import com.sjk.yoram.Model.Adapter.DepartmentCardAdapter
 import com.sjk.yoram.Model.Adapter.DepartmentNameAdapter
 import com.sjk.yoram.Model.DptButtonType
+import com.sjk.yoram.Model.LoginState
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
@@ -176,19 +177,30 @@ class DptmentFragment: Fragment() {
                 when (p2) {
                     DptButtonType.DEPARTMENT.ordinal -> {
                         this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).loginDataChanged(mainViewModel.loginState.value == LoginState.LOGIN)
                         viewModel.setSortType(DptButtonType.DEPARTMENT)
                     }
                     DptButtonType.POSITION.ordinal -> {
                         this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerAdapter
+                        (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).loginDataChanged(mainViewModel.loginState.value == LoginState.LOGIN)
                         viewModel.setSortType(DptButtonType.POSITION)
                     }
                     DptButtonType.NAME.ordinal -> {
                         this@DptmentFragment.binding.fragDptmentRecycler.adapter = recyclerNameAdapter
+                        (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).loginDataChanged(mainViewModel.loginState.value == LoginState.LOGIN)
                         viewModel.setSortType(DptButtonType.NAME)
                     }
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
+        mainViewModel.loginState.observe(viewLifecycleOwner) {
+            val isLogin = it == LoginState.LOGIN
+            when(viewModel.dptSortType.value) {
+                DptButtonType.DEPARTMENT, DptButtonType.POSITION -> (binding.fragDptmentRecycler.adapter as DepartmentCardAdapter).loginDataChanged(isLogin)
+                DptButtonType.NAME -> (binding.fragDptmentRecycler.adapter as DepartmentNameAdapter).loginDataChanged(isLogin)
             }
         }
 

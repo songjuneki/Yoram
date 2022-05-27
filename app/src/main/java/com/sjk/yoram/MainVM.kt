@@ -1,12 +1,10 @@
 package com.sjk.yoram
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sjk.yoram.Model.DptButtonType
-import com.sjk.yoram.Model.FragmentType
-import com.sjk.yoram.Model.LoginState
-import com.sjk.yoram.Model.MyLoginData
+import com.sjk.yoram.Model.*
 
 class MainVM: ViewModel() {
     private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)
@@ -15,7 +13,7 @@ class MainVM: ViewModel() {
     val dptClickState = MutableLiveData<Boolean>(false)
 
     val loginState = MutableLiveData(LoginState.NONE)
-    var loginData: MyLoginData? = null
+    val loginData = MutableLiveData<MyLoginData>()
 
     fun setCurrentFragment(menuItemId: Int): Boolean {
         val fragType = getFragmentType(menuItemId)
@@ -44,5 +42,11 @@ class MainVM: ViewModel() {
         if (currentFragmentType.value == fragmentType) return
 
         _currentFragmentType.value = fragmentType
+    }
+
+    fun getUserPermission(): UserPermission {
+        val data = loginData.value ?: MyLoginData()
+        Log.d("JKJK", "myPermission=${data.permission}")
+        return UserPermission.values()[data.permission]
     }
 }

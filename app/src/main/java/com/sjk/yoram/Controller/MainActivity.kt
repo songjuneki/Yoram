@@ -38,13 +38,12 @@ class MainActivity : AppCompatActivity() {
         homeFragViewModel = ViewModelProvider(this).get(FragHomeViewModel::class.java)
         dptFragViewModel = ViewModelProvider(this).get(FragDptmentViewModel::class.java)
 
-        viewModel.loginData = MyLoginData()
         CoroutineScope(Dispatchers.Main).launch {
             val myintent = intent
             if (myintent.getBooleanExtra("isLogin", false)) {
                 val id = myintent.getIntExtra("loginedID", -1)
                 if (id != -1) {
-                    viewModel.loginData = MyRetrofit.getMyApi().getMyUserInfo(id)
+                    viewModel.loginData.value = MyRetrofit.getMyApi().getMyUserInfo(id)
                     viewModel.loginState.value = LoginState.LOGIN
                     Log.d("JKJK", "MainActivity -- loginState=${viewModel.loginState.value}")
                 }

@@ -60,6 +60,7 @@ class HomeBannerAdapter(): RecyclerView.Adapter<HomeBannerAdapter.BannerHolder>(
             layout.addView(progressbar)
 
             img.load(data.imgUrl) {
+                crossfade(true)
                 listener(
                     onStart = {
                         img.visibility = View.INVISIBLE

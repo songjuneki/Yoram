@@ -154,12 +154,20 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val userNameText = binding.cardMainIdNameTv
         fun bind(data: cardData) {
             val userdata = data as userData
-            avatarView.load(R.drawable.avatar_sample) {
-                crossfade(true)
-                transformations(CircleCropTransformation())
+
+            if (userdata.user.avatar.isNullOrEmpty()) {
+                avatarView.load("http://3.39.51.49:8080/api/user/avatar?id=0") {
+                    crossfade(true)
+                    transformations(CircleCropTransformation())
+                }
+            } else {
+                avatarView.load("http://3.39.51.49:8080/api/user/avatar?id=${userdata.user.id}") {     //userdata.user.avatar
+                    crossfade(true)
+                    transformations(CircleCropTransformation())
+                }
             }
-            dptText.text = userdata.department.name
-            userNameText.text = userdata.name
+            dptText.text = userdata.user.dptname
+            userNameText.text = userdata.user.fname + userdata.user.lname
         }
     }
 

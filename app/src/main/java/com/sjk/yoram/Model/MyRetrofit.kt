@@ -6,15 +6,13 @@ import com.sjk.yoram.Model.dto.Position
 import com.sjk.yoram.Model.dto.SimpleUser
 import com.sjk.yoram.Model.dto.User
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -89,4 +87,9 @@ interface MyApi {
     suspend fun checkMyUser(@Body checkData: LoginCheck): Boolean
     @GET("user/my")
     suspend fun getMyUserInfo(@Query("id")id: Int): MyLoginData
+
+    @POST("user/upload/avatar")
+    suspend fun uploadAvatar(@Part("pic")file:MultipartBody.Part, @Part("id")id: String): Response<Boolean>
+    @GET("user/profile/url")
+    suspend fun getAvatar(@Query("id")id: Int): String
 }
