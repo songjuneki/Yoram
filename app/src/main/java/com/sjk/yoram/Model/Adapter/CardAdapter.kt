@@ -90,7 +90,7 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //            banners.add(BannerData(imgUrlList[0], urlList[0]))
 //            banners.add(BannerData(imgUrlList[1], urlList[1]))
 //            banners.add(BannerData(imgUrlList[2], urlList[2]))
-            banners.add(BannerData("https://velog.velcdn.com/images/jojo_devstory/post/08aa394d-f319-4b4b-bf32-89106daa9ff1/Coil.jpeg", "222"))
+            banners.add(BannerData(R.drawable.banner, "222"))
             banners.add(BannerData("https://velog.velcdn.com/images/jojo_devstory/post/08aa394d-f319-4b4b-bf32-89106daa9ff1/Coil.jpeg", "333"))
             banners.add(BannerData("http://guseong.org/wp-content/uploads/2021/04/111.jpg", "444"))
 

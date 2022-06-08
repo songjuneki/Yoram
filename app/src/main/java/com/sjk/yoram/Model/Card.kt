@@ -18,5 +18,5 @@ enum class CardType {
 
 sealed class cardData
 
-open class BannerData(val imgUrl: String, val url: String): cardData()
+open class BannerData(val imgUrl: Any, val url: String): cardData()
 open class userData(val user: MyLoginData): cardData()

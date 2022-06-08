@@ -65,6 +65,8 @@ interface MyApi {
     suspend fun getUserByName(@Query("name")name: String): MutableList<User>
     @GET("user/find")
     suspend fun getUserByNameAndBD(@Query("name")name: String, @Query("bd")bd: String): MutableList<User>
+    @POST("user/new")
+    suspend fun insertNewUser(@Body newUser: NewUser): Boolean
 
     @GET("user/name/all")
     suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
