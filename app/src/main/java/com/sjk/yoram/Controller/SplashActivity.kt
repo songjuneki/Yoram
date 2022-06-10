@@ -8,8 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import com.sjk.yoram.Model.LoginCheck
-import com.sjk.yoram.Model.MyRetrofit
+import com.sjk.yoram.model.LoginCheck
+import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.SplashBinding
 import kotlinx.coroutines.*

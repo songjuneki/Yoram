@@ -1,20 +1,16 @@
-package com.sjk.yoram.Model.Adapter
+package com.sjk.yoram.model.Adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.sjk.yoram.Model.*
+import com.sjk.yoram.model.*
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.CardMainBannerBinding
 import com.sjk.yoram.databinding.CardMainDptmentBinding

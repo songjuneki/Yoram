@@ -1,4 +1,4 @@
-package com.sjk.yoram.Model.Adapter
+package com.sjk.yoram.model.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sjk.yoram.Model.Department
-import com.sjk.yoram.Model.UserPermission
+import com.sjk.yoram.model.Department
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.CardDepartmentBinding
 

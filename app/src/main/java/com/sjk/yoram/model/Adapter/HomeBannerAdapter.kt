@@ -1,4 +1,4 @@
-package com.sjk.yoram.Model.Adapter
+package com.sjk.yoram.model.Adapter
 
 import android.view.Gravity
 import android.view.View
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.github.ybq.android.spinkit.SpinKitView
 import com.github.ybq.android.spinkit.style.Wave
-import com.sjk.yoram.Model.BannerData
+import com.sjk.yoram.model.BannerData
 
 class HomeBannerAdapter(): RecyclerView.Adapter<HomeBannerAdapter.BannerHolder>() {
     var data = mutableListOf<BannerData>()

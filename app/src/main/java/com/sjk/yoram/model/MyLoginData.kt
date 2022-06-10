@@ -1,6 +1,4 @@
-package com.sjk.yoram.Model
-
-import kotlinx.coroutines.*
+package com.sjk.yoram.model
 
 data class MyLoginData(
     var id: Int,

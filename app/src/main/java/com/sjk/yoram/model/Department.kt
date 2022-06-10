@@ -1,8 +1,7 @@
-package com.sjk.yoram.Model
+package com.sjk.yoram.model
 
-import android.util.Log
-import com.sjk.yoram.Model.dto.Position
-import com.sjk.yoram.Model.dto.SimpleUser
+import com.sjk.yoram.model.dto.Position
+import com.sjk.yoram.model.dto.SimpleUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -19,7 +18,7 @@ data class Department (
     constructor(parentCode: Int, name: String, code: Int): this(parentCode, name, code, mutableListOf(), mutableListOf(), false)
 
 
-    constructor(dtoDpt: com.sjk.yoram.Model.dto.Department): this(dtoDpt.parent, dtoDpt.name, dtoDpt.code) { loadUsersForDepartment() }
+    constructor(dtoDpt: com.sjk.yoram.model.dto.Department): this(dtoDpt.parent, dtoDpt.name, dtoDpt.code) { loadUsersForDepartment() }
 
     constructor(dtoPos: Position): this(dtoPos.name, dtoPos.code) {
         if (dtoPos.cat != dtoPos.code)

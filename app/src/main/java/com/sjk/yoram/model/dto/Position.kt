@@ -1,4 +1,4 @@
-package com.sjk.yoram.Model.dto
+package com.sjk.yoram.model.dto
 
 data class Position(
     val code: Int,

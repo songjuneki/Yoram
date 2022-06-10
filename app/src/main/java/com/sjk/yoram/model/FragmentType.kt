@@ -1,4 +1,4 @@
-package com.sjk.yoram.Model
+package com.sjk.yoram.model
 
 enum class FragmentType(val title: String, val tag: String) {
     Fragment_HOME("홈", "homeFrag"),

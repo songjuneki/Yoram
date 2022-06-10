@@ -1,18 +1,11 @@
-package com.sjk.yoram.Model.Adapter
+package com.sjk.yoram.model.Adapter
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.sjk.yoram.MainVM
-import com.sjk.yoram.Model.Department
-import com.sjk.yoram.Model.DptButton
-import com.sjk.yoram.Model.DptButtonType
-import com.sjk.yoram.R
+import com.sjk.yoram.model.DptButton
+import com.sjk.yoram.model.DptButtonType
 
 class HomeDptRecycleAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var data = mutableListOf<DptButton>()

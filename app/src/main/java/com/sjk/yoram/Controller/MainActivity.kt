@@ -1,26 +1,26 @@
 package com.sjk.yoram.Controller
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sjk.yoram.Controller.Fragment.*
-import com.sjk.yoram.Model.FragmentType
+import com.sjk.yoram.model.FragmentType
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMainBinding
 import com.sjk.yoram.MainVM
-import com.sjk.yoram.Model.LoginState
-import com.sjk.yoram.Model.MyLoginData
-import com.sjk.yoram.Model.MyRetrofit
+import com.sjk.yoram.model.LoginState
+import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import com.sjk.yoram.viewmodel.FragHomeViewModel
+import com.sjk.yoram.viewmodel.FragIDViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }       // viewBinding
     private lateinit var dptFragViewModel: FragDptmentViewModel
     private lateinit var homeFragViewModel: FragHomeViewModel
+    private lateinit var idFragViewModel: FragIDViewModel
 
     private lateinit var navi: BottomNavigationView
 
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         binding.vm = viewModel
         homeFragViewModel = ViewModelProvider(this).get(FragHomeViewModel::class.java)
         dptFragViewModel = ViewModelProvider(this).get(FragDptmentViewModel::class.java)
+        idFragViewModel = ViewModelProvider(this).get(FragIDViewModel::class.java)
+
 
         CoroutineScope(Dispatchers.Main).launch {
             val myintent = intent
@@ -102,4 +105,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1000) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) { //거부
+                Toast.makeText(this@MainActivity, "카메라 권한 거부", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

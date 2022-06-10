@@ -1,7 +1,4 @@
-package com.sjk.yoram.Model
-
-import android.view.View
-import android.widget.ImageView
+package com.sjk.yoram.model
 
 data class Card (
     val type: CardType,

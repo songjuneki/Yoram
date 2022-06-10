@@ -1,20 +1,14 @@
-package com.sjk.yoram.Model.Adapter
+package com.sjk.yoram.model.Adapter
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.sjk.yoram.Model.dto.SimpleUser
+import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DptNameItemBinding
 import com.sjk.yoram.databinding.DptNameItemHeaderBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 data class nameData(val user: SimpleUser?, val header: String?)
 

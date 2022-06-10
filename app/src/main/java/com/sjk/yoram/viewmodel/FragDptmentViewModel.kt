@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
-import com.sjk.yoram.Model.Department
-import com.sjk.yoram.Model.DptButtonType
-import com.sjk.yoram.Model.MyRetrofit
-import com.sjk.yoram.Model.dto.SimpleUser
+import com.sjk.yoram.model.Department
+import com.sjk.yoram.model.DptButtonType
+import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.model.dto.SimpleUser
 import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay

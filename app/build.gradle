@@ -51,6 +51,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.github.cielsk:clearable-edittext:0.0.8'
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation ('com.github.SumiMakito:AwesomeQRCode:1.2.0') {
+        exclude group: 'com.waynejo', module: 'androidndkgif'
+    }
+    implementation 'io.github.waynejo:androidndkgif:1.0.1'
+    implementation 'com.github.yuriy-budiyev:code-scanner:v2.3.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'io.coil-kt:coil-svg:2.0.0-rc03'
     testImplementation 'junit:junit:4.13.2'

@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjk.yoram.MainVM
-import com.sjk.yoram.Model.*
-import com.sjk.yoram.Model.Adapter.CardAdapter
+import com.sjk.yoram.model.*
+import com.sjk.yoram.model.Adapter.CardAdapter
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragHomeBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel

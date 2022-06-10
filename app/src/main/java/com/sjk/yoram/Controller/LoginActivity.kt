@@ -1,29 +1,18 @@
 package com.sjk.yoram.Controller
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.sjk.yoram.MainVM
-import com.sjk.yoram.Model.LoginState
-import com.sjk.yoram.Model.MyRetrofit
-import com.sjk.yoram.Model.dto.User
-import com.sjk.yoram.R
+import com.sjk.yoram.model.LoginState
+import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.model.dto.User
 import com.sjk.yoram.databinding.ActivityLoginBinding
 import kotlinx.coroutines.*
 import java.security.MessageDigest
-import kotlin.coroutines.CoroutineContext
 import kotlin.experimental.and
 
 class LoginActivity: AppCompatActivity() {

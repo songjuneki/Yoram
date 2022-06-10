@@ -8,14 +8,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.sjk.yoram.Model.MyRetrofit
-import com.sjk.yoram.Model.NewUser
+import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.model.NewUser
 import com.sjk.yoram.databinding.ActivityJoinUserBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import kotlin.experimental.and

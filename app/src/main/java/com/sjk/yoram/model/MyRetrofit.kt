@@ -1,21 +1,18 @@
-package com.sjk.yoram.Model
+package com.sjk.yoram.model
 
 import android.util.Log
-import com.sjk.yoram.Model.dto.Department
-import com.sjk.yoram.Model.dto.Position
-import com.sjk.yoram.Model.dto.SimpleUser
-import com.sjk.yoram.Model.dto.User
-import kotlinx.coroutines.Deferred
+import com.sjk.yoram.model.dto.Department
+import com.sjk.yoram.model.dto.Position
+import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.model.dto.User
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.*
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
 object MyRetrofit {

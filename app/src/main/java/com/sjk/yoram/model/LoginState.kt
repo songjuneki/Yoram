@@ -1,4 +1,4 @@
-package com.sjk.yoram.Model
+package com.sjk.yoram.model
 
 enum class LoginState {
     NONE,

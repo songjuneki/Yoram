@@ -1,12 +1,9 @@
 package com.sjk.yoram.viewmodel
 
-import android.util.Log
-import androidx.databinding.ObservableArrayList
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sjk.yoram.Model.*
+import com.sjk.yoram.model.*
 import kotlinx.coroutines.launch
 
 open class FragHomeViewModel: ViewModel() {

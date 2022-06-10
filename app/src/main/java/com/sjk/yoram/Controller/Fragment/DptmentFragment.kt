@@ -20,16 +20,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cielyang.android.clearableedittext.ClearableEditText
 import com.cielyang.android.clearableedittext.OnTextClearedListener
 import com.sjk.yoram.MainVM
-import com.sjk.yoram.Model.Adapter.DepartmentCardAdapter
-import com.sjk.yoram.Model.Adapter.DepartmentNameAdapter
-import com.sjk.yoram.Model.DptButtonType
-import com.sjk.yoram.Model.LoginState
+import com.sjk.yoram.model.Adapter.DepartmentCardAdapter
+import com.sjk.yoram.model.Adapter.DepartmentNameAdapter
+import com.sjk.yoram.model.DptButtonType
+import com.sjk.yoram.model.LoginState
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class DptmentFragment: Fragment() {
@@ -50,6 +49,7 @@ class DptmentFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_dptment, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(FragDptmentViewModel::class.java)
         binding.vm = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 

@@ -1,7 +1,6 @@
-package com.sjk.yoram.Model.Adapter
+package com.sjk.yoram.model.Adapter
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,10 +12,8 @@ import android.widget.TextView
 import androidx.core.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.sjk.yoram.Model.Department
-import com.sjk.yoram.Model.dto.SimpleUser
-import com.sjk.yoram.Model.dto.User
+import com.sjk.yoram.model.Department
+import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.R
 import java.lang.IllegalArgumentException
 
