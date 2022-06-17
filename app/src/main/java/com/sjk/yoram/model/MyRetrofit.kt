@@ -1,10 +1,8 @@
 package com.sjk.yoram.model
 
 import android.util.Log
+import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.dto.Department
-import com.sjk.yoram.model.dto.Position
-import com.sjk.yoram.model.dto.SimpleUser
-import com.sjk.yoram.model.dto.User
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -91,4 +89,10 @@ interface MyApi {
     suspend fun uploadAvatar(@Part("pic")file:MultipartBody.Part, @Part("id")id: String): Response<Boolean>
     @GET("user/profile/url")
     suspend fun getAvatar(@Query("id")id: Int): String
+
+    @GET("ws/all")
+    suspend fun getAllWorship(): List<WorshipType>
+
+    @POST("user/verify")
+    suspend fun attendUser(@Body attend: Attend): Boolean
 }

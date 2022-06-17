@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -27,8 +28,11 @@ import com.sjk.yoram.model.FragmentType
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragIdBinding
 import com.sjk.yoram.model.MyLoginData
+import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.model.dto.WorshipType
 import com.sjk.yoram.viewmodel.FragIDViewModel
 import kotlinx.coroutines.*
+import okhttp3.internal.toImmutableList
 import java.text.SimpleDateFormat
 
 class IDFragment: Fragment() {
@@ -116,11 +120,31 @@ class IDFragment: Fragment() {
                     1000
                 )
             } else { //권한이 있는 경우
-                val intent = Intent(requireActivity(), ScannerActivity::class.java)
-                startActivity(intent)
+                CoroutineScope(Dispatchers.Main).launch {
+                    var selectedWorship = WorshipType(0, "")
+                    val worship = MyRetrofit.getMyApi().getAllWorship()
+                    val dialog = AlertDialog.Builder(this@IDFragment.requireContext()).apply {
+                        setTitle("예배 종류를 선택해주세요")
+                        setSingleChoiceItems(worship.map { it.name }.toTypedArray(), -1) { dialog, which ->
+                            selectedWorship = worship[which]
+                        }
+                    }
+                    dialog.setPositiveButton("확인") { dialog, which ->
+                        val myid = mainViewModel.loginData.value!!.id
+                        val wtype = selectedWorship.id
+                        val intent = Intent(requireActivity(), ScannerActivity::class.java).apply {
+                            putExtra("checkerID", myid)
+                            putExtra("worshipType", wtype)
+                        }
+                        startActivity(intent)
+                    }
+                    dialog.setNegativeButton("취소") { dialog, _ -> dialog.dismiss()}
+                    dialog.show()
+                }
             }
         }
     }
+
 
     companion object {
         fun newInstance(title:String) = IDFragment().apply {
