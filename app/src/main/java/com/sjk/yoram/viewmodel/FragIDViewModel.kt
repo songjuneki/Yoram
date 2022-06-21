@@ -22,24 +22,29 @@ class FragIDViewModel: ViewModel() {
     }
 
     fun setUser(user: MyLoginData) {
-       _user.postValue(user)
+        _user.postValue(user)
     }
 
-    suspend fun countdown() = viewModelScope.launch(start = CoroutineStart.LAZY) {
-        _timer.value = 15
-        while (true) {
-            if (_timer.value == 0) {
+    val countJob = viewModelScope.launch(start = CoroutineStart.LAZY) {
+        while (isActive) {
+            if (_timer.value!! == 0)  {
                 _timer.value = 15
-                continue
+                delay(1000L)
             }
             _timer.value = _timer.value!!.minus(1)
             delay(1000L)
         }
+        _timer.value = 15
+    }
+
+    suspend fun countdown() = viewModelScope.launch(start = CoroutineStart.LAZY) {
+        this@FragIDViewModel.countJob.join()
+        _timer.value = 15
     }
 
 
-    suspend fun countstop() {
-        if (this.countdown().isActive) this.countdown().cancel()
+    fun countstop() {
+        _timer.value = 15
     }
 
 

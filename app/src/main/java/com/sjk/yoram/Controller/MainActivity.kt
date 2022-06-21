@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }       // viewBinding
     private lateinit var dptFragViewModel: FragDptmentViewModel
     private lateinit var homeFragViewModel: FragHomeViewModel
-    private lateinit var idFragViewModel: FragIDViewModel
 
     private lateinit var navi: BottomNavigationView
 
@@ -38,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         binding.vm = viewModel
         homeFragViewModel = ViewModelProvider(this).get(FragHomeViewModel::class.java)
         dptFragViewModel = ViewModelProvider(this).get(FragDptmentViewModel::class.java)
-        idFragViewModel = ViewModelProvider(this).get(FragIDViewModel::class.java)
 
 
         CoroutineScope(Dispatchers.Main).launch {

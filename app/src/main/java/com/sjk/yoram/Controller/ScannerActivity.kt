@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
 import com.budiyev.android.codescanner.AutoFocusMode
@@ -13,6 +14,7 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.google.zxing.BarcodeFormat
+import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityScannerBinding
 import com.sjk.yoram.model.AESUtil
 import com.sjk.yoram.model.MyRetrofit
@@ -63,6 +65,7 @@ class ScannerActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        var isFront = false
         scanner = CodeScanner(this, binding.scanner)
         scanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
         scanner.formats = listOf(BarcodeFormat.QR_CODE) // list of type BarcodeFormat,
@@ -76,45 +79,14 @@ class ScannerActivity: AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 val isSuccess = checkJob(it.text).await()
                 if (isSuccess) {
-                    binding.scannerVerify.visibility = View.VISIBLE
-                    val fadein = ObjectAnimator.ofFloat(binding.scannerVerify, "alpha", 0f, 1f)
-                    fadein.addListener(object: Animator.AnimatorListener {
-                        override fun onAnimationStart(p0: Animator?) {
-                        }
-
-                        override fun onAnimationEnd(p0: Animator?) {
-                            val fadeout = ObjectAnimator.ofFloat(binding.scannerVerify, "alpha", 1f, 0f).apply {
-                                duration = 1000
-                                addListener(object: Animator.AnimatorListener {
-                                    override fun onAnimationStart(p0: Animator?) {
-                                    }
-
-                                    override fun onAnimationEnd(p0: Animator?) {
-                                        binding.scannerVerify.visibility = View.GONE
-                                    }
-
-                                    override fun onAnimationCancel(p0: Animator?) {
-                                        binding.scannerVerify.visibility = View.GONE
-                                    }
-
-                                    override fun onAnimationRepeat(p0: Animator?) {
-                                    }
-
-                                })
-                                start()
-                            }
-                            this@ScannerActivity.scanner.startPreview()
-                        }
-
-                        override fun onAnimationCancel(p0: Animator?) {
-                        }
-
-                        override fun onAnimationRepeat(p0: Animator?) {
-                        }
-
-                    })
-                    fadein.duration = 1000
-                    fadein.start()
+                    this@ScannerActivity.binding.scannerVerify.visibility = View.VISIBLE
+                    ObjectAnimator.ofFloat(this@ScannerActivity.binding.scannerVerify, "alpha", 0f, 1f).apply {
+                        duration = 1000
+                        start()
+                    }.addListener(onEnd = { ObjectAnimator.ofFloat(this@ScannerActivity.binding.scannerVerify, "alpha", 1f, 0f).apply {
+                        duration = 1000
+                        start()
+                    }.addListener(onEnd = { this@ScannerActivity.binding.scannerVerify.visibility = View.GONE; this@ScannerActivity.scanner.startPreview() })})
                 }
             }
         }
@@ -124,6 +96,17 @@ class ScannerActivity: AppCompatActivity() {
         }
 
         binding.scanner.setOnClickListener {
+            scanner.startPreview()
+        }
+
+        binding.scannerExit.setOnClickListener {
+            this.finish()
+        }
+
+        binding.scannerCamSwitch.setOnClickListener {
+            isFront = !isFront
+            scanner.camera = if (isFront) CodeScanner.CAMERA_FRONT else CodeScanner.CAMERA_BACK
+            scanner.stopPreview()
             scanner.startPreview()
         }
     }

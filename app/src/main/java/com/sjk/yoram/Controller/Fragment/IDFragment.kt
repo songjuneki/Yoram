@@ -14,7 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.github.sumimakito.awesomeqr.AwesomeQrRenderer
@@ -39,7 +41,7 @@ class IDFragment: Fragment() {
     //private val binding by lazy { FragIdBinding.inflate(layoutInflater) }
     private lateinit var binding: FragIdBinding
     private val mainViewModel: MainVM by activityViewModels()
-    private lateinit var viewModel: FragIDViewModel
+    private val viewModel: FragIDViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +51,7 @@ class IDFragment: Fragment() {
         //val title = requireArguments().getString("title")
         //Log.d("jk", "${title} 오픈")
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_id, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(FragIDViewModel::class.java)
+//        viewModel = ViewModelProvider(requireActivity()).get(FragIDViewModel::class.java)
         binding.vm = viewModel
         return binding.root
     }
@@ -68,16 +70,12 @@ class IDFragment: Fragment() {
         }
 
         mainViewModel.currentFragmentType.observe(viewLifecycleOwner) {
-            CoroutineScope(Dispatchers.Main).launch {
-                if (it == FragmentType.Fragment_ID) {
-                    viewModel.countstop()
-                    try {
-                        makeQR(viewModel.user.value!!)
-                        viewModel.countdown().start()
-                    } catch (e: Exception) {
-                        viewModel.countstop()
-                    }
-                } else viewModel.countstop()
+            if (it == FragmentType.Fragment_ID) {
+                makeQR(viewModel.user.value!!)
+                viewModel.countstop()
+                viewModel.countJob.start()
+            } else {
+                viewModel.countstop()
             }
         }
 
@@ -101,11 +99,11 @@ class IDFragment: Fragment() {
         viewModel.timer.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.timer = it
-                if (it == -1) {
+                if (it == 15) {
                     try {
                         makeQR(viewModel.user.value!!)
                     } catch (e: Exception) {
-                        viewModel.countstop()
+                        viewModel.countJob.cancel()
                     }
                 }
             }
