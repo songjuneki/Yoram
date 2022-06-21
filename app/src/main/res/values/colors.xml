@@ -1,5 +1,23 @@
 <resources>
     <color name="colorPrimary">#00696B</color>
+    <color name="xd_light_background">#FFFFFF</color>
+    <color name="xd_light_title">#222222</color>
+    <color name="xd_light_deep_border">#DBDBDB</color>
+    <color name="xd_light_weak_border">#F0F0F0</color>
+    <color name="xd_light_card_divider">#F0F4F7</color>
+    <color name="xd_light_search_card_border">#FDFDFD</color>
+    <color name="xd_light_dot_indicator_disabled">#FFF9F9</color>
+    <color name="xd_light_dot_indicator_enabled">#007BFF</color>
+    <color name="xd_light_searchbar_border">#00000012</color>
+    <color name="xd_light_bottombar_border">#00000029</color>
+    <color name="xd_light_hint">#A8A8A8</color>
+    <color name="xd_light_content_highlight">#303030</color>
+    <color name="xd_light_content">#707070</color>
+    <color name="xd_light_red_highlight">#707070</color>
+    <color name="xd_light_appbar_border">#00000014</color>
+    <color name="xd_light_transparent">#00000000</color>
+    <color name="xd_light_logo_accent">#2272A5</color>
+
     <color name="md_theme_light_primary">#00696B</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#4AF9FC</color>
