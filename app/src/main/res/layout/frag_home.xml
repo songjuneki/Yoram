@@ -28,12 +28,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.95" />
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gv05"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
-            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gv50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,6 +116,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_dpt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/home_banner"
@@ -130,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/home_card_border">
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gv05_2"
+                    android:id="@+id/home_dpt_gv05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -147,9 +142,10 @@
                     android:layout_height="wrap_content"
                     android:text="조직도 검색"
                     android:textColor="@color/xd_light_title"
-                    android:textSize="21sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/pretendard_bold"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@id/gv05_2"
+                    app:layout_constraintLeft_toLeftOf="@id/home_dpt_gv05"
                     android:layout_marginTop="20dp" />
                 <TextView
                     android:id="@+id/home_dpt_more"
@@ -157,7 +153,8 @@
                     android:layout_height="wrap_content"
                     android:text="전체보기 >"
                     android:textColor="@color/xd_light_dot_indicator_enabled"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"
                     app:layout_constraintTop_toTopOf="@id/home_dpt_title"
                     app:layout_constraintRight_toRightOf="@id/gv95_3"
                     app:layout_constraintBottom_toBottomOf="@id/home_dpt_title" />
@@ -166,7 +163,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/home_dpt_title"
-                    app:layout_constraintLeft_toLeftOf="@id/gv05_2"
+                    app:layout_constraintLeft_toLeftOf="@id/home_dpt_gv05"
                     app:layout_constraintRight_toRightOf="@id/gv95_3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="12dp"
@@ -190,6 +187,7 @@
                         android:text="이름이나 차 번호를 입력해주세요"
                         android:textColor="@color/xd_light_hint"
                         android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_regular"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/home_search"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -199,6 +197,290 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_id_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/home_dpt_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="8dp"
+                android:background="@color/xd_light_background">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/home_id_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="20dp">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/home_id_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/home_id_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <TextView
+                        android:id="@+id/home_id_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/home_id_gv05"
+                        android:text="땡땡땡"
+                        android:textColor="@color/xd_light_dot_indicator_enabled"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/home_id_name"
+                        android:text=" 성도님"
+                        android:textColor="@color/xd_light_title"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pretendard_semibold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/home_id_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="QR코드 체크인"
+                        android:textColor="@color/xd_light_red_highlight"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/home_checkin_border" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/home_id_name_layout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/home_id_offering_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/home_id_border">
+                        <ImageView
+                            android:id="@+id/home_id_offering_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_offering"
+                            android:scaleType="fitCenter"/>
+                        <TextView
+                            android:id="@+id/home_id_offering_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_offering_img"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="14dp"
+                            android:text="10,000원"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content_highlight"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_offering_tv"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:text="이번 달 헌금"
+                            android:textSize="14sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_regular"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/home_id_attend_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/home_id_border">
+                        <ImageView
+                            android:id="@+id/home_id_attend_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_attend"
+                            android:scaleType="fitCenter"/>
+                        <TextView
+                            android:id="@+id/home_id_attend_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_attend_img"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/home_id_attend_tv2"
+                            android:gravity="right"
+                            android:layout_marginTop="14dp"
+                            android:text="3 "
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content_highlight"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:id="@+id/home_id_attend_tv2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_attend_img"
+                            app:layout_constraintLeft_toRightOf="@id/home_id_attend_tv"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:gravity="left"
+                            android:layout_marginTop="14dp"
+                            android:text="/ 5"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_attend_tv"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:text="이번 달 출석"
+                            android:textSize="14sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_regular"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/home_id_department_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/home_id_border">
+                        <ImageView
+                            android:id="@+id/home_id_department_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_blue_department"
+                            android:scaleType="fitCenter"/>
+                        <TextView
+                            android:id="@+id/home_id_department_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_department_img"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="14dp"
+                            android:text="10,000원"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content_highlight"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/home_id_department_tv"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:text="이번 달 헌금"
+                            android:textSize="14sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_regular"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_board_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/home_id_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="8dp"
+                android:background="@color/xd_light_background">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/home_board_gv05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/home_board_gv95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+                <TextView
+                    android:id="@+id/home_board_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/home_board_gv05"
+                    android:layout_marginTop="20dp"
+                    android:text="교회 소식"
+                    android:textSize="18sp"
+                    android:textColor="@color/xd_light_title"
+                    android:fontFamily="@font/pretendard_bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="전체보기 >"
+                    android:textColor="@color/xd_light_dot_indicator_enabled"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"
+                    app:layout_constraintTop_toTopOf="@id/home_board_title"
+                    app:layout_constraintRight_toRightOf="@id/home_board_gv95"
+                    app:layout_constraintBottom_toBottomOf="@id/home_board_title" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/home_board_parent_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/home_board_title"
+                    app:layout_constraintLeft_toLeftOf="@id/home_board_gv05"
+                    app:layout_constraintRight_toRightOf="@id/home_board_gv95"
+                    android:layout_marginTop="12dp"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

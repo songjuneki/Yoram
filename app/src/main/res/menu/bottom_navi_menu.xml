@@ -3,27 +3,27 @@
     <item
         android:id="@+id/navi_home"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/ic_home"
         android:title="홈" />
     <item
         android:id="@+id/navi_dptment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_perm_contact_calendar_24"
+        android:icon="@drawable/ic_department"
         android:title="조직도" />
     <item
         android:id="@+id/navi_id"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_face_24"
+        android:icon="@drawable/ic_id"
         android:title="교인증" />
     <item
         android:id="@+id/navi_board"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_question_answer_24"
+        android:icon="@drawable/ic_board"
         android:title="게시판" />
     <item
         android:id="@+id/navi_my"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_account_circle_24"
-        android:title="내 계정" />
+        android:icon="@drawable/ic_my"
+        android:title="내 정보" />
 
 </menu>

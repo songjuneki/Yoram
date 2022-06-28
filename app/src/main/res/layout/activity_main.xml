@@ -37,6 +37,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:menu="@menu/bottom_navi_menu"
             app:labelVisibilityMode="labeled"
+            app:itemTextColor="@color/bottom_menu_selector_color"
+            app:itemIconTint="@color/bottom_menu_selector_color"
             android:onItemSelectedListener="@{(menu) -> vm.setCurrentFragment(menu.itemId)}"
             />
 
