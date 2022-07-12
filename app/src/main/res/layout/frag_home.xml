@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
@@ -37,12 +37,11 @@
                 android:id="@+id/home_appbar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@drawable/border_main_appbar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/appbar_guide"
-
-                android:background="@color/xd_light_background">
+                app:layout_constraintBottom_toBottomOf="@id/appbar_guide">
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gv65"
                     android:layout_width="wrap_content"
@@ -71,17 +70,14 @@
                     android:src="@drawable/logo_with_title_x3" />
                 <ImageButton
                     android:id="@+id/home_notify"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="@id/gv95_2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="1:1"
                     android:src="@drawable/ic_notification"
                     android:scaleType="fitCenter"
-                    android:background="@color/xd_light_transparent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp" />
+                    android:background="@color/xd_light_transparent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,7 +95,11 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true">
+                </androidx.viewpager2.widget.ViewPager2>
                 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                     android:id="@+id/home_banner_indicator"
                     android:layout_width="wrap_content"
@@ -110,9 +110,9 @@
                     android:layout_margin="16dp"
                     app:dotsColor="@color/xd_light_dot_indicator_disabled"
                     app:selectedDotColor="@color/xd_light_dot_indicator_enabled"
-                    app:dotsSize="10dp"
+                    app:dotsSize="6dp"
                     app:dotsSpacing="4dp"
-                    app:progressMode="true" />
+                    app:progressMode="false" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -151,6 +151,9 @@
                     android:id="@+id/home_dpt_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
                     android:text="전체보기 >"
                     android:textColor="@color/xd_light_dot_indicator_enabled"
                     android:textSize="14sp"
@@ -260,7 +263,10 @@
                         android:paddingRight="6dp"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:background="@drawable/home_checkin_border" />
+                        android:background="@drawable/home_checkin_border"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

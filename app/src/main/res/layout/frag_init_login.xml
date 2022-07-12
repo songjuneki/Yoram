@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.InitViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/xd_light_background">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/init_login_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/init_login_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="80dp"
+            android:src="@drawable/logo_with_title_x3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/init_login_name_et_layout"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/init_login_name_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
+            app:layout_constraintRight_toRightOf="@id/init_login_gv95"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_login_name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="이름"
+                android:text="@={vm.inputName}"
+                android:textColorHint="@color/xd_light_text_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/init_login_pw_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_login_name_et_layout"
+            app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
+            app:layout_constraintRight_toRightOf="@id/init_login_gv95"
+            android:layout_marginTop="20dp"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_login_pw_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="비밀번호"
+                android:text="@={vm.inputPw}"
+                android:textColorHint="@color/xd_light_text_hint"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/init_login_text_div"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="20dp"
+            android:text="|"
+            android:textSize="15sp"/>
+
+
+        <TextView
+            android:id="@+id/init_login_find_pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintRight_toLeftOf="@id/init_login_text_div"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="비밀번호 찾기"
+            android:textSize="15sp"
+            android:fontFamily="@font/pretendard_medium" />
+
+        <TextView
+            android:id="@+id/init_login_signup_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintLeft_toRightOf="@id/init_login_text_div"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="회원가입"
+            android:textSize="15sp"
+            android:fontFamily="@font/pretendard_medium" />
+
+
+        <LinearLayout
+            android:id="@+id/init_login_start_btn"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:longClickable="true"
+            android:contextClickable="true"
+            android:onClick="@{() -> vm.btnLogin(vm.inputName, vm.inputPw)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            android:background="@color/xd_light_text_hint">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시작하기"
+                android:textColor="@color/xd_light_background"
+                android:textSize="17sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

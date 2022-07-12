@@ -1,4 +1,6 @@
-<resources >
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
     <style name="Theme.Yoram" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -29,5 +31,6 @@
         <item name="colorShadow">@color/md_theme_light_shadow</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
         <item name="android:statusBarColor">@color/xd_light_background</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

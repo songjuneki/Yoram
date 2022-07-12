@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Yoram">
-        <activity android:name=".Controller.SplashActivity"
+        <activity android:name=".view.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:noHistory="true">
@@ -21,23 +21,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.InitActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:noHistory="true">
+        </activity>
         <activity
-            android:name=".Controller.MainActivity"
+            android:name=".view.activity.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".Controller.LoginActivity"
+        <activity android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-        <activity android:name=".Controller.JoinActivity"
+        <activity android:name=".view.activity.JoinActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
-        <activity android:name=".Controller.PolicyActivity"
+        <activity android:name=".view.activity.PolicyActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Controller.ScannerActivity"
+        <activity android:name=".view.activity.ScannerActivity"
             android:screenOrientation="portrait"/>
 
     </application>

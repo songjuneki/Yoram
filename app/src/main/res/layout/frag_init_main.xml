@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.InitViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/xd_light_background">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/init_login_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/init_login_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="80dp"
+            android:src="@drawable/logo_with_title_x3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/init_login_gologin"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/init_login_gologin"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:padding="16dp"
+            android:background="@drawable/border_init_login_button"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:elevation="0dp"
+            android:layout_marginBottom="8dp"
+            android:text="로그인 하기"
+            android:textColor="@color/xd_light_background"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:onClick="@{(v) -> vm.btnClicked(v.id)}"
+            app:layout_constraintBottom_toTopOf="@id/init_login_signup_btn"
+            app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
+            app:layout_constraintRight_toRightOf="@id/init_login_gv95" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/init_login_signup_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:padding="16dp"
+            android:background="@drawable/border_init_button"
+            android:elevation="0dp"
+            android:layout_marginBottom="8dp"
+            android:text="계정 만들기"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:onClick="@{(v) -> vm.btnClicked(v.id)}"
+            app:layout_constraintBottom_toTopOf="@id/init_login_anonymous_btn"
+            app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
+            app:layout_constraintRight_toRightOf="@id/init_login_gv95" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/init_login_anonymous_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:padding="16dp"
+            android:background="@drawable/border_init_button"
+            android:elevation="0dp"
+            android:layout_marginBottom="60dp"
+            android:text="익명으로 입장하기"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:onClick="@{(v) -> vm.btnClicked(v.id)}"
+            app:layout_constraintBottom_toTopOf="@id/init_login_need_help"
+            app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
+            app:layout_constraintRight_toRightOf="@id/init_login_gv95" />
+
+        <TextView
+            android:id="@+id/init_login_need_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:soundEffectsEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="62dp"
+            android:text="@string/init_login_need_help"
+            android:textSize="14sp"
+            android:textColor="@color/xd_light_weak_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:onClick="@{(v) -> vm.btnClicked(v.id)}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
