@@ -30,4 +30,5 @@
     끝
     </string>
     <string name="init_login_need_help"><u>로그인에 문제가 있으신가요?</u></string>
+    <string name="init_signup_contents">회원가입을 위한\n<b>간단한 정보</b>를 입력해요!</string>
 </resources>

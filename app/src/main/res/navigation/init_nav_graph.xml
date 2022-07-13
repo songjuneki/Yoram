@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/init_nav_graph"
+    app:startDestination="@id/initHomeFragment">
+
+    <fragment
+        android:id="@+id/initHomeFragment"
+        android:name="com.sjk.yoram.view.fragment.init.InitHomeFragment"
+        android:label="InitHomeFragment" >
+        <action
+            android:id="@+id/action_initHomeFragment_to_initLoginFragment"
+            app:destination="@id/initLoginFragment" />
+        <action
+            android:id="@+id/action_initHomeFragment_to_initSignUpFragment"
+            app:destination="@id/initSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/initLoginFragment"
+        android:name="com.sjk.yoram.view.fragment.init.InitLoginFragment"
+        android:label="InitLoginFragment" >
+        <action
+            android:id="@+id/action_initLoginFragment_to_initSignUpFragment"
+            app:destination="@id/initSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/initSignUpFragment"
+        android:name="com.sjk.yoram.view.fragment.init.InitSignUpFragment"
+        android:label="InitSignUpFragment" />
+</navigation>

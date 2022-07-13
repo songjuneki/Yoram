@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.InitViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/xd_light_background">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/init_signup_gv_05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/init_signup_gv_95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <TextView
+            android:id="@+id/init_signup_contents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            android:layout_marginTop="48dp"
+            android:text="@string/init_signup_contents"
+            android:textSize="18sp"
+            android:textColor="@color/xd_light_title"
+            android:fontFamily="@font/pretendard_medium" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/init_signup_name_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_signup_contents"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
+            android:layout_marginTop="50dp"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_signup_name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="* 이름"
+                android:text=""
+                android:textColorHint="@color/xd_light_text_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/init_signup_pw_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_signup_name_et_layout"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
+            android:layout_marginTop="8dp"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_signup_pw_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="* 비밀번호(영문+숫자 8자 이상)"
+                android:text=""
+                android:textColorHint="@color/xd_light_text_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/init_signup_pwv_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_signup_pw_et_layout"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
+            android:layout_marginTop="8dp"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_signup_pwv_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="* 비밀번호 확인"
+                android:text=""
+                android:textColorHint="@color/xd_light_text_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/init_signup_sex_grp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/init_signup_pwv_et_layout"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
+            app:singleSelection="true">
+            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/init_signup_sex_male_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:backgroundTint="#FAFAFA"
+                app:strokeColor="#EDEDED"
+                app:strokeWidth="1dp"
+                android:text="남자"
+                android:textColor="@color/xd_light_text_hint"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_medium" />
+            <com.google.android.material.button.MaterialButton
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/init_signup_sex_female_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:backgroundTint="#FAFAFA"
+                app:strokeColor="#EDEDED"
+                app:strokeWidth="1dp"
+                android:text="여자"
+                android:textColor="@color/xd_light_text_hint"
+                android:textSize="18sp"
+                android:fontFamily="@font/pretendard_medium" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+        <TextView
+            android:id="@+id/init_signup_need_sex_tv"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_signup_sex_grp"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            android:text="성별을 선택해 주세요"
+            android:textSize="16sp"
+            android:textColor="#FF3120"
+            android:fontFamily="@font/pretendard_medium" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/init_signup_bd_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_signup_need_sex_tv"
+            app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
+            app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
+            android:layout_marginTop="8dp"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_signup_bd_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="* 생년월일"
+                android:text=""
+                android:textColorHint="@color/xd_light_text_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/init_signup_next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="false"
+            android:soundEffectsEnabled="true"
+            android:onClick="@{}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            android:background="@color/xd_light_text_hint">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다음으로"
+                android:textColor="@color/xd_light_background"
+                android:textSize="17sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

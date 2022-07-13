@@ -63,7 +63,8 @@
             app:layout_constraintRight_toRightOf="@id/init_login_gv95"
             android:layout_marginTop="20dp"
             android:background="@color/xd_light_transparent"
-            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled">
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/init_login_pw_et"
                 android:layout_width="match_parent"
@@ -75,6 +76,22 @@
                 android:textColorHint="@color/xd_light_text_hint"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/init_login_pw_visible_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_password_show"
+            android:scaleType="fitCenter"
+            android:background="@color/xd_light_transparent"
+            app:layout_constraintTop_toTopOf="@id/init_login_pw_et_layout"
+            app:layout_constraintBottom_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintRight_toRightOf="@id/init_login_pw_et_layout"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="12dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"/>
 
         <TextView
             android:id="@+id/init_login_text_div"
@@ -98,7 +115,10 @@
             android:layout_marginRight="20dp"
             android:text="비밀번호 찾기"
             android:textSize="15sp"
-            android:fontFamily="@font/pretendard_medium" />
+            android:fontFamily="@font/pretendard_medium"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"/>
 
         <TextView
             android:id="@+id/init_login_signup_text"
@@ -110,7 +130,10 @@
             android:layout_marginLeft="20dp"
             android:text="회원가입"
             android:textSize="15sp"
-            android:fontFamily="@font/pretendard_medium" />
+            android:fontFamily="@font/pretendard_medium"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"/>
 
 
         <LinearLayout
@@ -118,9 +141,9 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:orientation="horizontal"
-            android:clickable="true"
-            android:longClickable="true"
-            android:contextClickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="false"
+            android:soundEffectsEnabled="true"
             android:onClick="@{() -> vm.btnLogin(vm.inputName, vm.inputPw)}"
             app:layout_constraintBottom_toBottomOf="parent"
             android:gravity="center"

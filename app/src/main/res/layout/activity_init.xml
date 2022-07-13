@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
@@ -30,14 +30,15 @@
             android:id="@+id/init_frag_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/xd_light_background"/>
+            app:defaultNavHost="true"
+            android:background="@color/xd_light_background" />
 
         <ImageButton
             android:id="@+id/init_back_btn"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:visibility="invisible"
-            android:src="@drawable/shape_arrow_to_back"
+            android:src="@drawable/ic_back"
             android:scaleType="fitCenter"
             android:backgroundTint="@color/xd_light_transparent"
             app:layout_constraintTop_toTopOf="parent"
