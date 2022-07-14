@@ -13,7 +13,7 @@ import com.sjk.yoram.databinding.FragInitLoginBinding
 import com.sjk.yoram.databinding.FragInitSignupBinding
 import com.sjk.yoram.viewmodel.InitViewModel
 
-class InitSignUpFragment: Fragment(R.layout.frag_init_signup) {
+class InitSignUpFragment: Fragment() {
     private lateinit var binding: FragInitSignupBinding
     private lateinit var viewModel: InitViewModel
 
@@ -31,5 +31,7 @@ class InitSignUpFragment: Fragment(R.layout.frag_init_signup) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
     }
 }

@@ -33,8 +33,9 @@ class SplashActivity: AppCompatActivity() {
 
                 if (isInit) {
                     // 앱 초기 상태일시
-                    startActivity(initIntent)
+                    initIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     finish()
+                    startActivity(initIntent)
                 } else {
                     // 앱 초기 진행 했을 시
                     val localId = sharedPref.getInt(getString(R.string.YORAM_LOCAL_PREF_MYID), -1)

@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/init_nav_graph"
     app:startDestination="@id/initHomeFragment">
 
     <fragment
         android:id="@+id/initHomeFragment"
         android:name="com.sjk.yoram.view.fragment.init.InitHomeFragment"
-        android:label="InitHomeFragment" >
+        android:label=""
+        tools:layout="@layout/frag_init_main">
         <action
-            android:id="@+id/action_initHomeFragment_to_initLoginFragment"
-            app:destination="@id/initLoginFragment" />
+            android:id="@+id/action_initHome_to_initLogin"
+            app:destination="@id/initLoginFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_initHomeFragment_to_initSignUpFragment"
+            android:id="@+id/action_initHome_to_initSignUp"
             app:destination="@id/initSignUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/initLoginFragment"
         android:name="com.sjk.yoram.view.fragment.init.InitLoginFragment"
-        android:label="InitLoginFragment" >
+        android:label="로그인"
+        tools:layout="@layout/frag_init_login">
         <action
-            android:id="@+id/action_initLoginFragment_to_initSignUpFragment"
-            app:destination="@id/initSignUpFragment" />
+            android:id="@+id/action_initLogin_to_initSignup"
+            app:destination="@id/initSignUpFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="로그인" />
     </fragment>
     <fragment
         android:id="@+id/initSignUpFragment"
         android:name="com.sjk.yoram.view.fragment.init.InitSignUpFragment"
-        android:label="InitSignUpFragment" />
+        android:label="회원가입"
+        tools:layout="@layout/frag_init_signup">
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="회원가입" />
+    </fragment>
 </navigation>
