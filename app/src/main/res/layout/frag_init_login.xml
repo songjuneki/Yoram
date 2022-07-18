@@ -54,7 +54,6 @@
             android:textSize="18sp"
             android:fontFamily="@font/pretendard_semibold" />
 
-
         <ImageView
             android:layout_width="256dp"
             android:layout_height="80dp"
@@ -109,7 +108,6 @@
             app:passwordToggleTint="#000f"
             app:passwordToggleTintMode="src_over"
             app:errorEnabled="true">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/init_login_pw_et"
                 android:layout_width="match_parent"
@@ -122,20 +120,6 @@
                 android:textColorHint="@color/xd_light_text_hint" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
-            style="@style/IconButton"
-            android:id="@+id/init_login_pw_visible_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_password_show"
-            app:iconTintMode="add"
-            app:iconTint="#000f"
-            app:strokeWidth="0dp"
-            app:layout_constraintTop_toTopOf="@id/init_login_pw_et_layout"
-            app:layout_constraintRight_toRightOf="@id/init_login_pw_et_layout"
-            android:layout_marginTop="8dp"
-            android:onClick="@{(v) -> vm.secureChanged(v)}"/>
 
         <TextView
             android:id="@+id/init_login_text_div"

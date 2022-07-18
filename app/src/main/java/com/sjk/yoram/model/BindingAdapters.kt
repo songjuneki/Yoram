@@ -50,4 +50,47 @@ object BindingAdapters {
         view.addOnButtonCheckedListener(listener)
     }
 
+
+    @BindingAdapter("sexState")
+    @JvmStatic
+    fun setSexState(view: MaterialButtonToggleGroup, sexState: SexState?) {
+        if (sexState == null)
+            view.clearChecked()
+        else if (sexState == SexState.MALE)
+            view.check(R.id.init_signup_sex_male_btn)
+        else if (sexState == SexState.FEMALE)
+            view.check(R.id.init_signup_sex_female_btn)
+        else
+            view.clearChecked()
+    }
+    @InverseBindingAdapter(attribute = "sexState", event = "sexStateChanged")
+    @JvmStatic
+    fun getSexState(view: MaterialButtonToggleGroup): SexState {
+        return if (view.checkedButtonId == R.id.init_signup_sex_male_btn)
+            SexState.MALE
+        else if (view.checkedButtonId == R.id.init_signup_sex_female_btn)
+            SexState.FEMALE
+        else
+            SexState.NONE
+    }
+    @BindingAdapter("sexStateChanged")
+    @JvmStatic
+    fun sexStateChange(view: MaterialButtonToggleGroup, listener: InverseBindingListener) {
+        view.clearOnButtonCheckedListeners()
+        view.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            listener.onChange()
+        }
+    }
+
+
+    @BindingAdapter("findSexCheckedButton")
+    @JvmStatic
+    fun findSexCheckedButton(view: MaterialButtonToggleGroup, sexState: SexState) {
+        when (sexState) {
+            SexState.NONE -> view.clearChecked()
+            SexState.MALE -> view.check(R.id.init_signup_sex_male_btn)
+            SexState.FEMALE -> view.check(R.id.init_signup_sex_female_btn)
+        }
+    }
+
 }

@@ -6,6 +6,21 @@
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.InitViewModel" />
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="pw"
+            type="String" />
+        <variable
+            name="pwv"
+            type="String" />
+        <variable
+            name="sex"
+            type="SexState" />
+        <variable
+            name="bd"
+            type="String" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -69,6 +84,9 @@
             android:layout_marginTop="50dp"
             android:background="@color/xd_light_transparent"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:hintEnabled="true"
+            android:hint="* 이름"
+            app:hintTextColor="@color/xd_light_text_hint"
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/init_signup_name_et"
@@ -76,9 +94,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/xd_light_transparent"
                 android:fontFamily="@font/pretendard_medium"
-                android:hint="* 이름"
-                android:text="@={vm.inputName}"
-                android:textColorHint="@color/xd_light_text_hint" />
+                android:text="@={name}"
+                android:textColorHint="@color/xd_light_title" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -91,6 +108,13 @@
             android:layout_marginTop="8dp"
             android:background="@color/xd_light_transparent"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            android:hint="* 비밀번호(영문+숫자 8자 이상)"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/xd_light_text_hint"
+            app:passwordToggleDrawable="@drawable/ic_password_selector"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#000f"
+            app:passwordToggleTintMode="src_over"
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/init_signup_pw_et"
@@ -98,9 +122,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/xd_light_transparent"
                 android:fontFamily="@font/pretendard_medium"
-                android:hint="* 비밀번호(영문+숫자 8자 이상)"
-                android:text="@={vm.inputPw}"
-                android:textColorHint="@color/xd_light_text_hint" />
+                android:text="@={pw}"
+                android:textColorHint="@color/xd_light_title"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -113,6 +137,13 @@
             android:layout_marginTop="8dp"
             android:background="@color/xd_light_transparent"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:hintEnabled="true"
+            android:hint="* 비밀번호 확인"
+            app:hintTextColor="@color/xd_light_text_hint"
+            app:passwordToggleDrawable="@drawable/ic_password_selector"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#000f"
+            app:passwordToggleTintMode="src_over"
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/init_signup_pwv_et"
@@ -120,9 +151,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/xd_light_transparent"
                 android:fontFamily="@font/pretendard_medium"
-                android:hint="* 비밀번호 확인"
-                android:text="@={vm.inputPwv}"
-                android:textColorHint="@color/xd_light_text_hint" />
+                android:text="@={pwv}"
+                android:textColorHint="@color/xd_light_title"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButtonToggleGroup
@@ -134,8 +165,9 @@
             app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
             app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
             app:singleSelection="true"
-            android:divider="@{vm.sex.equals(SexState.NONE) ? @color/xd_light_state_button_stroke : @color/xd_light_dot_indicator_enabled}"
-            onCheckedChanged="@{(v, checkedId, isChecked) -> vm.sexBtnClick(v, checkedId, isChecked)}">
+            android:divider="@{vm.newSex.equals(SexState.NONE) ? @color/xd_light_state_button_stroke : @color/xd_light_dot_indicator_enabled}"
+            sexState="@={sex}">
+            <!--onCheckedChanged="@{(v, checkedId, isChecked) -> vm.sexBtnClick(v, checkedId, isChecked)}"> -->
             <com.google.android.material.button.MaterialButton
                 style="@style/ToggleButtonStyle"
                 android:theme="@style/ToggleButtonStyle"
@@ -187,6 +219,9 @@
             android:layout_marginTop="8dp"
             android:background="@color/xd_light_transparent"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:hintEnabled="true"
+            android:hint="* 생년월일"
+            app:hintTextColor="@color/xd_light_text_hint"
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/init_signup_bd_et"
@@ -194,32 +229,26 @@
                 android:layout_height="wrap_content"
                 android:background="@color/xd_light_transparent"
                 android:fontFamily="@font/pretendard_medium"
-                android:hint="* 생년월일"
-                android:text=""
-                android:textColorHint="@color/xd_light_text_hint" />
+                android:text="@={bd}"
+                android:textColorHint="@color/xd_light_title" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/init_signup_next_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:orientation="horizontal"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:soundEffectsEnabled="true"
-            android:onClick="@{() -> vm.btnSignUpNext()}"
+            android:background="@{name.length() > 0 ? (pw.length() > 0 ? (pwv.length() > 0 ? ((sex ?? SexState.NONE) != SexState.NONE ? (bd.length() > 0 ? @color/xd_light_dot_indicator_enabled : @color/xd_light_text_hint) : @color/xd_light_text_hint) : @color/xd_light_text_hint) : @color/xd_light_text_hint) : @color/xd_light_text_hint}"
+            android:text="다음으로"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center"
-            android:background="@color/xd_light_text_hint">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="다음으로"
-                android:textColor="@color/xd_light_background"
-                android:textSize="17sp"
-                android:fontFamily="@font/pretendard_bold"
-                android:layout_gravity="center" />
-        </LinearLayout>
+            android:onClick="@{() -> vm.btnSignup(name, pw, pwv, sex, bd)}"
+            android:clickable="@{name.length() > 0 ? (pw.length() > 0 ? (pwv.length() > 0 ? ((sex ?? SexState.NONE) != SexState.NONE ? (bd.length() > 0 ? true : false) : false) : false) : false) : false}"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

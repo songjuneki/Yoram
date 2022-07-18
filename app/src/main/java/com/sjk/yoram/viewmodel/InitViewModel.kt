@@ -2,7 +2,9 @@ package com.sjk.yoram.viewmodel
 
 import android.app.Application
 import android.graphics.drawable.Drawable
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
@@ -37,20 +39,23 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     val naviAction: LiveData<Event<Int>>
         get() = _naviActon
 
-    val isloginPwHide = MutableLiveData<Boolean>()
 
-    val inputName = MutableLiveData<String>()
-    val inputPw = MutableLiveData<String>()
-    val inputPwv = MutableLiveData<String>()
-    val sex = MutableLiveData<SexState>()
-    val maleCheck = MutableLiveData<Boolean>()
-    val femaleCheck = MutableLiveData<Boolean>()
-    val inputBD = MutableLiveData<String>()
+    val newName = MutableLiveData<String>()
+    val newPw = MutableLiveData<String>()
+    val newPwV = MutableLiveData<String>()
+    val newSex = MutableLiveData<SexState>()
+    val newBD = MutableLiveData<String>()
+
+    val isReqInput = MutableLiveData<Boolean>()
 
     init {
         _currentFragment.value = InitFragmentType.InitFragment_HOME
-        isloginPwHide.value = true
-        sex.value = SexState.NONE
+        newName.value = ""
+        newPw.value = ""
+        newPwV.value = ""
+        newSex.value = SexState.NONE
+        newBD.value = ""
+        isReqInput.value = false
     }
 
     private fun changeFragment(actionId: Int, fragmentType: InitFragmentType) {
@@ -71,43 +76,43 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
         }
     }
 
-    fun secureChanged(view: View) {
-        when(view.id) {
-            R.id.init_login_pw_visible_btn -> {
-                isloginPwHide.value = !isloginPwHide.value!!
-                if (isloginPwHide.value!!)
-                    (view as MaterialButton).setIconResource(R.drawable.ic_password_show)
-                else
-                    (view as MaterialButton).setIconResource(R.drawable.ic_password_hide)
-            }
-        }
+    fun onReqInputChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        this.isReqInput.value = isNewUserAllDone()
     }
+
 
     fun sexBtnClick(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
         when (checkedId) {
             R.id.init_signup_sex_male_btn -> {
-                if (sex.value != SexState.MALE) {
-                    if (isChecked) sex.value = SexState.MALE
+                if (newSex.value != SexState.MALE) {
+                    if (isChecked) newSex.value = SexState.MALE
                 }
-                else sex.value = SexState.NONE
+                else newSex.value = SexState.NONE
             }
             R.id.init_signup_sex_female_btn -> {
-                if (sex.value != SexState.FEMALE) {
-                    if (isChecked) sex.value = SexState.FEMALE
+                if (newSex.value != SexState.FEMALE) {
+                    if (isChecked) newSex.value = SexState.FEMALE
                 }
-                else sex.value = SexState.NONE
+                else newSex.value = SexState.NONE
             }
         }
+        this.isReqInput.value = isNewUserAllDone()
     }
 
+
+    private fun isNewUserAllDone(): Boolean {
+        if (newName.value!!.isNotEmpty() && newPw.value!!.isNotEmpty() && newPwV.value!!.isNotEmpty() && newSex.value!! != SexState.NONE && newBD.value!!.isNotEmpty())
+            return true
+        return false
+    }
 
 
     fun btnLogin(id: String, pw: String) {
         Log.d("JKJK", "Login id:$id, pw:$pw")
     }
 
-    fun btnSignUpNext() {
-        Log.d("JKJK", "name=${inputName.value}, pw=${inputPw.value}, pwv=${inputPwv.value}, sex=${sex.value}")
+    fun btnSignup(name: String, pw: String, pwv: String, sex: SexState, bd:String) {
+        Log.d("JKJK", "Sign up name:$name, pw:$pw, pwv:$pwv, sex:${sex.name}, bd:$bd")
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
