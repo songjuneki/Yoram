@@ -36,7 +36,8 @@ class InitHomeFragment: Fragment() {
             event.getContentIfNotHandled()?.let {
                 val main = Intent(context, MainActivity::class.java)
                 main.putExtra("loginID", -1)
-                main.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 requireActivity().finish()
                 startActivity(main)
             }
@@ -47,6 +48,11 @@ class InitHomeFragment: Fragment() {
                 findNavController().navigate(it)
             }
         }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.initialize()
     }
 
 }

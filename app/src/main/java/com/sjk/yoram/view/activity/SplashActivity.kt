@@ -33,7 +33,8 @@ class SplashActivity: AppCompatActivity() {
 
                 if (isInit) {
                     // 앱 초기 상태일시
-                    initIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    initIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    initIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     finish()
                     startActivity(initIntent)
                 } else {
@@ -63,6 +64,21 @@ class SplashActivity: AppCompatActivity() {
                     .create().show()
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        overridePendingTransition(0 , 0)
     }
 
 }

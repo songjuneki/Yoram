@@ -11,6 +11,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.textfield.TextInputEditText
 import com.sjk.yoram.R
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.InitFragmentType
@@ -39,23 +40,23 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     val naviAction: LiveData<Event<Int>>
         get() = _naviActon
 
-
     val newName = MutableLiveData<String>()
     val newPw = MutableLiveData<String>()
     val newPwV = MutableLiveData<String>()
     val newSex = MutableLiveData<SexState>()
     val newBD = MutableLiveData<String>()
 
-    val isReqInput = MutableLiveData<Boolean>()
-
     init {
+        initialize()
+    }
+
+    fun initialize() {
         _currentFragment.value = InitFragmentType.InitFragment_HOME
         newName.value = ""
         newPw.value = ""
         newPwV.value = ""
         newSex.value = SexState.NONE
         newBD.value = ""
-        isReqInput.value = false
     }
 
     private fun changeFragment(actionId: Int, fragmentType: InitFragmentType) {
@@ -73,14 +74,16 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
             R.id.init_go_anonymous_btn -> _anonymousBtnEvent.value = Event(Unit)
 
             R.id.init_login_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
+
+            R.id.init_signup_bd_et -> changeFragment(R.id.action_initSignup_to_dialogBD, InitFragmentType.InitFragment_Dialog_BD)
         }
     }
 
-    fun onReqInputChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        this.isReqInput.value = isNewUserAllDone()
+    fun newInputCheck() {
+
     }
 
-
+    /* Not used
     fun sexBtnClick(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
         when (checkedId) {
             R.id.init_signup_sex_male_btn -> {
@@ -96,11 +99,15 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
                 else newSex.value = SexState.NONE
             }
         }
-        this.isReqInput.value = isNewUserAllDone()
+    }
+    */
+
+    fun setBD(birth: String) {
+        newBD.postValue(birth)
     }
 
 
-    private fun isNewUserAllDone(): Boolean {
+    fun isNewUserDone(): Boolean {
         if (newName.value!!.isNotEmpty() && newPw.value!!.isNotEmpty() && newPwV.value!!.isNotEmpty() && newSex.value!! != SexState.NONE && newBD.value!!.isNotEmpty())
             return true
         return false
@@ -111,8 +118,8 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
         Log.d("JKJK", "Login id:$id, pw:$pw")
     }
 
-    fun btnSignup(name: String, pw: String, pwv: String, sex: SexState, bd:String) {
-        Log.d("JKJK", "Sign up name:$name, pw:$pw, pwv:$pwv, sex:${sex.name}, bd:$bd")
+    fun btnSignup(name: String, pw: String, pwv: String, sex: SexState) {
+        Log.d("JKJK", "Sign up name:$name, pw:$pw, pwv:$pwv, sex:${sex.name}, bd:${newBD.value}")
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

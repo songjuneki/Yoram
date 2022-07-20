@@ -29,5 +29,7 @@
         <item name="colorShadow">@color/md_theme_light_shadow</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/xd_light_background</item>
+        <item name="bottomSheetDialogTheme">@style/RoundedBottomSheetDialog</item>
+        <item name="bottomSheetStyle">@style/RoundedBottomSheetDialog</item>
     </style>
 </resources>

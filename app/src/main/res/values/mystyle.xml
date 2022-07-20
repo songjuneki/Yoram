@@ -5,6 +5,11 @@
         <item name="fontFamily">@font/pretendard_semibold</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="ErrorInputTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/xd_light_red_highlight</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="ToggleButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="backgroundTint">@color/xd_light_state_button_background</item>
         <item name="strokeColor">@color/stroke_toggle_button_selector_color</item>
@@ -18,5 +23,16 @@
         <item name="android:paddingRight">12dp</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
+    </style>
+    <style name="RoundedBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">5dp</item>
+        <item name="cornerSizeTopRight">5dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_to_top</item>
+        <item name="android:windowExitAnimation">@anim/anim_top_to_bottom</item>
+        <item name="android:fragmentOpenEnterAnimation">@anim/anim_bottom_to_top</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/anim_top_to_bottom</item>
     </style>
 </resources>
