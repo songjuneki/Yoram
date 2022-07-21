@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.sjk.yoram.model.SexState" />
+        <import type="com.sjk.yoram.model.NewUser"/>
+        <import type="com.sjk.yoram.model.SexState"/>
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.InitViewModel" />
@@ -81,9 +82,10 @@
                     app:hintEnabled="true"
                     android:hint="* 이름"
                     app:hintTextColor="@color/xd_light_text_hint"
+                    inputTextChanged="@{vm.nameInputChanged}"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@null"
-                    app:errorTextAppearance="@style/ErrorInputTextStyle">
+                    app:errorTextAppearance="@style/ErrorInputTextStyle" >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/init_signup_name_et"
                         android:layout_width="match_parent"
@@ -111,6 +113,7 @@
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="#000f"
                     app:passwordToggleTintMode="src_over"
+                    inputTextChanged="@{vm.pwInputChanged}"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@null"
                     app:errorTextAppearance="@style/ErrorInputTextStyle">
@@ -142,6 +145,7 @@
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="#000f"
                     app:passwordToggleTintMode="src_over"
+                    inputTextChanged="@{vm.pwValidInputChanged}"
                     app:errorEnabled="true"
                     app:errorIconDrawable="@null"
                     app:errorTextAppearance="@style/ErrorInputTextStyle">
@@ -167,7 +171,6 @@
                     app:singleSelection="true"
                     android:divider="@{vm.newSex.equals(SexState.NONE) ? @color/xd_light_state_button_stroke : @color/xd_light_dot_indicator_enabled}"
                     sexState="@={vm.newSex}">
-                    <!--onCheckedChanged="@{(v, checkedId, isChecked) -> vm.sexBtnClick(v, checkedId, isChecked)}"> -->
                     <com.google.android.material.button.MaterialButton
                         style="@style/ToggleButtonStyle"
                         android:theme="@style/ToggleButtonStyle"
@@ -251,7 +254,7 @@
             android:textSize="17sp"
             android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="@{() -> vm.btnSignup(vm.newName, vm.newPw, vm.newPwV, vm.newSex)}"
+            android:onClick="@{() -> vm.btnSignup()}"
             android:clickable="@{((vm.newName.length > 0) &amp;&amp; (vm.newPw.length > 0) &amp;&amp; (vm.newPwV.length > 0) &amp;&amp; (vm.newSex != SexState.NONE) &amp;&amp; (vm.newBD.length > 0)) ? true : false}"
             android:foreground="?attr/selectableItemBackground"
             android:soundEffectsEnabled="true"

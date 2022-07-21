@@ -31,4 +31,7 @@
     </string>
     <string name="init_login_need_help"><u>로그인에 문제가 있으신가요?</u></string>
     <string name="init_signup_contents">회원가입을 위한\n<b>간단한 정보</b>를 입력해요!</string>
+    <string name="init_signup_add_contents"><b>추가 정보</b>를 입력하는\n마지막 단계입니다!</string>
+    <string name="init_signup_rule"><u>이용약관(필수)</u></string>
+    <string name="init_signup_privacy_rule"><u>개인정보 처리방침(필수)</u></string>
 </resources>

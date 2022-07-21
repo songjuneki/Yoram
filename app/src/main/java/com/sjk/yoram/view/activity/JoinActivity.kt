@@ -110,7 +110,7 @@ class JoinActivity: AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 newUser.fname = binding.joinFnameEt.text.toString()
                 newUser.lname = binding.joinLnameEt.text.toString()
-                newUser.sex = binding.joinSexM.isChecked
+//                newUser.sex = binding.joinSexM.isChecked
                 val key = binding.joinPwEt.text.toString()
                 newUser.pw = EncryptKey(key)
 
@@ -199,7 +199,7 @@ class JoinActivity: AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                newUser.tel1 = p0!!.toString()
+                newUser.tel = p0!!.toString()
             }
         })
 

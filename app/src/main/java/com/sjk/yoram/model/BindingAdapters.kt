@@ -1,12 +1,18 @@
 package com.sjk.yoram.model
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.children
 import androidx.core.view.iterator
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.*
+import androidx.databinding.adapters.TextViewBindingAdapter
 import coil.load
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 
 object BindingAdapters {
@@ -48,6 +54,21 @@ object BindingAdapters {
     fun setOnCheckedButtonChanged(view: MaterialButtonToggleGroup, listener: MaterialButtonToggleGroup.OnButtonCheckedListener) {
         view.clearOnButtonCheckedListeners()
         view.addOnButtonCheckedListener(listener)
+    }
+
+    @BindingAdapter("inputTextChanged")
+    @JvmStatic
+    fun setOnInputTextChanged(view: TextInputLayout, textChanged: TextInputChanged) {
+        if (view.editText == null)
+            return
+        val watcher = object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                textChanged.onTextChanged(view, p0.toString())
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+        }
+        view.editText!!.addTextChangedListener(watcher)
     }
 
 

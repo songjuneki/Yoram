@@ -7,15 +7,16 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
+import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
-import com.sjk.yoram.model.Event
-import com.sjk.yoram.model.InitFragmentType
-import com.sjk.yoram.model.SexState
+import com.sjk.yoram.model.*
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 
@@ -39,6 +40,8 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     private val _naviActon = MutableLiveData<Event<Int>>()
     val naviAction: LiveData<Event<Int>>
         get() = _naviActon
+
+    private val _newUser = NewUser()
 
     val newName = MutableLiveData<String>()
     val newPw = MutableLiveData<String>()
@@ -103,7 +106,7 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     */
 
     fun setBD(birth: String) {
-        newBD.postValue(birth)
+        newBD.value = birth
     }
 
 
@@ -113,13 +116,50 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
         return false
     }
 
+    val nameInputChanged = object: TextInputChanged {
+        override fun onTextChanged(view: TextInputLayout, input: String) {
+            val regex = Regex("^[가-힣]+$")
+            if (input.isEmpty())
+                view.error = ""
+            else if (input.matches(regex))
+                view.error = ""
+            else
+                view.error = "올바른 이름을 입력해 주세요"
+        }
+    }
+
+    val pwInputChanged = object: TextInputChanged {
+        override fun onTextChanged(view: TextInputLayout, input: String) {
+            val regex = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
+            if (input.isEmpty() || input.matches(regex))
+                view.error = ""
+            else
+                view.error = "영문+숫자 8자리를 조합하여 입력해주세요"
+        }
+    }
+
+    val pwValidInputChanged = object: TextInputChanged {
+        override fun onTextChanged(view: TextInputLayout, input: String) {
+            val pw = newPw.value
+            if (input.isEmpty() || input == pw)
+                view.error = ""
+            else
+                view.error = "비밀번호가 일치하지 않습니다."
+        }
+    }
 
     fun btnLogin(id: String, pw: String) {
         Log.d("JKJK", "Login id:$id, pw:$pw")
     }
 
-    fun btnSignup(name: String, pw: String, pwv: String, sex: SexState) {
-        Log.d("JKJK", "Sign up name:$name, pw:$pw, pwv:$pwv, sex:${sex.name}, bd:${newBD.value}")
+    fun btnSignup() {
+        _newUser.name = newName.value ?: ""
+        _newUser.pw = newPw.value ?: ""
+        _newUser.pw = AESUtil().Encrypt(_newUser.pw)
+        _newUser.sex = newSex.value ?: SexState.MALE
+        _newUser.birth = newBD.value ?: ""
+        Log.d("JKJK", "Sign up ${newName.value}, ${newPw.value}, ${newSex.value}, ${newBD.value}")
+        Log.d("JKJK", "Sign up newUser=$_newUser")
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

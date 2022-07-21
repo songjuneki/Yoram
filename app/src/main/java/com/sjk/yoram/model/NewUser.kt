@@ -1,15 +1,20 @@
 package com.sjk.yoram.model
 
 data class NewUser(
+    var name: String,
     var fname: String,
     var lname: String,
-    var sex: Boolean,
+    var sex: SexState,
     var birth: String,
     var pw: String,
-    var tel1: String,
-    var tel2: String,
+    var phone: String,
+    var tel: String,
     var address: String,
-    var carno: String
+    var address_more: String,
+    var car: String
 ) {
-    constructor(): this("","",true, "","", "", "", "", "")
+    constructor(): this("", "","",SexState.NONE, "","", "", "", "", "", "")
+    fun checkInput(): Boolean {
+        return name.isNotEmpty() && pw.isNotEmpty() && sex != SexState.NONE && birth.isNotEmpty()
+    }
 }

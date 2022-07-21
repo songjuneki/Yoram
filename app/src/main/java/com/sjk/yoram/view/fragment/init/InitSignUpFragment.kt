@@ -39,33 +39,6 @@ class InitSignUpFragment: Fragment() {
                 findNavController().navigate(it)
             }
         }
-
-        viewModel.newName.observe(viewLifecycleOwner) { name ->
-            if (name.isEmpty())
-                binding.initSignupNameEtLayout.error = ""
-            else if (name.length == 1)
-                binding.initSignupNameEtLayout.error = "두 글자 이상 입력해주세요"
-            else if (!name.matches(korNameRegex))
-                binding.initSignupNameEtLayout.error = "한글만 입력해주세요"
-            else
-                binding.initSignupNameEtLayout.error = ""
-        }
-
-        viewModel.newPw.observe(viewLifecycleOwner) { pw ->
-            if (pw.isEmpty() || pw.matches(pwRegex))
-                binding.initSignupPwEtLayout.error = ""
-            else
-                binding.initSignupPwEtLayout.error = "영문+숫자 8자리 이상 입력해주세요"
-        }
-
-        viewModel.newPwV.observe(viewLifecycleOwner) { pw ->
-            if (pw.isEmpty())
-                binding.initSignupPwvEtLayout.error = ""
-            else if (pw == viewModel.newPw.value)
-                binding.initSignupPwvEtLayout.error = ""
-            else
-                binding.initSignupPwvEtLayout.error = "비밀번호가 일치하지 않습니다."
-        }
     }
 
     override fun onResume() {
