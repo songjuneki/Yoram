@@ -1,6 +1,5 @@
-package com.sjk.yoram.model.adapter
+package com.sjk.yoram.model.ui.adapter
 
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup

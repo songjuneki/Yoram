@@ -22,6 +22,7 @@ class InitBDDialogFragment: BottomSheetDialogFragment() {
     ): View? {
         viewModel = ViewModelProvider(requireActivity()).get(InitViewModel::class.java)
         binding = DialogBirthdayBinding.inflate(layoutInflater)
+        binding.vm = viewModel
         initView()
 
         return binding.root
@@ -35,12 +36,11 @@ class InitBDDialogFragment: BottomSheetDialogFragment() {
         val month = bd.substring(5, 7).toInt()
         val day = bd.substring(8, 10).toInt()
         binding.dialogBdPicker.updateDate(year, month-1, day)
-        binding.dialogBdCancel.setOnClickListener { dismiss() }
         binding.dialogBdOk.setOnClickListener {
             viewModel.setBD("${binding.dialogBdPicker.year}-${String.format("%02d", binding.dialogBdPicker.month+1)}-${binding.dialogBdPicker.dayOfMonth}")
             dismiss()
         }
     }
 
-    override fun getTheme(): Int = R.style.RoundedBottomSheetDialog
+    override fun getTheme(): Int = R.style.DraggableRoundedBottomSheetDialog
 }

@@ -1,26 +1,18 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
-import android.graphics.drawable.Drawable
-import android.text.Editable
-import android.text.InputType
-import android.text.TextWatcher
 import android.util.Log
-import android.view.View
-import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
-import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.*
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
+import com.sjk.yoram.model.dto.Juso
+import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
+import kotlinx.coroutines.*
 
-class InitViewModel(private val userRepository: UserRepository): ViewModel() {
+class InitViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
     private val _backBtnEvent = MutableLiveData<Event<Unit>>()
     val backBtnEvent: LiveData<Event<Unit>>
         get() = _backBtnEvent
@@ -49,6 +41,24 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     val newSex = MutableLiveData<SexState>()
     val newBD = MutableLiveData<String>()
 
+    val newPhone = MutableLiveData<String>()
+    val newTel = MutableLiveData<String>()
+    val newAdd = MutableLiveData<String>()
+
+
+    private val _addrKeyword = MutableLiveData<String>()
+    val addrKeyword: LiveData<String>
+        get() = _addrKeyword
+
+    private val _addrSearchResult = MutableLiveData<List<Juso>>()
+    val addrSearchResult: LiveData<List<Juso>>
+        get() = _addrSearchResult
+
+    private val _roadAddr = MutableLiveData<String>()
+    val roadAddr: LiveData<String>
+        get() = _roadAddr
+
+
     init {
         initialize()
     }
@@ -60,6 +70,12 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
         newPwV.value = ""
         newSex.value = SexState.NONE
         newBD.value = ""
+
+        newPhone.value = ""
+        newTel.value = ""
+        newAdd.value = ""
+        _addrKeyword.value = ""
+        _roadAddr.value = ""
     }
 
     private fun changeFragment(actionId: Int, fragmentType: InitFragmentType) {
@@ -70,6 +86,8 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     fun btnClick(btnId: Int) {
         when(btnId) {
             R.id.init_back_btn -> _backBtnEvent.value = Event(Unit)
+            R.id.dialog_bd_cancel -> _backBtnEvent.value = Event(Unit)
+            R.id.dialog_address_close -> {_backBtnEvent.value = Event(Unit); _addrKeyword.value = ""; _addrSearchResult.value = listOf()}
 
             R.id.init_go_login_btn -> changeFragment(R.id.action_initHome_to_initLogin, InitFragmentType.InitFragment_LOGIN)
             R.id.init_go_signup_btn -> changeFragment(R.id.action_initHome_to_initSignUp, InitFragmentType.InitFragment_SIGNUP)
@@ -79,12 +97,11 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
             R.id.init_login_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
 
             R.id.init_signup_bd_et -> changeFragment(R.id.action_initSignup_to_dialogBD, InitFragmentType.InitFragment_Dialog_BD)
+            R.id.init_signup_address_et -> changeFragment(R.id.action_initSignUpAdd_to_dialogAdd, InitFragmentType.InitFragment_Dialog_ADD)
+
         }
     }
 
-    fun newInputCheck() {
-
-    }
 
     /* Not used
     fun sexBtnClick(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
@@ -110,14 +127,8 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     }
 
 
-    fun isNewUserDone(): Boolean {
-        if (newName.value!!.isNotEmpty() && newPw.value!!.isNotEmpty() && newPwV.value!!.isNotEmpty() && newSex.value!! != SexState.NONE && newBD.value!!.isNotEmpty())
-            return true
-        return false
-    }
-
     val nameInputChanged = object: TextInputChanged {
-        override fun onTextChanged(view: TextInputLayout, input: String) {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
             val regex = Regex("^[가-힣]+$")
             if (input.isEmpty())
                 view.error = ""
@@ -129,7 +140,7 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     }
 
     val pwInputChanged = object: TextInputChanged {
-        override fun onTextChanged(view: TextInputLayout, input: String) {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
             val regex = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
             if (input.isEmpty() || input.matches(regex))
                 view.error = ""
@@ -139,12 +150,32 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
     }
 
     val pwValidInputChanged = object: TextInputChanged {
-        override fun onTextChanged(view: TextInputLayout, input: String) {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
             val pw = newPw.value
             if (input.isEmpty() || input == pw)
                 view.error = ""
             else
                 view.error = "비밀번호가 일치하지 않습니다."
+        }
+    }
+
+    val addrSearchInputChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            _addrKeyword.value = input
+            if (input.isEmpty()) _addrSearchResult.value = listOf()
+            addrSearchJob?.cancel()
+            searchAddr(input)
+        }
+    }
+
+    private var addrSearchJob: Job? = null
+
+    val addrItemClickListener = object: AddressItemClickListener {
+        override fun onClick(juso: Juso) {
+            _roadAddr.value = juso.roadAddr
+            _addrKeyword.value = ""
+            _addrSearchResult.value = listOf()
+            _backBtnEvent.value = Event(Unit)
         }
     }
 
@@ -160,11 +191,19 @@ class InitViewModel(private val userRepository: UserRepository): ViewModel() {
         _newUser.birth = newBD.value ?: ""
         Log.d("JKJK", "Sign up ${newName.value}, ${newPw.value}, ${newSex.value}, ${newBD.value}")
         Log.d("JKJK", "Sign up newUser=$_newUser")
+        changeFragment(R.id.action_initSignUp_to_initSignUpAdd, InitFragmentType.InitFragment_SIGNUP_ADD)
+    }
+
+    private fun searchAddr(keyword: String) {
+        addrSearchJob = viewModelScope.launch {
+            val result = serverRepository.searchAddress(keyword)
+            _addrSearchResult.value = result
+        }
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return InitViewModel(UserRepository.getInstance(application)!!) as T
+            return InitViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!) as T
         }
     }
 }

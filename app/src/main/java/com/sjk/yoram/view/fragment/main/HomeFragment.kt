@@ -1,20 +1,15 @@
 package com.sjk.yoram.view.fragment.main
 
-import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragHomeBinding
-import com.sjk.yoram.model.adapter.HomeBannerAdapter
-import com.sjk.yoram.viewmodel.FragDptmentViewModel
+import com.sjk.yoram.model.ui.adapter.HomeBannerAdapter
 import com.sjk.yoram.viewmodel.FragHomeViewModel
 
 class HomeFragment: Fragment(R.layout.frag_home) {

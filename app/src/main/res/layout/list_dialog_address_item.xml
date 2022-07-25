@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="juso"
+            type="com.sjk.yoram.model.dto.Juso" />
+        <variable
+            name="listener"
+            type="com.sjk.yoram.model.ui.listener.AddressItemClickListener" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_address_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/xd_light_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:longClickable="true"
+        android:contextClickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:soundEffectsEnabled="true"
+        android:hapticFeedbackEnabled="true"
+        android:onClick="@{() -> listener.onClick(juso)}">
+        <TextView
+            android:id="@+id/list_road_address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="12dp"
+            android:text="도로명주소"
+            android:textSize="14sp"
+            android:textColor="@color/xd_light_title"
+            android:fontFamily="@font/pretendard_medium" />
+        <TextView
+            android:id="@+id/list_address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/list_road_address_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="12dp"
+            android:text="지번주소"
+            android:textSize="12sp"
+            android:textColor="@color/xd_light_text_hint"
+            android:fontFamily="@font/pretendard_regular" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

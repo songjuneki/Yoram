@@ -1,4 +1,4 @@
-package com.sjk.yoram.model.adapter
+package com.sjk.yoram.model.ui.adapter
 
 import android.graphics.Color
 import android.view.ViewGroup

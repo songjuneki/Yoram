@@ -15,6 +15,11 @@
         <item name="strokeColor">@color/stroke_toggle_button_selector_color</item>
         <item name="android:textColor">@color/text_toggle_button_selector_color</item>
     </style>
+    <style name="SearchBarHintStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/xd_light_text_hint</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="IconButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
@@ -23,6 +28,9 @@
         <item name="android:paddingRight">12dp</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
+    </style>
+    <style name="BottomSheetModalStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:background">@drawable/border_dialog</item>
     </style>
     <style name="RoundedBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="cornerFamily">rounded</item>
@@ -34,5 +42,22 @@
         <item name="android:windowExitAnimation">@anim/anim_top_to_bottom</item>
         <item name="android:fragmentOpenEnterAnimation">@anim/anim_bottom_to_top</item>
         <item name="android:fragmentOpenExitAnimation">@anim/anim_top_to_bottom</item>
+        <item name="behavior_draggable">true</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_skipCollapsed">true</item>
+        <item name="behavior_fitToContents">true</item>
+    </style>
+    <style name="DraggableRoundedBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">5dp</item>
+        <item name="cornerSizeTopRight">5dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_to_top</item>
+        <item name="android:windowExitAnimation">@anim/anim_top_to_bottom</item>
+        <item name="android:fragmentOpenEnterAnimation">@anim/anim_bottom_to_top</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/anim_top_to_bottom</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_draggable">true</item>
     </style>
 </resources>

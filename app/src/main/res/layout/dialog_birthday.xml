@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.InitViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dialog_bd_layout"
         android:background="@drawable/border_dialog"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        app:behavior_hideable="false"
-        app:behavior_draggable="false">
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/dialog_bd_gv50"
             android:layout_width="wrap_content"
@@ -50,6 +53,7 @@
             app:layout_constraintTop_toBottomOf="@id/dialog_bd_picker"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="@id/dialog_bd_gv50"
+            android:onClick="@{(view) -> vm.btnClick(view.id)}"
             android:layout_marginTop="18dp"
             android:background="@color/xd_light_text_hint"
             android:foreground="?attr/selectableItemBackground"

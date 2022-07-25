@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cielyang.android.clearableedittext.ClearableEditText
 import com.cielyang.android.clearableedittext.OnTextClearedListener
 import com.sjk.yoram.viewmodel.MainViewModel
-import com.sjk.yoram.model.adapter.DepartmentCardAdapter
-import com.sjk.yoram.model.adapter.DepartmentNameAdapter
+import com.sjk.yoram.model.ui.adapter.DepartmentCardAdapter
+import com.sjk.yoram.model.ui.adapter.DepartmentNameAdapter
 import com.sjk.yoram.model.DptButtonType
 import com.sjk.yoram.model.LoginState
 import com.sjk.yoram.R

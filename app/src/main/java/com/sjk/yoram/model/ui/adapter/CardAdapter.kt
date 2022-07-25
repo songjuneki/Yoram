@@ -1,4 +1,4 @@
-package com.sjk.yoram.model.adapter
+package com.sjk.yoram.model.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Rect

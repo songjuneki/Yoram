@@ -3,8 +3,19 @@ package com.sjk.yoram.repository
 import android.app.Application
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.Banner
+import com.sjk.yoram.model.dto.Juso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import okhttp3.internal.wait
 
 class ServerRepository(private val application: Application) {
+    suspend fun searchAddress(keyword: String, page: Int = 1): List<Juso> {
+        val result = MyRetrofit.serverApi.searchAddress(keyword)
+        if (result.isSuccessful)
+            return result.body()!!
+        return listOf()
+    }
 
     suspend fun getAllBanner(): List<Banner> {
         val idList = MyRetrofit.serverApi.getBannerList()

@@ -88,8 +88,9 @@
                         android:layout_height="wrap_content"
                         android:background="@color/xd_light_transparent"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="@={vm.newName}"
-                        android:textColorHint="@color/xd_light_title" />
+                        android:text="@={vm.newPhone}"
+                        android:textColorHint="@color/xd_light_title"
+                        android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -111,9 +112,9 @@
                         android:layout_height="wrap_content"
                         android:background="@color/xd_light_transparent"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="@={vm.newPw}"
+                        android:text="@={vm.newTel}"
                         android:textColorHint="@color/xd_light_title"
-                        android:inputType="textPassword" />
+                        android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -128,16 +129,19 @@
                     app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
                     app:hintEnabled="true"
                     android:hint="* 주소"
-                    app:hintTextColor="@color/xd_light_text_hint">
+                    app:hintTextColor="@color/xd_light_text_hint"
+                    android:clickable="true">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/init_signup_address_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/xd_light_transparent"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="@={vm.newPwV}"
-                        android:textColorHint="@color/xd_light_title"
-                        android:inputType="textPassword" />
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:onClick="@{(view) -> vm.btnClick(view.id)}"
+                        android:text="@{vm.roadAddr}"
+                        android:textColorHint="@color/xd_light_title" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -163,7 +167,7 @@
                         android:focusable="false"
                         android:fontFamily="@font/pretendard_medium"
                         android:onClick="@{(v) -> vm.btnClick(v.id)}"
-                        android:text="@{vm.newBD}"
+                        android:text="작업중"
                         android:textColorHint="@color/xd_light_title" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,7 +194,7 @@
                         android:focusable="false"
                         android:fontFamily="@font/pretendard_medium"
                         android:onClick="@{(v) -> vm.btnClick(v.id)}"
-                        android:text="@{vm.newBD}"
+                        android:text="작업중"
                         android:textColorHint="@color/xd_light_title" />
                 </com.google.android.material.textfield.TextInputLayout>
 

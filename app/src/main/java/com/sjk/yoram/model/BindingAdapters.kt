@@ -2,18 +2,16 @@ package com.sjk.yoram.model
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.ImageView
-import androidx.core.view.children
-import androidx.core.view.iterator
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.*
-import androidx.databinding.adapters.TextViewBindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
+import com.sjk.yoram.model.ui.adapter.AddressListAdapter
+import com.sjk.yoram.model.dto.Juso
+import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 
 object BindingAdapters {
 //    @JvmStatic
@@ -63,10 +61,10 @@ object BindingAdapters {
             return
         val watcher = object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                textChanged.onTextChanged(view, p0.toString())
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?) {
+                textChanged.afterTextChanged(view, p0.toString())
             }
-            override fun afterTextChanged(p0: Editable?) {}
         }
         view.editText!!.addTextChangedListener(watcher)
     }
@@ -112,6 +110,14 @@ object BindingAdapters {
             SexState.MALE -> view.check(R.id.init_signup_sex_male_btn)
             SexState.FEMALE -> view.check(R.id.init_signup_sex_female_btn)
         }
+    }
+
+    @BindingAdapter("setAddressItems", "highlightKeyword", "onItemClickListener")
+    @JvmStatic
+    fun setAddressItems(view: RecyclerView, items: List<Juso>?, keyword: String, listener: AddressItemClickListener) {
+        if (view.adapter == null) view.adapter = AddressListAdapter(listener)
+        if (items.isNullOrEmpty()) (view.adapter as AddressListAdapter).submitList(listOf(), "")
+        else (view.adapter as AddressListAdapter).submitList(items, keyword)
     }
 
 }
