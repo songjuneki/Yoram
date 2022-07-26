@@ -1,4 +1,4 @@
-package com.sjk.yoram.model
+package com.sjk.yoram.model.ui.listener
 
 import com.google.android.material.textfield.TextInputLayout
 

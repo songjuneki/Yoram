@@ -1,17 +1,24 @@
 package com.sjk.yoram.model
 
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.ui.adapter.AddressListAdapter
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
+import com.sjk.yoram.model.ui.listener.TextInputChanged
 
 object BindingAdapters {
 //    @JvmStatic
@@ -69,6 +76,22 @@ object BindingAdapters {
         view.editText!!.addTextChangedListener(watcher)
     }
 
+    @BindingAdapter("RequiredBooleanList")
+    @JvmStatic
+    fun isRequireAllDone(view: AppCompatButton, list: MutableList<Boolean>) {
+        list.forEach {
+            if (it) {
+                view.setBackgroundResource(R.color.xd_light_dot_indicator_enabled)
+                view.isClickable = true
+            } else {
+                view.setBackgroundResource(R.color.xd_light_text_hint)
+                view.isClickable = false
+                return
+            }
+        }
+    }
+
+
 
     @BindingAdapter("sexState")
     @JvmStatic
@@ -118,6 +141,13 @@ object BindingAdapters {
         if (view.adapter == null) view.adapter = AddressListAdapter(listener)
         if (items.isNullOrEmpty()) (view.adapter as AddressListAdapter).submitList(listOf(), "")
         else (view.adapter as AddressListAdapter).submitList(items, keyword)
+    }
+
+    @BindingAdapter("phoneFormatting")
+    @JvmStatic
+    fun setPhoneFormatting(view: TextInputLayout, bool: Boolean) {
+        if (view.editText == null) return
+        if (bool) view.editText!!.addTextChangedListener(PhoneNumberFormattingTextWatcher())
     }
 
 }

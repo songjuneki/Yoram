@@ -170,7 +170,8 @@
                     app:layout_constraintRight_toRightOf="@id/init_signup_gv_95"
                     app:singleSelection="true"
                     android:divider="@{vm.newSex.equals(SexState.NONE) ? @color/xd_light_state_button_stroke : @color/xd_light_dot_indicator_enabled}"
-                    sexState="@={vm.newSex}">
+                    sexState="@={vm.newSex}"
+                    onCheckedChanged="@{(group, checkedId, isChecked) -> vm.sexBtnClick(group, checkedId, isChecked)}">
                     <com.google.android.material.button.MaterialButton
                         style="@style/ToggleButtonStyle"
                         android:theme="@style/ToggleButtonStyle"
@@ -248,14 +249,13 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@{((vm.newName.length > 0) &amp;&amp; (vm.newPw.length > 0) &amp;&amp; (vm.newPwV.length > 0) &amp;&amp; (vm.newSex != SexState.NONE) &amp;&amp; (vm.newBD.length > 0)) ? @color/xd_light_dot_indicator_enabled : @color/xd_light_text_hint}"
             android:text="다음으로"
             android:textColor="@color/xd_light_background"
             android:textSize="17sp"
             android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="@{() -> vm.btnSignup()}"
-            android:clickable="@{((vm.newName.length > 0) &amp;&amp; (vm.newPw.length > 0) &amp;&amp; (vm.newPwV.length > 0) &amp;&amp; (vm.newSex != SexState.NONE) &amp;&amp; (vm.newBD.length > 0)) ? true : false}"
+            RequiredBooleanList="@{vm.isReqDoneList}"
+            android:onClick="@{() -> vm.btnSignUp()}"
             android:foreground="?attr/selectableItemBackground"
             android:soundEffectsEnabled="true"
             android:hapticFeedbackEnabled="true" />

@@ -1,13 +1,16 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import androidx.lifecycle.*
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
+import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.*
@@ -44,6 +47,14 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     val newPhone = MutableLiveData<String>()
     val newTel = MutableLiveData<String>()
     val newAdd = MutableLiveData<String>()
+    val newAddMore = MutableLiveData<String>()
+    val newCarNo = MutableLiveData<String>()
+
+    val ruleAgree = MutableLiveData<Boolean>()
+    val privacyAgree = MutableLiveData<Boolean>()
+
+    val isReqDoneList = MutableLiveData<MutableList<Boolean>>()
+    val isMoreReqDoneList = MutableLiveData<MutableList<Boolean>>()
 
 
     private val _addrKeyword = MutableLiveData<String>()
@@ -53,10 +64,6 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     private val _addrSearchResult = MutableLiveData<List<Juso>>()
     val addrSearchResult: LiveData<List<Juso>>
         get() = _addrSearchResult
-
-    private val _roadAddr = MutableLiveData<String>()
-    val roadAddr: LiveData<String>
-        get() = _roadAddr
 
 
     init {
@@ -74,8 +81,15 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         newPhone.value = ""
         newTel.value = ""
         newAdd.value = ""
+        newAddMore.value = ""
+        newCarNo.value = ""
         _addrKeyword.value = ""
-        _roadAddr.value = ""
+
+        ruleAgree.value = false
+        privacyAgree.value = false
+
+        isReqDoneList.value = mutableListOf(false, false, false, false, false)
+        isMoreReqDoneList.value = mutableListOf(false, true, false, false, true, false, false)
     }
 
     private fun changeFragment(actionId: Int, fragmentType: InitFragmentType) {
@@ -98,64 +112,116 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
             R.id.init_signup_bd_et -> changeFragment(R.id.action_initSignup_to_dialogBD, InitFragmentType.InitFragment_Dialog_BD)
             R.id.init_signup_address_et -> changeFragment(R.id.action_initSignUpAdd_to_dialogAdd, InitFragmentType.InitFragment_Dialog_ADD)
-
         }
     }
 
 
-    /* Not used
     fun sexBtnClick(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
+        Log.d("JKJK", "sex=${newSex.value}")
         when (checkedId) {
             R.id.init_signup_sex_male_btn -> {
-                if (newSex.value != SexState.MALE) {
-                    if (isChecked) newSex.value = SexState.MALE
-                }
+                if (isChecked) newSex.value = SexState.MALE
                 else newSex.value = SexState.NONE
+                setRequireBoolean(isReqDoneList, newSex.value != SexState.NONE, 3)
             }
             R.id.init_signup_sex_female_btn -> {
-                if (newSex.value != SexState.FEMALE) {
-                    if (isChecked) newSex.value = SexState.FEMALE
-                }
+                if (isChecked) newSex.value = SexState.FEMALE
                 else newSex.value = SexState.NONE
+                setRequireBoolean(isReqDoneList, newSex.value != SexState.NONE, 3)
             }
         }
     }
-    */
+
 
     fun setBD(birth: String) {
         newBD.value = birth
+        setRequireBoolean(isReqDoneList, true, 4)
+    }
+
+    private fun setRequireBoolean(list: MutableLiveData<MutableList<Boolean>>, bool: Boolean, index: Int) {
+        val temp = list.value!!
+        temp[index] = bool
+        list.postValue(temp)
     }
 
 
     val nameInputChanged = object: TextInputChanged {
         override fun afterTextChanged(view: TextInputLayout, input: String) {
             val regex = Regex("^[가-힣]+$")
-            if (input.isEmpty())
+            if (input.isEmpty()) {
                 view.error = ""
-            else if (input.matches(regex))
+                setRequireBoolean(isReqDoneList, false, 0)
+            } else if (input.matches(regex)) {
                 view.error = ""
-            else
+                setRequireBoolean(isReqDoneList, true, 0)
+            } else {
                 view.error = "올바른 이름을 입력해 주세요"
+                setRequireBoolean(isReqDoneList, false, 0)
+            }
         }
     }
 
     val pwInputChanged = object: TextInputChanged {
         override fun afterTextChanged(view: TextInputLayout, input: String) {
             val regex = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
-            if (input.isEmpty() || input.matches(regex))
+            if (input.isEmpty()) {
                 view.error = ""
-            else
+                setRequireBoolean(isReqDoneList, false, 1)
+            } else if(input.matches(regex)) {
+                view.error = ""
+                setRequireBoolean(isReqDoneList, true, 1)
+            } else {
                 view.error = "영문+숫자 8자리를 조합하여 입력해주세요"
+                setRequireBoolean(isReqDoneList, false, 1)
+            }
         }
     }
 
     val pwValidInputChanged = object: TextInputChanged {
         override fun afterTextChanged(view: TextInputLayout, input: String) {
             val pw = newPw.value
-            if (input.isEmpty() || input == pw)
+            if (input.isEmpty()) {
                 view.error = ""
-            else
+                setRequireBoolean(isReqDoneList, false, 2)
+            } else if (input == pw) {
+                view.error = ""
+                setRequireBoolean(isReqDoneList, true, 2)
+            } else {
                 view.error = "비밀번호가 일치하지 않습니다."
+                setRequireBoolean(isReqDoneList, false, 2)
+            }
+        }
+    }
+
+    val phoneInputChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            val regex = Regex("^\\d{3}-\\d{4}-\\d{4}$")
+            if (input.isEmpty()) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, false, 0)
+            } else if (input.matches(regex)) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, true, 0)
+            } else {
+                view.error = "올바른 휴대폰 번호를 입력해 주세요"
+                setRequireBoolean(isMoreReqDoneList, false, 0)
+            }
+        }
+    }
+
+    val telInputChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            val regex = Regex("^\\d{2,3}-\\d{3,4}-\\d{3,4}$")
+            if (input.isEmpty()) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, true, 1)
+            } else if (input.matches(regex)) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, true, 1)
+            } else {
+                view.error = "올바른 휴대폰 번호를 입력해 주세요"
+                setRequireBoolean(isMoreReqDoneList, false, 1)
+            }
         }
     }
 
@@ -172,18 +238,60 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
     val addrItemClickListener = object: AddressItemClickListener {
         override fun onClick(juso: Juso) {
-            _roadAddr.value = juso.roadAddr
+            newAdd.value = juso.roadAddr
             _addrKeyword.value = ""
             _addrSearchResult.value = listOf()
             _backBtnEvent.value = Event(Unit)
+            setRequireBoolean(isMoreReqDoneList, true, 2)
         }
     }
+
+    private fun searchAddr(keyword: String) {
+        addrSearchJob = viewModelScope.launch {
+            val result = serverRepository.searchAddress(keyword)
+            _addrSearchResult.value = result
+        }
+    }
+
+    val addrMoreInputChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            if (input.isEmpty()) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, false, 3)
+            } else {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, true, 3)
+            }
+        }
+    }
+
+
+    val carNoInputChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            val regex = Regex("^[0-9]{1,3}\\s*[가-힣]{1,2}\\s*[0-9]{0,4}$")
+            if (input.isEmpty()) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, true, 4)
+            }else if (input.matches(regex)) {
+                view.error = ""
+                setRequireBoolean(isMoreReqDoneList, true, 4)
+            } else {
+                view.error = "올바른 차 번호를 입력해주세요"
+                setRequireBoolean(isMoreReqDoneList, false, 4)
+            }
+        }
+    }
+
+    fun checkAgree(list: MutableLiveData<MutableList<Boolean>>, bool: Boolean, index: Int) {
+        setRequireBoolean(list, bool, index)
+    }
+
 
     fun btnLogin(id: String, pw: String) {
         Log.d("JKJK", "Login id:$id, pw:$pw")
     }
 
-    fun btnSignup() {
+    fun btnSignUp() {
         _newUser.name = newName.value ?: ""
         _newUser.pw = newPw.value ?: ""
         _newUser.pw = AESUtil().Encrypt(_newUser.pw)
@@ -194,12 +302,17 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         changeFragment(R.id.action_initSignUp_to_initSignUpAdd, InitFragmentType.InitFragment_SIGNUP_ADD)
     }
 
-    private fun searchAddr(keyword: String) {
-        addrSearchJob = viewModelScope.launch {
-            val result = serverRepository.searchAddress(keyword)
-            _addrSearchResult.value = result
-        }
+
+    fun btnSignUpComplete() {
+        _newUser.phone = newPhone.value!!
+        _newUser.tel = newTel.value!!
+        _newUser.address = newAdd.value!!
+        _newUser.address_more = newAddMore.value!!
+        _newUser.car = newCarNo.value!!
+
+        //signupcode
     }
+
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

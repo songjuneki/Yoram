@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="kotlin.collections.AbstractMutableList"/>
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.InitViewModel" />
@@ -81,7 +82,9 @@
                     android:hint="* 휴대전화"
                     app:hintTextColor="@color/xd_light_text_hint"
                     app:errorIconDrawable="@null"
-                    app:errorTextAppearance="@style/ErrorInputTextStyle">
+                    app:errorTextAppearance="@style/ErrorInputTextStyle"
+                    inputTextChanged="@{vm.phoneInputChanged}"
+                    phoneFormatting="@{true}">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/init_signup_phone_et"
                         android:layout_width="match_parent"
@@ -105,7 +108,9 @@
                     app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
                     android:hint="유선전화(선택사항)"
                     app:hintEnabled="true"
-                    app:hintTextColor="@color/xd_light_text_hint">
+                    app:hintTextColor="@color/xd_light_text_hint"
+                    inputTextChanged="@{vm.telInputChanged}"
+                    phoneFormatting="@{true}">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/init_signup_tel_et"
                         android:layout_width="match_parent"
@@ -137,11 +142,13 @@
                         android:layout_height="wrap_content"
                         android:background="@color/xd_light_transparent"
                         android:fontFamily="@font/pretendard_medium"
+                        android:maxLines="1"
                         android:clickable="true"
                         android:focusable="false"
                         android:onClick="@{(view) -> vm.btnClick(view.id)}"
-                        android:text="@{vm.roadAddr}"
-                        android:textColorHint="@color/xd_light_title" />
+                        android:text="@{vm.newAdd}"
+                        android:textColorHint="@color/xd_light_title"
+                        android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -157,17 +164,15 @@
                     app:hintEnabled="true"
                     android:hint="* 나머지 주소"
                     app:hintTextColor="@color/xd_light_text_hint"
-                    android:clickable="true">
+                    android:clickable="true"
+                    inputTextChanged="@{vm.addrMoreInputChanged}">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/init_signup_add_more_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/xd_light_transparent"
-                        android:clickable="true"
-                        android:focusable="false"
                         android:fontFamily="@font/pretendard_medium"
-                        android:onClick="@{(v) -> vm.btnClick(v.id)}"
-                        android:text="작업중"
+                        android:text="@={vm.newAddMore}"
                         android:textColorHint="@color/xd_light_title" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,19 +189,18 @@
                     app:hintEnabled="true"
                     android:hint="차량번호(선택사항)"
                     app:hintTextColor="@color/xd_light_text_hint"
-                    android:clickable="true">
+                    android:clickable="true"
+                    inputTextChanged="@{vm.carNoInputChanged}">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/init_signup_car_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/xd_light_transparent"
-                        android:clickable="true"
-                        android:focusable="false"
                         android:fontFamily="@font/pretendard_medium"
-                        android:onClick="@{(v) -> vm.btnClick(v.id)}"
-                        android:text="작업중"
+                        android:text="@={vm.newCarNo}"
                         android:textColorHint="@color/xd_light_title" />
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/init_signup_rule_cb"
@@ -205,7 +209,9 @@
                     app:layout_constraintTop_toBottomOf="@id/init_signup_add_car_et_layout"
                     app:layout_constraintLeft_toLeftOf="@id/init_signup_gv_05"
                     android:layout_marginTop="64dp"
-                    android:button="@drawable/selector_checkbox" />
+                    android:buttonTint="@color/text_toggle_button_selector_color"
+                    android:button="@drawable/selector_checkbox"
+                    android:onCheckedChanged="@{(cbtn, checked) -> vm.checkAgree(vm.isMoreReqDoneList, checked, 5)}"/>
                 <TextView
                     android:id="@+id/init_signup_rule_link"
                     android:layout_width="wrap_content"
@@ -219,7 +225,8 @@
                     android:textColor="@color/xd_light_dot_indicator_enabled"
                     android:clickable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    android:soundEffectsEnabled="true" />
+                    android:soundEffectsEnabled="true"
+                    android:onClick="@{(view) -> vm.btnClick(view.id)}"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -240,7 +247,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="1dp"
                     android:layout_marginBottom="64dp"
-                    android:button="@drawable/selector_checkbox" />
+                    android:buttonTint="@color/text_toggle_button_selector_color"
+                    android:button="@drawable/selector_checkbox"
+                    android:onCheckedChanged="@{(cbtn, checked) -> vm.checkAgree(vm.isMoreReqDoneList, checked, 6)}"/>
                 <TextView
                     android:id="@+id/init_signup_privacy_rule_link"
                     android:layout_width="wrap_content"
@@ -254,7 +263,8 @@
                     android:textColor="@color/xd_light_dot_indicator_enabled"
                     android:clickable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    android:soundEffectsEnabled="true" />
+                    android:soundEffectsEnabled="true"
+                    android:onClick="@{(view) -> vm.btnClick(view.id)}"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -275,14 +285,13 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@color/xd_light_dot_indicator_enabled"
+            RequiredBooleanList="@{vm.isMoreReqDoneList}"
             android:text="가입완료"
             android:textColor="@color/xd_light_background"
             android:textSize="17sp"
             android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="@{}"
-            android:clickable="true"
+            android:onClick="@{() -> vm.btnSignUpComplete()}"
             android:foreground="?attr/selectableItemBackground"
             android:soundEffectsEnabled="true"
             android:hapticFeedbackEnabled="true" />
