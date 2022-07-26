@@ -74,6 +74,7 @@
             android:background="@color/xd_light_transparent"
             app:hintTextColor="@color/xd_light_text_hint"
             android:hint="이름"
+            inputTextChanged="@{vm.inputErrorChange}"
             app:hintEnabled="true"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled">
             <com.google.android.material.textfield.TextInputEditText
@@ -101,6 +102,7 @@
             android:background="@color/xd_light_transparent"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
             app:hintTextColor="@color/xd_light_text_hint"
+            inputTextChanged="@{vm.inputErrorChange}"
             android:hint="비밀번호"
             app:hintEnabled="true"
             app:passwordToggleDrawable="@drawable/ic_password_selector"

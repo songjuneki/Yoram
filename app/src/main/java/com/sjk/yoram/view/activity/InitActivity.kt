@@ -1,13 +1,17 @@
 package com.sjk.yoram.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityInitBinding
+import com.sjk.yoram.model.LoginState
 import com.sjk.yoram.viewmodel.InitViewModel
 
 class InitActivity: AppCompatActivity() {
@@ -26,6 +30,34 @@ class InitActivity: AppCompatActivity() {
 
         viewModel.backBtnEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let { navController.popBackStack() }
+        }
+
+        viewModel.naviAction.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                navController.navigate(it)
+            }
+        }
+
+        viewModel.progressEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                if (it) {
+
+                }
+            }
+        }
+
+        viewModel.loginEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                Log.d("JKJK", "loginEvent is changed $it")
+                if (it == LoginState.LOGIN) {
+                    Log.d("JKJK", "loginEvent is Login")
+                    val main = Intent(applicationContext, MainActivity::class.java)
+                    main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    finish()
+                    startActivity(main)
+                }
+            }
         }
     }
 

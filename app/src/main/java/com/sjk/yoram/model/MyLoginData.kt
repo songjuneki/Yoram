@@ -3,6 +3,7 @@ package com.sjk.yoram.model
 data class MyLoginData(
     var id: Int,
     var avatar: String,
+    var name: String,
     var fname: String,
     var lname: String,
     var sex: Boolean,
@@ -11,7 +12,7 @@ data class MyLoginData(
     var position: Int,
     var permission: Int
 ) {
-    constructor(): this(-1, "", "익", "명", true, -1, "성도",-1, 0)
+    constructor(): this(-1, "", "익명", "익", "명", true, -1, "성도",-1, 0)
     fun getAvatarURL(): String {
         return "http://3.39.51.49:8080/api/avatar?id=$id"
     }

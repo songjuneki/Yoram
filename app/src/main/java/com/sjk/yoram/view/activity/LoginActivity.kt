@@ -28,7 +28,7 @@ class LoginActivity: AppCompatActivity() {
 
     private suspend fun nameCheckJob() = CoroutineScope(Dispatchers.Main).async {
         this@LoginActivity.name = binding.loginNameInput.text.toString()
-        val findUsers = MyRetrofit.getMyApi().getUserByName(this@LoginActivity.name)
+        val findUsers = MyRetrofit.userApi.get(this@LoginActivity.name)
         if (findUsers.size == 1)
             user = findUsers.first()
         Log.d("JKJK", "finduser = ${findUsers}")
@@ -36,7 +36,7 @@ class LoginActivity: AppCompatActivity() {
     }
     private suspend fun bdCheckJob() = CoroutineScope(Dispatchers.Main).async {
         this@LoginActivity.bd = binding.loginBdInput.text.toString()
-        val findUsers = MyRetrofit.getMyApi().getUserByNameAndBD(this@LoginActivity.name, this@LoginActivity.bd)
+        val findUsers = MyRetrofit.userApi.get(this@LoginActivity.name, this@LoginActivity.bd)
         if (findUsers.size == 1)
             user = findUsers.first()
         findUsers.size

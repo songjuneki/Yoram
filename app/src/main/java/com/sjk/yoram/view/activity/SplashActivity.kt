@@ -21,7 +21,7 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.splash)
         val serverCheck = CoroutineScope(Dispatchers.Default).async { MyRetrofit.checkServer() }
-        suspend fun isLogin(id:Int, pw:String) = CoroutineScope(Dispatchers.Default).async { MyRetrofit.getMyApi().checkMyUser(LoginCheck(id, pw)) }
+        suspend fun isLogin(id:Int, pw:String) = CoroutineScope(Dispatchers.Default).async { MyRetrofit.userApi.check(LoginCheck(id, pw)) }
 
         CoroutineScope(Dispatchers.Main).launch {
             if (serverCheck.await()) {

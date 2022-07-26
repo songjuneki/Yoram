@@ -20,21 +20,26 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     val backBtnEvent: LiveData<Event<Unit>>
         get() = _backBtnEvent
 
-    private val _anonymousBtnEvent = MutableLiveData<Event<Unit>>()
-    val anonymousBtnEvent: LiveData<Event<Unit>>
-        get() = _anonymousBtnEvent
+    private val _progressEvent = MutableLiveData<Event<Boolean>>()
+    val progressEvent: LiveData<Event<Boolean>>
+        get() = _progressEvent
 
     private val _currentFragment = MutableLiveData<InitFragmentType>()
     val currentFragment: LiveData<InitFragmentType>
         get() = _currentFragment
 
-    private val _title = MutableLiveData<String>()
-    val title: LiveData<String>
-        get() = _title
-
     private val _naviActon = MutableLiveData<Event<Int>>()
     val naviAction: LiveData<Event<Int>>
         get() = _naviActon
+
+    private val _loginEvent = MutableLiveData<Event<LoginState>>()
+    val loginEvent: LiveData<Event<LoginState>>
+        get() = _loginEvent
+
+    private val _msgEvent = MutableLiveData<Event<String>>()
+    val msgEvent: LiveData<Event<String>>
+        get() = _msgEvent
+
 
     private val _newUser = NewUser()
 
@@ -72,6 +77,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
     fun initialize() {
         _currentFragment.value = InitFragmentType.InitFragment_HOME
+        _loginEvent.value = Event(LoginState.NONE)
         newName.value = ""
         newPw.value = ""
         newPwV.value = ""
@@ -97,6 +103,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         _naviActon.value = Event(actionId)
     }
 
+
     fun btnClick(btnId: Int) {
         when(btnId) {
             R.id.init_back_btn -> _backBtnEvent.value = Event(Unit)
@@ -106,12 +113,17 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             R.id.init_go_login_btn -> changeFragment(R.id.action_initHome_to_initLogin, InitFragmentType.InitFragment_LOGIN)
             R.id.init_go_signup_btn -> changeFragment(R.id.action_initHome_to_initSignUp, InitFragmentType.InitFragment_SIGNUP)
 
-            R.id.init_go_anonymous_btn -> _anonymousBtnEvent.value = Event(Unit)
+            R.id.init_go_anonymous_btn -> {_loginEvent.value = Event(LoginState.LOGIN); userRepository.setIsInit(false)}
 
             R.id.init_login_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
 
             R.id.init_signup_bd_et -> changeFragment(R.id.action_initSignup_to_dialogBD, InitFragmentType.InitFragment_Dialog_BD)
             R.id.init_signup_address_et -> changeFragment(R.id.action_initSignUpAdd_to_dialogAdd, InitFragmentType.InitFragment_Dialog_ADD)
+
+            R.id.init_signup_rule_link -> changeFragment(R.id.action_initSignUpAdd_to_dialogAgree, InitFragmentType.InitFragment_Dialog_APP_RULE)
+            R.id.init_signup_privacy_rule_link -> changeFragment(R.id.action_initSignUpAdd_to_dialogAgree, InitFragmentType.InitFragment_Dialog_PRIVACY_RULE)
+
+            R.id.init_signup_complete_btn -> btnSignUpComplete()
         }
     }
 
@@ -287,15 +299,26 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     }
 
 
-    fun btnLogin(id: String, pw: String) {
-        Log.d("JKJK", "Login id:$id, pw:$pw")
+    val inputErrorChange = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            view.error = ""
+        }
+    }
+
+
+    fun btnLogin(name: String, pw: String) {
+        btnLogin(name, AESUtil().Encrypt(pw), "")
+    }
+    fun btnLogin(name: String, pw: String, bd: String = "") {
+        viewModelScope.async {
+            _loginEvent.value = Event(userRepository.loginUser(name, pw, bd))
+        }
     }
 
     fun btnSignUp() {
         _newUser.name = newName.value ?: ""
         _newUser.pw = newPw.value ?: ""
-        _newUser.pw = AESUtil().Encrypt(_newUser.pw)
-        _newUser.sex = newSex.value ?: SexState.MALE
+        _newUser.sex = newSex.value == SexState.MALE
         _newUser.birth = newBD.value ?: ""
         Log.d("JKJK", "Sign up ${newName.value}, ${newPw.value}, ${newSex.value}, ${newBD.value}")
         Log.d("JKJK", "Sign up newUser=$_newUser")
@@ -304,14 +327,19 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
 
     fun btnSignUpComplete() {
-        _newUser.phone = newPhone.value!!
-        _newUser.tel = newTel.value!!
-        _newUser.address = newAdd.value!!
-        _newUser.address_more = newAddMore.value!!
-        _newUser.car = newCarNo.value!!
-
-        //signupcode
+        viewModelScope.async {
+            _newUser.phone = newPhone.value!!
+            _newUser.tel = newTel.value!!
+            _newUser.address = newAdd.value!!
+            _newUser.address_more = newAddMore.value!!
+            _newUser.car = newCarNo.value!!
+            val id = userRepository.userSignUp(_newUser)
+            if (id == -1) return@async
+            btnLogin(_newUser.name, _newUser.pw)
+            Log.d("JKJK", "signup complete $_newUser\nid=$id")
+        }
     }
+
 
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

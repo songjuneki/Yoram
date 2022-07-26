@@ -55,7 +55,7 @@ class ScannerActivity: AppCompatActivity() {
         }
         val attend = Attend(info[2].substring(3).toInt(), info[0].substring(5), info[1].substring(5), wtype, checkerid)
 
-        return@async MyRetrofit.getMyApi().attendUser(attend)
+        return@async MyRetrofit.userApi.attendUser(attend)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

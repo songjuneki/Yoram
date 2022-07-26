@@ -7,8 +7,10 @@ import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class MainViewModel(private val userRepository: UserRepository): ViewModel() {
+class MainViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
     private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)
     val currentFragmentType: LiveData<FragmentType> = _currentFragmentType
     val dptClickState = MutableLiveData<Boolean>(false)
@@ -39,6 +41,17 @@ class MainViewModel(private val userRepository: UserRepository): ViewModel() {
         return true
     }
 
+    init {
+        getLoginData()
+    }
+
+    fun getLoginData() {
+        viewModelScope.async {
+            val id = userRepository.getLoginID()
+            if (id == -1) loginData.value = MyLoginData()
+            else loginData.value = userRepository.getLoginData(userRepository.getLoginID())
+        }
+    }
 
     //// new end
 
@@ -80,7 +93,7 @@ class MainViewModel(private val userRepository: UserRepository): ViewModel() {
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel(UserRepository.getInstance(application)!!) as T
+            return MainViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!) as T
         }
     }
 }

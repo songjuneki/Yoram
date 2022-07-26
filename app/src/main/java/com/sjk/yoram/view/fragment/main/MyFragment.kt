@@ -61,7 +61,7 @@ class MyFragment: Fragment() {
                 editor.commit()
                 Log.d("JKJK", "from Login : id=${id}, pw=${pw}")
                 CoroutineScope(Dispatchers.Main).launch {
-                    mainViewModel.loginData.value = MyRetrofit.getMyApi().getMyUserInfo(id)
+                    mainViewModel.loginData.value = MyRetrofit.userApi.getMyInfo(id)
                     mainViewModel.loginState.value = LoginState.LOGIN
                 }
             } else if (it.resultCode == Activity.RESULT_CANCELED) {

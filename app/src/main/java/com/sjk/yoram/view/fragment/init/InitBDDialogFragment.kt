@@ -37,7 +37,7 @@ class InitBDDialogFragment: BottomSheetDialogFragment() {
         val day = bd.substring(8, 10).toInt()
         binding.dialogBdPicker.updateDate(year, month-1, day)
         binding.dialogBdOk.setOnClickListener {
-            viewModel.setBD("${binding.dialogBdPicker.year}-${String.format("%02d", binding.dialogBdPicker.month+1)}-${binding.dialogBdPicker.dayOfMonth}")
+            viewModel.setBD("${binding.dialogBdPicker.year}-${String.format("%02d", binding.dialogBdPicker.month+1)}-${String.format("%02d", binding.dialogBdPicker.dayOfMonth)}")
             dismiss()
         }
     }

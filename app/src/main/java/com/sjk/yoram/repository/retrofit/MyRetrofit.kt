@@ -4,6 +4,7 @@ import android.util.Log
 import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.dto.Department
 import com.sjk.yoram.repository.retrofit.api.ServerApi
+import com.sjk.yoram.repository.retrofit.api.UserApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.callbackFlow
 import okhttp3.MultipartBody
@@ -34,6 +35,7 @@ object MyRetrofit {
     }
 
     val serverApi: ServerApi by lazy { getRetrofit().create(ServerApi::class.java) }
+    val userApi: UserApi by lazy { getRetrofit().create(UserApi::class.java) }
 
 
 
@@ -57,24 +59,6 @@ object MyRetrofit {
 
 interface MyApi {
 
-    @GET("user/dpt/sp")
-    suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
-    @GET("user/dpt")
-    suspend fun getUsersDepartment(@Query("dpt")dpt: Int): MutableList<User>
-    @GET("user/pos/sp")
-    suspend fun getSimpleUsersPosition(@Query("pos")pos: Int): MutableList<SimpleUser>
-    @GET("user/pos")
-    suspend fun getUsersPosition(@Query("pos")pos: Int): MutableList<User>
-    @GET("user/find")
-    suspend fun getUserByName(@Query("name")name: String): MutableList<User>
-    @GET("user/find")
-    suspend fun getUserByNameAndBD(@Query("name")name: String, @Query("bd")bd: String): MutableList<User>
-    @POST("user/new")
-    suspend fun insertNewUser(@Body newUser: NewUser): Boolean
-
-    @GET("user/name/all")
-    suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
-
     @GET("dpt/has")
     suspend fun getChildDepartments(@Query("parent")parent: Int): MutableList<Department>
     @GET("dpt/childs")
@@ -89,19 +73,8 @@ interface MyApi {
     @GET("pos/childs")
     suspend fun getAllChildPositions(): MutableList<Position>
 
-    @POST("user/check")
-    suspend fun checkMyUser(@Body checkData: LoginCheck): Boolean
-    @GET("user/my")
-    suspend fun getMyUserInfo(@Query("id")id: Int): MyLoginData
-
-    @POST("user/upload/avatar")
-    suspend fun uploadAvatar(@Part("pic")file:MultipartBody.Part, @Part("id")id: String): Response<Boolean>
-    @GET("user/profile/url")
-    suspend fun getAvatar(@Query("id")id: Int): String
 
     @GET("ws/all")
     suspend fun getAllWorship(): List<WorshipType>
 
-    @POST("user/verify")
-    suspend fun attendUser(@Body attend: Attend): Boolean
 }

@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by lazy { ViewModelProvider(this, MainViewModel.Factory(application))[MainViewModel::class.java] }
 //    private val homeFragViewModel: FragHomeViewModel by lazy { ViewModelProvider(this, FragHomeViewModel.Factory(application))[FragHomeViewModel::class.java] }
     private lateinit var homeFragViewModel: FragHomeViewModel
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }       // viewBinding
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)      // viewBinding
+        setContentView(binding.root)
         binding.vm = viewModel
 //        binding.lifecycleOwner = this
 
@@ -44,14 +44,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val myintent = intent
-            val id = myintent.getIntExtra("loginID", -1)
-            if (id != -1) {
-                viewModel.loginData.value = MyRetrofit.getMyApi().getMyUserInfo(id)
-                viewModel.loginState.value = LoginState.LOGIN
-            }
-        }
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val myintent = intent
+//            val id = myintent.getIntExtra("loginID", -1)
+//            if (id != -1) {
+//                viewModel.loginData.value = MyRetrofit.userApi.getMyUserInfo(id)
+//                viewModel.loginState.value = LoginState.LOGIN
+//            }
+//        }
 
         viewModel.currentFragment.observe(this) { event ->
             event.getContentIfNotHandled()?.let {

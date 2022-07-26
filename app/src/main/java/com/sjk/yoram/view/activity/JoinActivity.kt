@@ -117,7 +117,7 @@ class JoinActivity: AppCompatActivity() {
                 if (newUser.birth.length < 8)
                     newUser.birth = ""
 
-                val result = MyRetrofit.getMyApi().insertNewUser(newUser)
+                val result = MyRetrofit.userApi.insert(newUser)
                 Log.d("JKJK", "result = ${result}")
 
                 this@JoinActivity.finish()

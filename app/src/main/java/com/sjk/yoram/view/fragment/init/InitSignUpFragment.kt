@@ -34,11 +34,11 @@ class InitSignUpFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.naviAction.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                findNavController().navigate(it)
-            }
-        }
+//        viewModel.naviAction.observe(viewLifecycleOwner) { event ->
+//            event.getContentIfNotHandled()?.let {
+//                findNavController().navigate(it)
+//            }
+//        }
     }
 
     override fun onResume() {

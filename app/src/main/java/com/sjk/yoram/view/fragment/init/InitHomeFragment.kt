@@ -43,11 +43,11 @@ class InitHomeFragment: Fragment() {
             }
         }
 
-        viewModel.naviAction.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                findNavController().navigate(it)
-            }
-        }
+//        viewModel.naviAction.observe(viewLifecycleOwner) { event ->
+//            event.getContentIfNotHandled()?.let {
+//                findNavController().navigate(it)
+//            }
+//        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

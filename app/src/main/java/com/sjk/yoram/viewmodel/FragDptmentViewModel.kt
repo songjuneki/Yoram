@@ -71,7 +71,7 @@ class FragDptmentViewModel: ViewModel() {
 
     fun loadAllDepartmentsByName() {
         viewModelScope.async {
-            this@FragDptmentViewModel._users = MyRetrofit.getMyApi().getAllSimpleUsersByName()
+            this@FragDptmentViewModel._users = MyRetrofit.userApi.getAllSimpleUsersByName()
             users.postValue(_users)
             dptFetched.value = false
             userFetched.value = true

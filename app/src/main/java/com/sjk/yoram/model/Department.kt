@@ -43,13 +43,13 @@ data class Department (
 
     private fun loadUsersForDepartment() {
         CoroutineScope(Dispatchers.IO).async {
-            users = MyRetrofit.getMyApi().getSimpleUsersDepartment(code)
+            users = MyRetrofit.userApi.getSimpleUsersDepartment(code)
         }
     }
 
     private fun loadUsersForPosition() {
         CoroutineScope(Dispatchers.IO).async {
-            users = MyRetrofit.getMyApi().getSimpleUsersPosition(code)
+            users = MyRetrofit.userApi.getSimpleUsersPosition(code)
         }
     }
 }
