@@ -112,6 +112,6 @@
             android:textSize="14sp"
             android:textColor="@color/xd_light_weak_content"
             android:fontFamily="@font/pretendard_medium"
-            android:onClick="@{}" />
+            android:onClick="@{(view) -> vm.btnClick(view.id)}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

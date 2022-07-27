@@ -55,9 +55,6 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     val newAddMore = MutableLiveData<String>()
     val newCarNo = MutableLiveData<String>()
 
-    val ruleAgree = MutableLiveData<Boolean>()
-    val privacyAgree = MutableLiveData<Boolean>()
-
     val isReqDoneList = MutableLiveData<MutableList<Boolean>>()
     val isMoreReqDoneList = MutableLiveData<MutableList<Boolean>>()
 
@@ -91,8 +88,6 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         newCarNo.value = ""
         _addrKeyword.value = ""
 
-        ruleAgree.value = false
-        privacyAgree.value = false
 
         isReqDoneList.value = mutableListOf(false, false, false, false, false)
         isMoreReqDoneList.value = mutableListOf(false, true, false, false, true, false, false)
@@ -124,6 +119,8 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             R.id.init_signup_privacy_rule_link -> changeFragment(R.id.action_initSignUpAdd_to_dialogAgree, InitFragmentType.InitFragment_Dialog_PRIVACY_RULE)
 
             R.id.init_signup_complete_btn -> btnSignUpComplete()
+
+            R.id.init_login_need_help, R.id.init_login_find_pw,  -> showToastMsg("기능 준비중입니다.")
         }
     }
 
@@ -298,6 +295,13 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         setRequireBoolean(list, bool, index)
     }
 
+    fun agreeBtn(currentFragmentType: InitFragmentType) {
+        when (currentFragmentType) {
+            InitFragmentType.InitFragment_Dialog_APP_RULE -> checkAgree(isMoreReqDoneList, true, 5)
+            InitFragmentType.InitFragment_Dialog_PRIVACY_RULE -> checkAgree(isMoreReqDoneList, true, 6)
+        }
+        _backBtnEvent.value = Event(Unit)
+    }
 
     val inputErrorChange = object: TextInputChanged {
         override fun afterTextChanged(view: TextInputLayout, input: String) {
@@ -311,36 +315,52 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     }
     fun btnLogin(name: String, pw: String, bd: String = "") {
         viewModelScope.async {
-            _loginEvent.value = Event(userRepository.loginUser(name, pw, bd))
+            showLoading()
+            val loginResult = userRepository.loginUser(name, pw, bd)
+            _loginEvent.value = Event(loginResult)
+            hideLoading()
         }
     }
 
     fun btnSignUp() {
-        _newUser.name = newName.value ?: ""
-        _newUser.pw = newPw.value ?: ""
+        _newUser.name = newName.value!!
+        _newUser.pw = AESUtil().Encrypt(newPw.value!!)
         _newUser.sex = newSex.value == SexState.MALE
-        _newUser.birth = newBD.value ?: ""
+        _newUser.birth = newBD.value!!
         Log.d("JKJK", "Sign up ${newName.value}, ${newPw.value}, ${newSex.value}, ${newBD.value}")
         Log.d("JKJK", "Sign up newUser=$_newUser")
         changeFragment(R.id.action_initSignUp_to_initSignUpAdd, InitFragmentType.InitFragment_SIGNUP_ADD)
     }
 
 
-    fun btnSignUpComplete() {
+
+    private fun btnSignUpComplete() {
         viewModelScope.async {
+            showLoading()
             _newUser.phone = newPhone.value!!
             _newUser.tel = newTel.value!!
             _newUser.address = newAdd.value!!
             _newUser.address_more = newAddMore.value!!
             _newUser.car = newCarNo.value!!
             val id = userRepository.userSignUp(_newUser)
-            if (id == -1) return@async
-            btnLogin(_newUser.name, _newUser.pw)
+            if (id == -1) {return@async; hideLoading() }
+            btnLogin(_newUser.name, newPw.value ?: AESUtil().Encrypt(_newUser.pw))
             Log.d("JKJK", "signup complete $_newUser\nid=$id")
         }
     }
 
 
+    private fun hideLoading() {
+        this._progressEvent.value = Event(false)
+    }
+
+    private fun showLoading() {
+        this._progressEvent.value = Event(true)
+    }
+
+    private fun showToastMsg(msg: String) {
+        this._msgEvent.value = Event(msg)
+    }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

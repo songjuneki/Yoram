@@ -93,6 +93,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/xd_light_dot_indicator_enabled"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> vm.agreeBtn(vm.currentFragment)}"
             android:clickable="true"
             android:soundEffectsEnabled="true"
             android:hapticFeedbackEnabled="true" />

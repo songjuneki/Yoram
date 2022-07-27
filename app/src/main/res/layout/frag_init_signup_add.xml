@@ -211,6 +211,7 @@
                     android:layout_marginTop="64dp"
                     android:buttonTint="@color/text_toggle_button_selector_color"
                     android:button="@drawable/selector_checkbox"
+                    android:checked="@{vm.isMoreReqDoneList[5]}"
                     android:onCheckedChanged="@{(cbtn, checked) -> vm.checkAgree(vm.isMoreReqDoneList, checked, 5)}"/>
                 <TextView
                     android:id="@+id/init_signup_rule_link"
@@ -249,6 +250,7 @@
                     android:layout_marginBottom="64dp"
                     android:buttonTint="@color/text_toggle_button_selector_color"
                     android:button="@drawable/selector_checkbox"
+                    android:checked="@{vm.isMoreReqDoneList[6]}"
                     android:onCheckedChanged="@{(cbtn, checked) -> vm.checkAgree(vm.isMoreReqDoneList, checked, 6)}"/>
                 <TextView
                     android:id="@+id/init_signup_privacy_rule_link"

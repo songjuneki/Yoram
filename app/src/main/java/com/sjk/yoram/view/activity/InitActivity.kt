@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -40,9 +42,13 @@ class InitActivity: AppCompatActivity() {
 
         viewModel.progressEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                if (it) {
+                binding.initLoadingLayout.visibility = if(it) View.VISIBLE else View.GONE
+            }
+        }
 
-                }
+        viewModel.msgEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
             }
         }
 

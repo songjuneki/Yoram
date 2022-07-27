@@ -32,22 +32,6 @@ class InitHomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.anonymousBtnEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                val main = Intent(context, MainActivity::class.java)
-                main.putExtra("loginID", -1)
-                main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                requireActivity().finish()
-                startActivity(main)
-            }
-        }
-
-//        viewModel.naviAction.observe(viewLifecycleOwner) { event ->
-//            event.getContentIfNotHandled()?.let {
-//                findNavController().navigate(it)
-//            }
-//        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

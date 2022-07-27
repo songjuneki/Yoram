@@ -146,6 +146,7 @@
             android:text="비밀번호 찾기"
             android:textSize="15sp"
             android:fontFamily="@font/pretendard_medium"
+            android:onClick="@{(view) -> vm.btnClick(view.id)}"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:soundEffectsEnabled="true"/>

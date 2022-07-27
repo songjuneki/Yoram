@@ -86,7 +86,7 @@ object BindingAdapters {
             } else {
                 view.setBackgroundResource(R.color.xd_light_text_hint)
                 view.isClickable = false
-                return@forEach
+                return
             }
         }
     }
