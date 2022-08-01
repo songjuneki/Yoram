@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--menu item의 id는 해당하는 navigation의 id와 같아야함-->
     <item
         android:id="@+id/navi_home"
-        android:enabled="true"
         android:icon="@drawable/ic_home"
+        android:enabled="true"
         android:title="홈" />
     <item
         android:id="@+id/navi_dptment"
-        android:enabled="true"
         android:icon="@drawable/ic_department"
+        android:enabled="true"
         android:title="조직도" />
     <item
         android:id="@+id/navi_id"
-        android:enabled="true"
         android:icon="@drawable/ic_id"
+        android:enabled="true"
         android:title="교인증" />
     <item
         android:id="@+id/navi_board"
-        android:enabled="true"
         android:icon="@drawable/ic_board"
+        android:enabled="true"
         android:title="게시판" />
     <item
         android:id="@+id/navi_my"
-        android:enabled="true"
         android:icon="@drawable/ic_my"
+        android:enabled="true"
         android:title="내 정보" />
 
 </menu>

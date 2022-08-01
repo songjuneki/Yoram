@@ -29,7 +29,8 @@
             android:name=".view.activity.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.Yoram.ActionBar">
         </activity>
         <activity android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait"

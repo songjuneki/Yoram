@@ -3,8 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.sjk.yoram.model.dto.MyLoginData"/>
         <variable
-            name="vm"
+            name="mainVM"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
+        <variable
+            name="homeVM"
             type="com.sjk.yoram.viewmodel.FragHomeViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
@@ -20,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.1"/>
+                app:layout_constraintGuide_percent="0.055"/>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gv95"
                 android:layout_width="wrap_content"
@@ -63,15 +67,18 @@
                 <ImageView
                     android:id="@+id/home_logo"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="@id/gv35"
                     app:layout_constraintRight_toRightOf="@id/gv65"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:src="@drawable/logo_with_title_x3" />
                 <ImageButton
                     android:id="@+id/home_notify"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="@id/gv95_2"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -235,7 +242,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="@id/home_id_gv05"
-                        android:text="땡땡땡"
+                        android:text="@{mainVM.loginData.name}"
                         android:textColor="@color/xd_light_dot_indicator_enabled"
                         android:textSize="18sp"
                         android:fontFamily="@font/pretendard_bold" />
@@ -305,7 +312,7 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_marginTop="14dp"
-                            android:text="10,000원"
+                            android:text="@{mainVM.giveAmount}"
                             android:textSize="16sp"
                             android:textColor="@color/xd_light_content_highlight"
                             android:fontFamily="@font/pretendard_medium"/>
@@ -352,7 +359,7 @@
                             app:layout_constraintRight_toLeftOf="@id/home_id_attend_tv2"
                             android:gravity="right"
                             android:layout_marginTop="14dp"
-                            android:text="3 "
+                            android:text="@{mainVM.loginData.attend_cnt + ` `}"
                             android:textSize="16sp"
                             android:textColor="@color/xd_light_content_highlight"
                             android:fontFamily="@font/pretendard_medium"/>
@@ -365,7 +372,7 @@
                             app:layout_constraintRight_toRightOf="parent"
                             android:gravity="left"
                             android:layout_marginTop="14dp"
-                            android:text="/ 5"
+                            android:text="@{`/ ` + String.valueOf(homeVM.maxWeek)}"
                             android:textSize="16sp"
                             android:textColor="@color/xd_light_content"
                             android:fontFamily="@font/pretendard_medium"/>
@@ -411,7 +418,7 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_marginTop="14dp"
-                            android:text="10,000원"
+                            android:text="@{mainVM.loginData.dptname.empty ? mainVM.loginData.dptname : `성도`}"
                             android:textSize="16sp"
                             android:textColor="@color/xd_light_content_highlight"
                             android:fontFamily="@font/pretendard_medium"/>
@@ -424,7 +431,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:layout_marginTop="6dp"
                             android:layout_marginBottom="12dp"
-                            android:text="이번 달 헌금"
+                            android:text="@{mainVM.loginData.dptment_parent == 0 ? mainVM.loginData.dptname : mainVM.loginData.dptment_parent_name}"
                             android:textSize="14sp"
                             android:textColor="@color/xd_light_content"
                             android:fontFamily="@font/pretendard_regular"/>
@@ -484,10 +491,7 @@
                     app:layout_constraintRight_toRightOf="@id/home_board_gv95"
                     android:layout_marginTop="12dp"/>
 
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

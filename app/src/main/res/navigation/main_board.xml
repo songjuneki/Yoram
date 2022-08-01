@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navi_board"
+    app:startDestination="@id/boardFragment">
+
+    <fragment
+        android:id="@+id/boardFragment"
+        android:name="com.sjk.yoram.view.fragment.main.BoardFragment"
+        android:label="BoardFragment"
+        tools:layout="@layout/frag_board"/>
+</navigation>

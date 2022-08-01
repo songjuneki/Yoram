@@ -1,5 +1,7 @@
 package com.sjk.yoram.model
 
+import com.sjk.yoram.model.dto.MyLoginData
+
 data class Card (
     val type: CardType,
     val data: cardData? ) {

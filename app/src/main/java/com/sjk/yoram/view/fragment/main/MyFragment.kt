@@ -23,7 +23,7 @@ import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.UserPermission
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragMyBinding
-import com.sjk.yoram.model.MyLoginData
+import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.viewmodel.FragMyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 class MyFragment: Fragment() {
     // private val binding by lazy { FragMyBinding.inflate(layoutInflater) }
     private lateinit var binding: FragMyBinding
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var viewModel: FragMyViewModel
 
     private lateinit var loginResult: ActivityResultLauncher<Intent>
@@ -45,6 +45,7 @@ class MyFragment: Fragment() {
         //val title = requireArguments().getString("title")
         //Log.d("jk", "${title} 오픈")
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_my, container, false)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         viewModel = ViewModelProvider(requireActivity()).get(FragMyViewModel::class.java)
         binding.vm = viewModel
 
@@ -61,7 +62,7 @@ class MyFragment: Fragment() {
                 editor.commit()
                 Log.d("JKJK", "from Login : id=${id}, pw=${pw}")
                 CoroutineScope(Dispatchers.Main).launch {
-                    mainViewModel.loginData.value = MyRetrofit.userApi.getMyInfo(id)
+//                    mainViewModel.loginData.value = MyRetrofit.userApi.getMyInfo(id)
                     mainViewModel.loginState.value = LoginState.LOGIN
                 }
             } else if (it.resultCode == Activity.RESULT_CANCELED) {
@@ -116,7 +117,7 @@ class MyFragment: Fragment() {
         editor.putString(getString(R.string.YORAM_LOCAL_PREF_MYPW), "@")
         editor.commit()
 
-        mainViewModel.loginData.value = MyLoginData()
+//        mainViewModel.loginData.value = MyLoginData()
         mainViewModel.loginState.value = LoginState.NONE
     }
 

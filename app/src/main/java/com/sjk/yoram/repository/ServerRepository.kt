@@ -28,6 +28,13 @@ class ServerRepository(private val application: Application) {
         return bannerList
     }
 
+    suspend fun getMaxWeekOfMonth(year: Int = 0, month: Int = 0): Int {
+        val result = MyRetrofit.serverApi.getMaxWeekOfMonth(year, month)
+        if (result.isSuccessful)
+            return result.body()!!
+        return 5
+    }
+
     companion object {
         private var instance: ServerRepository? = null
         fun getInstance(application: Application): ServerRepository? {

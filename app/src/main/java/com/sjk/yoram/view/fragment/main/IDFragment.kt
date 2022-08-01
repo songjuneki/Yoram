@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.github.sumimakito.awesomeqr.AwesomeQrRenderer
@@ -26,7 +27,7 @@ import com.sjk.yoram.model.AESUtil
 import com.sjk.yoram.model.FragmentType
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragIdBinding
-import com.sjk.yoram.model.MyLoginData
+import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.WorshipType
 import com.sjk.yoram.viewmodel.FragIDViewModel
@@ -36,8 +37,8 @@ import java.text.SimpleDateFormat
 class IDFragment: Fragment() {
     //private val binding by lazy { FragIdBinding.inflate(layoutInflater) }
     private lateinit var binding: FragIdBinding
-    private val mainViewModel: MainViewModel by activityViewModels()
-    private val viewModel: FragIDViewModel by viewModels()
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var viewModel: FragIDViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +48,7 @@ class IDFragment: Fragment() {
         //val title = requireArguments().getString("title")
         //Log.d("jk", "${title} 오픈")
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_id, container, false)
-//        viewModel = ViewModelProvider(requireActivity()).get(FragIDViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(FragIDViewModel::class.java)
         binding.vm = viewModel
         return binding.root
     }
@@ -81,7 +82,7 @@ class IDFragment: Fragment() {
                 transformations(CircleCropTransformation())
             }
             binding.userData = it
-            if (it.department == -1) {
+            if (it.dptment == -1) {
                 binding.idNotice.visibility = View.VISIBLE
                 binding.idCode.visibility = View.INVISIBLE
                 binding.idTimer.visibility = View.INVISIBLE
@@ -169,7 +170,7 @@ class IDFragment: Fragment() {
         color = setColor
     }
 
-    private fun makeQR(user:MyLoginData) {
+    private fun makeQR(user: MyLoginData) {
         val option = makeQROption(user)
         try {
             val result = AwesomeQrRenderer.render(option)

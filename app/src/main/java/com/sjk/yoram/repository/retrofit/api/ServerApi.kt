@@ -27,4 +27,7 @@ interface ServerApi {
 
     @GET("banner/list")
     suspend fun getBannerList(): Response<List<Int>>
+
+    @GET("get-max-week")
+    suspend fun getMaxWeekOfMonth(@Query("year")year: Int = 0, @Query("month")month: Int= 0): Response<Int>
 }

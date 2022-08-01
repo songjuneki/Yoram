@@ -32,4 +32,8 @@
         <item name="bottomSheetDialogTheme">@style/RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
     </style>
+    <style name="Theme.Yoram.ActionBar" parent="Theme.Yoram">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
 </resources>

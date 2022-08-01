@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sjk.yoram.model.MyLoginData
+import com.sjk.yoram.model.dto.MyLoginData
 import kotlinx.coroutines.*
 
 class FragIDViewModel: ViewModel() {

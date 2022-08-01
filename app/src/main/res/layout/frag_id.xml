@@ -6,7 +6,7 @@
             type="com.sjk.yoram.viewmodel.FragIDViewModel" />
         <variable
             name="userData"
-            type="com.sjk.yoram.model.MyLoginData" />
+            type="com.sjk.yoram.model.dto.MyLoginData" />
         <variable
             name="timer"
             type="Integer" />

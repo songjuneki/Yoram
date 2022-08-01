@@ -2,7 +2,7 @@ package com.sjk.yoram.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sjk.yoram.model.MyLoginData
+import com.sjk.yoram.model.dto.MyLoginData
 
 class FragMyViewModel: ViewModel() {
     val myInfo = MutableLiveData<MyLoginData>()

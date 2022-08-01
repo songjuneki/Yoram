@@ -5,6 +5,8 @@ import android.content.Context
 import android.util.Log
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
+import com.sjk.yoram.model.dto.MyLoginData
+import java.math.BigInteger
 
 class UserRepository(private val application: Application) {
     private val sharedPref = application.getSharedPreferences(application.getString(R.string.YORAM_LOCAL_PREF), Context.MODE_PRIVATE)
@@ -64,6 +66,10 @@ class UserRepository(private val application: Application) {
         return MyRetrofit.userApi.getMyInfo(id)
     }
 
+    suspend fun getCurrentMonthGiveAmount(id: Int): BigInteger {
+        val result = MyRetrofit.userApi.getUserGiveAmount(id)
+        return BigInteger(result)
+    }
 
 
     companion object {

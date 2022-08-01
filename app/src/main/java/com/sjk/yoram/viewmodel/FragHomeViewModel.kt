@@ -7,6 +7,7 @@ import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class FragHomeViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
@@ -21,12 +22,21 @@ class FragHomeViewModel(private val userRepository: UserRepository, private val 
     val bannerList: LiveData<MutableList<Banner>>
         get() = _bannerList
 
+    private val _maxWeek = MutableLiveData<Int>()
+    val maxWeek: LiveData<Int>
+        get() = _maxWeek
+
     init {
         loadBanners()
+        loadServerValues()
     }
 
-    fun loadBanners() = viewModelScope.launch {
+    private fun loadBanners() = viewModelScope.launch {
         _bannerList.addAll(serverRepository.getAllBanner().toMutableList())
+    }
+
+    private fun loadServerValues() = viewModelScope.async {
+        _maxWeek.value = serverRepository.getMaxWeekOfMonth()
     }
 
 

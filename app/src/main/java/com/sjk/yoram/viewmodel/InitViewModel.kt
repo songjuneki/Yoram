@@ -14,6 +14,8 @@ import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.*
+import java.security.MessageDigest
+import kotlin.experimental.and
 
 class InitViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
     private val _backBtnEvent = MutableLiveData<Event<Unit>>()
@@ -311,7 +313,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
 
     fun btnLogin(name: String, pw: String) {
-        btnLogin(name, AESUtil().Encrypt(pw), "")
+        btnLogin(name, EncryptKey(pw), "")
     }
     fun btnLogin(name: String, pw: String, bd: String = "") {
         viewModelScope.async {
@@ -324,7 +326,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
     fun btnSignUp() {
         _newUser.name = newName.value!!
-        _newUser.pw = AESUtil().Encrypt(newPw.value!!)
+        _newUser.pw = EncryptKey(newPw.value!!)
         _newUser.sex = newSex.value == SexState.MALE
         _newUser.birth = newBD.value!!
         Log.d("JKJK", "Sign up ${newName.value}, ${newPw.value}, ${newSex.value}, ${newBD.value}")
@@ -366,5 +368,20 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return InitViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!) as T
         }
+    }
+
+    private fun EncryptKey(key: String): String {
+        val encoder = MessageDigest.getInstance("SHA-256")
+        val byteArray = encoder.digest(key.toByteArray())
+
+        val enc = StringBuffer()
+        for (byte in byteArray) {
+            val hashedByte = (byte.and((0xff).toByte()) + 0x100).toString(16)
+            if (hashedByte.length > 2)
+                enc.append(hashedByte.substring(1))
+            else
+                enc.append(hashedByte)
+        }
+        return enc.toString()
     }
 }

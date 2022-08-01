@@ -11,10 +11,12 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragHomeBinding
 import com.sjk.yoram.model.ui.adapter.HomeBannerAdapter
 import com.sjk.yoram.viewmodel.FragHomeViewModel
+import com.sjk.yoram.viewmodel.MainViewModel
 
-class HomeFragment: Fragment(R.layout.frag_home) {
+class HomeFragment: Fragment() {
     private lateinit var binding: FragHomeBinding
-    private lateinit var viewModel: FragHomeViewModel
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var homeViewModel: FragHomeViewModel
 //    private val viewModel: FragHomeViewModel by lazy { ViewModelProvider(this, FragHomeViewModel.Factory(requireActivity().application))[FragHomeViewModel::class.java] }
 
     override fun onCreateView(
@@ -23,13 +25,14 @@ class HomeFragment: Fragment(R.layout.frag_home) {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_home, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(FragHomeViewModel::class.java)
-        binding.vm = viewModel
-//        binding.lifecycleOwner = requireActivity()
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity()).get(FragHomeViewModel::class.java)
+        binding.mainVM = mainViewModel
+        binding.homeVM = homeViewModel
+        binding.lifecycleOwner = this
 
         binding.homeBannerPager.adapter = HomeBannerAdapter()
         binding.homeBannerIndicator.setViewPager2(binding.homeBannerPager)
-
 
         return binding.root
     }
@@ -38,7 +41,7 @@ class HomeFragment: Fragment(R.layout.frag_home) {
         super.onViewCreated(view, savedInstanceState)
 
         // home banner pager 상호작용
-        viewModel.bannerList.observe(viewLifecycleOwner) {
+        homeViewModel.bannerList.observe(viewLifecycleOwner) {
             (binding.homeBannerPager.adapter as HomeBannerAdapter).fetchBanner(it)
         }
 
@@ -62,7 +65,7 @@ class HomeFragment: Fragment(R.layout.frag_home) {
 //        })
 //        adapter.setOnSearchBarClickListener(object: CardAdapter.OnSearchBarClickListener {
 //            override fun onSearchBarClick() {
-//                // change department fragment and focus searchbar
+//                // change dptment fragment and focus searchbar
 //                mainViewModel.moveDptFrag()
 //                dptFragViewModel.isMoved.value = true
 //            }

@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 class DptmentFragment: Fragment() {
     // private val binding by lazy { FragDptmentBinding.inflate(layoutInflater) }
     private lateinit var binding: FragDptmentBinding
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var viewModel: FragDptmentViewModel
     private lateinit var searchBarEditText: ClearableEditText
     private lateinit var searchBarIcon: ImageButton
@@ -48,6 +48,7 @@ class DptmentFragment: Fragment() {
         //Log.d("jk", "${title} 오픈")
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_dptment, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(FragDptmentViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

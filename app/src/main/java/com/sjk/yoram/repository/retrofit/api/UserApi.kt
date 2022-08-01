@@ -1,15 +1,12 @@
 package com.sjk.yoram.repository.retrofit.api
 
 import com.sjk.yoram.model.LoginCheck
-import com.sjk.yoram.model.MyLoginData
 import com.sjk.yoram.model.NewUser
-import com.sjk.yoram.model.dto.Attend
-import com.sjk.yoram.model.dto.SimpleUser
-import com.sjk.yoram.model.dto.User
-import kotlinx.coroutines.Deferred
+import com.sjk.yoram.model.dto.*
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
+import java.math.BigInteger
 
 interface UserApi {
     // CRUD
@@ -24,6 +21,11 @@ interface UserApi {
     suspend fun check(@Body checkData: LoginCheck): Boolean
     @GET("user/my")
     suspend fun getMyInfo(@Query("id")id: Int): MyLoginData
+
+    @GET("give")
+    suspend fun getUserGive(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): ArrayList<Give>
+    @GET("give/amount")
+    suspend fun getUserGiveAmount(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): String
 
 
     @GET("user/dpt/sp")

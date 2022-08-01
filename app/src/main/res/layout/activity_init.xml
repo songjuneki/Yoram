@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/xd_light_background"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/init_nav_graph" />
+            app:navGraph="@navigation/init_nav_graph"
+            app:defaultNavHost="true"/>
 
         <include
             android:visibility="gone"

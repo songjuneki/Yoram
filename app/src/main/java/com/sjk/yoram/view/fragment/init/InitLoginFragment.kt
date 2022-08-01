@@ -43,7 +43,7 @@ class InitLoginFragment: Fragment() {
 
         viewModel.loginEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                if (it == LoginState.PW_FAIL) binding.initLoginPwEtLayout.error = "비밀번호를 확인해주세요"
+                if (it == LoginState.PW_FAIL) binding.initLoginPwEtLayout.error = "비밀번호가 일치하지 않습니다"
                 if (it == LoginState.NAME_FAIL) binding.initLoginNameEtLayout.error = "이름을 확인해주세요"
             }
         }
