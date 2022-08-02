@@ -1,22 +1,92 @@
 package com.sjk.yoram.viewmodel
 
+import android.app.Application
 import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.model.Department
 import com.sjk.yoram.model.DptButtonType
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
+import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
+import com.sjk.yoram.model.ui.listener.UserItemClickListener
+import com.sjk.yoram.repository.DepartmentRepository
+import com.sjk.yoram.repository.ServerRepository
+import com.sjk.yoram.repository.UserRepository
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
+import com.skydoves.powerspinner.PowerSpinnerInterface
+import com.skydoves.powerspinner.PowerSpinnerView
 import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class FragDptmentViewModel: ViewModel() {
-    val departments = MutableLiveData<MutableList<Department>>()
-    private val _departments = mutableListOf<Department>()
+class FragDptmentViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository, private val departmentRepository: DepartmentRepository): ViewModel() {
+
+    val spinnerListener = OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> changeDptSortType(newIndex) }
+
+    private val _dptSortType = MutableLiveData(DptButtonType.NAME)
+    val dptSortType: LiveData<DptButtonType> = _dptSortType
+
+
+    private val _departments = MutableLiveData<MutableList<Department>>()
+    val departments: LiveData<MutableList<Department>>
+        get() = _departments
+
+
+    init {
+        _departments.value = mutableListOf()
+        loadDepartmentByName()
+    }
+
+    private val dptClickListener = object: DepartmentItemClickListener {
+        override fun onClick(department: Department) {
+            department.isExpanded = !department.isExpanded
+        }
+    }
+    private val userClickListener = object: UserItemClickListener {
+        override fun onClick(user: SimpleUser) {
+
+        }
+    }
+    val adapter = DepartmentListAdapter(dptClickListener)
+
+
+    private fun loadDepartmentByName() = viewModelScope.launch {
+        _departments.value!!.clear()
+        _departments.value = departmentRepository.getAllDepartmentsByName()
+    }
+
+
+
+    private fun changeDptSortType(index: Int) {
+        when (index) {
+            0 -> {
+                _dptSortType.value = DptButtonType.NAME
+                loadDepartmentByName()
+            }
+            1 -> _dptSortType.value = DptButtonType.DEPARTMENT
+            2 -> _dptSortType.value = DptButtonType.POSITION
+        }
+    }
+
+
+    class Factory(private val application: Application): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return FragDptmentViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!, DepartmentRepository.getInstance(application)!!) as T
+        }
+    }
+
+
+
+
+
+
+
+
+
+/*
     var dptFetched = MutableLiveData<Boolean>(false)
 
     val users = MutableLiveData<MutableList<SimpleUser>>()
@@ -29,8 +99,6 @@ class FragDptmentViewModel: ViewModel() {
     private var _searchResult = mutableListOf<SimpleUser>()
     val isSearch = MutableLiveData<Boolean>(false)
 
-    private val _dptSortType = MutableLiveData(DptButtonType.DEPARTMENT)
-    val dptSortType: LiveData<DptButtonType> = _dptSortType
 
     val isMoved = MutableLiveData<Boolean>(false)
     var recycler: RecyclerView? = null
@@ -184,5 +252,6 @@ class FragDptmentViewModel: ViewModel() {
         } else
             false
     }
+*/
 
 }

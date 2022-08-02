@@ -34,9 +34,9 @@ class UserRepository(private val application: Application) {
             if (isValidAccount(id, pw)){
                 setLogin(id, pw)
                 setIsInit(false)
-                LoginState.LOGIN
+                return LoginState.LOGIN
             }
-            else LoginState.PW_FAIL
+            else return LoginState.PW_FAIL
         }
     }
 

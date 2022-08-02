@@ -13,9 +13,10 @@ data class Department (
     val code: Int,
     var users: MutableList<SimpleUser>,
     var childDepartment: MutableList<Department>,
-    var isExpanded: Boolean) {
-    constructor(name: String, code: Int): this(0, name, code, mutableListOf(), mutableListOf(), false)
-    constructor(parentCode: Int, name: String, code: Int): this(parentCode, name, code, mutableListOf(), mutableListOf(), false)
+    var isExpanded: Boolean,
+    var count: Int) {
+    constructor(name: String, code: Int): this(0, name, code, mutableListOf(), mutableListOf(), false, 0)
+    constructor(parentCode: Int, name: String, code: Int): this(parentCode, name, code, mutableListOf(), mutableListOf(), false, 0)
 
 
     constructor(dtoDpt: com.sjk.yoram.model.dto.Department): this(dtoDpt.parent, dtoDpt.name, dtoDpt.code) { loadUsersForDepartment() }
@@ -28,7 +29,7 @@ data class Department (
 
     constructor(dptCode: Int): this("", dptCode) {
         CoroutineScope(Dispatchers.IO).launch {
-            val dpt = MyRetrofit.getMyApi().loadDepartmentbyCode(dptCode)
+            val dpt = MyRetrofit.dptmentApi.loadDepartmentbyCode(dptCode)
             name = dpt.name
             parentCode = dpt.parent
         }
@@ -36,20 +37,23 @@ data class Department (
 
     private fun loadChildsForDepartment() {
         CoroutineScope(Dispatchers.IO).async {
-            val list = MyRetrofit.getMyApi().getChildDepartments(code)
+            val list = MyRetrofit.dptmentApi.getChildDepartments(code)
             list.forEach { childDepartment.add(Department(it)) }
+            count = list.size
         }
     }
 
     private fun loadUsersForDepartment() {
         CoroutineScope(Dispatchers.IO).async {
-            users = MyRetrofit.userApi.getSimpleUsersDepartment(code)
+//            users = MyRetrofit.userApi.getSimpleUsersDepartment(code)
+            count = users.size
         }
     }
 
     private fun loadUsersForPosition() {
         CoroutineScope(Dispatchers.IO).async {
-            users = MyRetrofit.userApi.getSimpleUsersPosition(code)
+//            users = MyRetrofit.userApi.getSimpleUsersPosition(code)
+            count = users.size
         }
     }
 }

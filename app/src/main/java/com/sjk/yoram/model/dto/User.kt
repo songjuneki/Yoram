@@ -1,19 +1,21 @@
 package com.sjk.yoram.model.dto
 
 data class User(
-    val address: String,
-    val birth: String,
-    val carno: String,
-    val department: Int,
     val id: Int,
-    val fname: String,
-    val lname: String,
-    val permission: Int,
-    val family: Int,
-    val position: Int,
+    val name: String,
+    val Fname: String,
+    val Lname: String,
     val pw: String,
     val sex: Boolean,
-    val tel1: String,
-    val tel2: String,
-    val tel3: String
+    val birth: String,
+    val position: Int,
+    val department: Int,
+    val phone: String,
+    val tel: String,
+    val carno: String,
+    val family: Int,
+    val address: String,
+    val address_more: String,
+    val permission: Int,
+    val avatar: String
 )

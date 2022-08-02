@@ -20,6 +20,16 @@
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="BorderTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="hintTextAppearance">@style/SearchBarHintStyle</item>
+        <item name="boxBackgroundColor">@color/xd_light_background</item>
+        <item name="boxCornerRadiusBottomEnd">5dp</item>
+        <item name="boxCornerRadiusBottomStart">5dp</item>
+        <item name="boxCornerRadiusTopEnd">5dp</item>
+        <item name="boxCornerRadiusTopStart">5dp</item>
+        <item name="boxStrokeColor">@color/outline_edittext_layout_color</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
     <style name="CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="indicatorColor">@color/xd_light_logo_accent</item>
         <item name="indicatorInset">18dp</item>

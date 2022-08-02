@@ -21,7 +21,6 @@ import com.cielyang.android.clearableedittext.ClearableEditText
 import com.cielyang.android.clearableedittext.OnTextClearedListener
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.model.ui.adapter.DepartmentCardAdapter
-import com.sjk.yoram.model.ui.adapter.DepartmentNameAdapter
 import com.sjk.yoram.model.DptButtonType
 import com.sjk.yoram.model.LoginState
 import com.sjk.yoram.R
@@ -50,13 +49,18 @@ class DptmentFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(FragDptmentViewModel::class.java)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.vm = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
 
+
+
+/*
+        /// 이 밑에서는 구형 코드
         val sortType = mutableListOf<String>("부서별", "직급별", "이름 순")
         val spinnerAdapter = ArrayAdapter<String>(this.requireContext(), android.R.layout.simple_spinner_dropdown_item, sortType)
         val recycleManager = LinearLayoutManager(this.context)
@@ -264,5 +268,5 @@ class DptmentFragment: Fragment() {
     fun focusSearchbar() {
         searchBarEditText.requestFocus()
     }
-
+*/
 }

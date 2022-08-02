@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'io.coil-kt:coil:2.1.0'
     implementation 'com.github.skydoves:expandablelayout:1.0.7'
+    implementation 'com.github.skydoves:powerspinner:1.2.3'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.github.cielsk:clearable-edittext:0.0.8'

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dptment_type">
+        <item>이름 순</item>
+        <item>부서 별</item>
+        <item>직급 별</item>
+    </string-array>
+</resources>

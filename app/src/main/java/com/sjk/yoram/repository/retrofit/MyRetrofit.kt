@@ -3,6 +3,7 @@ package com.sjk.yoram.model
 import android.util.Log
 import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.dto.Department
+import com.sjk.yoram.repository.retrofit.api.DepartmentApi
 import com.sjk.yoram.repository.retrofit.api.ServerApi
 import com.sjk.yoram.repository.retrofit.api.UserApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,6 +37,7 @@ object MyRetrofit {
 
     val serverApi: ServerApi by lazy { getRetrofit().create(ServerApi::class.java) }
     val userApi: UserApi by lazy { getRetrofit().create(UserApi::class.java) }
+    val dptmentApi: DepartmentApi by lazy { getRetrofit().create(DepartmentApi::class.java) }
 
 
 
@@ -58,20 +60,6 @@ object MyRetrofit {
 }
 
 interface MyApi {
-
-    @GET("dpt/has")
-    suspend fun getChildDepartments(@Query("parent")parent: Int): MutableList<Department>
-    @GET("dpt/childs")
-    suspend fun getAllChildDepartments(): MutableList<Department>
-    @GET("dpt/tops")
-    suspend fun getAllTopDepartments(): MutableList<Department>
-    @GET("dpt")
-    suspend fun loadDepartmentbyCode(@Query("code")code: Int): Department
-
-    @GET("pos/parent")
-    suspend fun getAllParentPositions(): MutableList<Position>
-    @GET("pos/childs")
-    suspend fun getAllChildPositions(): MutableList<Position>
 
 
     @GET("ws/all")

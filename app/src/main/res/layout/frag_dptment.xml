@@ -1,101 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/xd_light_card_divider">
 
-        <TextView
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:text="조직도입니다"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/frag_dptment_searchbar_card"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frag_dptment_header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_margin="8dp">
+            android:background="@color/xd_light_background">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_dptment_header_gv05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_dptment_header_gv95"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:visibility="visible"
+                android:id="@+id/frag_dptment_header_spinner"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/frag_dptment_header_gv05"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:spinner_item_array="@array/dptment_type"
+                android:gravity="left"
+                android:textSize="18sp"
+                android:textColor="@color/xd_light_title"
+                android:fontFamily="@font/pretendard_semibold"
+                app:spinner_arrow_show="true"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_animate="true"
+                app:spinner_popup_animation="normal"
+                PowerSpinnerListener="@{vm.spinnerListener}"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <ImageButton
+                android:visibility="visible"
+                android:id="@+id/frag_dptment_header_search"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/shape_circle_image_btn"
+                android:src="@drawable/ic_search"
+                android:scaleType="fitCenter"
+                android:soundEffectsEnabled="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="@id/frag_dptment_header_gv95"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/xd_light_title" />
 
-                <ImageButton
-                    android:id="@+id/frag_dptment_searchbar_icon"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="8dp"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_baseline_search_24"
-                    android:background="#00000000"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-                <com.cielyang.android.clearableedittext.ClearableEditText
-                    android:id="@+id/frag_dptment_searchbar_et"
-                    android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:visibility="invisible"
+                android:id="@+id/frag_dptment_header_searchbar"
+                style="@style/BorderTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/frag_dptment_header_gv05"
+                app:layout_constraintRight_toLeftOf="@id/frag_dptment_header_cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="18dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:startIconDrawable="@drawable/ic_search"
+                app:startIconTint="@color/xd_light_text_hint"
+                app:endIconMode="clear_text"
+                app:endIconDrawable="@drawable/ic_textclear">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:hint="이름 검색"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/frag_dptment_searchbar_icon"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_margin="8dp"
-                    android:background="#00000000" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    android:hint="이름이나 차 번호를 입력해주세요"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textSize="14sp"
+                    android:textColorHint="@color/xd_light_text_hint" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/frag_dptment_dropdown"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/frag_dptment_searchbar_card"
-            app:layout_constraintWidth_percent="0.3"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_margin="12dp"
-            android:spinnerMode="dropdown" />
-        <Spinner
-            android:id="@+id/frag_dptment_dropdown_detail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/frag_dptment_searchbar_card"
-            app:layout_constraintLeft_toRightOf="@id/frag_dptment_dropdown"
-            app:layout_constraintWidth_percent="0.3"
-            android:layout_margin="12dp"
-            android:spinnerMode="dropdown"
-            android:visibility="invisible" />
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/frag_dptment_header_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="취소"
+                android:textSize="16sp"
+                android:textColor="@color/xd_light_title"
+                android:fontFamily="@font/pretendard_medium"
+                android:clickable="true"
+                android:focusable="true"
+                android:soundEffectsEnabled="true"
+                android:hapticFeedbackEnabled="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="@id/frag_dptment_header_gv95"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:visibility="visible"
-            android:id="@+id/frag_dptment_recycler"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frag_dptment_body_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/frag_dptment_dropdown"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/frag_dptment_header_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_margin="8dp"
-            android:scrollbars="vertical"
-            android:orientation="horizontal" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            android:background="@color/xd_light_background">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_dptment_body_gv_05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_dptment_body_gv_95"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="visible"
+                android:id="@+id/frag_dptment_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/frag_dptment_body_gv_05"
+                app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
+                android:layout_margin="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:adapter="@{vm.adapter}"
+                DepartmentData="@{vm.departments}"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

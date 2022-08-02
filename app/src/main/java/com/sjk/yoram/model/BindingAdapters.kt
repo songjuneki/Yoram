@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButtonToggleGroup
@@ -17,8 +18,11 @@ import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.ui.adapter.AddressListAdapter
 import com.sjk.yoram.model.dto.Juso
+import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
+import com.skydoves.powerspinner.PowerSpinnerView
 
 object BindingAdapters {
 //    @JvmStatic
@@ -148,6 +152,20 @@ object BindingAdapters {
     fun setPhoneFormatting(view: TextInputLayout, bool: Boolean) {
         if (view.editText == null) return
         if (bool) view.editText!!.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+    }
+
+
+
+    @BindingAdapter("PowerSpinnerListener")
+    @JvmStatic
+    fun setOnSpinnerItemSelectedListener(view: PowerSpinnerView, listener: OnSpinnerItemSelectedListener<String>) {
+        view.setOnSpinnerItemSelectedListener(listener)
+    }
+
+    @BindingAdapter("DepartmentData")
+    @JvmStatic
+    fun setOnRecyclerAdapterData(view: RecyclerView, data: List<Department>) {
+        (view.adapter as DepartmentListAdapter).submitList(data)
     }
 
 }
