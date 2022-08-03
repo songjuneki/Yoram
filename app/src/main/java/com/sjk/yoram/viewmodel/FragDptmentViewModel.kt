@@ -1,13 +1,16 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.model.Department
 import com.sjk.yoram.model.DptButtonType
+import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.model.dto.UserDetail
 import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
 import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
 import com.sjk.yoram.model.ui.listener.UserItemClickListener
@@ -26,18 +29,38 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
     val spinnerListener = OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> changeDptSortType(newIndex) }
 
+    private var _myPermission: Int = -5
+
     private val _dptSortType = MutableLiveData(DptButtonType.NAME)
     val dptSortType: LiveData<DptButtonType> = _dptSortType
-
 
     private val _departments = MutableLiveData<MutableList<Department>>()
     val departments: LiveData<MutableList<Department>>
         get() = _departments
 
+    private val _detailUser = MutableLiveData<UserDetail>()
+    val detailUser: LiveData<UserDetail>
+        get() = _detailUser
+
+    private val _userDetailEvent = MutableLiveData<Event<Unit>>()
+    val userDetailEvent: LiveData<Event<Unit>>
+        get() = _userDetailEvent
+
+    private val _userCallEvent = MutableLiveData<Event<String>>()
+    val userCallEvent: LiveData<Event<String>>
+        get() = _userCallEvent
+
+    private val _userMsgEvent = MutableLiveData<Event<String>>()
+    val userMsgEvent: LiveData<Event<String>>
+        get() = _userMsgEvent
+
 
     init {
-        _departments.value = mutableListOf()
-        loadDepartmentByName()
+        viewModelScope.launch {
+            _myPermission = userRepository.getMyPermission(userRepository.getLoginID())
+            _departments.value = mutableListOf()
+            loadDepartmentByName()
+        }
     }
 
     private val dptClickListener = object: DepartmentItemClickListener {
@@ -47,10 +70,18 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
     private val userClickListener = object: UserItemClickListener {
         override fun onClick(user: SimpleUser) {
-
+            selectedUser(user.id)
         }
     }
-    val adapter = DepartmentListAdapter(dptClickListener)
+
+
+    fun listAdapter() : DepartmentListAdapter = DepartmentListAdapter(_myPermission, dptClickListener, if (_myPermission < 1) null else userClickListener)
+
+    private fun selectedUser(id: Int) = viewModelScope.launch {
+        _detailUser.value = userRepository.getUserDetail(id)
+        _userDetailEvent.value = Event(Unit)
+    }
+
 
 
     private fun loadDepartmentByName() = viewModelScope.launch {
@@ -71,6 +102,13 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
+    fun callOnUserDetail(phone: String) {
+        _userCallEvent.value = Event(phone)
+    }
+
+    fun msgOnUserDetail(phone: String) {
+        _userMsgEvent.value = Event(phone)
+    }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

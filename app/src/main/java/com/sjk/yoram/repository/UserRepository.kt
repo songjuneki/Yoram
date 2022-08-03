@@ -6,6 +6,7 @@ import android.util.Log
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.MyLoginData
+import com.sjk.yoram.model.dto.UserDetail
 import java.math.BigInteger
 
 class UserRepository(private val application: Application) {
@@ -45,6 +46,14 @@ class UserRepository(private val application: Application) {
         return MyRetrofit.userApi.check(LoginCheck(id, pw))
     }
 
+    suspend fun getMyPermission(id: Int): Int {
+        val response = MyRetrofit.userApi.getMyPermission(id)
+        Log.d("JKKJK", "permission = ${response.body()!!}")
+        if (response.isSuccessful)
+            return response.body()!!
+        return -11
+    }
+
     suspend fun getCountByName(name: String): Int {
         val user = MyRetrofit.userApi.get(name)
         return user.size
@@ -70,6 +79,8 @@ class UserRepository(private val application: Application) {
         val result = MyRetrofit.userApi.getUserGiveAmount(id)
         return BigInteger(result)
     }
+
+    suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id)
 
 
     companion object {

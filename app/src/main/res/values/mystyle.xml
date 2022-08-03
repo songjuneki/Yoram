@@ -89,4 +89,24 @@
         <item name="behavior_skipCollapsed">true</item>
         <item name="behavior_expandedOffset">100dp</item>
     </style>
+    <style name="FullExpandedRoundedBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">5dp</item>
+        <item name="cornerSizeTopRight">5dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_to_top</item>
+        <item name="android:windowExitAnimation">@anim/anim_top_to_bottom</item>
+        <item name="android:fragmentOpenEnterAnimation">@anim/anim_bottom_to_top</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/anim_top_to_bottom</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_draggable">true</item>
+        <item name="behavior_skipCollapsed">true</item>
+        <item name="behavior_fitToContents">false</item>
+        <item name="behavior_expandedOffset">0dp</item>
+    </style>
+    <style name="DividerStyle" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="colorOnSurface">@color/xd_light_background</item>
+        <item name="dividerColor">@color/xd_light_background</item>
+    </style>
 </resources>

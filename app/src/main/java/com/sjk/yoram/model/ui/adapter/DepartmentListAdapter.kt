@@ -14,8 +14,9 @@ import com.sjk.yoram.model.Department
 import com.sjk.yoram.model.DepartmentSubData
 import com.sjk.yoram.model.DptSubDataType
 import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
+import com.sjk.yoram.model.ui.listener.UserItemClickListener
 
-class DepartmentListAdapter(private val clickListener: DepartmentItemClickListener): ListAdapter<Department, DepartmentListAdapter.ViewHolder>(diffUtil) {
+class DepartmentListAdapter(private val permission: Int, private val clickListener: DepartmentItemClickListener, private val userClickListener: UserItemClickListener?): ListAdapter<Department, DepartmentListAdapter.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: CardDepartmentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.card_department, parent, false)
 
@@ -26,7 +27,7 @@ class DepartmentListAdapter(private val clickListener: DepartmentItemClickListen
         holder.bind(getItem(position), clickListener)
     }
 
-    class ViewHolder(private val binding: CardDepartmentBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: CardDepartmentBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Department, listener: DepartmentItemClickListener) {
             binding.cardDptTitle.text = item.name
             binding.cardDptCount.text = item.count.toString()
@@ -41,7 +42,7 @@ class DepartmentListAdapter(private val clickListener: DepartmentItemClickListen
             item.users.forEach { user ->
                 subList.add(DepartmentSubData(null, user, DptSubDataType.USER))
             }
-            val adapter = DepartmentSubListAdapter()
+            val adapter = DepartmentSubListAdapter(permission, clickListener, userClickListener)
             binding.cardDptRecycler.adapter = adapter
             adapter.submitList(subList)
         }

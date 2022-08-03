@@ -21,6 +21,8 @@ interface UserApi {
     suspend fun check(@Body checkData: LoginCheck): Boolean
     @GET("user/my")
     suspend fun getMyInfo(@Query("id")id: Int): MyLoginData
+    @GET("user/permission")
+    suspend fun getMyPermission(@Query("id")id: Int): Response<Int>
 
     @GET("give")
     suspend fun getUserGive(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): ArrayList<Give>
@@ -28,6 +30,8 @@ interface UserApi {
     suspend fun getUserGiveAmount(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): String
 
 
+    @GET("user/detail")
+    suspend fun getUserDetail(@Query("id")id: Int): UserDetail
     @GET("user/dpt/sp")
     suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
     @GET("user/dpt")

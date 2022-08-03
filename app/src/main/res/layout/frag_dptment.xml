@@ -147,10 +147,8 @@
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
                 android:layout_margin="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:adapter="@{vm.adapter}"
+                android:adapter="@{vm.listAdapter()}"
                 DepartmentData="@{vm.departments}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

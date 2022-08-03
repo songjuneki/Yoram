@@ -1,5 +1,6 @@
 package com.sjk.yoram.model
 
+import android.graphics.drawable.Drawable
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
@@ -49,13 +50,17 @@ object BindingAdapters {
 //        }
 //    }
 
-    @BindingAdapter("imageUrl")
+    @BindingAdapter("imageUrl", "error")
     @JvmStatic
-    fun setImageUrl(imgView: ImageView, url: String) {
-        if (url.isEmpty())
-            imgView.setImageDrawable(null)
+    fun setImageUrl(imgView: ImageView, url: String?, error: Drawable?) {
+        if (url.isNullOrEmpty())
+            imgView.load(error)
         else
-            imgView.load(url)
+            imgView.load(url){
+                error(error)
+                crossfade(true)
+                placeholder(error)
+            }
     }
 
     @BindingAdapter("onCheckedChanged")
