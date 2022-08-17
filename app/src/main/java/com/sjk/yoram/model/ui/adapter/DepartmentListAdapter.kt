@@ -19,7 +19,6 @@ import com.sjk.yoram.model.ui.listener.UserItemClickListener
 class DepartmentListAdapter(private val permission: Int, private val clickListener: DepartmentItemClickListener, private val userClickListener: UserItemClickListener?): ListAdapter<Department, DepartmentListAdapter.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: CardDepartmentBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.card_department, parent, false)
-
         return ViewHolder(binding)
     }
 
@@ -52,7 +51,6 @@ class DepartmentListAdapter(private val permission: Int, private val clickListen
         val diffUtil = object: DiffUtil.ItemCallback<Department>() {
             override fun areItemsTheSame(oldItem: Department, newItem: Department): Boolean =
                 oldItem.code == newItem.code
-
 
             override fun areContentsTheSame(oldItem: Department, newItem: Department): Boolean =
                 oldItem == newItem

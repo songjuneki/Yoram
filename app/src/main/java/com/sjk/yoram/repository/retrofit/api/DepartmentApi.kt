@@ -11,8 +11,6 @@ interface DepartmentApi {
 
     @GET("dpt/has")
     suspend fun getChildDepartments(@Query("parent")parent: Int): MutableList<Department>
-    @GET("dpt/childs")
-    suspend fun getAllChildDepartments(): MutableList<Department>
     @GET("dpt/tops")
     suspend fun getAllTopDepartments(): MutableList<Department>
     @GET("dpt")

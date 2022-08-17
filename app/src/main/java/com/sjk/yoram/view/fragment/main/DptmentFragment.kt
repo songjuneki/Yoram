@@ -51,11 +51,13 @@ class DptmentFragment: Fragment() {
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
+        binding.fragDptmentHeaderSpinner.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         viewModel.userDetailEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {

@@ -109,4 +109,21 @@
         <item name="colorOnSurface">@color/xd_light_background</item>
         <item name="dividerColor">@color/xd_light_background</item>
     </style>
+    <style name="SpinnerTheme">
+        <item name="android:textColor">@color/xd_light_title</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="dropDownListViewStyle">@style/SpinnerTheme.Popup</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerTheme.Popup</item>
+    </style>
+    <style name="SpinnerTheme.Popup" parent="Widget.AppCompat.Light.ListView.DropDown">
+        <item name="background">@color/xd_light_background</item>
+        <item name="android:textColor">@color/xd_light_title</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:divider">@color/xd_light_text_hint</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:scrollbars">none</item>
+    </style>
 </resources>

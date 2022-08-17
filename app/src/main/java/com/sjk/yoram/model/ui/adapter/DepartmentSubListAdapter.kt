@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -74,7 +75,6 @@ class DepartmentSubListAdapter(private val permission: Int, private val clickLis
     }
     inner class UserViewHolder(private val binding: DptUserItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SimpleUser) {
-            Log.d("JKJK", "permission adapter = $permission")
             var avatar = if (item.avatar.isNullOrEmpty()) "http://3.39.51.49:8080/api/user/avatar?id=-1" else item.avatar
             if (permission < 1) avatar = "http://3.39.51.49:8080/api/user/avatar?id=-1"
             binding.dptAvatarIv.load(avatar) {

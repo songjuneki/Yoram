@@ -2,9 +2,13 @@ package com.sjk.yoram.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
+import com.sjk.yoram.R
 import com.sjk.yoram.model.Department
 import com.sjk.yoram.model.DptButtonType
 import com.sjk.yoram.model.Event
@@ -23,11 +27,10 @@ import com.skydoves.powerspinner.PowerSpinnerView
 import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class FragDptmentViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository, private val departmentRepository: DepartmentRepository): ViewModel() {
-
-    val spinnerListener = OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> changeDptSortType(newIndex) }
 
     private var _myPermission: Int = -5
 
@@ -63,6 +66,10 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
+    val sortTypeListener = OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+        changeDptSortType(newIndex)
+    }
+
     private val dptClickListener = object: DepartmentItemClickListener {
         override fun onClick(department: Department) {
             department.isExpanded = !department.isExpanded
@@ -74,7 +81,6 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
-
     fun listAdapter() : DepartmentListAdapter = DepartmentListAdapter(_myPermission, dptClickListener, if (_myPermission < 1) null else userClickListener)
 
     private fun selectedUser(id: Int) = viewModelScope.launch {
@@ -82,13 +88,13 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         _userDetailEvent.value = Event(Unit)
     }
 
-
-
     private fun loadDepartmentByName() = viewModelScope.launch {
-        _departments.value!!.clear()
         _departments.value = departmentRepository.getAllDepartmentsByName()
     }
 
+    private fun loadDepartmentByDepartment() = viewModelScope.launch {
+        _departments.value = departmentRepository.getAllDepartmentsByDepartment()
+    }
 
 
     private fun changeDptSortType(index: Int) {
@@ -97,7 +103,10 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
                 _dptSortType.value = DptButtonType.NAME
                 loadDepartmentByName()
             }
-            1 -> _dptSortType.value = DptButtonType.DEPARTMENT
+            1 -> {
+                _dptSortType.value = DptButtonType.DEPARTMENT
+                loadDepartmentByDepartment()
+            }
             2 -> _dptSortType.value = DptButtonType.POSITION
         }
     }

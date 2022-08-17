@@ -1,5 +1,6 @@
 package com.sjk.yoram.repository.retrofit.api
 
+import androidx.annotation.Nullable
 import com.sjk.yoram.model.LoginCheck
 import com.sjk.yoram.model.NewUser
 import com.sjk.yoram.model.dto.*
@@ -32,10 +33,8 @@ interface UserApi {
 
     @GET("user/detail")
     suspend fun getUserDetail(@Query("id")id: Int): UserDetail
-    @GET("user/dpt/sp")
-    suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
     @GET("user/dpt")
-    suspend fun getUsersDepartment(@Query("dpt")dpt: Int): MutableList<User>
+    suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
     @GET("user/pos/sp")
     suspend fun getSimpleUsersPosition(@Query("pos")pos: Int): MutableList<SimpleUser>
     @GET("user/pos")

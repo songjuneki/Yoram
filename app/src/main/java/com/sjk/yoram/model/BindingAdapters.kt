@@ -6,8 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
 import androidx.recyclerview.widget.ListAdapter
@@ -24,6 +23,9 @@ import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
+import com.skydoves.powerspinner.databinding.PowerspinnerItemDefaultPowerBinding
+import com.skydoves.powerspinner.databinding.PowerspinnerLayoutBodyBinding
+import com.skydoves.powerspinner.databinding.PowerspinnerLayoutPreferenceBinding
 
 object BindingAdapters {
 //    @JvmStatic
@@ -166,6 +168,14 @@ object BindingAdapters {
     fun setOnSpinnerItemSelectedListener(view: PowerSpinnerView, listener: OnSpinnerItemSelectedListener<String>) {
         view.setOnSpinnerItemSelectedListener(listener)
     }
+
+    @BindingAdapter("PowerSpinnerDefaultSelectIndex")
+    @JvmStatic
+    fun setDefautSelectIndex(view: PowerSpinnerView, index: Int) {
+        view.selectItemByIndex(index)
+    }
+
+
 
     @BindingAdapter("DepartmentData")
     @JvmStatic
