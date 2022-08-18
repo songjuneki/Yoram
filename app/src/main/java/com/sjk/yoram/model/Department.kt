@@ -18,11 +18,9 @@ data class Department (
     constructor(name: String, code: Int): this(0, name, code, mutableListOf(), mutableListOf(), true, 0)
     constructor(parentCode: Int, name: String, code: Int): this(parentCode, name, code, mutableListOf(), mutableListOf(), true, 0)
     constructor(dtoDpt: com.sjk.yoram.model.dto.Department): this(dtoDpt.parent, dtoDpt.name, dtoDpt.code)
-
     constructor(dtoPos: Position): this(dtoPos.name, dtoPos.code) {
         if (dtoPos.cat != dtoPos.code)
             this.parentCode = dtoPos.cat
-        loadUsersForPosition()
     }
 
     constructor(dptCode: Int): this("", dptCode) {
@@ -69,6 +67,12 @@ data class Department (
 
 }
 
+@JvmName("addListDtoDepartment")
 fun MutableList<Department>.addList(dtoDptList: MutableList<com.sjk.yoram.model.dto.Department>) {
     dtoDptList.forEach { this.add(Department(it)) }
+}
+
+@JvmName("addListPosition")
+fun MutableList<Department>.addList(dtoPosList: MutableList<Position>) {
+    dtoPosList.forEach { this.add(Department(it)) }
 }

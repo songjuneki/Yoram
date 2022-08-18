@@ -72,13 +72,38 @@ class DepartmentRepository(private val application: Application) {
             users
     }
 
-    suspend fun getAllParentDepartments(): MutableList<Department> {
-        val dtoList = MyRetrofit.dptmentApi.getAllTopDepartments()
+    suspend fun getDepartmentsByPosition(): MutableList<Department> {
         val list = mutableListOf<Department>()
-        dtoList.forEach {
-            list.add(Department(it))
+        val root = MyRetrofit.dptmentApi.getAllTopPositions()
+        list.addList(root)
+
+        list.forEach {
+            it.childDepartment = getChildPositions(it.code)
+            it.users = getPositionsUsers(it.code)
+            it.getAllUserSize()
         }
         return list
+    }
+
+    private suspend fun getChildPositions(code: Int): MutableList<Department> {
+        val list = mutableListOf<Department>()
+        val child = MyRetrofit.dptmentApi.getChildPosition(code)
+        list.addList(child)
+
+        list.forEach {
+            it.childDepartment = getChildPositions(it.code)
+            it.users = getPositionsUsers(it.code)
+            it.getAllUserSize()
+        }
+        return list
+    }
+
+    private suspend fun getPositionsUsers(code: Int): MutableList<SimpleUser> {
+        val users = MyRetrofit.userApi.getSimpleUsersPosition(code)
+        return if (users.isNullOrEmpty())
+            mutableListOf()
+        else
+            users
     }
 
     companion object {

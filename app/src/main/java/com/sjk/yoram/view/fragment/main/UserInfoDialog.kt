@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class UserInfoDialog: BottomSheetDialogFragment() {
 
         dptViewModel.userCallEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
+                Log.d("JKJK", "call to : ${it.replace("-", "")}")
                 val dial = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${it.replace("-", "")}"))
                 startActivity(dial)
             }
@@ -45,7 +47,7 @@ class UserInfoDialog: BottomSheetDialogFragment() {
 
         dptViewModel.userMsgEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                val msg = Intent(Intent.ACTION_SEND, Uri.parse("smsto:${it.replace("-", "")}"))
+                val msg = Intent(Intent.ACTION_SENDTO, Uri.parse("sms:${it.replace("-", "")}"))
                 msg.putExtra("sms_body", "")
                 startActivity(msg)
             }

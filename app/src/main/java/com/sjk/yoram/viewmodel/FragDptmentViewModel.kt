@@ -96,6 +96,10 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         _departments.value = departmentRepository.getAllDepartmentsByDepartment()
     }
 
+    private fun loadDepartmentByPosition() = viewModelScope.launch {
+        _departments.value = departmentRepository.getDepartmentsByPosition()
+    }
+
 
     private fun changeDptSortType(index: Int) {
         when (index) {
@@ -107,11 +111,15 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
                 _dptSortType.value = DptButtonType.DEPARTMENT
                 loadDepartmentByDepartment()
             }
-            2 -> _dptSortType.value = DptButtonType.POSITION
+            2 -> {
+                _dptSortType.value = DptButtonType.POSITION
+                loadDepartmentByPosition()
+            }
         }
     }
 
     fun callOnUserDetail(phone: String) {
+        Log.d("JKJK", "phone:$phone")
         _userCallEvent.value = Event(phone)
     }
 
@@ -124,9 +132,6 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
             return FragDptmentViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!, DepartmentRepository.getInstance(application)!!) as T
         }
     }
-
-
-
 
 
 

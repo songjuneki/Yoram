@@ -15,6 +15,10 @@ interface DepartmentApi {
     suspend fun getAllTopDepartments(): MutableList<Department>
     @GET("dpt")
     suspend fun loadDepartmentbyCode(@Query("code")code: Int): Department
+    @GET("pos/parent")
+    suspend fun getAllTopPositions(): MutableList<Position>
+    @GET("pos/child")
+    suspend fun getChildPosition(@Query("parent")parent: Int): MutableList<Position>
 
     @GET("pos/parent")
     suspend fun getAllParentPositions(): MutableList<Position>
