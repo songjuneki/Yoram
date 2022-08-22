@@ -96,13 +96,13 @@ class DptCardRecycleAdapter(val departments: MutableList<Department>, val dpt: D
             name.setTextColor(Color.BLACK)
             name.setTextSize(androidx.annotation.Dimension.SP, 18F)
             if (isLogin)
-                name.text = items[position].users!!.fname + items[position].users!!.lname
+                name.text = items[position].users!!.name
             else {
-                val olname = items[position].users!!.lname
+                val olname = items[position].users!!.name
                 var lname = ""
                 for (i in olname)
                     lname += "Ｏ"
-                name.text = items[position].users!!.fname + lname
+                name.text = items[position].users!!.name
             }
 
             rowLayout.addView(img)

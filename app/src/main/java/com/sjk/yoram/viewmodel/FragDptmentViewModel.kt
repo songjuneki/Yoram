@@ -8,15 +8,15 @@ import android.widget.ArrayAdapter
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
-import com.sjk.yoram.model.Department
-import com.sjk.yoram.model.DptButtonType
-import com.sjk.yoram.model.Event
-import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.model.dto.UserDetail
 import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
+import com.sjk.yoram.model.ui.adapter.SimpleUserListAdapter
 import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
+import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.sjk.yoram.model.ui.listener.UserItemClickListener
 import com.sjk.yoram.repository.DepartmentRepository
 import com.sjk.yoram.repository.ServerRepository
@@ -25,6 +25,7 @@ import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerInterface
 import com.skydoves.powerspinner.PowerSpinnerView
 import io.github.bangjunyoung.KoreanTextMatcher
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,10 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private val _departments = MutableLiveData<MutableList<Department>>()
     val departments: LiveData<MutableList<Department>>
         get() = _departments
+
+    private val _searchResult = MutableLiveData<MutableList<SimpleUser>>()
+    val searchResult: LiveData<MutableList<SimpleUser>>
+        get() = _searchResult
 
     private val _detailUser = MutableLiveData<UserDetail>()
     val detailUser: LiveData<UserDetail>
@@ -57,17 +62,42 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     val userMsgEvent: LiveData<Event<String>>
         get() = _userMsgEvent
 
+    val isSearching = MutableLiveData<Boolean>(false)
+    val searchKeyword = MutableLiveData<String>("")
+
 
     init {
         viewModelScope.launch {
             _myPermission = userRepository.getMyPermission(userRepository.getLoginID())
             _departments.value = mutableListOf()
+            _searchResult.value = mutableListOf()
             loadDepartmentByName()
         }
     }
 
     val sortTypeListener = OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
         changeDptSortType(newIndex)
+    }
+
+    fun clickEvent(btnId: Int) {
+        when(btnId) {
+            R.id.frag_dptment_header_search -> { if (_myPermission > 0) isSearching.value = true }
+            R.id.frag_dptment_header_cancel -> { isSearching.value = false; searchKeyword.value = "" }
+        }
+    }
+
+
+    val searchInputChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            viewModelScope.async {
+                _searchJob?.cancel()
+                if (input.isEmpty()) {
+                    _searchResult.value = mutableListOf()
+                } else {
+                    searchUserByName(input)
+                }
+            }
+        }
     }
 
     private val dptClickListener = object: DepartmentItemClickListener {
@@ -82,10 +112,18 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     fun listAdapter() : DepartmentListAdapter = DepartmentListAdapter(_myPermission, dptClickListener, if (_myPermission < 1) null else userClickListener)
+    fun searchListAdapter() : SimpleUserListAdapter = SimpleUserListAdapter(userClickListener)
 
     private fun selectedUser(id: Int) = viewModelScope.launch {
         _detailUser.value = userRepository.getUserDetail(id)
         _userDetailEvent.value = Event(Unit)
+    }
+
+    private var _searchJob: Job? = null
+    private fun searchUserByName(name: String) {
+        _searchJob = viewModelScope.launch {
+            _searchResult.value = departmentRepository.searchUserByName(name)
+        }
     }
 
     private fun loadDepartmentByName() = viewModelScope.launch {
@@ -99,7 +137,6 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private fun loadDepartmentByPosition() = viewModelScope.launch {
         _departments.value = departmentRepository.getDepartmentsByPosition()
     }
-
 
     private fun changeDptSortType(index: Int) {
         when (index) {
@@ -119,7 +156,6 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     fun callOnUserDetail(phone: String) {
-        Log.d("JKJK", "phone:$phone")
         _userCallEvent.value = Event(phone)
     }
 
@@ -132,8 +168,6 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
             return FragDptmentViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!, DepartmentRepository.getInstance(application)!!) as T
         }
     }
-
-
 
 
 

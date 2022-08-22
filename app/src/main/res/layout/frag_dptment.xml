@@ -2,6 +2,7 @@
 <layout
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
@@ -55,12 +56,12 @@
                 app:spinner_popup_background="@color/xd_light_background"
                 app:spinner_popup_elevation="4dp"
                 app:spinner_popup_animation="normal"
+                android:visibility="@{vm.isSearching() ? View.GONE : View.VISIBLE}"
                 PowerSpinnerDefaultSelectIndex="@{0}"
                 PowerSpinnerListener="@{vm.sortTypeListener}"
                 />
 
             <ImageButton
-                android:visibility="visible"
                 android:id="@+id/frag_dptment_header_search"
                 android:layout_width="0dp"
                 android:layout_height="?attr/actionBarSize"
@@ -71,10 +72,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_header_gv95"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:tint="@color/xd_light_title" />
+                app:tint="@color/xd_light_title"
+                android:visibility="@{vm.isSearching() ? View.GONE : View.VISIBLE}"
+                android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:visibility="invisible"
                 android:id="@+id/frag_dptment_header_searchbar"
                 style="@style/BorderTextInputLayout"
                 android:layout_width="0dp"
@@ -83,14 +85,19 @@
                 app:layout_constraintLeft_toLeftOf="@id/frag_dptment_header_gv05"
                 app:layout_constraintRight_toLeftOf="@id/frag_dptment_header_cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="18dp"
+                android:layout_marginBottom="8dp"
+                app:hintEnabled="false"
                 app:startIconDrawable="@drawable/ic_search"
                 app:startIconTint="@color/xd_light_text_hint"
                 app:endIconMode="clear_text"
-                app:endIconDrawable="@drawable/ic_textclear">
+                android:visibility="@{vm.isSearching() ? View.VISIBLE : View.GONE}"
+                inputTextChanged="@{vm.searchInputChanged}">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@={vm.searchKeyword}"
                     android:hint="이름이나 차 번호를 입력해주세요"
                     android:fontFamily="@font/pretendard_regular"
                     android:textSize="14sp"
@@ -98,7 +105,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:visibility="invisible"
                 android:id="@+id/frag_dptment_header_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,7 +119,9 @@
                 android:foreground="?attr/selectableItemBackground"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_header_gv95"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="@{vm.isSearching() ? View.VISIBLE : View.GONE}"
+                android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -140,8 +148,32 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.95"/>
 
+            <TextView
+                android:id="@+id/frag_dptment_body_keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/frag_dptment_body_gv_05"
+                android:layout_marginTop="16dp"
+                android:text="@{`'` + vm.searchKeyword + `'`}"
+                android:textSize="12sp"
+                android:textColor="@color/xd_light_dot_indicator_enabled"
+                android:fontFamily="@font/pretendard_regular"
+                android:visibility="@{vm.searchKeyword.empty? View.INVISIBLE : View.VISIBLE}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/frag_dptment_body_keyword"
+                android:layout_marginTop="16dp"
+                android:text="에 대한 검색 결과입니다."
+                android:textSize="12sp"
+                android:textColor="@color/xd_light_title"
+                android:fontFamily="@font/pretendard_regular"
+                android:visibility="@{vm.searchKeyword.empty ? View.INVISIBLE : View.VISIBLE}" />
+
+
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="visible"
                 android:id="@+id/frag_dptment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -151,8 +183,24 @@
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
                 android:layout_margin="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="@{vm.isSearching() ? View.GONE : View.VISIBLE}"
                 android:adapter="@{vm.listAdapter()}"
                 DepartmentData="@{vm.departments}"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_dptment_search_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/frag_dptment_body_keyword"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="@{vm.isSearching() ? View.VISIBLE : View.GONE}"
+                android:adapter="@{vm.searchListAdapter()}"
+                SimpleUserData="@{vm.searchResult}"
+                highlightKeyword="@{vm.searchKeyword}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

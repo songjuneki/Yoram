@@ -79,6 +79,7 @@ class DepartmentSubListAdapter(private val permission: Int, private val clickLis
             if (permission < 1) avatar = "http://3.39.51.49:8080/api/user/avatar?id=-1"
             binding.dptAvatarIv.load(avatar) {
                 crossfade(true)
+                crossfade(500)
                 placeholder(R.drawable.ic_avatar)
                 transformations(CircleCropTransformation())
             }
@@ -90,7 +91,8 @@ class DepartmentSubListAdapter(private val permission: Int, private val clickLis
                 for (i in f until item.name.length) name += "Ｏ"
             }else name = "${item.name}"
 
-            binding.dptNameTv.text = "$name ${item.position_name}"
+            binding.dptNameTv.text = "$name"
+            binding.dptNamePos.text = " ${item.position_name}"
             val dptname = if (item.department_name.isNullOrEmpty()) "성도" else item.department_name
             binding.dptSubTv.text = dptname
             binding.root.setOnClickListener { userClickListener?.onClick(item) }

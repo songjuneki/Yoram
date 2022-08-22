@@ -1,7 +1,9 @@
 package com.sjk.yoram.model
 
+import android.util.Log
 import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.dto.SimpleUser
+import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -75,4 +77,16 @@ fun MutableList<Department>.addList(dtoDptList: MutableList<com.sjk.yoram.model.
 @JvmName("addListPosition")
 fun MutableList<Department>.addList(dtoPosList: MutableList<Position>) {
     dtoPosList.forEach { this.add(Department(it)) }
+}
+
+fun MutableList<Department>.findUser(name: String): MutableList<SimpleUser> {
+    val list = mutableListOf<SimpleUser>()
+
+    this.forEach { dpt ->
+        val matcher = KoreanTextMatcher(name)
+        list.addAll(dpt.users.filter { matcher.match(it.name).success() }.toMutableList())
+        if (dpt.childDepartment.isNotEmpty())
+            list.addAll(dpt.childDepartment.findUser(name))
+    }
+    return list
 }

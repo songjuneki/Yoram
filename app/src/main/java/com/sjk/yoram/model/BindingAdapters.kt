@@ -18,7 +18,9 @@ import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.ui.adapter.AddressListAdapter
 import com.sjk.yoram.model.dto.Juso
+import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
+import com.sjk.yoram.model.ui.adapter.SimpleUserListAdapter
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
@@ -179,8 +181,13 @@ object BindingAdapters {
 
     @BindingAdapter("DepartmentData")
     @JvmStatic
-    fun setOnRecyclerAdapterData(view: RecyclerView, data: List<Department>) {
+    fun setOnRecyclerAdapterDepartmentData(view: RecyclerView, data: List<Department>) {
         (view.adapter as DepartmentListAdapter).submitList(data)
+    }
+    @BindingAdapter("SimpleUserData", "highlightKeyword")
+    @JvmStatic
+    fun setOnRecyclerAdapterSimpleUserData(view: RecyclerView, data: List<SimpleUser>, keyword: String) {
+        (view.adapter as SimpleUserListAdapter).submitList(data, keyword)
     }
 
 }

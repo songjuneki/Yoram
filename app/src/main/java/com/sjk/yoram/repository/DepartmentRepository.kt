@@ -7,12 +7,25 @@ import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.addList
 import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.model.dto.User
+import com.sjk.yoram.model.findUser
 import io.github.bangjunyoung.KoreanChar
 import io.github.bangjunyoung.KoreanTextMatch
 import io.github.bangjunyoung.KoreanTextMatcher
 
 
 class DepartmentRepository(private val application: Application) {
+    suspend fun searchUserByName(name: String): MutableList<SimpleUser> {
+        val all = getAllDepartmentsByName()
+        return all.findUser(name)
+    }
+
+    suspend fun searchUserByNumber(number: String): MutableList<SimpleUser> {
+        val list = mutableListOf<SimpleUser>()
+        val all = getAllDepartmentsByName()
+
+        return list
+    }
+
     suspend fun getAllDepartmentsByName(): MutableList<Department> {
         val list = mutableListOf<Department>()
         val simpleList = MyRetrofit.userApi.getAllSimpleUsersByName()
