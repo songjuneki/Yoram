@@ -162,8 +162,8 @@ class CardAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     transformations(CircleCropTransformation())
                 }
             }
-            dptText.text = userdata.user.dptname
-            userNameText.text = userdata.user.fname + userdata.user.lname
+            dptText.text = userdata.user.department_name
+            userNameText.text = userdata.user.name
         }
     }
 

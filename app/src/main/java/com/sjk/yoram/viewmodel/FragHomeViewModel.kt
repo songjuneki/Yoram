@@ -40,16 +40,6 @@ class FragHomeViewModel(private val userRepository: UserRepository, private val 
     }
 
 
-//    fun loadRootDpts() {
-//        viewModelScope.launch {
-//            val dpts = MyRetrofit.getMyApi().getAllTopDepartments()
-//            dpts.forEach {
-//                _rootDpts.add(SimpleDpt(it.code, it.name))
-//            }
-//            rootDpts.value = _rootDpts
-//        }
-//    }
-
     fun addCard(card: Card) {
         _cards.add(card)
         cards.value = _cards

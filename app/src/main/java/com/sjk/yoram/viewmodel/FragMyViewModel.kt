@@ -12,13 +12,11 @@ class FragMyViewModel: ViewModel() {
     }
 
     fun getMyFullName(): String {
-        val f = myInfo.value!!.fname
-        val l = myInfo.value!!.lname
-        return f + l
+        return myInfo.value!!.name
     }
 
     fun getMyDptName(): String {
-        return myInfo.value!!.dptname
+        return myInfo.value!!.department_name
     }
 
     fun setMyInfo(newInfo: MyLoginData) {

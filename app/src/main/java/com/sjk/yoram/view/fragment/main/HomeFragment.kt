@@ -17,7 +17,6 @@ class HomeFragment: Fragment() {
     private lateinit var binding: FragHomeBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var homeViewModel: FragHomeViewModel
-//    private val viewModel: FragHomeViewModel by lazy { ViewModelProvider(this, FragHomeViewModel.Factory(requireActivity().application))[FragHomeViewModel::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,

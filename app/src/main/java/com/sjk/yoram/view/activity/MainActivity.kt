@@ -16,12 +16,14 @@ import com.sjk.yoram.databinding.ActivityMainBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.viewmodel.FragHomeViewModel
+import com.sjk.yoram.viewmodel.FragIDViewModel
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var viewModel: MainViewModel
     private lateinit var homeFragViewModel: FragHomeViewModel
     private lateinit var dptFragViewModel: FragDptmentViewModel
+    private lateinit var idFragViewModel: FragIDViewModel
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -29,9 +31,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this, MainViewModel.Factory(application)).get(MainViewModel::class.java)
-        homeFragViewModel = ViewModelProvider(this, FragHomeViewModel.Factory(application)).get(FragHomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, MainViewModel.Factory(application))[MainViewModel::class.java]
+        homeFragViewModel = ViewModelProvider(this, FragHomeViewModel.Factory(application))[FragHomeViewModel::class.java]
         dptFragViewModel = ViewModelProvider(this, FragDptmentViewModel.Factory(application))[FragDptmentViewModel::class.java]
+        idFragViewModel = ViewModelProvider(this, FragIDViewModel.Factory(application))[FragIDViewModel::class.java]
 
         binding.vm = viewModel
 

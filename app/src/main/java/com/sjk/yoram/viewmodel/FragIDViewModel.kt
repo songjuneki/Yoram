@@ -1,51 +1,91 @@
 package com.sjk.yoram.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.graphics.Bitmap
+import android.util.Log
+import androidx.lifecycle.*
+import com.github.sumimakito.awesomeqr.AwesomeQrRenderer
+import com.github.sumimakito.awesomeqr.option.RenderOption
+import com.github.sumimakito.awesomeqr.option.color.Color
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import com.sjk.yoram.R
+import com.sjk.yoram.model.AESUtil
 import com.sjk.yoram.model.dto.MyLoginData
+import com.sjk.yoram.repository.ServerRepository
+import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
 
-class FragIDViewModel: ViewModel() {
-    private val _timer = MutableLiveData<Int>()
-    val timer: LiveData<Int> get() = _timer
-
-
+class FragIDViewModel(private val userRepository: UserRepository): ViewModel() {
     private val _user = MutableLiveData<MyLoginData>()
-    val user: LiveData<MyLoginData> get() = _user
+    val user: LiveData<MyLoginData>
+        get() = _user
+
+    private val _isValidCode = MutableLiveData<Boolean>()
+    val isValidCode: LiveData<Boolean>
+        get() = _isValidCode
+
+    private val _timer = MutableLiveData<Int>()
+    val timer: LiveData<Int>
+        get() = _timer
+
+    private val _code = MutableLiveData<Bitmap>()
+    val code: LiveData<Bitmap>
+        get() = _code
 
 
     init {
-        _timer.value = 15
-        _user.value = MyLoginData()
+        viewModelScope.launch {
+            _timer.value = 0
+            _user.value = userRepository.getLoginData(userRepository.getLoginID())
+            countStop()
+        }
     }
 
-    fun setUser(user: MyLoginData) {
-        _user.postValue(user)
+    fun btnEvent(id: Int) {
+        when (id) {
+            R.id.frag_id_refresh -> { makeCode(); countDown() }
+        }
     }
 
-    val countJob = viewModelScope.launch(start = CoroutineStart.LAZY) {
-        while (isActive) {
-            if (_timer.value!! == 0)  {
-                _timer.value = 15
+
+    private fun makeCode() {
+        viewModelScope.launch {
+            _code.value = userRepository.getUserCode()
+            _isValidCode.value = true
+        }
+    }
+
+    private fun makeNotValidCode() {
+        _code.value = userRepository.getNotValidUserCode()
+    }
+
+
+    var countDownJob: Job? = null
+    fun countDown() {
+        countDownJob = viewModelScope.launch {
+            _timer.value = 16
+            while (isActive) {
+                if (_timer.value!! == 0)  {
+                    countStop()
+                    return@launch
+                }
+                _timer.value = _timer.value!!.minus(1)
                 delay(1000L)
             }
-            _timer.value = _timer.value!!.minus(1)
-            delay(1000L)
         }
-        _timer.value = 15
     }
 
-    suspend fun countdown() = viewModelScope.launch(start = CoroutineStart.LAZY) {
-        this@FragIDViewModel.countJob.join()
-        _timer.value = 15
-    }
-
-
-    fun countstop() {
-        _timer.value = 15
+    fun countStop() {
+        countDownJob?.cancel()
+        _isValidCode.value = false
+        makeNotValidCode()
     }
 
 
+    class Factory(private val application: Application): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return FragIDViewModel(UserRepository.getInstance(application)!!) as T
+        }
+    }
 }

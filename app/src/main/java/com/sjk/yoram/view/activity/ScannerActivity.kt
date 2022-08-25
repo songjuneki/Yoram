@@ -40,6 +40,10 @@ class ScannerActivity: AppCompatActivity() {
         val wtype = intent.getIntExtra("worshipType", 0)
         val info = dec.substring(28).split(";")
 
+        if (info[0].startsWith("ERROR:")) {
+            Log.d("JKJK", "QR SCAN :: qr is something wrong! [SYSTEM]")
+            return@async false
+        }
         if (!info[0].startsWith("DATE:")) {
             Log.d("JKJK", "QR SCAN :: qr is something wrong! [DATE]")
             Log.d("JKJK", "info = $info")

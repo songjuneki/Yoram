@@ -2,12 +2,21 @@ package com.sjk.yoram.repository
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.Log
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toBitmapOrNull
+import com.github.sumimakito.awesomeqr.AwesomeQrRenderer
+import com.github.sumimakito.awesomeqr.option.RenderOption
+import com.github.sumimakito.awesomeqr.option.color.Color
+import com.github.sumimakito.awesomeqr.option.logo.Logo
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.model.dto.UserDetail
 import java.math.BigInteger
+import java.text.SimpleDateFormat
 
 class UserRepository(private val application: Application) {
     private val sharedPref = application.getSharedPreferences(application.getString(R.string.YORAM_LOCAL_PREF), Context.MODE_PRIVATE)
@@ -82,6 +91,68 @@ class UserRepository(private val application: Application) {
 
     suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id)
 
+    suspend fun getUserCode(): Bitmap {
+        val option = makeCodeOption(getLoginData(getLoginID()))
+        val result = AwesomeQrRenderer.render(option)
+        return if (result.bitmap != null)
+            result.bitmap!!
+        else
+            AwesomeQrRenderer.render(makeFailureCode("cannot make code")).bitmap!!
+    }
+
+    fun getNotValidUserCode(): Bitmap {
+        return application.getDrawable(R.drawable.ic_blured_code)?.toBitmap()
+            ?: return AwesomeQrRenderer.render(makeFailureCode("cannot get blured code")).bitmap!!
+    }
+
+    private fun makeCodeOption(user: MyLoginData, special: Boolean = false) = RenderOption().apply {
+        val date = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val timeFormat = SimpleDateFormat("HHmmss")
+        val p = "GUSEONGCHURCH;BY.SONGJUNEKI;DATE:${dateFormat.format(date)};TIME:${timeFormat.format(date)};ID:${user.id}"
+        content = AESUtil().Encrypt(p)
+        size = 1000
+        borderWidth = 10
+        ecl = ErrorCorrectionLevel.M
+        patternScale = 0.7f
+        roundedPatterns = false
+        clearBorder = true
+
+        color = Color().apply {
+            background = android.graphics.Color.TRANSPARENT
+            dark = android.graphics.Color.BLACK
+            light = android.graphics.Color.WHITE
+            auto = false
+        }
+
+        logo = Logo().apply {
+            bitmap = application.getDrawable(R.drawable.icon_temp)?.toBitmapOrNull()
+            this.scale = 0.3f
+        }
+    }
+
+    private fun makeFailureCode(error: String) = RenderOption().apply {
+        val p = "GUSEONGCHURCH;BY.SONGJUNEKI;ERROR:${error}"
+        content = AESUtil().Encrypt(p)
+        size = 1000
+        borderWidth = 10
+        ecl = ErrorCorrectionLevel.M
+        patternScale = 0.7f
+        roundedPatterns = false
+        clearBorder = true
+
+        color = Color().apply {
+            background = android.graphics.Color.TRANSPARENT
+            dark = android.graphics.Color.BLACK
+            light = android.graphics.Color.WHITE
+            auto = false
+        }
+
+        logo = Logo().apply {
+            bitmap = application.getDrawable(R.drawable.icon_temp)?.toBitmapOrNull()
+            this.scale = 0.3f
+        }
+    }
 
     companion object {
         private var instance: UserRepository? = null

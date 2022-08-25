@@ -1,5 +1,8 @@
 package com.sjk.yoram.model
 
+import android.graphics.Bitmap
+import android.graphics.BlurMaskFilter
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
@@ -8,10 +11,13 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.*
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -54,17 +60,29 @@ object BindingAdapters {
 //        }
 //    }
 
-    @BindingAdapter("imageUrl", "error")
+    @BindingAdapter("imageUrl", "error", "circleImage")
     @JvmStatic
-    fun setImageUrl(imgView: ImageView, url: String?, error: Drawable?) {
-        if (url.isNullOrEmpty())
-            imgView.load(error)
-        else
-            imgView.load(url){
+    fun setImageUrl(view: ImageView, imageUrl: String?, error: Drawable, circleImage: Boolean = false) {
+        if (imageUrl.isNullOrEmpty()) {
+            view.load(error) {
+                crossfade(true)
+                if(circleImage) transformations(CircleCropTransformation())
+            }
+        } else {
+            view.load(imageUrl) {
                 error(error)
                 crossfade(true)
                 placeholder(error)
+                if(circleImage) transformations(CircleCropTransformation())
             }
+        }
+    }
+    @BindingAdapter("bitmapImg")
+    @JvmStatic
+    fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
+        if (bitmap == null)
+            return
+        view.load(bitmap)
     }
 
     @BindingAdapter("onCheckedChanged")
