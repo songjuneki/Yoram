@@ -1,7 +1,6 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Banner

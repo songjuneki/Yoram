@@ -13,6 +13,7 @@ import com.github.sumimakito.awesomeqr.option.logo.Logo
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
+import com.sjk.yoram.model.dto.Attend
 import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.model.dto.UserDetail
 import java.math.BigInteger
@@ -90,6 +91,10 @@ class UserRepository(private val application: Application) {
     }
 
     suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id)
+
+    suspend fun attendUser(attend: Attend): Boolean {
+        return MyRetrofit.userApi.attendUser(attend)
+    }
 
     suspend fun getUserCode(): Bitmap {
         val option = makeCodeOption(getLoginData(getLoginID()))

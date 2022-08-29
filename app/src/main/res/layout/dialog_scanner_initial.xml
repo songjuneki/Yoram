@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragIDViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialog_scanner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/xd_light_background"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        <TextView
+            android:id="@+id/dialog_scanner_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="예배 선택"
+            android:textSize="18sp"
+            android:textColor="@color/xd_light_title"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="18dp" />
+
+        <RadioGroup
+            android:id="@+id/dialog_scanner_choices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/dialog_scanner_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            radioItems="@{vm.worshipStringList}"
+            radioItemSelectChanged="@{vm.worshipSelectChange}">
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_scanner_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:text="취소"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
+            app:layout_constraintTop_toBottomOf="@id/dialog_scanner_choices"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/dialog_scanner_done"
+            android:onClick="@{(view) -> vm.btnEvent(view.id)}"
+            android:layout_marginTop="18dp"
+            android:background="@color/xd_light_text_hint"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_scanner_done"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:text="선택"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
+            app:layout_constraintTop_toBottomOf="@id/dialog_scanner_choices"
+            app:layout_constraintLeft_toRightOf="@id/dialog_scanner_cancel"
+            app:layout_constraintRight_toRightOf="parent"
+            android:onClick="@{(view) -> vm.btnEvent(view.id)}"
+            android:clickable="@{vm.selectedWorship != null ? true : false}"
+            android:layout_marginTop="18dp"
+            android:background="@{vm.selectedWorship != null ? @color/xd_light_dot_indicator_enabled : @color/xd_light_text_hint}"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

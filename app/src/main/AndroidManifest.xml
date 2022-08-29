@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sjk.yoram">
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
@@ -11,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.Yoram">
         <activity android:name=".view.activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -41,8 +44,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <activity android:name=".view.activity.PolicyActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.activity.ScannerActivity"
             android:screenOrientation="portrait"/>
 
     </application>

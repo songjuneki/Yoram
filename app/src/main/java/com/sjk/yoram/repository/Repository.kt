@@ -2,8 +2,7 @@ package com.sjk.yoram.repository
 
 import android.app.Application
 
-class Repository(application: Application) {
-
+class Repository(private val application: Application) {
 
     companion object {
         private var instance: Repository? = null

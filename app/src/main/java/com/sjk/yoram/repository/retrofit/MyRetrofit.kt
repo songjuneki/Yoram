@@ -40,11 +40,6 @@ object MyRetrofit {
     val dptmentApi: DepartmentApi by lazy { getRetrofit().create(DepartmentApi::class.java) }
 
 
-
-    fun getMyApi(): MyApi {
-        return getRetrofit().create(MyApi::class.java)
-    }
-
     suspend fun checkServer(): Boolean {
         try {
             serverApi.serverCheck()
@@ -57,12 +52,4 @@ object MyRetrofit {
         }
         return true
     }
-}
-
-interface MyApi {
-
-
-    @GET("ws/all")
-    suspend fun getAllWorship(): List<WorshipType>
-
 }

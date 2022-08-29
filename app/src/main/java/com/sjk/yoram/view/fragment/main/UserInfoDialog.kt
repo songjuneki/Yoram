@@ -39,7 +39,6 @@ class UserInfoDialog: BottomSheetDialogFragment() {
 
         dptViewModel.userCallEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                Log.d("JKJK", "call to : ${it.replace("-", "")}")
                 val dial = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${it.replace("-", "")}"))
                 startActivity(dial)
             }

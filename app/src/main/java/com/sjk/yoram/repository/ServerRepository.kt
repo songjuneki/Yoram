@@ -1,9 +1,11 @@
 package com.sjk.yoram.repository
 
 import android.app.Application
+import android.util.Log
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.model.dto.Juso
+import com.sjk.yoram.model.dto.WorshipType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -33,6 +35,12 @@ class ServerRepository(private val application: Application) {
         if (result.isSuccessful)
             return result.body()!!
         return 5
+    }
+
+    suspend fun getWorshipList(): List<WorshipType> {
+        val list = MyRetrofit.serverApi.getAllWorship()
+        Log.d("JKJK", "worship list = $list")
+        return list
     }
 
     companion object {

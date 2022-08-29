@@ -9,5 +9,23 @@
         android:id="@+id/iDFragment"
         android:name="com.sjk.yoram.view.fragment.main.IDFragment"
         android:label="IDFragment"
-        tools:layout="@layout/frag_id"/>
+        tools:layout="@layout/frag_id">
+        <action
+            android:id="@+id/action_iDFragment_to_scannerInitDialog"
+            app:destination="@id/scannerInitDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/scannerInitDialog"
+        android:name="com.sjk.yoram.view.fragment.main.ScannerInitDialog"
+        android:label="ScannerInitDialog"
+        tools:layout="@layout/dialog_scanner_initial">
+        <action
+            android:id="@+id/action_scannerInitDialog_to_scannerDialog"
+            app:destination="@id/scannerDialog" />
+    </dialog>
+    <dialog
+        android:id="@+id/scannerDialog"
+        android:name="com.sjk.yoram.view.fragment.main.ScannerDialog"
+        android:label="ScannerDialog"
+        tools:layout="@layout/dialog_scanner"/>
 </navigation>

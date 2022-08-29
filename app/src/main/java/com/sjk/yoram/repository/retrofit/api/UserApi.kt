@@ -46,7 +46,6 @@ interface UserApi {
 
 
 
-
     @POST("user/upload/avatar")
     suspend fun uploadAvatar(@Part("pic")file: MultipartBody.Part, @Part("id")id: String): Response<Boolean>
     @GET("user/profile/url")

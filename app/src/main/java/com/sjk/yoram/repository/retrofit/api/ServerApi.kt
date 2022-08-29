@@ -16,9 +16,6 @@ interface ServerApi {
     @GET("juso")
     suspend fun searchAddress(@Query("keyword")keyword: String, @Query("page")page: Int = 1): Response<List<Juso>>
 
-    @GET("ws/all")
-    suspend fun getAllWorship(): Response<List<WorshipType>>
-
     @GET("banner")
     suspend fun getBannerInfo(@Query("id")id: Int, @Query("detail")detail: Boolean): Banner
 
@@ -30,4 +27,7 @@ interface ServerApi {
 
     @GET("get-max-week")
     suspend fun getMaxWeekOfMonth(@Query("year")year: Int = 0, @Query("month")month: Int= 0): Response<Int>
+
+    @GET("ws/all")
+    suspend fun getAllWorship(): List<WorshipType>
 }

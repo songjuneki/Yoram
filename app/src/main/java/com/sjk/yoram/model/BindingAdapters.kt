@@ -12,22 +12,28 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.get
 import androidx.databinding.*
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.budiyev.android.codescanner.*
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.zxing.BarcodeFormat
 import com.sjk.yoram.R
 import com.sjk.yoram.model.ui.adapter.AddressListAdapter
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.model.dto.WorshipType
 import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
 import com.sjk.yoram.model.ui.adapter.SimpleUserListAdapter
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
+import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
@@ -59,6 +65,7 @@ object BindingAdapters {
 //            else toggleGroup.check(R.id.init_signup_sex_female_btn)
 //        }
 //    }
+
 
     @BindingAdapter("imageUrl", "error", "circleImage")
     @JvmStatic
@@ -121,7 +128,6 @@ object BindingAdapters {
             }
         }
     }
-
 
 
     @BindingAdapter("sexState")
@@ -208,4 +214,21 @@ object BindingAdapters {
         (view.adapter as SimpleUserListAdapter).submitList(data, keyword)
     }
 
+
+    @BindingAdapter("radioItems")
+    @JvmStatic
+    fun setRadioGroupItem(view: RadioGroup, list: List<String>?) {
+        list?.forEach { item ->
+            view.addView(MaterialRadioButton(view.context).apply {
+                text = item
+            })
+        }
+    }
+    @BindingAdapter("radioItemSelectChanged")
+    @JvmStatic
+    fun setRadioItemSelectedListener(view: RadioGroup, listener: RadioItemSelectedListener) {
+        view.setOnCheckedChangeListener { radioGroup, i ->
+            listener.onChange(radioGroup, radioGroup.findViewById<MaterialRadioButton>(radioGroup.checkedRadioButtonId).text.toString())
+        }
+    }
 }
