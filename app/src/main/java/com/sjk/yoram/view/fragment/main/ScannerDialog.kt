@@ -12,14 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
-import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.integration.android.IntentIntegrator
-import com.journeyapps.barcodescanner.CaptureManager
-import com.journeyapps.barcodescanner.DecoratedBarcodeView
-import com.journeyapps.barcodescanner.DefaultDecoderFactory
-import com.journeyapps.barcodescanner.ScanOptions
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogScannerBinding
 import com.sjk.yoram.viewmodel.FragIDViewModel

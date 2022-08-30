@@ -244,7 +244,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/home_id_name"
-                        android:text=" 성도님"
+                        android:text="@{` ` + mainVM.loginData.position_name}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="18sp"
                         android:textStyle="bold"

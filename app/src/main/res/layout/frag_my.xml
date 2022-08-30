@@ -2,6 +2,9 @@
 <layout>
     <data>
         <variable
+            name="mainVM"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
+        <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.FragMyViewModel" />
     </data>
@@ -9,361 +12,726 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/xd_light_card_divider">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/frag_my_info_layout"
-                android:animateLayoutChanges="true"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_my_gv_05"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_my_gv_95"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_my_gh_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="?attr/actionBarSize" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frag_my_appbar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/xd_light_background"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:paddingBottom="16dp" >
-                <ImageView
-                    android:id="@+id/frag_my_avatar"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_baseline_account_circle_24"
+                app:layout_constraintBottom_toBottomOf="@id/frag_my_gh_top">
+                <TextView
+                    android:id="@+id/frag_my_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 정보"
+                    android:textSize="20sp"
+                    android:textColor="@color/xd_light_title"
+                    android:fontFamily="@font/pretendard_semibold"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="64dp"
-                    android:layout_marginBottom="16dp" />
-                <TextView
-                    android:id="@+id/frag_my_department"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{vm.myDptName}"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="48dp"
-                    app:layout_constraintTop_toTopOf="@id/frag_my_avatar"
-                    app:layout_constraintLeft_toRightOf="@id/frag_my_avatar" />
-                <TextView
-                    android:id="@+id/frag_my_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{vm.myFullName}"
-                    android:textSize="24sp"
-                    android:layout_marginLeft="48dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_department"
-                    app:layout_constraintBottom_toBottomOf="@id/frag_my_avatar"
-                    app:layout_constraintLeft_toRightOf="@id/frag_my_avatar" />
-                <TextView
-                    android:id="@+id/frag_my_login_help"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="로그인 하려면 눌러주세요"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_avatar"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:visibility="gone"
-                android:id="@+id/frag_my_login_menus"
+                android:id="@+id/frag_my_info_layout"
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/frag_my_info_layout"
+                android:background="@color/xd_light_background"
+                app:layout_constraintTop_toBottomOf="@id/frag_my_appbar"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_margin="8dp" >
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_login_menus_attend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <ImageView
-                        android:id="@+id/attend_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_event_note_24"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/attend_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="내 출결 확인"
-                        android:textSize="20sp" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_login_menus_cash"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_login_menus_attend"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <ImageView
-                        android:id="@+id/cash_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_account_balance_wallet_24"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/cash_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="내 헌금 확인"
-                        android:textSize="20sp" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_login_menus_privacy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_login_menus_cash"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <ImageView
-                        android:id="@+id/privacy_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_privacy_tip_24"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/privacy_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="공개 범위 수정"
-                        android:textSize="20sp" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_login_menus_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_login_menus_privacy"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <ImageView
-                        android:id="@+id/logout_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_logout_24"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/logout_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="로그아웃"
-                        android:textSize="20sp" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:visibility="gone"
-                android:id="@+id/frag_my_admin_menus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/frag_my_login_menus"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_margin="8dp">
-                <TextView
-                    android:id="@+id/admin_tv"
+                app:layout_constraintRight_toRightOf="parent">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_info_gv_05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_info_gv_95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+                <ImageView
+                    android:id="@+id/frag_my_info_avatar"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_avatar"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:text="관리자 메뉴" />
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_info_gv_05"
+                    app:layout_constraintBottom_toTopOf="@id/frag_my_info_btn"
+                    android:layout_marginBottom="16dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_admin_menus_home_pref"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/admin_tv"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="4dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <ImageView
-                        android:id="@+id/home_pref_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_home_24"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"/>
+                    app:layout_constraintTop_toTopOf="@id/frag_my_info_avatar"
+                    app:layout_constraintLeft_toRightOf="@id/frag_my_info_avatar"
+                    app:layout_constraintBottom_toBottomOf="@id/frag_my_info_avatar"
+                    android:layout_marginLeft="16dp">
                     <TextView
+                        android:id="@+id/frag_my_info_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{mainVM.loginData.name}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_dot_indicator_enabled"
+                        android:fontFamily="@font/pretendard_semibold"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/home_pref_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="배너 설정"
-                        android:textSize="20sp" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_admin_menus_make_user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_admin_menus_home_pref"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <ImageView
-                        android:id="@+id/make_user_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_person_add_alt_1_24"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"/>
+                        app:layout_constraintLeft_toLeftOf="parent" />
                     <TextView
+                        android:id="@+id/frag_my_info_pos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{` ` + mainVM.loginData.position_name}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/make_user_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="계정 만들기"
-                        android:textSize="20sp" />
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_name" />
+                    <TextView
+                        android:id="@+id/frag_my_info_dpt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mainVM.loginData.department_name}"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_regular"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_info_name"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_my_info_btn"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:padding="14dp"
+                    android:background="@drawable/border_init_button"
+                    android:text="프로필 수정"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_info_avatar"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_info_gv_05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_info_gv_95"
+                    app:layout_constraintBottom_toTopOf="@id/frag_my_info_dashboard"
+                    android:layout_marginBottom="16dp"/>
+                <LinearLayout
+                    android:id="@+id/frag_my_info_dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_info_btn"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/frag_my_info_dashboard_give"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/home_id_border">
+                        <ImageView
+                            android:id="@+id/frag_my_info_dashboard_give_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_offering"
+                            android:scaleType="fitCenter"/>
+                        <TextView
+                            android:id="@+id/frag_my_info_dashboard_give_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_give_img"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="14dp"
+                            android:text="@{mainVM.giveAmount}"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content_highlight"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_give_amount"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:text="이번 달 헌금"
+                            android:textSize="14sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_regular"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/frag_my_info_dashboard_attend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/home_id_border">
+                        <ImageView
+                            android:id="@+id/frag_my_info_dashboard_attend_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_attend"
+                            android:scaleType="fitCenter"/>
+                        <TextView
+                            android:id="@+id/frag_my_info_dashboard_attend_amount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_attend_img"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/frag_my_info_dashboard_attend_amount_all"
+                            android:gravity="right"
+                            android:layout_marginTop="14dp"
+                            android:text="@{mainVM.loginData.attend_cnt + ` `}"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content_highlight"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:id="@+id/frag_my_info_dashboard_attend_amount_all"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_attend_img"
+                            app:layout_constraintLeft_toRightOf="@id/frag_my_info_dashboard_attend_amount"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:gravity="left"
+                            android:layout_marginTop="14dp"
+                            android:text="@{`/ ` + String.valueOf(vm.maxWeek)}"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_attend_amount"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:text="이번 달 출석"
+                            android:textSize="14sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_regular"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/frag_my_info_dashboard_department"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:contextClickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/home_id_border">
+                        <ImageView
+                            android:id="@+id/frag_my_info_dashboard_department_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/ic_blue_department"
+                            android:scaleType="fitCenter"/>
+                        <TextView
+                            android:id="@+id/frag_my_info_dashboard_department_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_department_img"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginTop="14dp"
+                            android:text="@{mainVM.loginData.department_name.empty ? mainVM.loginData.department_name : `성도`}"
+                            android:textSize="16sp"
+                            android:textColor="@color/xd_light_content_highlight"
+                            android:fontFamily="@font/pretendard_medium"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_department_tv"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="12dp"
+                            android:text="@{mainVM.loginData.department_parent == 0 ? mainVM.loginData.department_name : mainVM.loginData.department_parent_name}"
+                            android:textSize="14sp"
+                            android:textColor="@color/xd_light_content"
+                            android:fontFamily="@font/pretendard_regular"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:id="@+id/frag_my_user_menus"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/frag_my_admin_menus"
+                android:background="@color/xd_light_background"
+                app:layout_constraintTop_toBottomOf="@id/frag_my_info_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_margin="8dp">
+                android:layout_marginTop="8dp">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_user_menus_gv05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_user_menus_gv95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_app_pref"
+                    android:id="@+id/frag_my_user_menus_give"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="8dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:focusable="true"
                     android:clickable="true"
-                    android:background="?attr/selectableItemBackground">
+                    android:background="@color/xd_light_background">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_give_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_give_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
                     <ImageView
-                        android:id="@+id/app_pref_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_baseline_settings_24"
+                        android:id="@+id/frag_my_user_menus_give_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_offering"
+                        android:scaleType="fitCenter"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"/>
+                        app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_give_gv05"
+                        app:layout_constraintBottom_toBottomOf="parent" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/app_pref_img"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_user_menus_give_img"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="앱 설정"
-                        android:textSize="20sp" />
+                        android:layout_marginLeft="12dp"
+                        android:text="내 헌금 확인"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_dropdown_up"
+                        android:scaleType="fitCenter"
+                        android:rotation="90"
+                        app:tint="@color/xd_light_text_hint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_give_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/frag_my_user_menus_give_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_give"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_gv95" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_user_menus_attend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_give_divider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@color/xd_light_background">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_attend_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_attend_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <ImageView
+                        android:id="@+id/frag_my_user_menus_attend_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_attend"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_attend_gv05"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_user_menus_attend_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginLeft="12dp"
+                        android:text="내 출결 확인"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_dropdown_up"
+                        android:scaleType="fitCenter"
+                        android:rotation="90"
+                        app:tint="@color/xd_light_text_hint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_attend_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/frag_my_user_menus_attend_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_attend"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_gv95" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_user_menus_dpt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_attend_divider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@color/xd_light_background">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_dpt_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_dpt_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <ImageView
+                        android:id="@+id/frag_my_user_menus_dpt_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_blue_department"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_dpt_gv05"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_user_menus_dpt_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginLeft="12dp"
+                        android:text="조직도"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_dropdown_up"
+                        android:scaleType="fitCenter"
+                        android:rotation="90"
+                        app:tint="@color/xd_light_text_hint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_dpt_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/frag_my_user_menus_dpt_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_dpt"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_gv95" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_user_menus_board"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_dpt_divider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@color/xd_light_background">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_board_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_board_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <ImageView
+                        android:id="@+id/frag_my_user_menus_board_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_blue_board"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_board_gv05"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_user_menus_board_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginLeft="12dp"
+                        android:text="교회 소식"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_dropdown_up"
+                        android:scaleType="fitCenter"
+                        android:rotation="90"
+                        app:tint="@color/xd_light_text_hint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_board_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/frag_my_user_menus_board_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_board"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_gv95" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_user_menus_notify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_board_divider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@color/xd_light_background">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_notify_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_user_menus_notify_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <ImageView
+                        android:id="@+id/frag_my_user_menus_notify_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_blue_notification"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_notify_gv05"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_user_menus_notify_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginLeft="12dp"
+                        android:text="알림"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_dropdown_up"
+                        android:scaleType="fitCenter"
+                        android:rotation="90"
+                        app:tint="@color/xd_light_text_hint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_notify_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/frag_my_user_menus_notify_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus_notify"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_user_menus_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_gv95" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
-                android:id="@+id/frag_my_item_recycler"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frag_my_menus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:layout_constraintTop_toBottomOf="@id/frag_my_info_layout"
+                app:layout_constraintTop_toBottomOf="@id/frag_my_user_menus"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_menus_gv05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_menus_gv95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="@color/xd_light_background">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_pref_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_pref_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <ImageView
+                        android:id="@+id/frag_my_pref_img"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_blue_preference"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_gv05"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_pref_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginLeft="12dp"
+                        android:text="설정"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium" />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_dropdown_up"
+                        android:scaleType="fitCenter"
+                        android:rotation="90"
+                        app:tint="@color/xd_light_text_hint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_pref_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/frag_my_pref_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_menus_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_menus_gv95" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

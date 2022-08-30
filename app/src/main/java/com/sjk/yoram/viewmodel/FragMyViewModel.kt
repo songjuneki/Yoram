@@ -1,25 +1,28 @@
 package com.sjk.yoram.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.sjk.yoram.model.dto.MyLoginData
+import android.app.Application
+import androidx.lifecycle.*
+import com.sjk.yoram.repository.ServerRepository
+import com.sjk.yoram.repository.UserRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class FragMyViewModel: ViewModel() {
-    val myInfo = MutableLiveData<MyLoginData>()
+class FragMyViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
+    private val _maxWeek = MutableLiveData<Int>()
+    val maxWeek: LiveData<Int>
+        get() = _maxWeek
 
     init {
-        myInfo.value = MyLoginData()
+        loadServerValues()
     }
 
-    fun getMyFullName(): String {
-        return myInfo.value!!.name
+    private fun loadServerValues() = viewModelScope.launch {
+        _maxWeek.value = serverRepository.getMaxWeekOfMonth()
     }
 
-    fun getMyDptName(): String {
-        return myInfo.value!!.department_name
-    }
-
-    fun setMyInfo(newInfo: MyLoginData) {
-        myInfo.value = newInfo
+    class Factory(private val application: Application): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return FragMyViewModel(UserRepository.getInstance(application)!!, ServerRepository.getInstance(application)!!) as T
+        }
     }
 }

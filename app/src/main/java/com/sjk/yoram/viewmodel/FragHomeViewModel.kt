@@ -34,7 +34,7 @@ class FragHomeViewModel(private val userRepository: UserRepository, private val 
         _bannerList.addAll(serverRepository.getAllBanner().toMutableList())
     }
 
-    private fun loadServerValues() = viewModelScope.async {
+    private fun loadServerValues() = viewModelScope.launch {
         _maxWeek.value = serverRepository.getMaxWeekOfMonth()
     }
 

@@ -13,10 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMainBinding
-import com.sjk.yoram.viewmodel.FragDptmentViewModel
-import com.sjk.yoram.viewmodel.MainViewModel
-import com.sjk.yoram.viewmodel.FragHomeViewModel
-import com.sjk.yoram.viewmodel.FragIDViewModel
+import com.sjk.yoram.viewmodel.*
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -24,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var homeFragViewModel: FragHomeViewModel
     private lateinit var dptFragViewModel: FragDptmentViewModel
     private lateinit var idFragViewModel: FragIDViewModel
+
+    private lateinit var myFragViewModel: FragMyViewModel
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -35,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         homeFragViewModel = ViewModelProvider(this, FragHomeViewModel.Factory(application))[FragHomeViewModel::class.java]
         dptFragViewModel = ViewModelProvider(this, FragDptmentViewModel.Factory(application))[FragDptmentViewModel::class.java]
         idFragViewModel = ViewModelProvider(this, FragIDViewModel.Factory(application))[FragIDViewModel::class.java]
+        myFragViewModel = ViewModelProvider(this, FragMyViewModel.Factory(application))[FragMyViewModel::class.java]
 
         binding.vm = viewModel
 
