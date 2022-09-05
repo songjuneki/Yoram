@@ -5,6 +5,7 @@ import com.sjk.yoram.model.LoginCheck
 import com.sjk.yoram.model.NewUser
 import com.sjk.yoram.model.dto.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 import java.math.BigInteger
@@ -32,7 +33,8 @@ interface UserApi {
 
 
     @GET("user/detail")
-    suspend fun getUserDetail(@Query("id")id: Int): UserDetail
+    suspend fun getUserDetail(@Query("id")id: Int, @Query("request")request: Int): UserDetail
+
     @GET("user/dpt")
     suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
     @GET("user/pos/sp")
@@ -46,10 +48,21 @@ interface UserApi {
 
 
 
-    @POST("user/upload/avatar")
-    suspend fun uploadAvatar(@Part("pic")file: MultipartBody.Part, @Part("id")id: String): Response<Boolean>
+
     @GET("user/profile/url")
     suspend fun getAvatar(@Query("id")id: Int): String
+
+    // UPDATE
+    @Multipart
+    @POST("user/avatar/init")
+    suspend fun initAvatar(@Part("id")id: RequestBody): Response<Boolean>
+
+    @Multipart
+    @POST("user/avatar/upload")
+    suspend fun uploadAvatar(@Part file: MultipartBody.Part, @Part("id")id: RequestBody): Response<Boolean>
+
+    @POST("user/detail/edit")
+    suspend fun editUser(@Body info: UserDetail): Response<Boolean>
 
     @POST("user/verify")
     suspend fun attendUser(@Body attend: Attend): Boolean

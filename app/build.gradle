@@ -62,6 +62,7 @@ dependencies {
     implementation ('com.github.SumiMakito:AwesomeQRCode:1.2.0') {
         exclude group: 'com.waynejo', module: 'androidndkgif'
     }
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.3.1'
     implementation 'io.github.waynejo:androidndkgif:1.0.1'
     implementation 'com.github.yuriy-budiyev:code-scanner:v2.3.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')

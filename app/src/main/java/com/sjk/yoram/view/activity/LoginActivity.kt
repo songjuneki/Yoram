@@ -11,6 +11,7 @@ import com.sjk.yoram.model.LoginState
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.User
 import com.sjk.yoram.databinding.ActivityLoginBinding
+import com.sjk.yoram.view.activity.main.MainActivity
 import kotlinx.coroutines.*
 import java.security.MessageDigest
 import kotlin.experimental.and

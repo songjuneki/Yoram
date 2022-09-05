@@ -1,7 +1,5 @@
 package com.sjk.yoram.view.fragment.init
 
-import android.app.Application
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragInitLoginBinding
 import com.sjk.yoram.model.LoginState
-import com.sjk.yoram.view.activity.MainActivity
 import com.sjk.yoram.viewmodel.InitViewModel
 
 class InitLoginFragment: Fragment() {

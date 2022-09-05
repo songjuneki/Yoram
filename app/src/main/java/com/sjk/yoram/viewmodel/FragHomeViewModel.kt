@@ -10,13 +10,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class FragHomeViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
-    //var cards = ObservableArrayList<Card>()
-    val cards = MutableLiveData<MutableList<Card>>()
-    private val _cards = mutableListOf<Card>()
-
-    val rootDpts = MutableLiveData<MutableList<SimpleDpt>>()
-    private val _rootDpts = mutableListOf<SimpleDpt>()
-
     private val _bannerList = MutableListLiveData<Banner>()
     val bannerList: LiveData<MutableList<Banner>>
         get() = _bannerList
@@ -39,15 +32,6 @@ class FragHomeViewModel(private val userRepository: UserRepository, private val 
     }
 
 
-    fun addCard(card: Card) {
-        _cards.add(card)
-        cards.value = _cards
-    }
-
-    fun modifyCard(pos: Int, card: Card) {
-        _cards[pos] = card
-        cards.value = _cards
-    }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

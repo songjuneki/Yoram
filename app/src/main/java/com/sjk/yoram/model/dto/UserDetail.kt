@@ -1,18 +1,18 @@
 package com.sjk.yoram.model.dto
 
 data class UserDetail(
-    val id: Int,
-    val sex: Boolean,
-    val name: String,
-    val position: Int,
-    val position_name: String,
-    val department: Int,
-    val department_name: String,
-    val birth: String,
-    val phone: String,
-    val tel: String,
-    val address: String,
-    val address_more: String,
-    val car: String,
-    val avatar: String
+    var id: Int,
+    var sex: Boolean,
+    var name: String,
+    var position: Int,
+    var position_name: String,
+    var department: Int,
+    var department_name: String,
+    var birth: String,
+    var phone: String,
+    var tel: String,
+    var address: String,
+    var address_more: String,
+    var car: String,
+    var avatar: String
 )

@@ -2,7 +2,6 @@ package com.sjk.yoram.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -10,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityInitBinding
 import com.sjk.yoram.model.LoginState
+import com.sjk.yoram.view.activity.main.MainActivity
 import com.sjk.yoram.viewmodel.InitViewModel
 
 class InitActivity: AppCompatActivity() {

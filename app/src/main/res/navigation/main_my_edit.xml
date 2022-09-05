@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_my_edit"
+    app:startDestination="@id/editFragment">
+
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditFragment"
+        android:label="EditFragment"
+        tools:layout="@layout/frag_my_edit">
+        <action
+            android:id="@+id/action_editFragment_to_editAvatarDialog"
+            app:destination="@id/editAvatarDialog"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom" />
+        <action
+            android:id="@+id/action_editFragment_to_editBDDialogFragment"
+            app:destination="@id/editBDDialogFragment"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom"
+            />
+        <action
+            android:id="@+id/action_editFragment_to_editAddressDialogFragment"
+            app:destination="@id/editAddressDialogFragment"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom"/>
+    </fragment>
+    <dialog
+        android:id="@+id/editAvatarDialog"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditAvatarDialog"
+        android:label="EditAvatarDialog"
+        tools:layout="@layout/dialog_avatar"/>
+    <dialog
+        android:id="@+id/editBDDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditBDDialogFragment"
+        android:label="EditBDDialogFragment"
+        tools:layout="@layout/dialog_edit_birthday"/>
+    <dialog
+        android:id="@+id/editAddressDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditAddressDialogFragment"
+        android:label="EditAddressDialogFragment"
+        tools:layout="@layout/dialog_edit_address"/>
+</navigation>

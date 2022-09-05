@@ -24,7 +24,9 @@ class IDFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_id, container, false)
+        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         viewModel = ViewModelProvider(requireActivity())[FragIDViewModel::class.java]
+        binding.mainVM = mainViewModel
         binding.vm = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 

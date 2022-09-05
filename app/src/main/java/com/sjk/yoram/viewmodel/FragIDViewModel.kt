@@ -20,10 +20,6 @@ import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.*
 
 class FragIDViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
-    private val _user = MutableLiveData<MyLoginData>()
-    val user: LiveData<MyLoginData>
-        get() = _user
-
     private val _isValidCode = MutableLiveData<Boolean>()
     val isValidCode: LiveData<Boolean>
         get() = _isValidCode
@@ -77,7 +73,6 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
     init {
         viewModelScope.launch {
             _timer.value = 0
-            _user.value = userRepository.getLoginData(userRepository.getLoginID())
             countStop()
             _frontCam.value = Event(false)
             _scanEnabled.value = Event(true)
@@ -171,7 +166,7 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
                 codeFailure("QR SCAN :: wrong signature!")
                 return@async
             }
-            val checkerid = _user.value!!.id
+            val checkerid = userRepository.getLoginID()
             val wtype = selectedWorship.value!!.id
             val info = dec.substring(28).split(";")
 

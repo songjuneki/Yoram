@@ -5,6 +5,16 @@
         <item name="fontFamily">@font/pretendard_semibold</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="NormalTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/xd_light_title</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="EditAvatarTitleTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/xd_light_title</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <style name="ErrorInputTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/xd_light_red_highlight</item>
         <item name="fontFamily">@font/pretendard_regular</item>
@@ -104,6 +114,10 @@
         <item name="behavior_skipCollapsed">true</item>
         <item name="behavior_fitToContents">false</item>
         <item name="behavior_expandedOffset">0dp</item>
+    </style>
+    <style name="LikeActivityDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
     <style name="FullScreenDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowIsFloating">false</item>

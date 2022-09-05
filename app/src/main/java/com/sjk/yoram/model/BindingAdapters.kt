@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,6 +21,7 @@ import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.budiyev.android.codescanner.*
+import com.canhub.cropper.CropImageView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textfield.TextInputEditText
@@ -84,12 +86,21 @@ object BindingAdapters {
             }
         }
     }
-    @BindingAdapter("bitmapImg")
+    @BindingAdapter("bitmapImg", "error", "circleImage")
     @JvmStatic
-    fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
-        if (bitmap == null)
-            return
-        view.load(bitmap)
+    fun setImageBitmap(view: ImageView, bitmap: Bitmap?, error: Drawable, circleImage: Boolean = false) {
+        if (bitmap == null) {
+            view.load(error) {
+                crossfade(true)
+                if (circleImage) transformations(CircleCropTransformation())
+            }
+        }
+        else {
+            view.load(bitmap) {
+                crossfade(true)
+                if (circleImage) transformations(CircleCropTransformation())
+            }
+        }
     }
 
     @BindingAdapter("onCheckedChanged")

@@ -115,6 +115,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     fun searchListAdapter() : SimpleUserListAdapter = SimpleUserListAdapter(userClickListener)
 
     private fun selectedUser(id: Int) = viewModelScope.launch {
+        _detailUser.value = null
         _detailUser.value = userRepository.getUserDetail(id)
         _userDetailEvent.value = Event(Unit)
     }

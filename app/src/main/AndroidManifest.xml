@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sjk.yoram">
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
     <application
@@ -29,24 +32,31 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".view.activity.main.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.Yoram.ActionBar">
         </activity>
-        <activity android:name=".view.activity.LoginActivity"
+        <activity android:name=".view.activity.main.my.EditActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/Theme.Yoram.ActionBar">
         </activity>
-        <activity android:name=".view.activity.JoinActivity"
+        <activity android:name="com.canhub.cropper.CropImageActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
-        <activity android:name=".view.activity.PolicyActivity"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/Theme.Yoram.AvatarEdit"/>
 
+
+        <provider
+            android:authorities="com.sjk.yoram.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

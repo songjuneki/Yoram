@@ -3,9 +3,15 @@ package com.sjk.yoram.repository
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.os.Environment
 import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.github.sumimakito.awesomeqr.AwesomeQrRenderer
 import com.github.sumimakito.awesomeqr.option.RenderOption
 import com.github.sumimakito.awesomeqr.option.color.Color
@@ -16,6 +22,15 @@ import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Attend
 import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.model.dto.UserDetail
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.lang.Exception
 import java.math.BigInteger
 import java.text.SimpleDateFormat
 
@@ -90,14 +105,57 @@ class UserRepository(private val application: Application) {
         return BigInteger(result)
     }
 
-    suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id)
+    suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id, getLoginID())
+
+    suspend fun getAvatarBitmap(id: Int = getLoginID()): Bitmap {
+        val url = MyRetrofit.userApi.getAvatar(id)
+        val loader = ImageLoader(application.applicationContext)
+        val req = ImageRequest.Builder(application.applicationContext).data(url)
+            .allowHardware(false)
+            .build()
+        val result = (loader.execute(req) as SuccessResult).drawable
+        return result.toBitmap()
+    }
+
+    suspend fun uploadAvatar(img: Bitmap?): Boolean {
+        if (img == null) {
+            val body = getLoginID().toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            MyRetrofit.userApi.initAvatar(body)
+            return true
+        }
+        val storageDir: File? = application.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val file = File.createTempFile("JPEG_UPLOAD_TEMP", ".jpg", storageDir)
+        var out: OutputStream? = null
+
+        try {
+            out = FileOutputStream(file)
+            img.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        } catch (e: Exception){
+            e.printStackTrace()
+            out?.close()
+            return false
+        }
+        out?.close()
+
+        val requestBody = MultipartBody.Part.createFormData("pic", "avatar.jpg", file.asRequestBody("image/*".toMediaType()))
+        val upload = MyRetrofit.userApi.uploadAvatar(requestBody, getLoginID().toString().toRequestBody("text/plain".toMediaTypeOrNull()))
+        return upload.isSuccessful
+    }
+
+    suspend fun editUserInfo(info: UserDetail): Boolean {
+        val post = MyRetrofit.userApi.editUser(info)
+        if (post.isSuccessful)
+            return true
+        return false
+    }
+
 
     suspend fun attendUser(attend: Attend): Boolean {
         return MyRetrofit.userApi.attendUser(attend)
     }
 
-    suspend fun getUserCode(): Bitmap {
-        val option = makeCodeOption(getLoginData(getLoginID()))
+    fun getUserCode(): Bitmap {
+        val option = makeCodeOption()
         val result = AwesomeQrRenderer.render(option)
         return if (result.bitmap != null)
             result.bitmap!!
@@ -110,11 +168,11 @@ class UserRepository(private val application: Application) {
             ?: return AwesomeQrRenderer.render(makeFailureCode("cannot get blured code")).bitmap!!
     }
 
-    private fun makeCodeOption(user: MyLoginData, special: Boolean = false) = RenderOption().apply {
+    private fun makeCodeOption(special: Boolean = false) = RenderOption().apply {
         val date = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val timeFormat = SimpleDateFormat("HHmmss")
-        val p = "GUSEONGCHURCH;BY.SONGJUNEKI;DATE:${dateFormat.format(date)};TIME:${timeFormat.format(date)};ID:${user.id}"
+        val p = "GUSEONGCHURCH;BY.SONGJUNEKI;DATE:${dateFormat.format(date)};TIME:${timeFormat.format(date)};ID:${getLoginID()}"
         content = AESUtil().Encrypt(p)
         size = 1000
         borderWidth = 10

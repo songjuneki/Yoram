@@ -36,4 +36,12 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
     </style>
+    <style name="Theme.Yoram.AvatarEdit" parent="@style/Theme.Material3.Light">
+        <item name="colorPrimary">@color/xd_light_background</item>
+        <item name="titleTextColor">@color/xd_light_title</item>
+        <item name="titleTextStyle">@style/EditAvatarTitleTextStyle</item>
+        <item name="actionMenuTextAppearance">@style/NormalTextStyle</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="android:textColorPrimary">@color/xd_light_title</item>
+    </style>
 </resources>

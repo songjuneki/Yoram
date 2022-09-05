@@ -1,5 +1,6 @@
-package com.sjk.yoram.view.activity
+package com.sjk.yoram.view.activity.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,12 +46,16 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(setOf(R.id.navi_home, R.id.navi_dptment, R.id.navi_id, R.id.navi_board, R.id.navi_my))
         supportActionBar?.hide()
+
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

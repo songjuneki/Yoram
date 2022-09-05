@@ -1,6 +1,7 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.*
 import com.sjk.yoram.model.*
@@ -8,6 +9,7 @@ import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -22,6 +24,10 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     private val _loginData = MutableLiveData<MyLoginData>()
     val loginData: LiveData<MyLoginData>
         get() = _loginData
+
+    private val _avatar = MutableLiveData<Bitmap>()
+    val avatar: LiveData<Bitmap>
+        get() = _avatar
 
     private val _giveAmount = MutableLiveData<String>()
     val giveAmount: LiveData<String>
@@ -38,14 +44,20 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     }
 
     fun loadLoginData() {
-        viewModelScope.async {
+        viewModelScope.launch {
             val id = userRepository.getLoginID()
-            if (id == -1) _loginData.value = MyLoginData()
-            else _loginData.value = userRepository.getLoginData(userRepository.getLoginID())
+            if (id == -1) {
+                _loginData.value = MyLoginData()
+                loginState.value = LoginState.NONE
+            } else {
+                _loginData.value = userRepository.getLoginData(id)
+                _avatar.value = userRepository.getAvatarBitmap()
+                loginState.value = LoginState.LOGIN
+            }
         }
     }
 
-    fun loadGiveAmount() {
+    private fun loadGiveAmount() {
         viewModelScope.async {
             val id = userRepository.getLoginID()
             var total = BigInteger("0")
@@ -56,8 +68,8 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
         }
     }
 
-    //// new end
-
+    fun login() {
+    }
 
 
     fun getUserPermission(): UserPermission {
