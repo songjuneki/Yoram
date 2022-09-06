@@ -32,7 +32,11 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import java.lang.Exception
 import java.math.BigInteger
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class UserRepository(private val application: Application) {
     private val sharedPref = application.getSharedPreferences(application.getString(R.string.YORAM_LOCAL_PREF), Context.MODE_PRIVATE)
@@ -102,7 +106,9 @@ class UserRepository(private val application: Application) {
 
     suspend fun getCurrentMonthGiveAmount(id: Int): BigInteger {
         val result = MyRetrofit.userApi.getUserGiveAmount(id)
-        return BigInteger(result)
+        if (!result.isSuccessful)
+            return BigInteger.ZERO
+        return result.body() ?: BigInteger.ZERO
     }
 
     suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id, getLoginID())
@@ -215,6 +221,39 @@ class UserRepository(private val application: Application) {
             bitmap = application.getDrawable(R.drawable.icon_temp)?.toBitmapOrNull()
             this.scale = 0.3f
         }
+    }
+
+    suspend fun getUserGiveAmount(id: Int, date: LocalDate): String {
+        val res = MyRetrofit.userApi.getUserGiveAmount(id, date.year, date.monthValue)
+        if (!res.isSuccessful)
+            return "0"
+        val format = DecimalFormat("###,###")
+        return format.format(res.body()!!.toString())
+    }
+
+    suspend fun getAllUserGiveAmount(id: Int): String {
+        val res = MyRetrofit.userApi.getUserGiveAmount(uid = id, all = true)
+        if (!res.isSuccessful)
+            return "0"
+        val format = DecimalFormat("###,###")
+        return format.format(res.body()!!.toString())
+    }
+
+    suspend fun getUserGiveList(id: Int, date: LocalDate): MutableList<GiveListItem> {
+        val res = MyRetrofit.userApi.getUserGive(id, date.year, date.monthValue)
+        if (!res.isSuccessful)
+            return mutableListOf()
+        val list = res.body()
+        if (list.isNullOrEmpty())
+            return mutableListOf()
+
+        val items = mutableListOf<GiveListItem>()
+        list.forEach {
+            val decFormat = DecimalFormat("###,###")
+            val date = LocalDate.parse(it.date).format(DateTimeFormatter.ofPattern("yy.MM.dd"))
+            items.add(GiveListItem(it.name, date, decFormat.format(it.amount)))
+        }
+        return items
     }
 
     companion object {

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.GiveViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/border_dialog_divider">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/my_give_header_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/xd_light_background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/my_give_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/my_give_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/my_give_gh_top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_begin="?attr/actionBarSize" />
+                    <ImageButton
+                        android:id="@+id/my_give_back"
+                        android:layout_width="0dp"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@drawable/shape_circle_image_btn"
+                        android:src="@drawable/ic_back"
+                        android:scaleType="fitCenter"
+                        android:clickable="true"
+                        android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                        android:soundEffectsEnabled="true"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/my_give_gv05"
+                        app:layout_constraintBottom_toBottomOf="@id/my_give_gh_top"/>
+                    <TextView
+                        android:id="@+id/my_give_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="내 헌금 확인"
+                        android:textSize="20sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/my_give_gh_top"/>
+
+                    <TextView
+                        android:id="@+id/my_give_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.name}"
+                        android:textColor="@color/xd_light_dot_indicator_enabled"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/my_give_gh_top"
+                        app:layout_constraintLeft_toLeftOf="@id/my_give_gv05"
+                        android:layout_marginTop="18dp"/>
+                    <TextView
+                        android:id="@+id/my_give_pos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{` ` + vm.pos + `의`}"
+                        android:textColor="@color/xd_light_title"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/my_give_gh_top"
+                        app:layout_constraintLeft_toRightOf="@id/my_give_name"
+                        android:layout_marginTop="18dp" />
+                    <TextView
+                        android:id="@+id/my_give_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.currentMonth + `월 헌금입니다`}"
+                        android:textColor="@color/xd_light_title"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/my_give_name"
+                        app:layout_constraintLeft_toLeftOf="@id/my_give_gv05" />
+
+                    <TextView
+                        android:id="@+id/my_give_current_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.dateStr}"
+                        android:textColor="@color/xd_light_hint"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/pretendard_regular"
+                        app:layout_constraintTop_toBottomOf="@id/my_give_month"
+                        app:layout_constraintLeft_toLeftOf="@id/my_give_gv05"
+                        android:layout_marginTop="18dp" />
+                    <ImageButton
+                        android:id="@+id/my_give_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_circle_image_btn"
+                        android:src="@drawable/ic_refresh"
+                        android:scaleType="fitCenter"
+                        android:clickable="true"
+                        android:soundEffectsEnabled="true"
+                        android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                        app:layout_constraintTop_toTopOf="@id/my_give_current_date"
+                        app:layout_constraintLeft_toRightOf="@id/my_give_current_date"
+                        app:layout_constraintBottom_toBottomOf="@id/my_give_current_date"
+                        android:layout_marginLeft="4dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/my_give_amount_card"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="6dp"
+                        app:cardBackgroundColor="@color/xd_light_weak_border"
+                        app:layout_constraintTop_toBottomOf="@id/my_give_current_date"
+                        app:layout_constraintLeft_toLeftOf="@id/my_give_gv05"
+                        app:layout_constraintRight_toRightOf="@id/my_give_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp">
+                            <TextView
+                                android:id="@+id/my_give_total_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{vm.total}"
+                                android:textColor="@color/xd_light_title"
+                                android:textSize="32sp"
+                                android:fontFamily="@font/pretendard_medium"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="원"
+                                android:textColor="@color/xd_light_title"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/pretendard_medium"
+                                app:layout_constraintBottom_toBottomOf="@id/my_give_total_amount"
+                                app:layout_constraintLeft_toRightOf="@id/my_give_total_amount"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginBottom="4dp" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/give_img"
+                        android:scaleType="fitCenter"
+                        android:elevation="1dp"
+                        app:layout_constraintTop_toBottomOf="@id/my_give_gh_top"
+                        app:layout_constraintLeft_toRightOf="@id/my_give_title"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/my_give_amount_card" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/xd_light_background"
+                    app:layout_constraintTop_toBottomOf="@id/my_give_header_layout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="8dp">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/my_give_body_gv05"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/my_give_body_gv95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/my_give_recycler"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:overScrollMode="never"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/my_give_body_gv05"
+                        app:layout_constraintRight_toRightOf="@id/my_give_body_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:adapter="@{vm.giveAdapter()}"
+                        GiveData="@{vm.giveItemList}"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

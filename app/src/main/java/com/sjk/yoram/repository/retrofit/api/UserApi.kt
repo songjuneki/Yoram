@@ -6,6 +6,7 @@ import com.sjk.yoram.model.NewUser
 import com.sjk.yoram.model.dto.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 import java.math.BigInteger
@@ -27,9 +28,9 @@ interface UserApi {
     suspend fun getMyPermission(@Query("id")id: Int): Response<Int>
 
     @GET("give")
-    suspend fun getUserGive(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): ArrayList<Give>
+    suspend fun getUserGive(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): Response<MutableList<Give>>
     @GET("give/amount")
-    suspend fun getUserGiveAmount(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): String
+    suspend fun getUserGiveAmount(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0, @Query("all")all: Boolean = false): Response<BigInteger>
 
 
     @GET("user/detail")
@@ -45,7 +46,6 @@ interface UserApi {
 
     @GET("user/name/all")
     suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
-
 
 
 

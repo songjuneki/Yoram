@@ -1,6 +1,7 @@
 package com.sjk.yoram.repository.retrofit.api
 
 import com.sjk.yoram.model.dto.Banner
+import com.sjk.yoram.model.dto.GiveType
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.WorshipType
 import kotlinx.coroutines.Deferred
@@ -30,4 +31,7 @@ interface ServerApi {
 
     @GET("ws/all")
     suspend fun getAllWorship(): List<WorshipType>
+
+    @GET("give/type/all")
+    suspend fun getAllGiveType(): Response<List<GiveType>>
 }

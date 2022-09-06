@@ -35,7 +35,6 @@ class EditActivity: AppCompatActivity() {
             event.getContentIfNotHandled()?.let {
                 setResult(RESULT_OK)
                 finish()
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }
         }
 
@@ -82,5 +81,13 @@ class EditActivity: AppCompatActivity() {
         }
 
     }
+
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+
 
 }

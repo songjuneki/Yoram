@@ -57,7 +57,7 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
         }
     }
 
-    private fun loadGiveAmount() {
+    fun loadGiveAmount() {
         viewModelScope.async {
             val id = userRepository.getLoginID()
             var total = BigInteger("0")

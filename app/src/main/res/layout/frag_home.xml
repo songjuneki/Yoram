@@ -305,7 +305,7 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_marginTop="14dp"
-                            android:text="@{mainVM.giveAmount}"
+                            android:text="@{mainVM.giveAmount + ` 원`}"
                             android:textSize="16sp"
                             android:textColor="@color/xd_light_content_highlight"
                             android:fontFamily="@font/pretendard_medium"/>
@@ -411,7 +411,7 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_marginTop="14dp"
-                            android:text="@{mainVM.loginData.department_name.empty ? mainVM.loginData.department_name : `성도`}"
+                            android:text="@{mainVM.loginData.department_name.empty ? `성도` : mainVM.loginData.department_name}"
                             android:textSize="16sp"
                             android:textColor="@color/xd_light_content_highlight"
                             android:fontFamily="@font/pretendard_medium"/>

@@ -21,6 +21,10 @@ class FragMyViewModel(private val userRepository: UserRepository, private val se
     val editEvent: LiveData<Event<Unit>>
         get() = _editEvent
 
+    private val _giveEvent = MutableLiveData<Event<Unit>>()
+    val giveEvent: LiveData<Event<Unit>>
+        get() = _giveEvent
+
     init {
         loadServerValues()
     }
@@ -28,6 +32,7 @@ class FragMyViewModel(private val userRepository: UserRepository, private val se
     fun btnEvent(btnId: Int) {
         when(btnId) {
             R.id.frag_my_info_btn -> { _editEvent.value = Event(Unit) }
+            R.id.frag_my_user_menus_give -> { _giveEvent.value = Event(Unit) }
         }
     }
 

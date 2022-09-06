@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="give"
+            type="com.sjk.yoram.model.GiveListItem" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/list_my_give_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{give.name}"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{give.date}"
+            android:textColor="@color/xd_light_text_hint"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toBottomOf="@id/list_my_give_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{give.amount}"
+            android:textColor="@color/xd_light_title"
+            android:textSize="22sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/list_my_give_won"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="2dp"/>
+        <TextView
+            android:id="@+id/list_my_give_won"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

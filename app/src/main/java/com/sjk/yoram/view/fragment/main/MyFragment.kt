@@ -18,6 +18,7 @@ import com.sjk.yoram.R
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.databinding.FragMyBinding
 import com.sjk.yoram.view.activity.main.my.EditActivity
+import com.sjk.yoram.view.activity.main.my.GiveActivity
 import com.sjk.yoram.viewmodel.FragMyViewModel
 
 class MyFragment: Fragment() {
@@ -51,11 +52,25 @@ class MyFragment: Fragment() {
                 requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
+
+        viewModel.giveEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                val intent = Intent(requireContext(), GiveActivity::class.java)
+                myGiveResult.launch(intent)
+                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
+        }
     }
 
     private val myEditResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             mainViewModel.loadLoginData()
+        }
+    }
+
+    private val myGiveResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            mainViewModel.loadGiveAmount()
         }
     }
 }
