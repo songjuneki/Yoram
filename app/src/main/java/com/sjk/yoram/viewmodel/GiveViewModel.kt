@@ -40,7 +40,7 @@ class GiveViewModel(private val userRepository: UserRepository, private val serv
 
     private val _refreshEvent = MutableLiveData<Event<Unit>>()
     val refreshEvent: LiveData<Event<Unit>>
-        get() = _backEvent
+        get() = _refreshEvent
 
     init {
         viewModelScope.launch {
@@ -53,7 +53,7 @@ class GiveViewModel(private val userRepository: UserRepository, private val serv
     fun btnEvent(viewId: Int) {
         when (viewId) {
             R.id.my_give_back -> { _backEvent.value = Event(Unit) }
-            R.id.my_give_refresh -> { loadCurrentDate(); loadMyGives(LocalDate.now()) }
+            R.id.my_give_refresh -> { _refreshEvent.value = Event(Unit); loadCurrentDate(); loadMyGives(LocalDate.now()) }
         }
     }
 

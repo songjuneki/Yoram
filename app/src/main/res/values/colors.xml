@@ -20,6 +20,7 @@
     <color name="xd_light_text_hint">#C6C6C6</color>
     <color name="xd_light_state_button_background">#FAFAFA</color>
     <color name="xd_light_state_button_stroke">#EDEDED</color>
+    <color name="xd_light_attend">#00DA6C</color>
 
     <color name="md_theme_light_primary">#00696B</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>

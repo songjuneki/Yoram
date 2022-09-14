@@ -1,10 +1,7 @@
 package com.sjk.yoram.model
 
 import android.graphics.Bitmap
-import android.graphics.BlurMaskFilter
-import android.graphics.Paint
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,37 +9,42 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.get
 import androidx.databinding.*
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.budiyev.android.codescanner.*
-import com.canhub.cropper.CropImageView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.radiobutton.MaterialRadioButton
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.zxing.BarcodeFormat
+import com.kizitonwose.calendarview.CalendarView
+import com.kizitonwose.calendarview.model.CalendarDay
+import com.kizitonwose.calendarview.model.CalendarMonth
+import com.kizitonwose.calendarview.model.DayOwner
+import com.kizitonwose.calendarview.ui.DayBinder
+import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
+import com.kizitonwose.calendarview.ui.MonthScrollListener
+import com.kizitonwose.calendarview.utils.yearMonth
 import com.sjk.yoram.R
 import com.sjk.yoram.model.ui.adapter.AddressListAdapter
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.SimpleUser
-import com.sjk.yoram.model.dto.WorshipType
 import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
 import com.sjk.yoram.model.ui.adapter.GiveListAdapter
 import com.sjk.yoram.model.ui.adapter.SimpleUserListAdapter
+import com.sjk.yoram.model.ui.calendar.DayViewContainer
+import com.sjk.yoram.model.ui.calendar.MonthViewContainer
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
-import com.skydoves.powerspinner.databinding.PowerspinnerItemDefaultPowerBinding
-import com.skydoves.powerspinner.databinding.PowerspinnerLayoutBodyBinding
-import com.skydoves.powerspinner.databinding.PowerspinnerLayoutPreferenceBinding
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.temporal.WeekFields
+import java.util.*
 
 object BindingAdapters {
 //    @JvmStatic
@@ -246,6 +248,74 @@ object BindingAdapters {
     fun setRadioItemSelectedListener(view: RadioGroup, listener: RadioItemSelectedListener) {
         view.setOnCheckedChangeListener { radioGroup, i ->
             listener.onChange(radioGroup, radioGroup.findViewById<MaterialRadioButton>(radioGroup.checkedRadioButtonId).text.toString())
+        }
+    }
+
+//    @BindingAdapter("calendarDayBinder")
+//    @JvmStatic
+//    fun setCalendarDayBinder(view: CalendarView, binder: DayBinder<DayViewContainer>) {
+//        view.dayBinder = binder
+//    }
+//
+//    @BindingAdapter("calendarMonthHeaderBinder")
+//    @JvmStatic
+//    fun setCalendarMonthHeaderBinder(view: CalendarView, binder: MonthHeaderFooterBinder<MonthViewContainer>) {
+//        view.monthHeaderBinder = binder
+//    }
+
+    @BindingAdapter("calendarCurrentMonth")
+    @JvmStatic
+    fun setCalendarCurrentMonth(view: CalendarView, currentMonth: YearMonth) {
+        view.smoothScrollToMonth(currentMonth)
+    }
+
+    @BindingAdapter("calendarMonthScrollListener")
+    @JvmStatic
+    fun setCalendarMonthScrollListener(view: CalendarView, listener: MonthScrollListener) {
+        view.monthScrollListener = listener
+    }
+
+    @BindingAdapter("calendarText")
+    @JvmStatic
+    fun setText(view: TextView, yearMonth: YearMonth) {
+        view.text = "${yearMonth.year}년 ${yearMonth.monthValue}월"
+    }
+
+    @BindingAdapter("calendarCheckDateList")
+    @JvmStatic
+    fun setCalendarCheckDate(view: CalendarView, data: List<LocalDate>) {
+        view.dayBinder = object: DayBinder<DayViewContainer> {
+            override fun create(view: View): DayViewContainer = DayViewContainer(view)
+            override fun bind(container: DayViewContainer, day: CalendarDay) {
+                container.textView.text = day.date.dayOfMonth.toString()
+                container.textView.setOnClickListener {
+                }
+
+                if (day.owner == DayOwner.THIS_MONTH) {
+                    container.textView.setTextColor(view.context.getColor(R.color.xd_light_title))
+                    if (day.date.dayOfWeek == DayOfWeek.SUNDAY)
+                        container.textView.setTextColor(view.context.applicationContext.getColor(R.color.xd_light_red_highlight))
+                } else {
+                    container.textView.setTextColor(view.context.getColor(R.color.xd_light_text_hint))
+                    if (day.date.dayOfWeek == DayOfWeek.SUNDAY) {
+                        container.textView.setTextColor(view.context.getColor(R.color.xd_light_red_highlight))
+                        container.textView.alpha = 0.4f
+                    }
+                }
+
+                if (day.date == LocalDate.now()) container.textView.setTextColor(view.context.getColor(R.color.xd_light_dot_indicator_enabled))
+
+
+                if (data.contains(day.date)) {
+                    container.checker.visibility = View.VISIBLE
+                    container.textView.setTextColor(view.context.getColor(R.color.xd_light_background))
+                } else {
+                    container.checker.visibility = View.INVISIBLE
+                }
+            }
+        }
+        data.forEach {
+            view.notifyMonthChanged(it.yearMonth)
         }
     }
 }

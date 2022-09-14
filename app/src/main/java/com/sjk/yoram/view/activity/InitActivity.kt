@@ -61,6 +61,7 @@ class InitActivity: AppCompatActivity() {
                     main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     finish()
                     startActivity(main)
+                    overridePendingTransition(0, 0)
                 }
             }
         }

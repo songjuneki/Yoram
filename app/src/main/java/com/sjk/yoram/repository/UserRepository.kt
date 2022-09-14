@@ -71,13 +71,11 @@ class UserRepository(private val application: Application) {
     }
 
     suspend fun isValidAccount(id: Int, pw: String): Boolean {
-        Log.d("JKJK", "loginCheck id=$id, pw=$pw")
         return MyRetrofit.userApi.check(LoginCheck(id, pw))
     }
 
     suspend fun getMyPermission(id: Int): Int {
         val response = MyRetrofit.userApi.getMyPermission(id)
-        Log.d("JKKJK", "permission = ${response.body()!!}")
         if (response.isSuccessful)
             return response.body()!!
         return -11
@@ -158,6 +156,13 @@ class UserRepository(private val application: Application) {
 
     suspend fun attendUser(attend: Attend): Boolean {
         return MyRetrofit.userApi.attendUser(attend)
+    }
+
+    suspend fun getAttendList(id: Int, year: Int = 999, month: Int = 999): List<Attend> {
+        val list = MyRetrofit.userApi.getAttendList(id, year, month)
+        if (list.isSuccessful)
+            return list.body()!!
+        return listOf()
     }
 
     fun getUserCode(): Bitmap {

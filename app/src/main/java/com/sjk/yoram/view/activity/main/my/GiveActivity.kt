@@ -1,6 +1,7 @@
 package com.sjk.yoram.view.activity.main.my
 
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,13 @@ class GiveActivity: AppCompatActivity() {
             event.getContentIfNotHandled()?.let {
                 setResult(RESULT_OK)
                 finish()
+            }
+        }
+
+        viewModel.refreshEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                val rotate = AnimationUtils.loadAnimation(applicationContext, R.anim.anim_rotate)
+                binding.myGiveRefresh.startAnimation(rotate)
             }
         }
     }

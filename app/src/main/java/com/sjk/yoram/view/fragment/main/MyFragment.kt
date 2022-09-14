@@ -17,6 +17,7 @@ import coil.load
 import com.sjk.yoram.R
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.databinding.FragMyBinding
+import com.sjk.yoram.view.activity.main.my.AttendActivity
 import com.sjk.yoram.view.activity.main.my.EditActivity
 import com.sjk.yoram.view.activity.main.my.GiveActivity
 import com.sjk.yoram.viewmodel.FragMyViewModel
@@ -57,6 +58,14 @@ class MyFragment: Fragment() {
             event.getContentIfNotHandled()?.let {
                 val intent = Intent(requireContext(), GiveActivity::class.java)
                 myGiveResult.launch(intent)
+                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
+        }
+
+        viewModel.attendEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                val intent = Intent(requireContext(), AttendActivity::class.java)
+                startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }

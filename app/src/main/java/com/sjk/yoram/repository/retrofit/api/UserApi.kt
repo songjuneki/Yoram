@@ -47,10 +47,11 @@ interface UserApi {
     @GET("user/name/all")
     suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
 
-
-
     @GET("user/profile/url")
     suspend fun getAvatar(@Query("id")id: Int): String
+
+    @GET("user/attend")
+    suspend fun getAttendList(@Query("id")id: Int, @Query("year")year: Int = 999, @Query("month")month: Int = 999): Response<MutableList<Attend>>
 
     // UPDATE
     @Multipart

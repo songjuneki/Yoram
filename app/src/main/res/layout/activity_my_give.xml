@@ -117,8 +117,8 @@
                         android:layout_marginTop="18dp" />
                     <ImageButton
                         android:id="@+id/my_give_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="16sp"
+                        android:layout_height="16sp"
                         android:background="@drawable/shape_circle_image_btn"
                         android:src="@drawable/ic_refresh"
                         android:scaleType="fitCenter"
@@ -180,7 +180,8 @@
                         app:layout_constraintTop_toBottomOf="@id/my_give_gh_top"
                         app:layout_constraintLeft_toRightOf="@id/my_give_title"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/my_give_amount_card" />
+                        app:layout_constraintBottom_toBottomOf="@id/my_give_amount_card"
+                        android:layout_marginRight="-20dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

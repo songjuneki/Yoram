@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMainBinding
+import com.sjk.yoram.view.activity.InitActivity
 import com.sjk.yoram.viewmodel.*
 
 class MainActivity : AppCompatActivity() {
@@ -49,7 +51,37 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        viewModel.loginEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                val initIntent = Intent(this, InitActivity::class.java)
+                initIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                initIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                finish()
+                startActivity(initIntent)
+                overridePendingTransition(0, 0)
+            }
+        }
 
+        viewModel.goHomeEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+            }
+        }
+        viewModel.goDptEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+            }
+        }
+        viewModel.goIdEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+            }
+        }
+        viewModel.goBoardEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+            }
+        }
+        viewModel.goMyEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

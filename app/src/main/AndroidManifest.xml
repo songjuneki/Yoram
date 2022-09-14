@@ -49,6 +49,9 @@
         <activity android:name=".view.activity.main.my.GiveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Yoram.ActionBar" />
+        <activity android:name=".view.activity.main.my.AttendActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Yoram.ActionBar" />
 
         <provider
             android:authorities="com.sjk.yoram.fileprovider"

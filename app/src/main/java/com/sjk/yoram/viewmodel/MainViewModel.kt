@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.*
+import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.repository.ServerRepository
@@ -37,10 +38,41 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     val currentFragment: LiveData<Event<FragmentType>>
         get() = _currentFragment
 
+    private val _loginEvent = MutableLiveData<Event<Unit>>()
+    val loginEvent: LiveData<Event<Unit>>
+        get() = _loginEvent
+
+    private val _goDptEvent = MutableLiveData<Event<Unit>>()
+    val goDptEvent: LiveData<Event<Unit>>
+        get() = _goDptEvent
+
+    private val _goIdEvent = MutableLiveData<Event<Unit>>()
+    val goIdEvent: LiveData<Event<Unit>>
+        get() = _goIdEvent
+
+    private val _goBoardEvent = MutableLiveData<Event<Unit>>()
+    val goBoardEvent: LiveData<Event<Unit>>
+        get() = _goBoardEvent
+
+    private val _goMyEvent = MutableLiveData<Event<Unit>>()
+    val goMyEvent: LiveData<Event<Unit>>
+        get() = _goMyEvent
+
+    private val _goHomeEvent = MutableLiveData<Event<Unit>>()
+    val goHomeEvent: LiveData<Event<Unit>>
+        get() = _goHomeEvent
+
 
     init {
         loadLoginData()
         loadGiveAmount()
+    }
+
+    fun fragMoveEvent(btnId: Int) {
+        when (btnId) {
+            R.id.frag_my_user_menus_dpt -> { _goDptEvent.value = Event(Unit) }
+            R.id.frag_my_user_menus_board -> { _goBoardEvent.value = Event(Unit) }
+        }
     }
 
     fun loadLoginData() {
@@ -69,6 +101,8 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     }
 
     fun login() {
+        userRepository.setIsInit(true)
+        _loginEvent.value = Event(Unit)
     }
 
 
