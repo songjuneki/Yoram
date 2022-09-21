@@ -42,25 +42,14 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     val loginEvent: LiveData<Event<Unit>>
         get() = _loginEvent
 
-    private val _goDptEvent = MutableLiveData<Event<Unit>>()
-    val goDptEvent: LiveData<Event<Unit>>
-        get() = _goDptEvent
+    private val _goDptSearchEvent = MutableLiveData<Event<Unit>>()
+    val goDptSearchEvent: LiveData<Event<Unit>>
+        get() = _goDptSearchEvent
 
-    private val _goIdEvent = MutableLiveData<Event<Unit>>()
-    val goIdEvent: LiveData<Event<Unit>>
-        get() = _goIdEvent
 
-    private val _goBoardEvent = MutableLiveData<Event<Unit>>()
-    val goBoardEvent: LiveData<Event<Unit>>
-        get() = _goBoardEvent
-
-    private val _goMyEvent = MutableLiveData<Event<Unit>>()
-    val goMyEvent: LiveData<Event<Unit>>
-        get() = _goMyEvent
-
-    private val _goHomeEvent = MutableLiveData<Event<Unit>>()
-    val goHomeEvent: LiveData<Event<Unit>>
-        get() = _goHomeEvent
+    private val _moveFragmentEvent = MutableLiveData<Event<Int>>()
+    val moveFragmentEvent: LiveData<Event<Int>>
+        get() = _moveFragmentEvent
 
 
     init {
@@ -70,8 +59,9 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
 
     fun fragMoveEvent(btnId: Int) {
         when (btnId) {
-            R.id.frag_my_user_menus_dpt -> { _goDptEvent.value = Event(Unit) }
-            R.id.frag_my_user_menus_board -> { _goBoardEvent.value = Event(Unit) }
+            R.id.home_dpt_more, R.id.frag_my_user_menus_dpt -> { _moveFragmentEvent.value = Event(R.id.navi_dptment) }
+            R.id.home_dpt_search -> { _moveFragmentEvent.value = Event(R.id.navi_dptment); _goDptSearchEvent.value = Event(Unit) }
+            R.id.frag_my_user_menus_board -> { _moveFragmentEvent.value = Event(R.id.navi_board) }
         }
     }
 

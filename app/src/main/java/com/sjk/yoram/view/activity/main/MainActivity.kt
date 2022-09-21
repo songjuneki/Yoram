@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMainBinding
 import com.sjk.yoram.view.activity.InitActivity
@@ -62,24 +63,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.goHomeEvent.observe(this) { event ->
+        viewModel.moveFragmentEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-            }
-        }
-        viewModel.goDptEvent.observe(this) { event ->
-            event.getContentIfNotHandled()?.let {
-            }
-        }
-        viewModel.goIdEvent.observe(this) { event ->
-            event.getContentIfNotHandled()?.let {
-            }
-        }
-        viewModel.goBoardEvent.observe(this) { event ->
-            event.getContentIfNotHandled()?.let {
-            }
-        }
-        viewModel.goMyEvent.observe(this) { event ->
-            event.getContentIfNotHandled()?.let {
+                binding.bottomNavi.selectedItemId = it
             }
         }
     }

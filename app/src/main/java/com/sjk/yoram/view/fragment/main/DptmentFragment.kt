@@ -52,12 +52,28 @@ class DptmentFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.dptmentFragment)
+                viewModel.hideSearchbar()
+        }
 
         viewModel.userDetailEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 findNavController().navigate(R.id.action_dptFragment_to_userInfoDialog)
             }
         }
+
+        viewModel.searchEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                binding.fragDptmentHeaderSearchbar.requestFocus()
+            }
+        }
+
+        mainViewModel.goDptSearchEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                binding.fragDptmentHeaderSearch.callOnClick()
+            }
+        }
     }
+
 }

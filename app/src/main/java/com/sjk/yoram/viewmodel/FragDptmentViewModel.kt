@@ -62,6 +62,10 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     val userMsgEvent: LiveData<Event<String>>
         get() = _userMsgEvent
 
+    private val _searchEvent = MutableLiveData<Event<Unit>>()
+    val searchEvent: LiveData<Event<Unit>>
+        get() = _searchEvent
+
     val isSearching = MutableLiveData<Boolean>(false)
     val searchKeyword = MutableLiveData<String>("")
 
@@ -81,9 +85,14 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
     fun clickEvent(btnId: Int) {
         when(btnId) {
-            R.id.frag_dptment_header_search -> { if (_myPermission > 0) isSearching.value = true }
-            R.id.frag_dptment_header_cancel -> { isSearching.value = false; searchKeyword.value = "" }
+            R.id.frag_dptment_header_search -> { if (_myPermission > 0) isSearching.value = true; _searchEvent.value = Event(Unit) }
+            R.id.frag_dptment_header_cancel -> { hideSearchbar()}
         }
+    }
+
+    fun hideSearchbar() {
+        this.isSearching.value = false
+        this.searchKeyword.value = ""
     }
 
 
