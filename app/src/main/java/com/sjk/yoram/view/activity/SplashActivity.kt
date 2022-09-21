@@ -36,8 +36,8 @@ class SplashActivity: AppCompatActivity() {
                     // 앱 초기 상태일시
                     initIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     initIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    finish()
                     startActivity(initIntent)
+                    finish()
                 } else {
                     // 앱 초기 진행 했을 시
                     val localId = sharedPref.getInt(getString(R.string.YORAM_LOCAL_PREF_MYID), -1)
@@ -50,8 +50,6 @@ class SplashActivity: AppCompatActivity() {
                             .setPositiveButton("확인", DialogInterface.OnClickListener{_, _ -> startActivity(initIntent); return@OnClickListener})    // 로그인 화면 인텐트로 수정
                             .create().show()
                     } else {
-                        homeIntent.putExtra("loginedID", localId)
-                        homeIntent.putExtra("isLogin", idCheck)
                         startActivity(homeIntent)       // 메인화면으로
                         finish()
                     }

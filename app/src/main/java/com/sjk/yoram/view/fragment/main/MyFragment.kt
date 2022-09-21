@@ -48,25 +48,26 @@ class MyFragment: Fragment() {
 
         viewModel.editEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                val intent = Intent(requireContext(), EditActivity::class.java)
-                myEditResult.launch(intent)
-                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                val intent = Intent(context, EditActivity::class.java)
+                this.myEditResult.launch(intent)
+                activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
 
         viewModel.giveEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                val intent = Intent(requireContext(), GiveActivity::class.java)
-                myGiveResult.launch(intent)
-                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                val intent = Intent(context, GiveActivity::class.java)
+                this.myGiveResult.launch(intent)
+                activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
 
         viewModel.attendEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                val intent = Intent(requireContext(), AttendActivity::class.java)
-                startActivity(intent)
-                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                val intent = Intent(context, AttendActivity::class.java)
+//                startActivity(intent)
+                context?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
     }

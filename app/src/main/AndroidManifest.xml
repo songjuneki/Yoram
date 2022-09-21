@@ -34,8 +34,8 @@
         <activity
             android:name=".view.activity.main.MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true"
             android:windowSoftInputMode="adjustPan"
+            android:exported="true"
             android:theme="@style/Theme.Yoram.ActionBar">
         </activity>
         <activity android:name=".view.activity.main.my.EditActivity"

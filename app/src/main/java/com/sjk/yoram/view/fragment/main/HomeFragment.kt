@@ -39,62 +39,9 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // home banner pager 상호작용
         homeViewModel.bannerList.observe(viewLifecycleOwner) {
             (binding.homeBannerPager.adapter as HomeBannerAdapter).fetchBanner(it)
         }
-
-        // 조직도 검색 클릭 이벤트
-        // 내 정보 상호작용
-        // 교회 소식 상호작용
-
-
-//        val adapter = CardAdapter()
-//        val layoutManager = LinearLayoutManager(this.context)
-//        layoutManager.orientation = LinearLayoutManager.VERTICAL
-//
-//
-//        adapter.setOnDptItemClickListener(object: CardAdapter.OnDptItemClickListener {
-//            override fun onItemClick(type: DptButtonType, dptCode: Int) {
-//                CoroutineScope(Dispatchers.Main).async {
-//                    mainViewModel.moveDptFrag()
-//                    dptFragViewModel.sortAndExpandDepartment(type, dptCode)
-//                }
-//            }
-//        })
-//        adapter.setOnSearchBarClickListener(object: CardAdapter.OnSearchBarClickListener {
-//            override fun onSearchBarClick() {
-//                // change dptment fragment and focus searchbar
-//                mainViewModel.moveDptFrag()
-//                dptFragViewModel.isMoved.value = true
-//            }
-//        })
-//
-//        binding.vm = viewModel
-//        binding.fragHomeRecycler.adapter = adapter
-//        binding.fragHomeRecycler.layoutManager = layoutManager
-//
-//
-//        viewModel.cards.observe(viewLifecycleOwner, Observer {
-//            (binding.fragHomeRecycler.adapter as CardAdapter).fetchCard(it)
-//        })
-//
-//        viewModel.rootDpts.observe(viewLifecycleOwner, Observer {
-//            (binding.fragHomeRecycler.adapter as CardAdapter).fetchDpts(it)
-//        })
-//
-//
-//        var user = mainViewModel.loginData.value ?: MyLoginData()
-//        Log.d("JKJK", "HomeFrag -- loginData=${user}")
-//        viewModel.addCard(Card(CardType.HOME_BANNER))
-//        viewModel.addCard(Card(CardType.HOME_DEPARTMENT))
-//        Log.d("JKJK", "HomeFrag -- loginState=${mainViewModel.loginState}")
-//        viewModel.addCard(Card(CardType.HOME_ID, userData(user)))
-//
-//        mainViewModel.loginState.observe(viewLifecycleOwner, Observer {
-//            user = mainViewModel.loginData.value ?: MyLoginData()
-//            viewModel.modifyCard(2, Card(CardType.HOME_ID, userData(user)))
-//        })
 
     }
 }

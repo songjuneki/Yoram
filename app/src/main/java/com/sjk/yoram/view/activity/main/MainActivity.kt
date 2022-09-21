@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -86,5 +87,25 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "카메라 권한 거부", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        Log.d("JKJK", "why main activity is finish?")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("JKJK", "main onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("JKJK", "main onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("JKJK", "main onDestroy")
     }
 }

@@ -55,34 +55,6 @@ class AttendActivity: AppCompatActivity() {
     }
 
     private fun initView() {
-        val test_attend: LocalDate = LocalDate.of(2022, 9, 7)
-
-//        binding.myAttendCalendar.dayBinder = object: DayBinder<DayViewContainer> {
-//            override fun create(view: View): DayViewContainer = DayViewContainer(view)
-//            override fun bind(container: DayViewContainer, day: CalendarDay) {
-//                container.textView.text = day.date.dayOfMonth.toString()
-//
-//                if (day.owner == DayOwner.THIS_MONTH) {
-//                    container.textView.setTextColor(applicationContext.getColor(R.color.xd_light_title))
-//                    if (day.date.dayOfWeek == DayOfWeek.SUNDAY)
-//                        container.textView.setTextColor(applicationContext.getColor(R.color.xd_light_red_highlight))
-//                } else {
-//                    container.textView.setTextColor(applicationContext.getColor(R.color.xd_light_text_hint))
-//                    if (day.date.dayOfWeek == DayOfWeek.SUNDAY) {
-//                        container.textView.setTextColor(applicationContext.getColor(R.color.xd_light_red_highlight))
-//                        container.textView.alpha = 0.4f
-//                    }
-//                }
-//
-//                if (day.date == LocalDate.now()) container.textView.setTextColor(applicationContext.getColor(R.color.xd_light_dot_indicator_enabled))
-//
-//                if (day.date.equals(test_attend)) {
-//                    container.checker.visibility = View.VISIBLE
-//                    container.textView.setTextColor(applicationContext.getColor(R.color.xd_light_background))
-//                }
-//            }
-//        }
-
         binding.myAttendCalendar.monthHeaderBinder = object: MonthHeaderFooterBinder<MonthViewContainer> {
             override fun create(view: View): MonthViewContainer = MonthViewContainer(view)
             override fun bind(container: MonthViewContainer, month: CalendarMonth) {

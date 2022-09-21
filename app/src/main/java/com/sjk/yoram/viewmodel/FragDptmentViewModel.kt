@@ -123,11 +123,13 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     fun listAdapter() : DepartmentListAdapter = DepartmentListAdapter(_myPermission, dptClickListener, if (_myPermission < 1) null else userClickListener)
     fun searchListAdapter() : SimpleUserListAdapter = SimpleUserListAdapter(userClickListener)
 
-    private fun selectedUser(id: Int) = viewModelScope.launch {
-        _detailUser.value = null
-        _detailUser.value = userRepository.getUserDetail(id)
-        _userDetailEvent.value = Event(Unit)
+    private fun selectedUser(id: Int) {
+        viewModelScope.launch {
+            _detailUser.value = userRepository.getUserDetail(id)
+            _userDetailEvent.value = Event(Unit)
+        }
     }
+
 
     private var _searchJob: Job? = null
     private fun searchUserByName(name: String) {

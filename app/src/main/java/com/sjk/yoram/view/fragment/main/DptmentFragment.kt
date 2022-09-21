@@ -59,7 +59,8 @@ class DptmentFragment: Fragment() {
 
         viewModel.userDetailEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().navigate(R.id.action_dptFragment_to_userInfoDialog)
+                if (findNavController().currentDestination?.id == R.id.dptmentFragment)
+                    findNavController().navigate(R.id.action_dptFragment_to_userInfoDialog)
             }
         }
 
