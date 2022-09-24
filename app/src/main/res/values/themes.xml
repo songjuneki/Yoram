@@ -44,4 +44,8 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
         <item name="android:textColorPrimary">@color/xd_light_title</item>
     </style>
+    <style name="Theme.Yoram.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="trackTint">@color/switch_track</item>
+        <item name="thumbTint">@color/xd_light_background</item>
+    </style>
 </resources>

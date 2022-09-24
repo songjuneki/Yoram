@@ -53,6 +53,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Yoram.ActionBar" />
 
+        <activity android:name=".view.activity.main.my.SettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/Theme.Yoram.ActionBar" />
+
         <provider
             android:authorities="com.sjk.yoram.fileprovider"
             android:name="androidx.core.content.FileProvider"

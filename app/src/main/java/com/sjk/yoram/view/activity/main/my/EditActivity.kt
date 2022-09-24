@@ -7,11 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMyEditBinding
-import com.sjk.yoram.view.fragment.main.my.EditAvatarDialog
 import com.sjk.yoram.viewmodel.EditViewModel
 
 class EditActivity: AppCompatActivity() {

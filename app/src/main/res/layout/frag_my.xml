@@ -702,10 +702,13 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:soundEffectsEnabled="true"
                         android:paddingTop="12dp"
                         android:paddingBottom="12dp"
-                        android:focusable="true"
-                        android:clickable="true"
                         android:background="@color/xd_light_background">
                         <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/frag_my_pref_gv05"

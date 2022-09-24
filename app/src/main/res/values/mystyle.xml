@@ -147,4 +147,8 @@
         <item name="android:dividerHeight">0dp</item>
         <item name="android:scrollbars">none</item>
     </style>
+    <style name="SwitchOverlay">
+        <item name="colorOnSurface">#D7D7D7</item>
+        <item name="colorSecondary">@color/xd_light_dot_indicator_enabled</item>
+    </style>
 </resources>

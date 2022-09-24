@@ -78,7 +78,7 @@ class UserRepository(private val application: Application) {
         val response = MyRetrofit.userApi.getMyPermission(id)
         if (response.isSuccessful)
             return response.body()!!
-        return -11
+        return 0
     }
 
     suspend fun getCountByName(name: String): Int {

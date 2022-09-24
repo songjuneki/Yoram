@@ -20,6 +20,7 @@ import com.sjk.yoram.databinding.FragMyBinding
 import com.sjk.yoram.view.activity.main.my.AttendActivity
 import com.sjk.yoram.view.activity.main.my.EditActivity
 import com.sjk.yoram.view.activity.main.my.GiveActivity
+import com.sjk.yoram.view.activity.main.my.SettingActivity
 import com.sjk.yoram.viewmodel.FragMyViewModel
 
 class MyFragment: Fragment() {
@@ -65,8 +66,15 @@ class MyFragment: Fragment() {
         viewModel.attendEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 val intent = Intent(context, AttendActivity::class.java)
-//                startActivity(intent)
                 context?.startActivity(intent)
+                activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
+        }
+
+        viewModel.prefEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                val intent = Intent(context, SettingActivity::class.java)
+                this.myPrefResult.launch(intent)
                 activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
@@ -81,6 +89,11 @@ class MyFragment: Fragment() {
     private val myGiveResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             mainViewModel.loadGiveAmount()
+        }
+    }
+
+    private val myPrefResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
         }
     }
 }

@@ -5,7 +5,7 @@ enum class UserPermission {
     NORMAL,
     FINANCE,
     PERSONNEL,
-    FIN_PER,
+    FINANCE_PERSONNEL,
     ADMIN,
     SUPER_ADMIN;
 }
