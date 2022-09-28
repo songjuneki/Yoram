@@ -8,7 +8,7 @@ import com.sjk.yoram.model.UserPermission
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class SettingViewModel(private val userRepository: UserRepository): ViewModel() {
+class PrefViewModel(private val userRepository: UserRepository): ViewModel() {
     private val _userPermission = MutableLiveData<UserPermission>()
     val userPermission: LiveData<UserPermission>
         get() = _userPermission
@@ -21,6 +21,14 @@ class SettingViewModel(private val userRepository: UserRepository): ViewModel() 
     val naviEvent: LiveData<Event<Int>>
         get() = _naviEvent
 
+    private val _backEvent = MutableLiveData<Event<Unit>>()
+    val backEvent: LiveData<Event<Unit>>
+        get() = _backEvent
+
+    private val _ruleType = MutableLiveData<RuleType>()
+    val ruleType: LiveData<RuleType>
+        get() = _ruleType
+
     init {
         viewModelScope.launch {
             _userPermission.value = UserPermission.values()[userRepository.getMyPermission(userRepository.getLoginID())]
@@ -29,10 +37,17 @@ class SettingViewModel(private val userRepository: UserRepository): ViewModel() 
 
     fun btnEvent(btnId: Int) {
         when (btnId) {
-            R.id.frag_my_setting_noti_push -> { showToast("기능 준비중입니다.") }
-            R.id.frag_my_setting_rule_rule -> { moveFragment(0) }
+            R.id.frag_my_pref_noti_push -> { showToast("기능 준비중입니다.") }
+            R.id.frag_my_pref_rule_rule -> { moveFragment(R.id.action_prefFragment_to_prefRuleFragment); _ruleType.value = RuleType.APP }
+            R.id.frag_my_pref_rule_privacy -> { moveFragment(R.id.action_prefFragment_to_prefRuleFragment); _ruleType.value = RuleType.PRIVACY }
+            R.id.frag_my_pref_account_privacy -> { moveFragment(R.id.action_prefFragment_to_prefPrivacyFragment) }
         }
     }
+
+    fun backBtn() {
+        _backEvent.value = Event(Unit)
+    }
+
 
     private fun showToast(message: String) {
         _toastEvent.value = Event(message)
@@ -44,7 +59,9 @@ class SettingViewModel(private val userRepository: UserRepository): ViewModel() 
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SettingViewModel(UserRepository.getInstance(application)!!) as T
+            return PrefViewModel(UserRepository.getInstance(application)!!) as T
         }
     }
+
+    enum class RuleType { APP, PRIVACY }
 }

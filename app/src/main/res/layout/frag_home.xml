@@ -256,6 +256,7 @@
                         android:textStyle="bold"
                         android:fontFamily="@font/pretendard_semibold"/>
                     <TextView
+                        android:id="@+id/home_checkin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -272,7 +273,8 @@
                         android:background="@drawable/home_checkin_border"
                         android:clickable="true"
                         android:longClickable="true"
-                        android:contextClickable="true"/>
+                        android:contextClickable="true"
+                        android:onClick="@{(v) -> mainVM.fragMoveEvent(v.id)}"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -124,6 +124,7 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
     fun countStop() {
         countDownJob?.cancel()
         _isValidCode.value = false
+        _timer.value = 0
         makeNotValidCode()
     }
 

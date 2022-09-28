@@ -3,10 +3,7 @@ package com.sjk.yoram.repository
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
-import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
 import coil.ImageLoader
@@ -22,6 +19,7 @@ import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Attend
 import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.model.dto.UserDetail
+import com.sjk.yoram.model.dto.UserPrivacyPolicy
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -36,7 +34,6 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class UserRepository(private val application: Application) {
     private val sharedPref = application.getSharedPreferences(application.getString(R.string.YORAM_LOCAL_PREF), Context.MODE_PRIVATE)
@@ -259,6 +256,14 @@ class UserRepository(private val application: Application) {
             items.add(GiveListItem(it.name, date, decFormat.format(it.amount)))
         }
         return items
+    }
+
+    suspend fun getUserPrivacyPolicy(id: Int = getLoginID()): UserPrivacyPolicy {
+        return MyRetrofit.userApi.getUserPrivacyPolicy(id)
+    }
+
+    suspend fun editUserPrivacyPolicy(pp: UserPrivacyPolicy): Boolean {
+        return MyRetrofit.userApi.editUserPrivacyPolicy(pp)
     }
 
     companion object {

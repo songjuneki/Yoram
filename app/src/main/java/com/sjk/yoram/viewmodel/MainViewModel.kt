@@ -62,6 +62,7 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
             R.id.home_dpt_more, R.id.frag_my_user_menus_dpt -> { _moveFragmentEvent.value = Event(R.id.navi_dptment) }
             R.id.home_dpt_search -> { _moveFragmentEvent.value = Event(R.id.navi_dptment); _goDptSearchEvent.value = Event(Unit) }
             R.id.frag_my_user_menus_board -> { _moveFragmentEvent.value = Event(R.id.navi_board) }
+            R.id.home_checkin -> { _moveFragmentEvent.value = Event(R.id.navi_id) }
         }
     }
 

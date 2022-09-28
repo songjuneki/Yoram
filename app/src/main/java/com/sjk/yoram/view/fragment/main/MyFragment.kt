@@ -3,24 +3,20 @@ package com.sjk.yoram.view.fragment.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import coil.load
 import com.sjk.yoram.R
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.databinding.FragMyBinding
 import com.sjk.yoram.view.activity.main.my.AttendActivity
 import com.sjk.yoram.view.activity.main.my.EditActivity
 import com.sjk.yoram.view.activity.main.my.GiveActivity
-import com.sjk.yoram.view.activity.main.my.SettingActivity
+import com.sjk.yoram.view.activity.main.my.PreferenceActivity
 import com.sjk.yoram.viewmodel.FragMyViewModel
 
 class MyFragment: Fragment() {
@@ -73,7 +69,7 @@ class MyFragment: Fragment() {
 
         viewModel.prefEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                val intent = Intent(context, SettingActivity::class.java)
+                val intent = Intent(context, PreferenceActivity::class.java)
                 this.myPrefResult.launch(intent)
                 activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }

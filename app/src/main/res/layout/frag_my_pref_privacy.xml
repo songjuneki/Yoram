@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragPrivacyViewModel" />
+        <variable
+            name="prefVM"
+            type="com.sjk.yoram.viewmodel.PrefViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/xd_light_background">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_my_pref_privacy_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_my_pref_privacy_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_my_pref_privacy_gh_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="?attr/actionBarSize" />
+
+        <ImageButton
+            android:id="@+id/frag_my_pref_privacy_back"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/shape_circle_image_btn"
+            android:src="@drawable/ic_back"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:onClick="@{(v) -> prefVM.backBtn()}"
+            android:soundEffectsEnabled="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_gv05"
+            app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_gh_top"/>
+        <TextView
+            android:id="@+id/frag_my_pref_rule_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공개 범위 수정"
+            android:textSize="20sp"
+            android:textColor="@color/xd_light_title"
+            android:fontFamily="@font/pretendard_semibold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_gh_top"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_gh_top"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_pref_privacy_body_gv05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_my_pref_privacy_body_gv95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref_privacy_body_avatar_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_pref_privacy_body_avatar_gv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.33" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_avatar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="프로필 사진"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <ImageView
+                        android:id="@+id/frag_my_pref_privacy_body_avatar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_avatar_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_avatar_gv"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="8dp"
+                        android:visibility="@{vm.pp.avatar ? View.VISIBLE : View.INVISIBLE}"
+                        imageUrl="@{vm.userDetail.avatar}"
+                        error="@{@drawable/ic_avatar}"
+                        circleImage="@{true}"/>
+                    <ImageView
+                        android:id="@+id/frag_my_pref_privacy_body_avatar_empty"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_avatar"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_avatar_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_avatar_gv"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="8dp"
+                        android:visibility="@{vm.pp.avatar ? View.INVISIBLE : View.VISIBLE}"
+                        imageUrl="@{``}"
+                        error="@{@drawable/ic_avatar}"
+                        circleImage="@{true}"/>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_avatar_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.avatar}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_avatar"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_avatar"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref_privacy_body_name_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_avatar_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_name_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이름"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.pp.name ? vm.userDetail.name : vm.getMaskedName()}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_name_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_name_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.name}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_name"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_name"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:visibility="gone"
+                    android:id="@+id/frag_my_pref_privacy_body_sex_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_name_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_sex_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="성별"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="남자여자 근데 앱에서 표시를 안해"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_sex_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_sex_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.sex}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_sex"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_sex"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref_privacy_body_bd_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_sex_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_bd_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="생년월일"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_bd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.pp.birth ? vm.userDetail.birth : vm.userDetail.birth.replaceAll(`\\d`, `*`)}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_bd_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_bd_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.birth}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_bd"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_bd"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref_privacy_body_phone_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_bd_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_phone_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="휴대전화"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.pp.phone ? vm.userDetail.phone : vm.userDetail.phone.replaceAll(`\\d`, `*`)}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_phone_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_phone_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.phone}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_phone"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_phone"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref_privacy_body_tel_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_phone_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_tel_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="유선전화"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.pp.tel ? vm.userDetail.tel : vm.userDetail.tel.replaceAll(`\\d`, `*`)}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_tel_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_tel_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.tel}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_tel"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_tel"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/frag_my_pref_privacy_body_addr_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_tel_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_privacy_body_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_privacy_body_gv95"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_addr_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주소"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/frag_my_pref_privacy_body_addr"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.pp.address ? vm.userDetail.address.concat(` `).concat(vm.userDetail.address_more) : vm.userDetail.address.concat(` `).concat(vm.userDetail.address_more).replaceAll(`.`, `*`)}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_pref_privacy_body_addr_title"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/frag_my_pref_privacy_body_addr_switch"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/frag_my_pref_privacy_body_addr_switch"
+                        style="@style/Theme.Yoram.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.pp.address}"
+                        android:onCheckedChanged="@{() -> vm.editedPrivacyPolicy()}"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_pref_privacy_body_addr"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_privacy_body_addr"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_y_pref_privacy_done"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@{vm.originalpp.isEqual(vm.pp) ? @color/xd_light_text_hint : @color/xd_light_dot_indicator_enabled}"
+            android:text="적용하기"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:enabled="@{!vm.originalpp.isEqual(vm.pp)}"
+            android:onClick="@{() -> vm.applyPrivacyPolicy()}"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

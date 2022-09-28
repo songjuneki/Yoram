@@ -47,7 +47,7 @@
                     android:orientation="horizontal"
                     app:layout_constraintGuide_begin="?attr/actionBarSize" />
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_appbar"
+                    android:id="@+id/frag_my_header"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@color/xd_light_background"
@@ -55,8 +55,14 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/frag_my_gh_top">
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_header_gv_95"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
                     <TextView
-                        android:id="@+id/frag_my_title"
+                        android:id="@+id/frag_my_header_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="내 정보"
@@ -67,6 +73,20 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
+                    <ImageView
+                        android:id="@+id/frag_my_header_pref"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_gray_preference"
+                        android:scaleType="fitCenter"
+                        android:clickable="true"
+                        android:longClickable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:soundEffectsEnabled="true"
+                        android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_header_gv_95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/xd_light_background"
-                    app:layout_constraintTop_toBottomOf="@id/frag_my_appbar"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_header"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
                     <androidx.constraintlayout.widget.Guideline

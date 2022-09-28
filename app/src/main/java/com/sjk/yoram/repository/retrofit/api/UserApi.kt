@@ -53,6 +53,9 @@ interface UserApi {
     @GET("user/attend")
     suspend fun getAttendList(@Query("id")id: Int, @Query("year")year: Int = 999, @Query("month")month: Int = 999): Response<MutableList<Attend>>
 
+    @GET("user/pp")
+    suspend fun getUserPrivacyPolicy(@Query("id")id: Int): UserPrivacyPolicy
+
     // UPDATE
     @Multipart
     @POST("user/avatar/init")
@@ -67,4 +70,7 @@ interface UserApi {
 
     @POST("user/verify")
     suspend fun attendUser(@Body attend: Attend): Boolean
+
+    @POST("user/pp/edit")
+    suspend fun editUserPrivacyPolicy(@Body privacyPolicy: UserPrivacyPolicy): Boolean
 }

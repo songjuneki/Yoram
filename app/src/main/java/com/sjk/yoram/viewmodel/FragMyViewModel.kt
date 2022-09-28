@@ -42,7 +42,7 @@ class FragMyViewModel(private val userRepository: UserRepository, private val se
             R.id.frag_my_info_btn -> { _editEvent.value = Event(Unit) }
             R.id.frag_my_user_menus_give -> { _giveEvent.value = Event(Unit) }
             R.id.frag_my_user_menus_attend -> { _attendEvent.value = Event(Unit) }
-            R.id.frag_my_pref -> { _prefEvent.value = Event(Unit) }
+            R.id.frag_my_header_pref, R.id.frag_my_pref -> { _prefEvent.value = Event(Unit) }
         }
     }
 
