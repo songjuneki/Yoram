@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="banner"
+            type="com.sjk.yoram.model.dto.Banner" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+        
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/list_admin_banner_gv85"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/list_admin_banner_delete"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/xd_light_red_highlight"
+            android:src="@drawable/ic_baseline_delete_forever_24"
+            android:scaleType="center"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/list_admin_banner_gv85"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:visibility="visible"
+            android:id="@+id/list_admin_banner_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="0dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_background">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/list_admin_banner_gv25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25"/>
+                <ImageView
+                    android:id="@+id/list_admin_banner_thumbnail"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:scaleType="fitCenter"
+                    imageUrl="@{banner.URL + String.valueOf(banner.id)}"
+                    error="@{@drawable/logo_with_title}"
+                    circleImage="@{false}"
+                    grayScale="@{!banner.show}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/list_admin_banner_gv25"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="4dp"/>
+                <TextView
+                    android:id="@+id/list_admin_banner_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{banner.title}"
+                    android:textColor="@{banner.show ? @color/xd_light_title : @color/xd_light_hint}"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/list_admin_banner_gv25"
+                    android:layout_margin="8dp" />
+                <ImageButton
+                    android:id="@+id/list_admin_banner_drag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:background="@drawable/shape_circle_image_btn"
+                    android:src="@drawable/ic_baseline_drag_indicator_24"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:tint="@color/xd_light_hint"
+                    android:layout_marginRight="4dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

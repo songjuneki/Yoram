@@ -3,29 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="privacyVM"
-            type="com.sjk.yoram.viewmodel.FragPrivacyViewModel" />
-        <variable
             name="prefVM"
             type="com.sjk.yoram.viewmodel.PrefViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dialog_my_pref_apply_layout"
+        android:id="@+id/dialog_my_pref_logout_layout"
         android:background="@drawable/border_dialog"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/dialog_my_pref_apply_gv50"
+            android:id="@+id/dialog_my_pref_logout_gv50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
         <TextView
-            android:id="@+id/dialog_my_pref_apply_title"
+            android:id="@+id/dialog_my_pref_logout_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="변경사항 적용"
+            android:text="로그아웃"
             android:textSize="18sp"
             android:textColor="@color/xd_light_title"
             android:fontFamily="@font/pretendard_medium"
@@ -34,14 +31,14 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="18dp" />
         <TextView
-            android:id="@+id/dialog_my_pref_apply_body"
+            android:id="@+id/dialog_my_pref_logout_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="변경사항을 적용하시겠습니까?"
+            android:text="로그아웃 하시겠습니까?"
             android:textSize="16sp"
             android:textColor="@color/xd_light_title"
             android:fontFamily="@font/pretendard_regular"
-            app:layout_constraintTop_toBottomOf="@id/dialog_my_pref_apply_title"
+            app:layout_constraintTop_toBottomOf="@id/dialog_my_pref_logout_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="32dp" />
@@ -49,7 +46,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/dialog_my_pref_apply_cancel"
+            android:id="@+id/dialog_my_pref_logout_cancel"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="64dp"
@@ -57,27 +54,27 @@
             android:textColor="@color/xd_light_background"
             android:textSize="17sp"
             android:fontFamily="@font/pretendard_bold"
-            app:layout_constraintTop_toBottomOf="@id/dialog_my_pref_apply_body"
+            app:layout_constraintTop_toBottomOf="@id/dialog_my_pref_logout_body"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="@id/dialog_my_pref_apply_gv50"
+            app:layout_constraintRight_toRightOf="@id/dialog_my_pref_logout_gv50"
             android:onClick="@{(v) -> prefVM.backBtn()}"
             android:layout_marginTop="32dp"
             android:background="@color/xd_light_text_hint"
             android:foreground="?attr/selectableItemBackground"
             android:soundEffectsEnabled="true" />
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/dialog_my_pref_apply_ok"
+            android:id="@+id/dialog_my_pref_logout_ok"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="64dp"
-            android:text="적용"
+            android:text="로그아웃"
             android:textColor="@color/xd_light_background"
             android:textSize="17sp"
             android:fontFamily="@font/pretendard_bold"
-            app:layout_constraintTop_toBottomOf="@id/dialog_my_pref_apply_body"
-            app:layout_constraintLeft_toLeftOf="@id/dialog_my_pref_apply_gv50"
+            app:layout_constraintTop_toBottomOf="@id/dialog_my_pref_logout_body"
+            app:layout_constraintLeft_toLeftOf="@id/dialog_my_pref_logout_gv50"
             app:layout_constraintRight_toRightOf="parent"
-            android:onClick="@{() -> privacyVM.applyPrivacyPolicy()}"
+            android:onClick="@{(v) -> prefVM.btnEvent(v.id)}"
             android:layout_marginTop="32dp"
             android:background="@color/xd_light_dot_indicator_enabled"
             android:foreground="?attr/selectableItemBackground"

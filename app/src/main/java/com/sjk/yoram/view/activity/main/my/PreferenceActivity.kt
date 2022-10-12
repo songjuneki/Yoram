@@ -53,6 +53,13 @@ class PreferenceActivity: AppCompatActivity() {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel.logoutEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                setResult(RESULT_LOGOUT)
+                finish()
+            }
+        }
     }
 
     override fun finish() {
@@ -81,5 +88,9 @@ class PreferenceActivity: AppCompatActivity() {
 
     override fun onBackPressed() {
         onSupportNavigateUp()
+    }
+
+    companion object {
+        const val RESULT_LOGOUT = 19980105
     }
 }

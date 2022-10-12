@@ -19,15 +19,11 @@ class ServerRepository(private val application: Application) {
         return listOf()
     }
 
-    suspend fun getAllBanner(): List<Banner> {
-        val idList = MyRetrofit.serverApi.getBannerList()
-        val bannerList: MutableList<Banner> = mutableListOf()
-        if (idList.isSuccessful) {
-            idList.body()!!.forEach {
-                bannerList.add(MyRetrofit.serverApi.getBannerInfo(it, true))
-            }
-        }
-        return bannerList
+    suspend fun getAllBanners(all: Boolean = false): List<Banner> {
+        val res = MyRetrofit.serverApi.getBannerList(all)
+        if (res.isSuccessful)
+            return res.body() ?: listOf()
+        return listOf()
     }
 
     suspend fun getMaxWeekOfMonth(year: Int = 0, month: Int = 0): Int {

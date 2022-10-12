@@ -27,12 +27,10 @@ import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.kizitonwose.calendarview.utils.yearMonth
 import com.sjk.yoram.R
-import com.sjk.yoram.model.ui.adapter.AddressListAdapter
+import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.SimpleUser
-import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
-import com.sjk.yoram.model.ui.adapter.GiveListAdapter
-import com.sjk.yoram.model.ui.adapter.SimpleUserListAdapter
+import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.calendar.DayViewContainer
 import com.sjk.yoram.model.ui.calendar.MonthViewContainer
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
@@ -40,6 +38,7 @@ import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
+import jp.wasabeef.transformers.coil.GrayscaleTransformation
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -72,20 +71,21 @@ object BindingAdapters {
 //    }
 
 
-    @BindingAdapter("imageUrl", "error", "circleImage")
+    @BindingAdapter("imageUrl", "error", "circleImage", "grayScale", requireAll = false)
     @JvmStatic
-    fun setImageUrl(view: ImageView, imageUrl: String?, error: Drawable, circleImage: Boolean = false) {
+    fun setImageUrl(view: ImageView, imageUrl: String?, error: Drawable, circleImage: Boolean = false, grayScale: Boolean = false) {
         if (imageUrl.isNullOrEmpty()) {
             view.load(error) {
                 crossfade(true)
-                if(circleImage) transformations(CircleCropTransformation())
+                if (circleImage) transformations(CircleCropTransformation())
             }
         } else {
             view.load(imageUrl) {
                 error(error)
                 crossfade(true)
                 placeholder(error)
-                if(circleImage) transformations(CircleCropTransformation())
+                if (circleImage) transformations(CircleCropTransformation())
+                if (grayScale) transformations(GrayscaleTransformation())
             }
         }
     }
@@ -317,5 +317,11 @@ object BindingAdapters {
         data.forEach {
             view.notifyMonthChanged(it.yearMonth)
         }
+    }
+
+    @BindingAdapter("AdminBannerItem")
+    @JvmStatic
+    fun setAdminBannerItem(view: RecyclerView, list: List<Banner>) {
+        (view.adapter as AdminBannerListAdapter).submitList(list)
     }
 }

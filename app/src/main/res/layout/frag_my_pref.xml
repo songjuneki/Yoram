@@ -11,7 +11,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/xd_light_background">
+        android:background="@color/xd_light_background"
+        android:paddingBottom="16dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -328,6 +329,13 @@
                     android:id="@+id/frag_my_pref_account_logout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
+                    android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:soundEffectsEnabled="true"
+                    android:hapticFeedbackEnabled="true"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_account_privacy"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_account_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_account_gv95">
@@ -414,6 +422,12 @@
                     android:id="@+id/frag_my_pref_admin_banner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
+                    android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:soundEffectsEnabled="true"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_title"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -483,8 +497,6 @@
                         android:layout_marginBottom="16dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

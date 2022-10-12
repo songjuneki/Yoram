@@ -29,6 +29,10 @@ class PrefViewModel(private val userRepository: UserRepository): ViewModel() {
     val ruleType: LiveData<RuleType>
         get() = _ruleType
 
+    private val _logoutEvent = MutableLiveData<Event<Unit>>()
+    val logoutEvent: LiveData<Event<Unit>>
+        get() = _logoutEvent
+
     init {
         viewModelScope.launch {
             _userPermission.value = UserPermission.values()[userRepository.getMyPermission(userRepository.getLoginID())]
@@ -41,6 +45,9 @@ class PrefViewModel(private val userRepository: UserRepository): ViewModel() {
             R.id.frag_my_pref_rule_rule -> { moveFragment(R.id.action_prefFragment_to_prefRuleFragment); _ruleType.value = RuleType.APP }
             R.id.frag_my_pref_rule_privacy -> { moveFragment(R.id.action_prefFragment_to_prefRuleFragment); _ruleType.value = RuleType.PRIVACY }
             R.id.frag_my_pref_account_privacy -> { moveFragment(R.id.action_prefFragment_to_prefPrivacyFragment) }
+            R.id.frag_my_pref_account_logout -> { moveFragment(R.id.action_prefFragment_to_prefLogoutDialogFragment) }
+            R.id.frag_my_pref_admin_banner -> { moveFragment(R.id.action_prefFragment_to_adminBannerFragment) }
+            R.id.dialog_my_pref_logout_ok -> { _logoutEvent.value = Event(Unit) }
         }
     }
 

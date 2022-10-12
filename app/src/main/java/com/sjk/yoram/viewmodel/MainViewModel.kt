@@ -72,6 +72,7 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
             if (id == -1) {
                 _loginData.value = MyLoginData()
                 loginState.value = LoginState.NONE
+                _avatar.value = userRepository.getAvatarBitmap()
             } else {
                 _loginData.value = userRepository.getLoginData(id)
                 _avatar.value = userRepository.getAvatarBitmap()
@@ -94,6 +95,13 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     fun login() {
         userRepository.setIsInit(true)
         _loginEvent.value = Event(Unit)
+    }
+
+    fun logout() {
+        userRepository.setLogin(-1, "@")
+        loadLoginData()
+//        userRepository.setIsInit(true)
+//        _loginEvent.value = Event(Unit)
     }
 
 

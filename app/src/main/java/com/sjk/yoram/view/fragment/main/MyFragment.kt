@@ -89,7 +89,18 @@ class MyFragment: Fragment() {
     }
 
     private val myPrefResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                mainViewModel.loadLoginData()
+            }
+            PreferenceActivity.RESULT_LOGOUT -> {
+                mainViewModel.logout()
+                mainViewModel.loadLoginData()
+            }
+            else -> {
+
+            }
         }
     }
+
 }

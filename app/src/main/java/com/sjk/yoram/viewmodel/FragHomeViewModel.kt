@@ -24,7 +24,7 @@ class FragHomeViewModel(private val userRepository: UserRepository, private val 
     }
 
     private fun loadBanners() = viewModelScope.launch {
-        _bannerList.addAll(serverRepository.getAllBanner().toMutableList())
+        _bannerList.addAll(serverRepository.getAllBanners().toMutableList())
     }
 
     private fun loadServerValues() = viewModelScope.launch {
