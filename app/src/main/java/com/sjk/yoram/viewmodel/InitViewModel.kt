@@ -345,7 +345,11 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             _newUser.address_more = newAddMore.value!!
             _newUser.car = newCarNo.value!!
             val id = userRepository.userSignUp(_newUser)
-            if (id == -1) {return@async; hideLoading() }
+            if (id == -1) {
+                Log.d("JKJK", "signup error")
+                hideLoading()
+                return@async
+            }
             btnLogin(_newUser.name, newPw.value ?: AESUtil().Encrypt(_newUser.pw))
             Log.d("JKJK", "signup complete $_newUser\nid=$id")
         }

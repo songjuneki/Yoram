@@ -1,6 +1,8 @@
 package com.sjk.yoram.view.activity.main.my
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -8,6 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMyPrefBinding
+import com.sjk.yoram.view.fragment.main.my.AdminBannerFragment
+import com.sjk.yoram.view.fragment.main.my.PrefPrivacyFragment
+import com.sjk.yoram.viewmodel.AdminBannerViewModel
 import com.sjk.yoram.viewmodel.FragPrivacyViewModel
 import com.sjk.yoram.viewmodel.PrefViewModel
 
@@ -15,6 +20,7 @@ class PreferenceActivity: AppCompatActivity() {
     private val binding by lazy { ActivityMyPrefBinding.inflate(layoutInflater) }
     private lateinit var viewModel: PrefViewModel
     private lateinit var privacyViewModel: FragPrivacyViewModel
+    private lateinit var adminBannerViewModel: AdminBannerViewModel
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -23,6 +29,8 @@ class PreferenceActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, PrefViewModel.Factory(application))[PrefViewModel::class.java]
         privacyViewModel = ViewModelProvider(this, FragPrivacyViewModel.Factory(application))[FragPrivacyViewModel::class.java]
+        adminBannerViewModel = ViewModelProvider(this, AdminBannerViewModel.Factory(application))[AdminBannerViewModel::class.java]
+
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
@@ -45,6 +53,22 @@ class PreferenceActivity: AppCompatActivity() {
                 } else {
                     onSupportNavigateUp()
                 }
+            }
+        }
+
+        viewModel.applyEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                val screenFragment = navHostFragment.childFragmentManager.fragments[0]
+                if (screenFragment is PrefPrivacyFragment)
+                    privacyViewModel.changedValueApply()
+                else if (screenFragment is AdminBannerFragment)
+                    adminBannerViewModel.changedValueApply()
+            }
+        }
+
+        viewModel.applyCancelEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                navController.popBackStack(R.id.prefFragment, false)
             }
         }
 
@@ -74,13 +98,18 @@ class PreferenceActivity: AppCompatActivity() {
                 if (privacyViewModel.ppIsChanged()) {
                     navController.navigate(R.id.action_prefPrivacyFragment_to_prefApplyDialogFragment)
                     true
-                } else {
-                    navController.navigateUp()
-                }
+                } else navController.navigateUp()
             }
             R.id.prefApplyDialogFragment -> {
-                privacyViewModel.loadPP()
-                navController.popBackStack(R.id.prefFragment, false)
+//                privacyViewModel.loadPP()
+//                navController.popBackStack(R.id.prefFragment, false)
+                navController.navigateUp()
+            }
+            R.id.adminBannerFragment -> {
+                if (adminBannerViewModel.bannerIsChanged()) {
+                    navController.navigate(R.id.action_adminBannerFragment_to_prefApplyDialogFragment)
+                    true
+                } else navController.navigateUp()
             }
             else -> { navController.navigateUp() }
         }
@@ -88,6 +117,31 @@ class PreferenceActivity: AppCompatActivity() {
 
     override fun onBackPressed() {
         onSupportNavigateUp()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 1000) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "카메라 권한 거부", Toast.LENGTH_SHORT).show()
+            }
+        }
+        if (requestCode == 1100) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "파일 읽기 권한 거부", Toast.LENGTH_SHORT).show()
+            }
+        }
+        if (requestCode == 1200) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "파일 쓰기 권한 거부", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     companion object {

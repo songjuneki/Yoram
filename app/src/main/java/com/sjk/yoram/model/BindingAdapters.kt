@@ -11,11 +11,13 @@ import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.get
 import androidx.databinding.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.budiyev.android.codescanner.*
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textfield.TextInputLayout
 import com.kizitonwose.calendarview.CalendarView
@@ -321,7 +323,29 @@ object BindingAdapters {
 
     @BindingAdapter("AdminBannerItem")
     @JvmStatic
-    fun setAdminBannerItem(view: RecyclerView, list: List<Banner>) {
+    fun setAdminBannerItem(view: RecyclerView, list: MutableList<Banner>) {
         (view.adapter as AdminBannerListAdapter).submitList(list)
+    }
+
+//    @BindingAdapter("AdminBannerItemChanged")
+//    @JvmStatic
+//    fun setAdminBannerItemChanged(view: RecyclerView, listener: InverseBindingListener) {
+//        (view.adapter as AdminBannerListAdapter).setListChangedListener(object: AdminBannerListAdapter.ListChangedListener {
+//            override fun onListChanged() {
+//                listener.onChange()
+//            }
+//        })
+//    }
+//
+//    @InverseBindingAdapter(attribute = "AdminBannerItem", event = "AdminBannerItemChanged")
+//    @JvmStatic
+//    fun getAdminBannerItem(view: RecyclerView): MutableList<Banner> {
+//        return (view.adapter as AdminBannerListAdapter).currentList
+//    }
+
+    @BindingAdapter("AdminBannerHelper")
+    @JvmStatic
+    fun setAdminBannerHelper(view: RecyclerView, helper: ItemTouchHelper) {
+        helper.attachToRecyclerView(view)
     }
 }

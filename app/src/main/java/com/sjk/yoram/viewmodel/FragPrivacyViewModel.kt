@@ -55,7 +55,7 @@ class FragPrivacyViewModel(private val userRepository: UserRepository): ViewMode
         }
     }
 
-    fun applyPrivacyPolicy() {
+    fun changedValueApply() {
         viewModelScope.async {
             val res = userRepository.editUserPrivacyPolicy(_pp.value ?: originalpp)
             _exitEvent.value = Event(Unit)

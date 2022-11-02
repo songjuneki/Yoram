@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
     }
 
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -89,23 +88,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun finish() {
-        super.finish()
-        Log.d("JKJK", "why main activity is finish?")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("JKJK", "main onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("JKJK", "main onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("JKJK", "main onDestroy")
-    }
 }

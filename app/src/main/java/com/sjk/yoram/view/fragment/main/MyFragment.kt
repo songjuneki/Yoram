@@ -103,4 +103,8 @@ class MyFragment: Fragment() {
         }
     }
 
+    override fun onResume() {
+        mainViewModel.loadLoginData()
+        super.onResume()
+    }
 }

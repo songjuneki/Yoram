@@ -2,8 +2,6 @@ package com.sjk.yoram.model
 
 data class NewUser(
     var name: String,
-    var fname: String,
-    var lname: String,
     var sex: Boolean,
     var birth: String,
     var pw: String,
@@ -13,5 +11,5 @@ data class NewUser(
     var address_more: String,
     var car: String
 ) {
-    constructor(): this("", "","", true, "","", "", "", "", "", "")
+    constructor(): this("", true, "","", "", "", "", "", "")
 }

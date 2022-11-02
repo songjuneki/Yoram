@@ -25,6 +25,14 @@ class PrefViewModel(private val userRepository: UserRepository): ViewModel() {
     val backEvent: LiveData<Event<Unit>>
         get() = _backEvent
 
+    private val _applyEvent = MutableLiveData<Event<Unit>>()
+    val applyEvent: LiveData<Event<Unit>>
+        get() = _applyEvent
+
+    private val _applyCancelEvent = MutableLiveData<Event<Unit>>()
+    val applyCancelEvent: LiveData<Event<Unit>>
+        get() = _applyCancelEvent
+
     private val _ruleType = MutableLiveData<RuleType>()
     val ruleType: LiveData<RuleType>
         get() = _ruleType
@@ -48,11 +56,17 @@ class PrefViewModel(private val userRepository: UserRepository): ViewModel() {
             R.id.frag_my_pref_account_logout -> { moveFragment(R.id.action_prefFragment_to_prefLogoutDialogFragment) }
             R.id.frag_my_pref_admin_banner -> { moveFragment(R.id.action_prefFragment_to_adminBannerFragment) }
             R.id.dialog_my_pref_logout_ok -> { _logoutEvent.value = Event(Unit) }
+
+            R.id.dialog_my_pref_apply_cancel -> { _applyCancelEvent.value = Event(Unit) }
         }
     }
 
     fun backBtn() {
         _backEvent.value = Event(Unit)
+    }
+
+    fun changedValueApply() {
+        _applyEvent.value = Event(Unit)
     }
 
 

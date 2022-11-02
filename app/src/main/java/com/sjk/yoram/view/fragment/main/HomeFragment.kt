@@ -1,5 +1,6 @@
 package com.sjk.yoram.view.fragment.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +43,11 @@ class HomeFragment: Fragment() {
         homeViewModel.bannerList.observe(viewLifecycleOwner) {
             (binding.homeBannerPager.adapter as HomeBannerAdapter).fetchBanner(it)
         }
+    }
 
+    override fun onResume() {
+        homeViewModel.loadBanners()
+        mainViewModel.loadLoginData()
+        super.onResume()
     }
 }

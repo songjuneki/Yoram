@@ -137,7 +137,7 @@
                     android:id="@+id/frag_id_dpt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{mainVM.loginData.department_name}"
+                    android:text="@{mainVM.loginData.department_name.length() == 0 ? `성도` : mainVM.loginData.department_name}"
                     android:textSize="16sp"
                     android:textColor="@color/xd_light_title"
                     android:fontFamily="@font/pretendard_regular"
@@ -153,7 +153,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="16dp"
-            android:text="교인증을 이용하려면 로그인을 해주세요"
+            android:text="교인증을 이용하려면\n로그인을 하시거나 승인을 받아주세요"
+            android:gravity="center"
             android:textColor="@color/xd_light_content"
             android:textSize="18sp"
             android:fontFamily="@font/pretendard_semibold"
@@ -197,7 +198,7 @@
             app:layout_constraintBottom_toBottomOf="@id/frag_id_code_layout"
             android:padding="8dp"
             android:elevation="10dp"
-            android:visibility="@{vm.isValidCode() ? View.INVISIBLE : View.VISIBLE}" >
+            android:visibility="@{vm.isValidCode() ? View.INVISIBLE : (mainVM.loginData.permission &lt; 1 ? View.INVISIBLE : View.VISIBLE)}" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

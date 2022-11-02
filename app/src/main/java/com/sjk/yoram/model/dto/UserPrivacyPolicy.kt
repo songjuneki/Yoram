@@ -22,7 +22,6 @@ data class UserPrivacyPolicy(
                 && this.sex == pp!!.sex
                 && this.tel == pp!!.tel
 
-        Log.d("JKJK", "pp changed $flag")
         if (pp == null) return false
         return flag
     }

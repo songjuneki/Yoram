@@ -407,7 +407,7 @@
             android:fontFamily="@font/pretendard_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             android:enabled="@{!vm.originalpp.isEqual(vm.pp)}"
-            android:onClick="@{() -> vm.applyPrivacyPolicy()}"
+            android:onClick="@{() -> vm.changedValueApply()}"
             android:foreground="?attr/selectableItemBackground"
             android:soundEffectsEnabled="true"
             android:hapticFeedbackEnabled="true" />

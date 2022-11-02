@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.sjk.yoram.model.MutableListLiveData" />
         <variable
             name="prefVM"
             type="com.sjk.yoram.viewmodel.PrefViewModel" />
@@ -15,7 +16,7 @@
         android:background="@color/xd_light_background">
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
@@ -50,7 +51,7 @@
                         android:src="@drawable/ic_back"
                         android:scaleType="fitCenter"
                         android:clickable="true"
-                        android:onClick="@{}"
+                        android:onClick="@{(v) -> prefVM.backBtn()}"
                         android:soundEffectsEnabled="true"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_banner_header_gv05"
@@ -67,23 +68,21 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
-                    <TextView
-                        android:id="@+id/frag_my_pref_admin_banner_header_done"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="완료"
-                        android:textSize="16sp"
-                        android:textColor="@color/xd_light_title"
-                        android:fontFamily="@font/pretendard_medium"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_banner_header_gv95"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                    <ImageButton
+                        android:id="@+id/frag_my_pref_admin_banner_header_add"
+                        android:layout_width="0dp"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@drawable/shape_circle_image_btn"
+                        android:src="@drawable/ic_baseline_add_photo_alternate_24"
+                        android:scaleType="fitCenter"
                         android:clickable="true"
                         android:focusable="true"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:soundEffectsEnabled="true"
-                        android:hapticFeedbackEnabled="true"
-                        android:onClick="@{}"/>
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/frag_my_pref_admin_banner_header_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,15 +109,41 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:adapter="@{vm.adapter}"
+                        AdminBannerHelper="@{vm.helper}"
                         AdminBannerItem="@{vm.banners}"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_banner_body_gv05"
                         app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_banner_body_gv95"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/frag_my_pref_admin_banner_done"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="적용"
+                android:textColor="@color/xd_light_background"
+                android:textSize="17sp"
+                android:fontFamily="@font/pretendard_bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@{@color/xd_light_dot_indicator_enabled}"
+                android:foreground="?attr/selectableItemBackground"
+                android:enabled="@{true}"
+                android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                android:clickable="true"
+                android:focusable="true"
+                android:soundEffectsEnabled="true"
+                android:hapticFeedbackEnabled="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

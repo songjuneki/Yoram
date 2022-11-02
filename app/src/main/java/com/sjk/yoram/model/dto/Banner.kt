@@ -15,4 +15,14 @@ data class Banner(
     companion object {
         const val URL = "http://3.39.51.49:8080/api/banner?id="
     }
+    fun isEqual(other: Banner?): Boolean {
+        val flag = this.title == other!!.title
+                && this.order == other!!.order
+                && this.link == other!!.link
+                && this.expire == other!!.expire
+                && this.show == other!!.show
+
+        if (other == null) return false
+        return flag
+    }
 }

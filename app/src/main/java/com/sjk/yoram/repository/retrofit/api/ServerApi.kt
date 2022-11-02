@@ -4,13 +4,10 @@ import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.model.dto.GiveType
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.WorshipType
-import kotlinx.coroutines.Deferred
-import retrofit2.Call
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ServerApi {
     @GET("hello")
@@ -33,6 +30,10 @@ interface ServerApi {
 
     @POST("banner/delete")
     suspend fun deleteBanner(@Body banner: Banner): Response<Boolean>
+
+    @Multipart
+    @POST("banner/upload")
+    suspend fun uploadNewBanner(@Part file: MultipartBody.Part, @Part("id")ownerId: RequestBody, @Part("date")uploadDate: RequestBody, @Part("time")uploadTime: RequestBody): Response<Boolean>
 
     @GET("get-max-week")
     suspend fun getMaxWeekOfMonth(@Query("year")year: Int = 0, @Query("month")month: Int= 0): Response<Int>

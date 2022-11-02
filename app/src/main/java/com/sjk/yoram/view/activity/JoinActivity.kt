@@ -108,8 +108,6 @@ class JoinActivity: AppCompatActivity() {
 
         binding.joinDoneBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                newUser.fname = binding.joinFnameEt.text.toString()
-                newUser.lname = binding.joinLnameEt.text.toString()
 //                newUser.sex = binding.joinSexM.isChecked
                 val key = binding.joinPwEt.text.toString()
                 newUser.pw = EncryptKey(key)

@@ -57,7 +57,6 @@ class AdminBannerTouchHelper(private val listener: AdminBannerItemTouchHelperLis
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         currentDx = 0f
         previousPosition = viewHolder.absoluteAdapterPosition
@@ -82,7 +81,7 @@ class AdminBannerTouchHelper(private val listener: AdminBannerItemTouchHelperLis
     }
 
     override fun isLongPressDragEnabled(): Boolean = false
-    override fun isItemViewSwipeEnabled(): Boolean = true
+    override fun isItemViewSwipeEnabled(): Boolean = false
 
     private fun getView(viewHolder: RecyclerView.ViewHolder): View {
         return (viewHolder as AdminBannerListAdapter.ViewHolder).itemView

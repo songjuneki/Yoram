@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
@@ -30,6 +29,8 @@ class PrefPrivacyFragment: Fragment() {
         binding.vm = viewModel
         binding.prefVM = prefViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.loadPP()
 
         return binding.root
     }
