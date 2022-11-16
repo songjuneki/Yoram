@@ -28,7 +28,7 @@ class IDFragment: Fragment() {
         viewModel = ViewModelProvider(requireActivity())[FragIDViewModel::class.java]
         binding.mainVM = mainViewModel
         binding.vm = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         return binding.root
     }

@@ -43,4 +43,6 @@ interface ServerApi {
 
     @GET("give/type/all")
     suspend fun getAllGiveType(): Response<List<GiveType>>
+
+
 }

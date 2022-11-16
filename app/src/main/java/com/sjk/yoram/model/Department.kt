@@ -33,31 +33,6 @@ data class Department (
         }
     }
 
-    private fun loadChildsForDepartment() =
-        CoroutineScope(Dispatchers.IO).launch {
-            val list = MyRetrofit.dptmentApi.getChildDepartments(this@Department.code)
-            list.forEach {
-                childDepartment.add(Department(it))
-            }
-        }
-
-
-    private fun loadUsersForDepartment() =
-        CoroutineScope(Dispatchers.IO).launch {
-            val users = MyRetrofit.userApi.getSimpleUsersDepartment(this@Department.code)
-            users.forEach {
-                this@Department.users.add(it)
-            }
-        }
-
-
-    private fun loadUsersForPosition() {
-        CoroutineScope(Dispatchers.IO).async {
-//            users = MyRetrofit.userApi.getSimpleUsersPosition(code)
-            count = users.size
-        }
-    }
-
     fun getAllUserSize() =
         CoroutineScope(Dispatchers.IO).launch {
             count = 0

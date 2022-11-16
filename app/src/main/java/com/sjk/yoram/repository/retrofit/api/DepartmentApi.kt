@@ -20,8 +20,8 @@ interface DepartmentApi {
     @GET("pos/child")
     suspend fun getChildPosition(@Query("parent")parent: Int): MutableList<Position>
 
-    @GET("pos/parent")
-    suspend fun getAllParentPositions(): MutableList<Position>
     @GET("pos/childs")
     suspend fun getAllChildPositions(): MutableList<Position>
+    @GET("pos")
+    suspend fun getPosition(@Query("code")code: Int): Position
 }

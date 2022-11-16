@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         setupActionBarWithNavController(navController, appBarConfiguration)
+
 
         viewModel.loginEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {

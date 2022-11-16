@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dptmentFragment"
-        android:name="com.sjk.yoram.view.fragment.main.DptmentFragment"
+        android:name="com.sjk.yoram.view.fragment.main.department.DptmentFragment"
         android:label="DptmentFragment"
         tools:layout="@layout/frag_dptment">
         <action
@@ -20,7 +20,16 @@
     </fragment>
     <dialog
         android:id="@+id/userInfoDialog"
-        android:name="com.sjk.yoram.view.fragment.main.UserInfoDialog"
+        android:name="com.sjk.yoram.view.fragment.main.department.UserInfoDialog"
         android:label="UserInfoDialog"
-        tools:layout="@layout/dialog_user_info"/>
+        tools:layout="@layout/dialog_user_info">
+        <action
+            android:id="@+id/action_userInfoDialog_to_userManagerDialog"
+            app:destination="@id/userManagerDialog" />
+    </dialog>
+    <dialog
+        android:id="@+id/userManagerDialog"
+        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerDialog"
+        android:label="UserManageDialog"
+        tools:layout="@layout/dialog_user_manager"/>
 </navigation>

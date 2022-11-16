@@ -32,7 +32,7 @@ class ScannerDialog: DialogFragment() {
         viewModel = ViewModelProvider(requireActivity())[FragIDViewModel::class.java]
         binding = DialogScannerBinding.inflate(layoutInflater)
         binding.vm = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
         initView()
 
         return binding.root

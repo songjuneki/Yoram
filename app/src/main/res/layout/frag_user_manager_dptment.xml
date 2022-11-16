@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_dptment_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_dptment_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+        <ImageButton
+            android:id="@+id/frag_user_manager_dptment_back"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/shape_circle_image_btn"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <TextView
+            android:id="@+id/frag_user_manager_dptment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/xd_light_title"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_semibold"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_dptment_back"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_dptment_gv05"
+            android:layout_marginTop="8dp"
+            android:text="바꾸실 부서를 선택해주세요" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/frag_user_manager_dptment_recycler_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:fadeScrollbars="false"
+            android:verticalScrollbarPosition="right"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_dptment_title"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_dptment_gv05"
+            app:layout_constraintRight_toRightOf="@id/frag_user_manager_dptment_gv95"
+            app:layout_constraintHeight_max="256dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_user_manager_dptment_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:adapter="@{vm.userManagerDepartmentAdapter}"
+                UserManagerDepartmentItem="@{vm.departmentList}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,4 +1,4 @@
-package com.sjk.yoram.view.fragment.main
+package com.sjk.yoram.view.fragment.main.department
 
 import android.app.Dialog
 import android.content.Intent
@@ -8,16 +8,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogUserInfoBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
+import com.sjk.yoram.viewmodel.MainViewModel
 
 class UserInfoDialog: BottomSheetDialogFragment() {
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var dptViewModel: FragDptmentViewModel
     private lateinit var binding: DialogUserInfoBinding
 
@@ -26,9 +29,12 @@ class UserInfoDialog: BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         dptViewModel = ViewModelProvider(requireActivity())[FragDptmentViewModel::class.java]
         binding = DialogUserInfoBinding.inflate(layoutInflater)
         binding.vm = dptViewModel
+        binding.mainVM = mainViewModel
+        binding.lifecycleOwner = this.viewLifecycleOwner
         initView()
 
         return binding.root
@@ -51,6 +57,12 @@ class UserInfoDialog: BottomSheetDialogFragment() {
                 startActivity(msg)
             }
         }
+
+        dptViewModel.userManageEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                findNavController().navigate(R.id.action_userInfoDialog_to_userManagerDialog)
+            }
+        }
     }
 
     private fun initView() {
@@ -60,10 +72,9 @@ class UserInfoDialog: BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState).apply {
             (this as BottomSheetDialog).behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            (this as BottomSheetDialog).behavior.isDraggable = true
+            this.behavior.isDraggable = true
         }
     }
-
 
     override fun getTheme(): Int = R.style.FullExpandedRoundedBottomSheetDialog
 }

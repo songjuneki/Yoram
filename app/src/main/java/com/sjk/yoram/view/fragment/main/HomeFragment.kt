@@ -29,7 +29,7 @@ class HomeFragment: Fragment() {
         homeViewModel = ViewModelProvider(requireActivity()).get(FragHomeViewModel::class.java)
         binding.mainVM = mainViewModel
         binding.homeVM = homeViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         binding.homeBannerPager.adapter = HomeBannerAdapter()
         binding.homeBannerIndicator.setViewPager2(binding.homeBannerPager)

@@ -14,5 +14,6 @@ data class UserDetail(
     var address: String,
     var address_more: String,
     var car: String,
-    var avatar: String
+    var avatar: String,
+    var permission: Int
 )

@@ -2,14 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+가        <import type="com.sjk.yoram.model.UserPermission" />
+        <import type="android.view.View" />
+        <variable
+            name="mainVM"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +34,19 @@
                     android:elevation="2dp"
                     android:layout_marginLeft="16dp"
                     app:layout_collapseMode="pin"/>
+                <ImageButton
+                    android:id="@+id/dialog_user_info_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:src="@drawable/ic_baseline_manage_accounts_24"
+                    android:background="@color/xd_light_transparent"
+                    app:tint="#303030"
+                    android:elevation="2dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_gravity="right"
+                    app:layout_collapseMode="pin"
+                    android:visibility="@{mainVM.loginData.permission >= UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE}"
+                    android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
                 <ImageView
                     android:id="@+id/dialog_user_info_avatar"
                     android:layout_width="match_parent"
@@ -38,7 +55,8 @@
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                     app:layout_collapseMode="parallax"
                     android:scaleType="centerCrop"
-                    app:imageUrl="@{vm.detailUser.avatar}"
+                    android:elevation="0dp"
+                    app:imageUrl="@{vm.userDetail.avatar}"
                     app:error="@{@drawable/ic_avatar}"
                     app:circleImage="@{false}"/>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -78,7 +96,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="@id/dialog_user_info_gv05"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="@{vm.detailUser.name + ` ` + vm.detailUser.position_name}"
+                        android:text="@{vm.userDetail.name + ` ` + vm.userDetail.position_name}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="18sp"
                         android:fontFamily="@font/pretendard_semibold" />
@@ -89,7 +107,7 @@
                         app:layout_constraintLeft_toRightOf="@id/dialog_user_info_name"
                         app:layout_constraintBottom_toBottomOf="@id/dialog_user_info_name"
                         android:layout_marginLeft="16dp"
-                        android:text="@{vm.detailUser.department_name}"
+                        android:text="@{vm.userDetail.department_name}"
                         android:textSize="14sp"
                         android:textColor="@color/xd_light_title"
                         android:fontFamily="@font/pretendard_regular"/>
@@ -112,7 +130,7 @@
                         android:focusable="true"
                         android:hapticFeedbackEnabled="true"
                         android:soundEffectsEnabled="true"
-                        android:onClick="@{(v) -> vm.msgOnUserDetail(vm.detailUser.phone)}"/>
+                        android:onClick="@{(v) -> vm.msgOnUserDetail(vm.userDetail.phone)}"/>
                     <ImageButton
                         android:id="@+id/dialog_user_info_call"
                         android:layout_width="wrap_content"
@@ -132,7 +150,7 @@
                         android:focusable="true"
                         android:hapticFeedbackEnabled="true"
                         android:soundEffectsEnabled="true"
-                        android:onClick="@{(v) -> vm.callOnUserDetail(vm.detailUser.phone)}"/>
+                        android:onClick="@{(v) -> vm.callOnUserDetail(vm.userDetail.phone)}"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,7 +185,7 @@
                         android:id="@+id/dialog_user_info_bd"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.detailUser.birth.replace(`-`, `. `)}"
+                        android:text="@{vm.userDetail.birth.replace(`-`, `. `)}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="16sp"
                         android:fontFamily="@font/pretendard_medium"
@@ -200,7 +218,7 @@
                         android:id="@+id/dialog_user_info_phone"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.detailUser.phone}"
+                        android:text="@{vm.userDetail.phone}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="16sp"
                         android:fontFamily="@font/pretendard_medium"
@@ -233,7 +251,7 @@
                         android:id="@+id/dialog_user_info_tel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.detailUser.tel}"
+                        android:text="@{vm.userDetail.tel}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="16sp"
                         android:fontFamily="@font/pretendard_medium"
@@ -266,7 +284,7 @@
                         android:id="@+id/dialog_user_info_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.detailUser.address}"
+                        android:text="@{vm.userDetail.address}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="16sp"
                         android:fontFamily="@font/pretendard_medium"
@@ -299,7 +317,7 @@
                         android:id="@+id/dialog_user_info_addmore"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.detailUser.address_more}"
+                        android:text="@{vm.userDetail.address_more}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="16sp"
                         android:fontFamily="@font/pretendard_medium"
@@ -332,7 +350,7 @@
                         android:id="@+id/dialog_user_info_car"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.detailUser.car}"
+                        android:text="@{vm.userDetail.car}"
                         android:textColor="@color/xd_light_title"
                         android:textSize="16sp"
                         android:fontFamily="@font/pretendard_medium"

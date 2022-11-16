@@ -27,7 +27,7 @@ class ScannerInitDialog: BottomSheetDialogFragment() {
         viewModel = ViewModelProvider(requireActivity())[FragIDViewModel::class.java]
         binding = DialogScannerInitialBinding.inflate(layoutInflater)
         binding.vm = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         return binding.root
     }

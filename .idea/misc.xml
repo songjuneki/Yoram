@@ -99,7 +99,7 @@
         <entry key="app/src/main/res/drawable/shape_spinner_item.xml" value="0.1975" />
         <entry key="app/src/main/res/drawable/spinner_shape.xml" value="0.1975" />
         <entry key="app/src/main/res/font/font.xml" value="0.387037037037037" />
-        <entry key="app/src/main/res/layout/activity_init.xml" value="0.31574074074074077" />
+        <entry key="app/src/main/res/layout/activity_init.xml" value="0.3064719126335624" />
         <entry key="app/src/main/res/layout/activity_init_login.xml" value="0.30594787597656253" />
         <entry key="app/src/main/res/layout/activity_join_user.xml" value="0.3640625" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3640625" />
@@ -135,6 +135,9 @@
         <entry key="app/src/main/res/layout/dialog_scanner.xml" value="0.3625" />
         <entry key="app/src/main/res/layout/dialog_scanner_initial.xml" value="0.36354166666666665" />
         <entry key="app/src/main/res/layout/dialog_user_info.xml" value="0.29052836100260415" />
+        <entry key="app/src/main/res/layout/dialog_user_manage.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/layout/dialog_user_manage_department.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/dialog_user_manager.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout/dpt_name_item.xml" value="0.3640625" />
         <entry key="app/src/main/res/layout/dpt_name_item_header.xml" value="0.3640625" />
         <entry key="app/src/main/res/layout/dpt_user_item.xml" value="0.36354166666666665" />
@@ -157,10 +160,16 @@
         <entry key="app/src/main/res/layout/frag_my_pref_privacy.xml" value="0.23639678955078122" />
         <entry key="app/src/main/res/layout/frag_my_pref_rule.xml" value="0.3625" />
         <entry key="app/src/main/res/layout/frag_my_setting.xml" value="0.24643402099609374" />
+        <entry key="app/src/main/res/layout/frag_user_manager_dptment.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/frag_user_manager_home.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/frag_user_manager_permission.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/layout/frag_user_manager_pos.xml" value="0.365625" />
         <entry key="app/src/main/res/layout/linear.xml" value="0.3640625" />
         <entry key="app/src/main/res/layout/list_admin_banner_item.xml" value="0.3651041666666667" />
         <entry key="app/src/main/res/layout/list_dialog_address_item.xml" value="0.3625" />
         <entry key="app/src/main/res/layout/list_my_give_item.xml" value="0.3625" />
+        <entry key="app/src/main/res/layout/list_user_manager_dpt.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/list_user_manager_pos.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout/loading_window.xml" value="0.3625" />
         <entry key="app/src/main/res/layout/scanner.xml" value="0.3625" />
         <entry key="app/src/main/res/layout/searchbar_layout.xml" value="0.3640625" />

@@ -37,15 +37,15 @@ interface UserApi {
     suspend fun getUserDetail(@Query("id")id: Int, @Query("request")request: Int): UserDetail
 
     @GET("user/dpt")
-    suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int): MutableList<SimpleUser>
+    suspend fun getSimpleUsersDepartment(@Query("dpt")dpt: Int, @Query("request")request: Int): MutableList<SimpleUser>
     @GET("user/pos/sp")
-    suspend fun getSimpleUsersPosition(@Query("pos")pos: Int): MutableList<SimpleUser>
+    suspend fun getSimpleUsersPosition(@Query("pos")pos: Int, @Query("request")request: Int): MutableList<SimpleUser>
     @GET("user/pos")
-    suspend fun getUsersPosition(@Query("pos")pos: Int): MutableList<User>
+    suspend fun getUsersPosition(@Query("pos")pos: Int, @Query("request")request: Int): MutableList<User>
 
 
     @GET("user/name/all")
-    suspend fun getAllSimpleUsersByName(): MutableList<SimpleUser>
+    suspend fun getAllSimpleUsersByName(@Query("request")request: Int): MutableList<SimpleUser>
 
     @GET("user/profile/url")
     suspend fun getAvatar(@Query("id")id: Int): String

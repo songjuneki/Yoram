@@ -348,4 +348,10 @@ object BindingAdapters {
     fun setAdminBannerHelper(view: RecyclerView, helper: ItemTouchHelper) {
         helper.attachToRecyclerView(view)
     }
+
+    @BindingAdapter("UserManagerDepartmentItem")
+    @JvmStatic
+    fun setUserManagerDepartmentItem(view: RecyclerView, list: MutableList<Department>) {
+        (view.adapter as UserManagerDepartmentListAdapter).submitList(list)
+    }
 }

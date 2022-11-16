@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="mainVM"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_home_dpt_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_home_dpt_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <LinearLayout
+            android:id="@+id/frag_user_manager_home_btn_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_home_dpt_gv05"
+            app:layout_constraintRight_toRightOf="@id/frag_user_manager_home_dpt_gv95">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/frag_user_manager_home_dpt_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:soundEffectsEnabled="true"
+                android:padding="8dp"
+                android:background="@drawable/border_init_button"
+                android:elevation="0dp"
+                android:text="부서 변경"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_medium" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/frag_user_manager_home_pos_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+                android:clickable="true"
+                android:soundEffectsEnabled="true"
+                android:padding="8dp"
+                android:background="@drawable/border_init_button"
+                android:elevation="0dp"
+                android:layout_marginTop="16dp"
+                android:text="직책 변경"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_medium" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/frag_user_manager_home_perm_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+                android:clickable="true"
+                android:soundEffectsEnabled="true"
+                android:padding="8dp"
+                android:background="@drawable/border_init_button"
+                android:elevation="0dp"
+                android:layout_marginTop="16dp"
+                android:text="권한 변경"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_medium" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_user_manager_home_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:background="@drawable/border_init_button"
+            android:elevation="0dp"
+            android:layout_marginTop="16dp"
+            android:text="취소"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_home_btn_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/frag_user_manager_home_apply"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="16dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_user_manager_home_apply"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:background="@drawable/border_init_button"
+            android:backgroundTint="@color/xd_light_dot_indicator_enabled"
+            android:elevation="0dp"
+            android:layout_marginTop="16dp"
+            android:text="적용"
+            android:textColor="@color/xd_light_background"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_home_btn_layout"
+            app:layout_constraintLeft_toRightOf="@id/frag_user_manager_home_cancel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="16dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

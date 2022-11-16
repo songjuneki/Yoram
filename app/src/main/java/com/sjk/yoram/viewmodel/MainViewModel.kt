@@ -107,7 +107,6 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
 
     fun getUserPermission(): UserPermission {
         val data = _loginData.value ?: MyLoginData()
-        Log.d("JKJK", "myPermission=${data.permission}")
         return UserPermission.values()[data.permission]
     }
 

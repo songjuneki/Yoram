@@ -465,6 +465,7 @@
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:visibility="gone"
                     android:id="@+id/frag_my_pref_admin_user"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="mainVM"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/xd_light_background">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/dialog_user_manager_gv05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/dialog_user_manager_gv95"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+            <TextView
+                android:id="@+id/dialog_user_manager_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:text="@{vm.userDetail.name + ` `}"/>
+            <TextView
+                android:id="@+id/dialog_user_manager_pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@{vm.userDetail.position == vm.checkedManagerPos.code ? @color/xd_light_title : @color/xd_light_dot_indicator_enabled}"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintBaseline_toBaselineOf="@id/dialog_user_manager_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/dialog_user_manager_name"
+                android:text="@{vm.userDetail.position == vm.checkedManagerPos.code ? vm.userDetail.position_name : vm.checkedManagerPos.name}"/>
+            <TextView
+                android:id="@+id/dialog_user_manager_department_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@{vm.userDetail.department == vm.checkedManagerDpt.code ? @color/xd_light_title : @color/xd_light_dot_indicator_enabled}"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintTop_toBottomOf="@id/dialog_user_manager_name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="8dp"
+                android:text="@{`부서 : ` + (vm.userDetail.department == vm.checkedManagerDpt.code ? vm.userDetail.department_name : vm.checkedManagerDpt.name)}" />
+            <TextView
+                android:id="@+id/dialog_user_manager_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@{vm.userDetail.permission == vm.checkedManagerPerm.ordinal() ? @color/xd_light_title : @color/xd_light_dot_indicator_enabled}"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                app:layout_constraintTop_toBottomOf="@id/dialog_user_manager_department_name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="8dp"
+                android:text="@{`권한 : ` + (vm.checkedManagerPerm.ordinal() == vm.userDetail.permission ? vm.getPermissionName(vm.userDetail.permission) : vm.getPermissionName(vm.checkedManagerPerm))}"/>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/dialog_user_manager_frame"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                app:navGraph="@navigation/dptment_user_manager"
+                android:tag="userManageFragmentContainer"
+                app:layout_constraintTop_toBottomOf="@id/dialog_user_manager_permission"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="16dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

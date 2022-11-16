@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.sjk.yoram.view.fragment.main.*
+import com.sjk.yoram.view.fragment.main.department.DptmentFragment
 
 class FragmentFactoryImpl(private val data: Int): FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
