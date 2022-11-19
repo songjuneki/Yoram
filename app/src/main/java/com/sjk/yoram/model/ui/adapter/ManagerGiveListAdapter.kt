@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ListMyGiveItemBinding
 import com.sjk.yoram.model.GiveListItem
+import com.sjk.yoram.model.dto.Give
+import com.sjk.yoram.model.ui.listener.GiveItemClickListener
+import java.text.DecimalFormat
 
-class GiveListAdapter(): ListAdapter<GiveListItem, GiveListAdapter.ViewHolder>(diffUtil) {
+class ManagerGiveListAdapter(private val clickListener: GiveItemClickListener): ListAdapter<Give, ManagerGiveListAdapter.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ListMyGiveItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_my_give_item, parent, false)
 
@@ -22,22 +25,17 @@ class GiveListAdapter(): ListAdapter<GiveListItem, GiveListAdapter.ViewHolder>(d
     }
 
     inner class ViewHolder(private val binding: ListMyGiveItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: GiveListItem) {
-            binding.give = item
-            binding.root.isClickable = false
+        fun bind(item: Give) {
+            val format = DecimalFormat("###,###")
+            binding.give = GiveListItem(item.name, item.date, format.format(item.amount))
+            binding.root.setOnClickListener { clickListener.onClick(item) }
         }
     }
 
     companion object {
-        val diffUtil = object: DiffUtil.ItemCallback<GiveListItem>() {
-            override fun areItemsTheSame(oldItem: GiveListItem, newItem: GiveListItem): Boolean {
-                return oldItem.amount == newItem.amount && oldItem.date == newItem.date && oldItem.name == newItem.name
-            }
-
-            override fun areContentsTheSame(oldItem: GiveListItem, newItem: GiveListItem): Boolean {
-                return oldItem == newItem
-            }
-
+        val diffUtil = object: DiffUtil.ItemCallback<Give>() {
+            override fun areItemsTheSame(oldItem: Give, newItem: Give): Boolean = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: Give, newItem: Give): Boolean = oldItem == newItem
         }
     }
 }

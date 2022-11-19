@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
+import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
 import coil.ImageLoader
@@ -16,10 +17,7 @@ import com.github.sumimakito.awesomeqr.option.logo.Logo
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
-import com.sjk.yoram.model.dto.Attend
-import com.sjk.yoram.model.dto.MyLoginData
-import com.sjk.yoram.model.dto.UserDetail
-import com.sjk.yoram.model.dto.UserPrivacyPolicy
+import com.sjk.yoram.model.dto.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -179,7 +177,7 @@ class UserRepository(private val application: Application) {
     private fun makeCodeOption(special: Boolean = false) = RenderOption().apply {
         val date = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val timeFormat = SimpleDateFormat("HHmmss")
+        val timeFormat = SimpleDateFormat("HH:mm:ss")
         val p = "GUSEONGCHURCH;BY.SONGJUNEKI;DATE:${dateFormat.format(date)};TIME:${timeFormat.format(date)};ID:${getLoginID()}"
         content = AESUtil().Encrypt(p)
         size = 1000
@@ -256,6 +254,22 @@ class UserRepository(private val application: Application) {
             items.add(GiveListItem(it.name, date, decFormat.format(it.amount)))
         }
         return items
+    }
+
+    suspend fun getRawUserGiveList(id: Int, date: LocalDate): MutableList<Give> {
+        val res = MyRetrofit.userApi.getUserGive(id, date.year, date.monthValue)
+        if (!res.isSuccessful)
+            return mutableListOf()
+        return res.body() ?: mutableListOf()
+    }
+
+    suspend fun getDateListHasGive(uid: Int): HashMap<String, List<Int>> {
+        val res = MyRetrofit.userApi.getDatesHasGive(uid)
+        if (!res.isSuccessful)
+            return hashMapOf()
+        val map = res.body()
+        Log.d("JKJK", "getDateListHasGive :: $map")
+        return map ?: hashMapOf()
     }
 
     suspend fun getUserPrivacyPolicy(id: Int = getLoginID()): UserPrivacyPolicy {

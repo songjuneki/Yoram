@@ -1,18 +1,17 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
+import com.sjk.yoram.model.dto.Give
 import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.dto.SimpleUser
-import com.sjk.yoram.model.dto.UserDetail
-import com.sjk.yoram.model.ui.adapter.DepartmentListAdapter
-import com.sjk.yoram.model.ui.adapter.SimpleUserListAdapter
-import com.sjk.yoram.model.ui.adapter.UserManagerDepartmentChangedListener
-import com.sjk.yoram.model.ui.adapter.UserManagerDepartmentListAdapter
+import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
+import com.sjk.yoram.model.ui.listener.GiveItemClickListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.sjk.yoram.model.ui.listener.UserItemClickListener
 import com.sjk.yoram.repository.DepartmentRepository
@@ -22,6 +21,7 @@ import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class FragDptmentViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository, private val departmentRepository: DepartmentRepository): ViewModel() {
     private var _myPermission: Int = -5
@@ -122,6 +122,20 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     val checkedManagerPerm: LiveData<UserPermission>
         get() = _checkedManagerPerm
 
+    private val _yearSpinner = MutableLiveData(emptyList<String>())
+    val yearSpinner: MutableLiveData<List<String>> = _yearSpinner
+
+    private val _monthSpinner = MutableLiveData(emptyList<Int>())
+    val monthSpinner: MutableLiveData<List<Int>> = _monthSpinner
+
+    private var _giveDateList: HashMap<String, List<Int>> = hashMapOf()
+
+    val selectedIndexGiveYear = MutableLiveData<Int>(0)
+
+    val selectedIndexGiveMonth = MutableLiveData<Int>(0)
+
+    val userGiveList = MutableLiveData<MutableList<Give>>()
+
     init {
         viewModelScope.launch {
             _myPermission = userRepository.getMyPermission(userRepository.getLoginID())
@@ -151,15 +165,14 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
          when(btnId) {
              R.id.frag_user_manager_home_apply -> { commitUserManagerEdited() }
              R.id.frag_user_manager_home_cancel -> { _userManagerCloseEvent.value = Event(Unit) }
-
              R.id.frag_user_manager_home_dpt_btn -> { initUserManagerDepartment() }
              R.id.frag_user_manager_dptment_back -> { _userManagerBackEvent.value = Event(Unit) }
-
              R.id.frag_user_manager_home_pos_btn -> { initUserManagerPosition() }
              R.id.frag_user_manager_pos_back -> { _userManagerBackEvent.value = Event(Unit) }
-
              R.id.frag_user_manager_home_perm_btn -> { _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerPermission) }
              R.id.frag_user_manager_perm_back -> { _userManagerBackEvent.value = Event(Unit) }
+             R.id.frag_user_manager_home_give_btn -> { initUserManagerGive() }
+             R.id.frag_user_manager_give_back -> { _userManagerBackEvent.value = Event(Unit) }
          }
     }
 
@@ -296,10 +309,10 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
     private fun initUserManager() {
         viewModelScope.launch {
-            _userManageEvent.value = Event(Unit)
             _checkedManagerDpt.value = if (userDetail.getDepartment() == 0) Department("성도", 0) else Department(userDetail.getDepartment())
             _checkedManagerPos.value = departmentRepository.getPositionByCode(userDetail.getPosition())
             _checkedManagerPerm.value = userDetail.getPermission()
+            _userManageEvent.value = Event(Unit)
         }
     }
 
@@ -312,6 +325,40 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerPosition)
         loadPositionList()
     }
+
+    private fun initUserManagerGive() {
+        viewModelScope.launch {
+            _giveDateList = userRepository.getDateListHasGive(userDetail.getUserID())
+            selectedIndexGiveYear.value = 0
+            _yearSpinner.value = _giveDateList.keys.toList()
+            _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerGive)
+        }
+    }
+
+    fun yearSpinnerSelectedChanged(position: Int) {
+        val year = _giveDateList.keys.toList()[position]
+        val months = _giveDateList[year]?.sortedDescending()
+        _monthSpinner.value = months
+        selectedIndexGiveMonth.value = 0
+    }
+
+    fun monthSpinnerSelectedChanged(position: Int) {
+        viewModelScope.async {
+            val year = _giveDateList.keys.toList()[selectedIndexGiveYear.value ?: 0]
+            val month = _giveDateList[year]!!.sortedDescending()[position]
+            userGiveList.value = userRepository.getRawUserGiveList(userDetail.getUserID(), LocalDate.of(year.toInt(), month, 1))
+        }
+    }
+
+    private val _giveListItemClickListener = object: GiveItemClickListener {
+        override fun onClick(give: Give) {
+            Log.d("JKJK", "give item clicked")
+        }
+    }
+
+    val giveListAdapter = ManagerGiveListAdapter(_giveListItemClickListener)
+
+
 
     fun setUserManagerPermission(permission: Int) {
         _checkedManagerPerm.value = UserPermission.values()[permission]

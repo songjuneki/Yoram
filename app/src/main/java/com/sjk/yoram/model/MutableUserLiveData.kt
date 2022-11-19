@@ -8,6 +8,7 @@ class MutableUserLiveData : MutableLiveData<UserDetail>() {
         value = null
     }
 
+    fun getUserID() = value?.id ?: -1
     fun getDepartment() = value?.department ?: 0
     fun getDepartmentName() = value?.department_name ?: "성도"
     fun getPosition() = value?.position ?: 1050

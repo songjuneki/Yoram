@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_give_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_give_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <ImageButton
+            android:id="@+id/frag_user_manager_give_back"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/shape_circle_image_btn"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <ImageButton
+            android:id="@+id/frag_user_manager_give_add"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/shape_circle_image_btn"
+            android:src="@drawable/ic_baseline_add_circle_outline_24"
+            app:tint="#303030"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/frag_user_manager_give_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp">
+            <Spinner
+                android:id="@+id/frag_user_manager_give_date_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                spinnerEntries="@{vm.yearSpinner}"
+                android:selection="@={vm.selectedIndexGiveYear}"
+                android:onItemSelected="@{(p, v, i, o) -> vm.yearSpinnerSelectedChanged(i)}"
+                android:layout_marginRight="4dp"
+                android:layout_gravity="bottom"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_medium"
+                app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_date"
+                app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
+                android:layout_gravity="bottom"
+                android:text="년 " />
+            <Spinner
+                android:id="@+id/frag_user_manager_give_date_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                spinnerEntries="@{vm.monthSpinner}"
+                android:selection="@={vm.selectedIndexGiveMonth}"
+                android:onItemSelected="@{(p, v, i, o) -> vm.monthSpinnerSelectedChanged(i)}"
+                android:layout_marginLeft="4dp"
+                android:layout_gravity="bottom"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_medium"
+                app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_date"
+                app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
+                android:layout_gravity="bottom"
+                android:text="월" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/frag_user_manager_give_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/xd_light_title"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_semibold"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_date"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
+            android:layout_marginTop="8dp"
+            android:text="등록된 헌금" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/frag_user_manager_give_recycler_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:fadeScrollbars="false"
+            android:verticalScrollbarPosition="right"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_title"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
+            app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_gv95"
+            app:layout_constraintHeight_max="256dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_user_manager_give_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:adapter="@{vm.giveListAdapter}"
+                ManagerGiveItem="@{vm.userGiveList}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

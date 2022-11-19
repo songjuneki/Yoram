@@ -85,6 +85,24 @@
                 android:textColor="@color/xd_light_title"
                 android:textSize="16sp"
                 android:fontFamily="@font/pretendard_medium" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/frag_user_manager_home_give_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+                android:clickable="true"
+                android:soundEffectsEnabled="true"
+                android:padding="8dp"
+                android:background="@drawable/border_init_button"
+                android:elevation="0dp"
+                android:layout_marginTop="16dp"
+                android:text="헌금 관리"
+                android:textColor="@color/xd_light_title"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_medium" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton

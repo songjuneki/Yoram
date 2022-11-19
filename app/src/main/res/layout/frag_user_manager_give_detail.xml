@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_give_detail_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_user_manager_give_detail_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <ImageButton
+            android:id="@+id/frag_user_manager_give_detail_back"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/shape_circle_image_btn"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/frag_user_manager_give_detail_scroll_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_back"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"
+            app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_detail_gv95"
+            android:maxHeight="400dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_back"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
+                    android:text="헌금 종류" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_back"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
+                    android:text="예배 종류" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="날짜 없음"
+                    android:checked="false"
+                    android:layout_marginTop="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/frag_user_manager_give_detail_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/xd_light_transparent"
+                    app:hintTextColor="@color/xd_light_text_hint"
+                    android:hint="날짜"
+                    inputTextChanged="@{}"
+                    app:hintEnabled="true"
+                    app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+                    android:layout_marginTop="8dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/frag_user_manager_give_detail_date_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/xd_light_transparent"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:maxLines="1"
+                        android:lines="1"
+                        android:text="@{}"
+                        android:textColorHint="@color/xd_light_text_hint"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/frag_user_manager_give_detail_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/xd_light_transparent"
+                    app:hintTextColor="@color/xd_light_text_hint"
+                    android:hint="금액"
+                    inputTextChanged="@{}"
+                    app:hintEnabled="true"
+                    app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+                    android:layout_marginTop="8dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/xd_light_transparent"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:maxLines="1"
+                        android:lines="1"
+                        android:text="@{}"
+                        android:textColorHint="@color/xd_light_text_hint"
+                        android:inputType="numberDecimal"
+                        android:imeOptions="actionDone" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_user_manager_give_detail_delete"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:background="@drawable/border_init_button"
+            android:backgroundTint="@color/xd_light_red_highlight"
+            android:elevation="0dp"
+            android:layout_marginTop="16dp"
+            android:text="삭제"
+            android:textColor="@color/xd_light_background"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_scroll_layout" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_user_manager_give_detail_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:background="@drawable/border_init_button"
+            android:elevation="0dp"
+            android:layout_marginTop="16dp"
+            android:text="취소"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_delete"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_apply"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="8dp"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_user_manager_give_detail_apply"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:background="@drawable/border_init_button"
+            android:backgroundTint="@color/xd_light_dot_indicator_enabled"
+            android:elevation="0dp"
+            android:layout_marginTop="16dp"
+            android:text="적용"
+            android:textColor="@color/xd_light_background"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_delete"
+            app:layout_constraintLeft_toRightOf="@id/frag_user_manager_give_detail_cancel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="8dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

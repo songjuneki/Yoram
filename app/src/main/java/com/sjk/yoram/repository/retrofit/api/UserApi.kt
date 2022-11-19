@@ -31,6 +31,8 @@ interface UserApi {
     suspend fun getUserGive(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0): Response<MutableList<Give>>
     @GET("give/amount")
     suspend fun getUserGiveAmount(@Query("uid")uid: Int, @Query("year")year: Int = 0, @Query("month")month: Int = 0, @Query("all")all: Boolean = false): Response<BigInteger>
+    @GET("give/has/date")
+    suspend fun getDatesHasGive(@Query("uid")uid: Int): Response<HashMap<String, List<Int>>>
 
 
     @GET("user/detail")

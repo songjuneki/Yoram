@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.view.get
 import androidx.databinding.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -17,24 +16,21 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.budiyev.android.codescanner.*
 import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textfield.TextInputLayout
 import com.kizitonwose.calendarview.CalendarView
 import com.kizitonwose.calendarview.model.CalendarDay
-import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.ui.DayBinder
-import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.kizitonwose.calendarview.utils.yearMonth
 import com.sjk.yoram.R
 import com.sjk.yoram.model.dto.Banner
+import com.sjk.yoram.model.dto.Give
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.calendar.DayViewContainer
-import com.sjk.yoram.model.ui.calendar.MonthViewContainer
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
@@ -44,7 +40,6 @@ import jp.wasabeef.transformers.coil.GrayscaleTransformation
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.temporal.WeekFields
 import java.util.*
 
 object BindingAdapters {
@@ -353,5 +348,22 @@ object BindingAdapters {
     @JvmStatic
     fun setUserManagerDepartmentItem(view: RecyclerView, list: MutableList<Department>) {
         (view.adapter as UserManagerDepartmentListAdapter).submitList(list)
+    }
+
+    @BindingAdapter("spinnerEntries")
+    @JvmStatic
+    fun setEntries(view: Spinner, entries: List<Any>?) {
+        entries?.let {
+            val arrayAdapter = ArrayAdapter(view.context, com.google.android.material.R.layout.support_simple_spinner_dropdown_item, entries)
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            view.adapter = arrayAdapter
+        }
+    }
+
+
+    @BindingAdapter("ManagerGiveItem")
+    @JvmStatic
+    fun setManagerGiveItem(view: RecyclerView, items: List<Give>?) {
+        (view.adapter as ManagerGiveListAdapter).submitList(items)
     }
 }
