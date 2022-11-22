@@ -58,5 +58,18 @@
         android:id="@+id/userManagerGive"
         android:name="com.sjk.yoram.view.fragment.main.department.UserManagerGive"
         android:label="UserManagerGive"
-        tools:layout="@layout/frag_user_manager_give"/>
+        tools:layout="@layout/frag_user_manager_give">
+        <action
+            android:id="@+id/action_userManagerGive_to_userManagerGiveDetail"
+            app:destination="@id/userManagerGiveDetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/userManagerGiveDetail"
+        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerGiveDetail"
+        android:label="UserManagerGiveDetail"
+        tools:layout="@layout/frag_user_manager_give_detail"/>
 </navigation>

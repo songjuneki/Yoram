@@ -2,13 +2,13 @@ package com.sjk.yoram.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.widget.DatePicker.OnDateChangedListener
 import androidx.lifecycle.*
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
-import com.sjk.yoram.model.dto.Give
-import com.sjk.yoram.model.dto.Position
-import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.model.Department
+import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
 import com.sjk.yoram.model.ui.listener.GiveItemClickListener
@@ -21,7 +21,11 @@ import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.math.BigInteger
+import java.text.DecimalFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.math.absoluteValue
 
 class FragDptmentViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository, private val departmentRepository: DepartmentRepository): ViewModel() {
     private var _myPermission: Int = -5
@@ -136,6 +140,24 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
     val userGiveList = MutableLiveData<MutableList<Give>>()
 
+    val selectedGive = MutableLiveData<Give>()
+
+    val editableGiveAmount = MutableLiveData<String>()
+
+    private val _detailGiveEvent = MutableLiveData<Event<Unit>>()
+    val detailGiveEvent: LiveData<Event<Unit>>
+        get() = _detailGiveEvent
+
+    private val _giveTypeList: MutableList<GiveType> = mutableListOf()
+    private val _giveTypeSpinner = MutableLiveData(emptyList<String>())
+    val giveTypeSpinner: MutableLiveData<List<String>> = _giveTypeSpinner
+    val selectedGiveType = MutableLiveData<Int>()
+
+    private val _giveWorshipTypeList: MutableList<WorshipType> = mutableListOf()
+    private val _giveWorshipTypeSpinner = MutableLiveData(emptyList<String>())
+    val giveWorshipTypeSpinner: MutableLiveData<List<String>> = _giveWorshipTypeSpinner
+    val  selectedGiveWorshipType = MutableLiveData<Int>()
+
     init {
         viewModelScope.launch {
             _myPermission = userRepository.getMyPermission(userRepository.getLoginID())
@@ -173,6 +195,9 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
              R.id.frag_user_manager_perm_back -> { _userManagerBackEvent.value = Event(Unit) }
              R.id.frag_user_manager_home_give_btn -> { initUserManagerGive() }
              R.id.frag_user_manager_give_back -> { _userManagerBackEvent.value = Event(Unit) }
+             R.id.frag_user_manager_give_detail_back, R.id.frag_user_manager_give_detail_cancel -> { _userManagerBackEvent.value = Event(Unit) }
+             R.id.frag_user_manager_give_detail_apply -> { commitUserManagerGiveEdited() }
+             R.id.frag_user_manager_give_detail_zero ->  editableGiveAmount.value = "0"
          }
     }
 
@@ -335,6 +360,26 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
+    private fun initUserManagerGiveDetail() {
+        viewModelScope.launch {
+            _giveTypeList.clear()
+            _giveTypeList.addAll(serverRepository.getAllGiveTypeList())
+            _giveTypeSpinner.value = _giveTypeList.map { it.name }
+            selectedGiveType.value = _giveTypeList.indexOfFirst { it.type == selectedGive.value?.give_type }
+
+            _giveWorshipTypeList.clear()
+            _giveWorshipTypeList.addAll(serverRepository.getWorshipList())
+            _giveWorshipTypeSpinner.value = _giveWorshipTypeList.map { it.name }
+            selectedGiveWorshipType.value = selectedGive.value?.worship_type
+            selectedGiveWorshipType.value = _giveWorshipTypeList.indexOfFirst { it.id == selectedGive.value?.worship_type }
+
+
+            val formatting = DecimalFormat("###,###")
+            editableGiveAmount.value = formatting.format(selectedGive.value?.amount)
+            _detailGiveEvent.value = Event(Unit)
+        }
+    }
+
     fun yearSpinnerSelectedChanged(position: Int) {
         val year = _giveDateList.keys.toList()[position]
         val months = _giveDateList[year]?.sortedDescending()
@@ -350,19 +395,65 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
+    fun giveTypeSpinnerSelectedChanged(position: Int) {
+       selectedGive.value?.give_type = _giveTypeList[position].type
+    }
+
+    fun giveWorshipTypeSpinnerSelectedChanged(position: Int) {
+        selectedGive.value?.worship_type = _giveWorshipTypeList[position].id
+    }
+
     private val _giveListItemClickListener = object: GiveItemClickListener {
         override fun onClick(give: Give) {
-            Log.d("JKJK", "give item clicked")
+            selectedGive.value = give
+            initUserManagerGiveDetail()
         }
     }
 
     val giveListAdapter = ManagerGiveListAdapter(_giveListItemClickListener)
 
-
-
     fun setUserManagerPermission(permission: Int) {
         _checkedManagerPerm.value = UserPermission.values()[permission]
     }
+
+    fun getLocalDateFromGive(give: Give): LocalDate =
+        LocalDate.parse(give.date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+    val dateChangedListener = OnDateChangedListener { view, year, month, day ->
+        selectedGive.value?.date = "$year-${String.format("%02d", month+1)}-${String.format("%02d", day)}"
+    }
+
+    val giveAmountChanged = object: TextInputChanged {
+        override fun afterTextChanged(view: TextInputLayout, input: String) {
+            if (input.isEmpty() || input == "0")
+                selectedGive.value?.amount = BigInteger.ZERO
+            else
+                selectedGive.value?.amount = input.replace(",", "").toBigInteger()
+        }
+    }
+
+    fun easyGiveAmountButton(value: Int) {
+        var amount = editableGiveAmount.value!!.replace(",", "").toBigInteger()
+        amount = if (value > 0)
+            amount.add(value.toBigInteger())
+        else
+            amount.subtract(value.absoluteValue.toBigInteger())
+
+        val format = DecimalFormat("###,###")
+        editableGiveAmount.value = format.format(amount)
+    }
+
+    private fun commitUserManagerGiveEdited() {
+        viewModelScope.launch {
+            val result = if (selectedGive.value!!.id > 0)
+                userRepository.editGive(selectedGive.value!!)
+            else
+                userRepository.insertNewGive(selectedGive.value!!)
+
+            if (result) _userManagerBackEvent.value = Event(Unit)
+        }
+    }
+
 
     private fun commitUserManagerEdited() {
         viewModelScope.launch {

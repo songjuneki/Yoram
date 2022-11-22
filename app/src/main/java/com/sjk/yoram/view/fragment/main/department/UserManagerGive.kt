@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragUserManagerGiveBinding
-import com.sjk.yoram.databinding.FragUserManagerPermissionBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 
 class UserManagerGive: Fragment() {
@@ -36,6 +36,12 @@ class UserManagerGive: Fragment() {
         dptViewModel.userManagerBackEvent.observe(this.viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 findNavController().navigateUp()
+            }
+        }
+
+        dptViewModel.detailGiveEvent.observe(this.viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                findNavController().navigate(R.id.action_userManagerGive_to_userManagerGiveDetail)
             }
         }
     }

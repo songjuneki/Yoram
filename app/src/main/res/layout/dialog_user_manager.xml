@@ -76,18 +76,29 @@
                 android:layout_marginTop="8dp"
                 android:text="@{`권한 : ` + (vm.checkedManagerPerm.ordinal() == vm.userDetail.permission ? vm.getPermissionName(vm.userDetail.permission) : vm.getPermissionName(vm.checkedManagerPerm))}"/>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/dialog_user_manager_frame"
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                app:navGraph="@navigation/dptment_user_manager"
-                android:tag="userManageFragmentContainer"
+                android:scrollbars="vertical"
+                android:scrollbarFadeDuration="5"
+                android:scrollbarStyle="insideInset"
                 app:layout_constraintTop_toBottomOf="@id/dialog_user_manager_permission"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="16dp"/>
+                app:layout_constraintHeight_max="512dp"
+                android:layout_marginTop="16dp">
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/dialog_user_manager_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    app:navGraph="@navigation/dptment_user_manager"
+                    android:tag="userManageFragmentContainer"
+                    android:layout_marginTop="16dp"/>
+            </androidx.core.widget.NestedScrollView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

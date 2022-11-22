@@ -80,14 +80,21 @@ class UserManagerDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState).apply {
             this.setOnKeyListener { _, input, keyEvent ->
-                if (input == KeyEvent.KEYCODE_BACK && keyEvent.action == KeyEvent.ACTION_UP) {
-                    if (navController.currentDestination?.id == R.id.userManagerHome)
+                if (navController.currentDestination?.id == R.id.userManagerHome) {
+                    if (input == KeyEvent.KEYCODE_BACK && keyEvent.action == KeyEvent.ACTION_UP)
                         findNavController().navigateUp()
-                    else
+                    return@setOnKeyListener false
+                } else {
+                    if (input == KeyEvent.KEYCODE_DEL && keyEvent.action == KeyEvent.ACTION_DOWN)
+                        return@setOnKeyListener false
+                    if (input == KeyEvent.KEYCODE_BACK && keyEvent.action == KeyEvent.ACTION_UP) {
                         navController.navigateUp()
-                } else
-                    true
+                        return@setOnKeyListener true
+                    }
+                    return@setOnKeyListener false
+                }
             }
         }
     }
+
 }

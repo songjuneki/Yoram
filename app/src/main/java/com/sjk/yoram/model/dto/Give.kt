@@ -3,11 +3,11 @@ package com.sjk.yoram.model.dto
 import java.math.BigInteger
 
 data class Give(
-    val id: Int,
-    val uid: Int,
-    val give_type: Int,
-    val name: String,
-    val worship_type: Int,
-    val date: String,
-    val amount: BigInteger
+    var id: Int,
+    var uid: Int,
+    var give_type: Int,
+    var name: String,
+    var worship_type: Int,
+    var date: String,
+    var amount: BigInteger
 )

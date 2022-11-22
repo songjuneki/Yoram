@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.sjk.yoram.databinding.FragUserManagerGiveBinding
 import com.sjk.yoram.databinding.FragUserManagerGiveDetailBinding
-import com.sjk.yoram.databinding.FragUserManagerPermissionBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 
 class UserManagerGiveDetail: Fragment() {

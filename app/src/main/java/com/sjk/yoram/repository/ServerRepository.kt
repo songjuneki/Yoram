@@ -6,6 +6,7 @@ import android.os.Environment
 import android.util.Log
 import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.Banner
+import com.sjk.yoram.model.dto.GiveType
 import com.sjk.yoram.model.dto.Juso
 import com.sjk.yoram.model.dto.WorshipType
 import okhttp3.MediaType.Companion.toMediaType
@@ -85,9 +86,14 @@ class ServerRepository(private val application: Application) {
     }
 
     suspend fun getWorshipList(): List<WorshipType> {
-        val list = MyRetrofit.serverApi.getAllWorship()
-        Log.d("JKJK", "worship list = $list")
-        return list
+        return MyRetrofit.serverApi.getAllWorship()
+    }
+
+    suspend fun getAllGiveTypeList(): List<GiveType> {
+        val list = MyRetrofit.serverApi.getAllGiveType()
+        if (!list.isSuccessful)
+            return emptyList()
+        return list.body() ?: emptyList()
     }
 
     companion object {

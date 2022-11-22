@@ -268,8 +268,28 @@ class UserRepository(private val application: Application) {
         if (!res.isSuccessful)
             return hashMapOf()
         val map = res.body()
-        Log.d("JKJK", "getDateListHasGive :: $map")
         return map ?: hashMapOf()
+    }
+
+    suspend fun insertNewGive(newGive: Give): Boolean {
+        val res = MyRetrofit.userApi.insertNewGive(newGive)
+        if (!res.isSuccessful)
+            return false
+        return res.body() ?: false
+    }
+
+    suspend fun editGive(give: Give): Boolean {
+        val res = MyRetrofit.userApi.editGive(give)
+        if (!res.isSuccessful)
+            return false
+        return res.body() ?: false
+    }
+
+    suspend fun deleteGive(give: Give): Boolean {
+        val res = MyRetrofit.userApi.deleteGive(give)
+        if (!res.isSuccessful)
+            return false
+        return res.body() ?: false
     }
 
     suspend fun getUserPrivacyPolicy(id: Int = getLoginID()): UserPrivacyPolicy {

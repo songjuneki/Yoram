@@ -13,6 +13,8 @@
     <color name="xd_light_content_highlight">#303030</color>
     <color name="xd_light_content">#707070</color>
     <color name="xd_light_red_highlight">#FF3120</color>
+    <color name="xd_light_sub_red">#F7A4A4</color>
+    <color name="xd_light_add_blue">#B6E2A1</color>
     <color name="xd_light_appbar_border">#00000014</color>
     <color name="xd_light_transparent">#00000000</color>
     <color name="xd_light_logo_accent">#2272A5</color>

@@ -6,7 +6,6 @@
             name="vm"
             type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -36,103 +35,459 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/frag_user_manager_give_detail_scroll_layout"
+
+        <TextView
+            android:id="@+id/frag_user_manager_give_detail_give_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/xd_light_title"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="헌금 종류"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_back"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"/>
+        <Spinner
+            android:id="@+id/frag_user_manager_give_detail_give_type_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            spinnerEntries="@{vm.giveTypeSpinner}"
+            android:selection="@={vm.selectedGiveType}"
+            android:onItemSelected="@{(p, v, i, o) -> vm.giveTypeSpinnerSelectedChanged(i)}"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_give_type"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"/>
+
+        <TextView
+            android:id="@+id/frag_user_manager_give_detail_worship_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/xd_light_title"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="예배 종류"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_give_type_spinner"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"/>
+        <Spinner
+            android:id="@+id/frag_user_manager_give_detail_worship_type_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            spinnerEntries="@{vm.giveWorshipTypeSpinner}"
+            android:selection="@={vm.selectedGiveWorshipType}"
+            android:onItemSelected="@{(p, v, i, o) -> vm.giveWorshipTypeSpinnerSelectedChanged(i)}"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_worship_type"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"/>
+
+        <TextView
+            android:id="@+id/frag_user_manager_give_detail_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/xd_light_title"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_medium"
+            android:layout_marginTop="8dp"
+            android:text="등록된 날짜"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_worship_type_spinner"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"/>
+
+        <DatePicker
+            android:id="@+id/frag_user_manager_give_detail_date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            datePickerInitDate="@{vm.getLocalDateFromGive(vm.selectedGive)}"
+            datePickerDateChanged="@{vm.dateChangedListener}"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_date"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/frag_user_manager_give_detail_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_back"
+            android:background="@color/xd_light_transparent"
+            app:hintTextColor="@color/xd_light_text_hint"
+            inputTextChanged="@{vm.giveAmountChanged}"
+            currencyFormatting="@{true}"
+            android:hint="금액"
+            app:hintEnabled="true"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_date_picker"
             app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"
-            app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_detail_gv95"
-            android:maxHeight="400dp">
-            <LinearLayout
+            app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_zero"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="@={vm.editableGiveAmount}"
+                android:maxLines="1"
+                android:lines="1"
+                android:textColorHint="@color/xd_light_text_hint"
+                android:inputType="numberDecimal"
+                android:imeOptions="actionDone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/frag_user_manager_give_detail_zero"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:background="@drawable/border_init_button"
+            android:elevation="0dp"
+            android:text="0 ₩"
+            android:textColor="@color/xd_light_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toTopOf="@id/frag_user_manager_give_detail_amount"
+            app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_detail_gv95"
+            app:layout_constraintBottom_toBottomOf="@id/frag_user_manager_give_detail_amount"
+            android:layout_marginLeft="8dp"/>
+
+
+        <HorizontalScrollView
+            android:id="@+id/frag_user_manager_give_detail_easy_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_amount"
+            app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"
+            app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_detail_gv95">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_5h"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(500)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+500"
                     android:textColor="@color/xd_light_title"
                     android:textSize="14sp"
-                    android:fontFamily="@font/pretendard_medium"
-                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_back"
-                    app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
-                    android:text="헌금 종류" />
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp" />
-
-                <TextView
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_1h"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(100)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+100"
                     android:textColor="@color/xd_light_title"
                     android:textSize="14sp"
-                    android:fontFamily="@font/pretendard_medium"
-                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_back"
-                    app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
-                    android:text="예배 종류" />
-                <Spinner
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/frag_user_manager_give_detail_add_5h"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_1h"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_5k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(5000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+5,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_5h"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_1k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="날짜 없음"
-                    android:checked="false"
-                    android:layout_marginTop="8dp"/>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/frag_user_manager_give_detail_date"
-                    android:layout_width="match_parent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(1000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+1,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_5h"
+                    app:layout_constraintLeft_toRightOf="@id/frag_user_manager_give_detail_add_5k"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_1k"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_50k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/xd_light_transparent"
-                    app:hintTextColor="@color/xd_light_text_hint"
-                    android:hint="날짜"
-                    inputTextChanged="@{}"
-                    app:hintEnabled="true"
-                    app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
-                    android:layout_marginTop="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/frag_user_manager_give_detail_date_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/xd_light_transparent"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:maxLines="1"
-                        android:lines="1"
-                        android:text="@{}"
-                        android:textColorHint="@color/xd_light_text_hint"
-                        android:inputType="numberDecimal"
-                        android:imeOptions="actionDone" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/frag_user_manager_give_detail_amount"
-                    android:layout_width="match_parent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(50000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+50,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_5k"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_10k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/xd_light_transparent"
-                    app:hintTextColor="@color/xd_light_text_hint"
-                    android:hint="금액"
-                    inputTextChanged="@{}"
-                    app:hintEnabled="true"
-                    app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
-                    android:layout_marginTop="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/xd_light_transparent"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:maxLines="1"
-                        android:lines="1"
-                        android:text="@{}"
-                        android:textColorHint="@color/xd_light_text_hint"
-                        android:inputType="numberDecimal"
-                        android:imeOptions="actionDone" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(10000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+10,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_5k"
+                    app:layout_constraintLeft_toRightOf="@id/frag_user_manager_give_detail_add_50k"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_10k"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_500k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(500000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+500,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_50k"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_add_100k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(100000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_add_blue"
+                    android:elevation="0dp"
+                    android:text="+100,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_50k"
+                    app:layout_constraintLeft_toRightOf="@id/frag_user_manager_give_detail_add_500k"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_100k"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_5h"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-500)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-500"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="8dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_1h"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-100)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-100"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_5h"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_5k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-5000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-5,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_sub_5h"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="8dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_1k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-1000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-1,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_sub_5h"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_5k"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_50k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-50000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-50,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_sub_5k"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="8dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_10k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-10000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-10,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_sub_5k"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_50k"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_500k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-500000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-500,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_add_50k"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="8dp" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/frag_user_manager_give_detail_sub_100k"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{(v) -> vm.easyGiveAmountButton(-100000)}"
+                    android:clickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:background="@drawable/border_init_button"
+                    android:backgroundTint="@color/xd_light_sub_red"
+                    android:elevation="0dp"
+                    android:text="-100,000"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_sub_50k"
+                    app:layout_constraintRight_toLeftOf="@id/frag_user_manager_give_detail_sub_500k"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </HorizontalScrollView>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/frag_user_manager_give_detail_delete"
@@ -151,7 +506,7 @@
             android:textColor="@color/xd_light_background"
             android:textSize="16sp"
             android:fontFamily="@font/pretendard_medium"
-            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_scroll_layout" />
+            app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_easy_amount" />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/frag_user_manager_give_detail_cancel"
             style="@style/Widget.AppCompat.Button.Borderless"

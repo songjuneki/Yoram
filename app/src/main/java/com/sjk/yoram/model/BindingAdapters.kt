@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.DatePicker.OnDateChangedListener
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -37,6 +38,7 @@ import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
 import jp.wasabeef.transformers.coil.GrayscaleTransformation
+import java.text.DecimalFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -198,6 +200,29 @@ object BindingAdapters {
         if (bool) view.editText!!.addTextChangedListener(PhoneNumberFormattingTextWatcher())
     }
 
+    @BindingAdapter("currencyFormatting")
+    @JvmStatic
+    fun setCurrencyFormatting(view: TextInputLayout, bool: Boolean) {
+        if (view.editText == null) return
+        if (!bool) return
+
+        val format = DecimalFormat("###,###")
+        view.editText?.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                if (p0.isNullOrEmpty()) {
+                    view.editText?.setText("0")
+                    return
+                }
+
+                val formatting = format.format(p0.toString().replace(",", "").toBigInteger())
+                if (formatting.contentEquals(p0)) return
+                view.editText?.setText(formatting)
+                view.editText?.setSelection(formatting.length)
+            }
+        })
+    }
 
 
     @BindingAdapter("PowerSpinnerListener")
@@ -360,10 +385,16 @@ object BindingAdapters {
         }
     }
 
-
     @BindingAdapter("ManagerGiveItem")
     @JvmStatic
     fun setManagerGiveItem(view: RecyclerView, items: List<Give>?) {
         (view.adapter as ManagerGiveListAdapter).submitList(items)
+    }
+
+
+    @BindingAdapter("datePickerInitDate", "datePickerDateChanged", requireAll = true)
+    @JvmStatic
+    fun initDatePicker(view: DatePicker, date: LocalDate, listener: OnDateChangedListener) {
+        view.init(date.year, date.monthValue-1, date.dayOfMonth, listener)
     }
 }

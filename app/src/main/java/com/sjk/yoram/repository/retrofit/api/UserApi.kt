@@ -16,6 +16,8 @@ interface UserApi {
     // Create
     @POST("user/new")
     suspend fun insert(@Body newUser: NewUser): Int
+    @POST("give/add")
+    suspend fun insertNewGive(@Body give: Give): Response<Boolean>
 
     // Read
     @GET("user/find")
@@ -75,4 +77,12 @@ interface UserApi {
 
     @POST("user/pp/edit")
     suspend fun editUserPrivacyPolicy(@Body privacyPolicy: UserPrivacyPolicy): Boolean
+
+    @POST("give/edit")
+    suspend fun editGive(@Body give: Give): Response<Boolean>
+
+
+    // DELETE
+    @POST("give/del")
+    suspend fun deleteGive(@Body give: Give): Response<Boolean>
 }
