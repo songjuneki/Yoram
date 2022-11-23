@@ -105,6 +105,7 @@ class MyFragment: Fragment() {
 
     override fun onResume() {
         mainViewModel.loadLoginData()
+        mainViewModel.loadGiveAmount()
         super.onResume()
     }
 }

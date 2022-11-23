@@ -177,27 +177,28 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     fun clickEvent(btnId: Int) {
         when(btnId) {
             R.id.frag_dptment_header_search -> { if (_myPermission > 0) isSearching.value = true; _searchEvent.value = Event(Unit) }
-            R.id.frag_dptment_header_cancel -> { hideSearchbar()}
-
-            R.id.dialog_user_info_manage -> { initUserManager() }
+            R.id.frag_dptment_header_cancel -> hideSearchbar()
+            R.id.dialog_user_info_manage -> initUserManager()
         }
     }
 
     fun managerClickEvent(btnId: Int) {
          when(btnId) {
-             R.id.frag_user_manager_home_apply -> { commitUserManagerEdited() }
-             R.id.frag_user_manager_home_cancel -> { _userManagerCloseEvent.value = Event(Unit) }
-             R.id.frag_user_manager_home_dpt_btn -> { initUserManagerDepartment() }
-             R.id.frag_user_manager_dptment_back -> { _userManagerBackEvent.value = Event(Unit) }
-             R.id.frag_user_manager_home_pos_btn -> { initUserManagerPosition() }
-             R.id.frag_user_manager_pos_back -> { _userManagerBackEvent.value = Event(Unit) }
-             R.id.frag_user_manager_home_perm_btn -> { _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerPermission) }
-             R.id.frag_user_manager_perm_back -> { _userManagerBackEvent.value = Event(Unit) }
-             R.id.frag_user_manager_home_give_btn -> { initUserManagerGive() }
-             R.id.frag_user_manager_give_back -> { _userManagerBackEvent.value = Event(Unit) }
-             R.id.frag_user_manager_give_detail_back, R.id.frag_user_manager_give_detail_cancel -> { _userManagerBackEvent.value = Event(Unit) }
-             R.id.frag_user_manager_give_detail_apply -> { commitUserManagerGiveEdited() }
-             R.id.frag_user_manager_give_detail_zero ->  editableGiveAmount.value = "0"
+             R.id.frag_user_manager_home_apply -> commitUserManagerEdited()
+             R.id.frag_user_manager_home_cancel -> _userManagerCloseEvent.value = Event(Unit)
+             R.id.frag_user_manager_home_dpt_btn -> initUserManagerDepartment()
+             R.id.frag_user_manager_dptment_back -> _userManagerBackEvent.value = Event(Unit)
+             R.id.frag_user_manager_home_pos_btn -> initUserManagerPosition()
+             R.id.frag_user_manager_pos_back -> _userManagerBackEvent.value = Event(Unit)
+             R.id.frag_user_manager_home_perm_btn -> _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerPermission)
+             R.id.frag_user_manager_perm_back -> _userManagerBackEvent.value = Event(Unit)
+             R.id.frag_user_manager_home_give_btn -> initUserManagerGive()
+             R.id.frag_user_manager_give_back -> _userManagerBackEvent.value = Event(Unit)
+             R.id.frag_user_manager_give_add -> initUserManagerGiveAdd()
+             R.id.frag_user_manager_give_detail_back, R.id.frag_user_manager_give_detail_cancel -> _userManagerBackEvent.value = Event(Unit)
+             R.id.frag_user_manager_give_detail_apply -> commitUserManagerGiveEdited()
+             R.id.frag_user_manager_give_detail_zero -> editableGiveAmount.value = "0"
+             R.id.frag_user_manager_give_detail_delete -> deleteUserManagerGive()
          }
     }
 
@@ -370,12 +371,31 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
             _giveWorshipTypeList.clear()
             _giveWorshipTypeList.addAll(serverRepository.getWorshipList())
             _giveWorshipTypeSpinner.value = _giveWorshipTypeList.map { it.name }
-            selectedGiveWorshipType.value = selectedGive.value?.worship_type
             selectedGiveWorshipType.value = _giveWorshipTypeList.indexOfFirst { it.id == selectedGive.value?.worship_type }
 
 
             val formatting = DecimalFormat("###,###")
             editableGiveAmount.value = formatting.format(selectedGive.value?.amount)
+            _detailGiveEvent.value = Event(Unit)
+        }
+    }
+
+    private fun initUserManagerGiveAdd() {
+        viewModelScope.launch {
+            _giveTypeList.clear()
+            _giveTypeList.addAll(serverRepository.getAllGiveTypeList())
+            _giveTypeSpinner.value = _giveTypeList.map { it.name }
+            selectedGiveType.value = 0
+
+            _giveWorshipTypeList.clear()
+            _giveWorshipTypeList.addAll(serverRepository.getWorshipList())
+            _giveWorshipTypeSpinner.value = _giveWorshipTypeList.map { it.name }
+            selectedGiveWorshipType.value = 0
+
+            val now = LocalDate.now()
+            val date = "${now.year}-${String.format("%02d", now.monthValue)}-${String.format("%02d", now.dayOfMonth)}"
+            selectedGive.value = Give(-1, userDetail.getUserID(), 0, "", 0, date, BigInteger.ZERO)
+            editableGiveAmount.value = "0"
             _detailGiveEvent.value = Event(Unit)
         }
     }
@@ -441,6 +461,18 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
         val format = DecimalFormat("###,###")
         editableGiveAmount.value = format.format(amount)
+    }
+
+    private fun deleteUserManagerGive() {
+        viewModelScope.launch {
+            if ((selectedGive.value?.id ?: -1) < 0) {
+                _userManagerBackEvent.value = Event(Unit)
+                return@launch
+            }
+
+            if (userRepository.deleteGive(selectedGive.value!!))
+                _userManagerBackEvent.value = Event(Unit)
+        }
     }
 
     private fun commitUserManagerGiveEdited() {

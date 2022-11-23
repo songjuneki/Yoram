@@ -48,6 +48,7 @@ class HomeFragment: Fragment() {
     override fun onResume() {
         homeViewModel.loadBanners()
         mainViewModel.loadLoginData()
+        mainViewModel.loadGiveAmount()
         super.onResume()
     }
 }
