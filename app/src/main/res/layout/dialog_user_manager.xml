@@ -81,13 +81,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"
-                android:scrollbarFadeDuration="5"
-                android:scrollbarStyle="insideInset"
+                android:fadeScrollbars="true"
+                android:scrollbarDefaultDelayBeforeFade="1000"
+                android:requiresFadingEdge="vertical"
                 app:layout_constraintTop_toBottomOf="@id/dialog_user_manager_permission"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_max="512dp"
+                app:layout_constraintHeight_max="416dp"
                 android:layout_marginTop="16dp">
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/dialog_user_manager_frame"

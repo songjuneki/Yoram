@@ -118,13 +118,13 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:scrollbars="vertical"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:fadeScrollbars="false"
-            android:verticalScrollbarPosition="right"
+            android:fadeScrollbars="true"
+            android:scrollbarDefaultDelayBeforeFade="1000"
+            android:requiresFadingEdge="vertical"
             app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_title"
             app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_gv05"
             app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_gv95"
-            app:layout_constraintHeight_max="256dp">
+            app:layout_constraintHeight_max="400dp">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/frag_user_manager_give_recycler"
                 android:layout_width="match_parent"

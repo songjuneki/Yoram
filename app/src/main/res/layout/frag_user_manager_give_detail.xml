@@ -156,6 +156,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:fadeScrollbars="true"
+            android:scrollbarDefaultDelayBeforeFade="3000"
+            android:requiresFadingEdge="horizontal"
             app:layout_constraintTop_toBottomOf="@id/frag_user_manager_give_detail_amount"
             app:layout_constraintLeft_toLeftOf="@id/frag_user_manager_give_detail_gv05"
             app:layout_constraintRight_toRightOf="@id/frag_user_manager_give_detail_gv95">
