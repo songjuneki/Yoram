@@ -38,6 +38,20 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_prefFragment_to_adminWorshipFragment"
+            app:destination="@id/adminWorshipFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_prefFragment_to_adminGiveTypeFragment"
+            app:destination="@id/adminGiveTypeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/prefRuleFragment"
@@ -92,4 +106,55 @@
         android:name="com.sjk.yoram.view.fragment.main.my.EditBannerDialogFragment"
         android:label="EditBannerDialogFragment"
         tools:layout="@layout/dialog_my_admin_banner_edit"/>
+    <fragment
+        android:id="@+id/adminWorshipFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.AdminWorshipFragment"
+        android:label="AdminWorshipFragment"
+        tools:layout="@layout/frag_my_pref_admin_worship">
+        <action
+            android:id="@+id/action_adminWorshipFragment_to_editWorshipDialogFragment"
+            app:destination="@id/editWorshipDialogFragment"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom"/>
+        <action
+            android:id="@+id/action_adminWorshipFragment_to_prefApplyDialogFragment"
+            app:destination="@id/prefApplyDialogFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom"/>
+    </fragment>
+    <dialog
+        android:id="@+id/editWorshipDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditWorshipDialogFragment"
+        android:label="EditWorshipDialogFragment"
+        tools:layout="@layout/dialog_my_admin_worship_edit" />
+    <fragment
+        android:id="@+id/adminGiveTypeFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.AdminGiveTypeFragment"
+        android:label="AdminGiveTypeFragment"
+        tools:layout="@layout/frag_my_pref_admin_give">
+        <action
+            android:id="@+id/action_adminGiveTypeFragment_to_prefApplyDialogFragment"
+            app:destination="@id/prefApplyDialogFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_adminGiveTypeFragment_to_editGiveTypeDialogFragment"
+            app:destination="@id/editGiveTypeDialogFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <dialog
+        android:id="@+id/editGiveTypeDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditGiveTypeDialogFragment"
+        android:label="EditGiveTypeDialogFragment"
+        tools:layout="@layout/dialog_my_admin_give_edit"/>
 </navigation>

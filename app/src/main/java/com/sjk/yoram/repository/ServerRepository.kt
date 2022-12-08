@@ -96,6 +96,42 @@ class ServerRepository(private val application: Application) {
         return list.body() ?: emptyList()
     }
 
+    suspend fun getCheckUsingWorshipType(type: Int): Boolean {
+        val result = MyRetrofit.serverApi.getCheckWorshipType(type)
+        if (!result.isSuccessful)
+            return false
+        return result.body() ?: false
+    }
+
+    suspend fun editWorshipTypeList(wtypeList: List<WorshipType>): Boolean {
+        val result = MyRetrofit.serverApi.uploadWorshipTypeList(wtypeList)
+        if (!result.isSuccessful)
+            return false
+        result.body()?.forEach {
+            if (it != 1) return false
+        }
+        return true
+    }
+
+    suspend fun getCheckUsingGiveType(type: Int): Boolean {
+        val result = MyRetrofit.serverApi.getCheckGiveType(type)
+        if (!result.isSuccessful)
+            return false
+        return result.body() ?: false
+    }
+
+    suspend fun editGiveTypeList(giveTypeList: List<GiveType>): Boolean {
+        val result = MyRetrofit.serverApi.uploadGiveTypeList(giveTypeList)
+        if (!result.isSuccessful)
+            return false
+        result.body()?.forEach {
+            if (it != 1) return false
+        }
+        return true
+    }
+
+
+
     companion object {
         private var instance: ServerRepository? = null
         fun getInstance(application: Application): ServerRepository? {

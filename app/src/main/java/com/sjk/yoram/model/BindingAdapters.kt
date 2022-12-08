@@ -26,10 +26,7 @@ import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.kizitonwose.calendarview.utils.yearMonth
 import com.sjk.yoram.R
-import com.sjk.yoram.model.dto.Banner
-import com.sjk.yoram.model.dto.Give
-import com.sjk.yoram.model.dto.Juso
-import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.calendar.DayViewContainer
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
@@ -396,5 +393,17 @@ object BindingAdapters {
     @JvmStatic
     fun initDatePicker(view: DatePicker, date: LocalDate, listener: OnDateChangedListener) {
         view.init(date.year, date.monthValue-1, date.dayOfMonth, listener)
+    }
+
+    @BindingAdapter("AdminWorshipList")
+    @JvmStatic
+    fun setAdminWorshipList(view: RecyclerView, list: MutableList<WorshipType>) {
+        (view.adapter as AdminWorshipListAdapter).submitList(list)
+    }
+
+    @BindingAdapter("AdminGiveTypeList")
+    @JvmStatic
+    fun setAdminGiveTypeList(view: RecyclerView, list: MutableList<GiveType>) {
+        (view.adapter as AdminGiveTypeListAdapter).submitList(list)
     }
 }

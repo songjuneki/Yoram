@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
         <variable
@@ -9,10 +10,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/xd_light_card_divider">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,15 +47,17 @@
                 android:fontFamily="@font/pretendard_semibold"
                 android:textColor="@color/xd_light_title"
                 android:gravity="center"
+                app:spinner_arrow_show="true"
                 app:spinner_arrow_drawable="@drawable/ic_dropdown"
                 app:spinner_arrow_gravity="end"
                 app:spinner_arrow_animate="true"
+                app:spinner_arrow_animate_duration="300"
                 app:spinner_item_array="@array/dptment_type"
                 app:spinner_item_height="50dp"
                 app:spinner_popup_background="@color/xd_light_background"
                 app:spinner_popup_elevation="4dp"
                 app:spinner_popup_animation="normal"
-                android:visibility="@{vm.isSearching() ? View.GONE : View.VISIBLE}"
+                android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
                 PowerSpinnerDefaultSelectIndex="@{0}"
                 PowerSpinnerListener="@{vm.sortTypeListener}"
                 />
@@ -76,7 +77,7 @@
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_header_gv95"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:tint="@color/xd_light_title"
-                android:visibility="@{vm.isSearching() ? View.GONE : View.VISIBLE}"
+                android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
                 android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +96,7 @@
                 app:startIconDrawable="@drawable/ic_search"
                 app:startIconTint="@color/xd_light_text_hint"
                 app:endIconMode="clear_text"
-                android:visibility="@{vm.isSearching() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{vm.isSearching ? View.VISIBLE : View.GONE}"
                 inputTextChanged="@{vm.searchInputChanged}">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -124,7 +125,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_header_gv95"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="@{vm.isSearching() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{vm.isSearching ? View.VISIBLE : View.GONE}"
                 android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -187,7 +188,7 @@
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
                 android:layout_margin="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:visibility="@{vm.isSearching() ? View.GONE : View.VISIBLE}"
+                android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
                 android:adapter="@{vm.listAdapter()}"
                 DepartmentData="@{vm.departments}"/>
 
@@ -201,7 +202,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:visibility="@{vm.isSearching() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{vm.isSearching ? View.VISIBLE : View.GONE}"
                 android:adapter="@{vm.searchListAdapter()}"
                 SimpleUserData="@{vm.searchResult}"
                 highlightKeyword="@{vm.searchKeyword}"/>

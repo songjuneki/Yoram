@@ -11,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMyPrefBinding
 import com.sjk.yoram.view.fragment.main.my.AdminBannerFragment
+import com.sjk.yoram.view.fragment.main.my.AdminGiveTypeFragment
+import com.sjk.yoram.view.fragment.main.my.AdminWorshipFragment
 import com.sjk.yoram.view.fragment.main.my.PrefPrivacyFragment
 import com.sjk.yoram.viewmodel.AdminBannerViewModel
 import com.sjk.yoram.viewmodel.FragPrivacyViewModel
@@ -59,10 +61,12 @@ class PreferenceActivity: AppCompatActivity() {
         viewModel.applyEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 val screenFragment = navHostFragment.childFragmentManager.fragments[0]
-                if (screenFragment is PrefPrivacyFragment)
-                    privacyViewModel.changedValueApply()
-                else if (screenFragment is AdminBannerFragment)
-                    adminBannerViewModel.changedValueApply()
+                when (screenFragment) {
+                    is PrefPrivacyFragment -> privacyViewModel.changedValueApply()
+                    is AdminBannerFragment -> adminBannerViewModel.changedValueApply()
+                    is AdminWorshipFragment -> viewModel.changedWorshipTypeApply()
+                    is AdminGiveTypeFragment -> viewModel.changedGiveTypeApply()
+                }
             }
         }
 

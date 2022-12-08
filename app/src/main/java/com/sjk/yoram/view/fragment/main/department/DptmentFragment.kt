@@ -5,13 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.R
@@ -33,7 +29,7 @@ class DptmentFragment: Fragment() {
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.fragDptmentHeaderSpinner.lifecycleOwner = this
+        binding.fragDptmentHeaderSpinner.lifecycleOwner = this.viewLifecycleOwner
 
         return binding.root
     }

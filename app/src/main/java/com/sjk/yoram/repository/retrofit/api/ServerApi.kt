@@ -44,5 +44,33 @@ interface ServerApi {
     @GET("give/type/all")
     suspend fun getAllGiveType(): Response<List<GiveType>>
 
+    @GET("ws/exists")
+    suspend fun getCheckWorshipType(@Query("type")type: Int): Response<Boolean>
 
+    @POST("ws/add")
+    suspend fun insertWorshipType(@Body worship: WorshipType): Response<Boolean>
+
+    @POST("ws/edit")
+    suspend fun updateWorshipType(@Body worship: WorshipType): Response<Boolean>
+
+    @POST("ws/del")
+    suspend fun deleteWorshipType(@Body worship: WorshipType): Response<Boolean>
+
+    @POST("ws/with")
+    suspend fun uploadWorshipTypeList(@Body worshipList: List<WorshipType>): Response<List<Int>>
+
+    @GET("give/type/exists")
+    suspend fun getCheckGiveType(@Query("type")type: Int): Response<Boolean>
+
+    @POST("give/type/add")
+    suspend fun insertGiveType(@Body giveType: GiveType): Response<Boolean>
+
+    @POST("give/type/edit")
+    suspend fun updatetGiveType(@Body giveType: GiveType): Response<Boolean>
+
+    @POST("give/type/del")
+    suspend fun deleteGiveType(@Body giveType: GiveType): Response<Boolean>
+
+    @POST("give/type/with")
+    suspend fun uploadGiveTypeList(@Body giveTypeList: List<GiveType>): Response<List<Int>>
 }
