@@ -12,7 +12,6 @@ import com.sjk.yoram.viewmodel.PrefViewModel
 
 class PrefApplyDialogFragment: BottomSheetDialogFragment() {
     private lateinit var binding: DialogMyPrefApplyBinding
-//    private lateinit var pvcViewModel: FragPrivacyViewModel
     private lateinit var prefViewModel: PrefViewModel
 
     override fun onCreateView(
@@ -21,19 +20,16 @@ class PrefApplyDialogFragment: BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogMyPrefApplyBinding.inflate(layoutInflater)
-//        pvcViewModel = ViewModelProvider(requireActivity())[FragPrivacyViewModel::class.java]
-
         prefViewModel = ViewModelProvider(requireActivity())[PrefViewModel::class.java]
 
         binding.prefVM = prefViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun getTheme(): Int = R.style.DraggableRoundedBottomSheetDialog

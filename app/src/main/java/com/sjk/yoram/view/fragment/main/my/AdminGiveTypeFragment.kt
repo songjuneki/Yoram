@@ -39,7 +39,7 @@ class AdminGiveTypeFragment: Fragment() {
 
         prefViewModel.exitGiveTypeEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().popBackStack(R.id.prefFragment, false)
+                findNavController().navigate(R.id.action_prefApplyDialogFragment_to_prefFragment)
             }
         }
     }

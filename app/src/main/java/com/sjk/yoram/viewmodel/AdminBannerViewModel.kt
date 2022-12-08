@@ -37,6 +37,10 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
     val editDeleteEvent: LiveData<Event<DialogInterface.OnClickListener>>
         get() = _editDeleteEvent
 
+    private val _applyEvent = MutableLiveData<Event<Unit>>()
+    val applyEvent: LiveData<Event<Unit>>
+        get() = _applyEvent
+
     private val _uploadDoneEvent = MutableLiveData<Event<Unit>>()
     val uploadDoneEvent: LiveData<Event<Unit>>
         get() = _uploadDoneEvent
@@ -85,7 +89,7 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
             R.id.dialog_my_admin_banner_edit_footer_apply -> bannerEditDone()
             R.id.dialog_my_admin_banner_edit_footer_cancel -> _editCancelEvent.value = Event(Unit)
             R.id.dialog_my_admin_banner_edit_delete -> bannerDelete()
-            R.id.frag_my_pref_admin_banner_done -> uploadBanners()
+            R.id.frag_my_pref_admin_banner_done -> _applyEvent.value = Event(Unit)
             R.id.frag_my_pref_admin_banner_header_add -> _uploadNewBannerEvent.value = Event(Unit)
         }
     }

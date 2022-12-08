@@ -75,7 +75,15 @@
         android:id="@+id/prefApplyDialogFragment"
         android:name="com.sjk.yoram.view.fragment.main.my.PrefApplyDialogFragment"
         android:label="PrefApplyDialogFragment"
-        tools:layout="@layout/dialog_my_pref_apply"/>
+        tools:layout="@layout/dialog_my_pref_apply">
+        <action
+            android:id="@+id/action_prefApplyDialogFragment_to_prefFragment"
+            app:destination="@id/prefFragment"
+            app:popUpTo="@id/prefFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </dialog>
     <dialog
         android:id="@+id/prefLogoutDialogFragment"
         android:name="com.sjk.yoram.view.fragment.main.my.PrefLogoutDialogFragment"
@@ -121,7 +129,6 @@
         <action
             android:id="@+id/action_adminWorshipFragment_to_prefApplyDialogFragment"
             app:destination="@id/prefApplyDialogFragment"
-            app:popUpToInclusive="false"
             app:enterAnim="@anim/anim_bottom_to_top"
             app:exitAnim="@anim/anim_top_to_bottom"
             app:popEnterAnim="@anim/anim_bottom_to_top"

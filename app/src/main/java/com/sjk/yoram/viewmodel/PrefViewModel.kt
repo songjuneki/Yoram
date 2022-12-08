@@ -229,15 +229,10 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         viewModelScope.launch {
             for (i in 0 until worshipList.value!!.size) {
                 worshipList.value!![i].id = i
-
-                val result = serverRepository.editWorshipTypeList(worshipList.value!!)
-
-                if (!result) {
-                    _toastEvent.value = Event("적용에 실패했습니다. 다시 시도해 주세요")
-                } else {
-                    _exitWorshipEvent.value = Event(Unit)
-                }
             }
+            val result = serverRepository.editWorshipTypeList(worshipList.value!!)
+            if (result) _exitWorshipEvent.value = Event(Unit)
+            else _toastEvent.value = Event("적용에 실패했습니다. 다시 시도해 주세요")
         }
     }
 
@@ -291,15 +286,10 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         viewModelScope.launch {
             for (i in 0 until giveTypeList.value!!.size) {
                 giveTypeList.value!![i].type = i
-
-                val result = serverRepository.editGiveTypeList(giveTypeList.value!!)
-
-                if (!result) {
-                    _toastEvent.value = Event("적용에 실패했습니다. 다시 시도해 주세요")
-                } else {
-                    _exitGiveTypeEvent.value = Event(Unit)
-                }
             }
+            val result = serverRepository.editGiveTypeList(giveTypeList.value!!)
+            if (result) _exitGiveTypeEvent.value = Event(Unit)
+            else _toastEvent.value = Event("적용에 실패했습니다. 다시 시도해 주세요")
         }
     }
 

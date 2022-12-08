@@ -21,9 +21,17 @@ class FragPrivacyViewModel(private val userRepository: UserRepository): ViewMode
     val pp: LiveData<UserPrivacyPolicy>
         get() = _pp
 
-    private val _exitEvent = MutableLiveData<Event<Unit>>()
-    val exitEvent: LiveData<Event<Unit>>
-        get() = _exitEvent
+    private val _applyEvent = MutableLiveData<Event<Unit>>()
+    val applyEvent: LiveData<Event<Unit>>
+        get() = _applyEvent
+
+    private val _applySuccessEvent = MutableLiveData<Event<Unit>>()
+    val applySuccessEvent: LiveData<Event<Unit>>
+        get() = _applySuccessEvent
+
+    private val _applyFailureEvent = MutableLiveData<Event<Unit>>()
+    val applyFailureEvent: LiveData<Event<Unit>>
+        get() = _applyFailureEvent
 
     init {
         viewModelScope.launch {
@@ -55,14 +63,20 @@ class FragPrivacyViewModel(private val userRepository: UserRepository): ViewMode
         }
     }
 
+    fun applyAction() {
+        _applyEvent.value = Event(Unit)
+    }
+
     fun changedValueApply() {
         viewModelScope.async {
             val res = userRepository.editUserPrivacyPolicy(_pp.value ?: originalpp)
-            _exitEvent.value = Event(Unit)
+            if (res)
+                _applySuccessEvent.value = Event(Unit)
+            else
+                _applyFailureEvent.value = Event(Unit)
             loadPP()
         }
     }
-
 
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

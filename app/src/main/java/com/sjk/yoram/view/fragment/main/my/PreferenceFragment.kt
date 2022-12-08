@@ -23,7 +23,7 @@ class PreferenceFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.frag_my_pref, container, false)
         viewModel = ViewModelProvider(requireActivity())[PrefViewModel::class.java]
         binding.vm = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         return binding.root
     }

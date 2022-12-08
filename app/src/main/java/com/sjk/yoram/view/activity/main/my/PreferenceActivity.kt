@@ -72,7 +72,7 @@ class PreferenceActivity: AppCompatActivity() {
 
         viewModel.applyCancelEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                navController.popBackStack(R.id.prefFragment, false)
+                navController.navigate(R.id.action_prefApplyDialogFragment_to_prefFragment)
             }
         }
 

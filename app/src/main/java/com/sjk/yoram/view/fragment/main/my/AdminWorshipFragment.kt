@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragMyPrefAdminWorshipBinding
@@ -39,7 +40,7 @@ class AdminWorshipFragment: Fragment() {
 
         prefViewModel.exitWorshipEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().popBackStack(R.id.prefFragment, false)
+                findNavController().navigate(R.id.action_prefApplyDialogFragment_to_prefFragment)
             }
         }
     }

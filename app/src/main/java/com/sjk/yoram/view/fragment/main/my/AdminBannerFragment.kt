@@ -78,7 +78,7 @@ class AdminBannerFragment: Fragment() {
         binding = FragMyPrefAdminBannerBinding.inflate(layoutInflater)
         binding.prefVM = prefViewModel
         binding.vm = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         viewModel.loadBanners()
 
@@ -100,9 +100,15 @@ class AdminBannerFragment: Fragment() {
             }
         }
 
+        viewModel.applyEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                findNavController().navigate(R.id.action_adminBannerFragment_to_prefApplyDialogFragment)
+            }
+        }
+
         viewModel.uploadDoneEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().popBackStack(R.id.prefFragment, false)
+                findNavController().navigate(R.id.action_prefApplyDialogFragment_to_prefFragment)
             }
         }
 
