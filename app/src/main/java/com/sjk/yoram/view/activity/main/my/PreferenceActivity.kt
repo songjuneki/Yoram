@@ -115,7 +115,19 @@ class PreferenceActivity: AppCompatActivity() {
                     true
                 } else navController.navigateUp()
             }
-            else -> { navController.navigateUp() }
+            R.id.adminWorshipFragment -> {
+                if (viewModel.worshipChanged.value!!) {
+                    navController.navigate(R.id.action_adminWorshipFragment_to_prefApplyDialogFragment)
+                    true
+                } else navController.navigateUp()
+            }
+            R.id.adminGiveTypeFragment -> {
+                if (viewModel.giveTypeChanged.value!!) {
+                    navController.navigate(R.id.action_adminGiveTypeFragment_to_prefApplyDialogFragment)
+                    true
+                } else navController.navigateUp()
+            }
+            else -> navController.navigateUp()
         }
     }
 

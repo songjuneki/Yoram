@@ -60,6 +60,12 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
     val worshipAdapter = AdminWorshipListAdapter(worshipClickListener)
     val worshipList = MutableLiveData<MutableList<WorshipType>>()
 
+    private val currentWorshipList: MutableList<WorshipType> = mutableListOf()
+
+    private val _worshipChanged = MutableLiveData<Boolean>(false)
+    val worshipChanged: LiveData<Boolean>
+        get() = _worshipChanged
+
     val detailWorship = MutableLiveData<WorshipType>()
 
     private val _detailWorshipEvent = MutableLiveData<Event<Unit>>()
@@ -92,6 +98,12 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
     }
     val giveTypeAdapter = AdminGiveTypeListAdapter(giveTypeClickListener)
     val giveTypeList = MutableLiveData<MutableList<GiveType>>()
+
+    private val currentGiveTypeList: MutableList<GiveType> = mutableListOf()
+
+    private val _giveTypeChanged = MutableLiveData<Boolean>(false)
+    val giveTypeChanged: LiveData<Boolean>
+        get() = _giveTypeChanged
 
     val detailGiveType = MutableLiveData<GiveType>()
 
@@ -157,9 +169,11 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
 
     private fun initAdminWorship() {
         viewModelScope.launch {
-            worshipList.value?.clear()
+            currentWorshipList.clear()
+            currentWorshipList.addAll(serverRepository.getWorshipList())
             worshipList.value = serverRepository.getWorshipList().toMutableList()
             worshipAdapter.notifyDataSetChanged()
+            _worshipChanged.value = false
             moveFragment(R.id.action_prefFragment_to_adminWorshipFragment)
         }
     }
@@ -177,6 +191,7 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
             for (i in 0 until worshipList.value!!.size) {
                 if (detailWorship.value?.id == worshipList.value?.get(i)?.id) {
                     setWorship(i, detailWorship.value!!)
+                    break
                 }
             }
         }
@@ -207,6 +222,7 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         current[index] = worship
         worshipList.value = current
         worshipAdapter.notifyDataSetChanged()
+        worshipChangeChecker()
     }
 
     private fun addWorship(worship: WorshipType) {
@@ -215,6 +231,7 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         current.add(worship)
         worshipList.value = current
         worshipAdapter.notifyDataSetChanged()
+        worshipChangeChecker()
     }
 
     private fun removeWorship(index: Int) {
@@ -223,6 +240,20 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         current.removeAt(index)
         worshipList.value = current
         worshipAdapter.notifyDataSetChanged()
+        worshipChangeChecker()
+    }
+
+    private fun worshipChangeChecker() {
+        if (worshipList.value.isNullOrEmpty()) {
+            _worshipChanged.value = false
+            return
+        }
+        if (currentWorshipList.size != worshipList.value!!.size) {
+            _worshipChanged.value = true
+            return
+        }
+        val isEqual = currentWorshipList == worshipList.value!!
+        _worshipChanged.value = !isEqual
     }
 
     fun changedWorshipTypeApply() {
@@ -238,9 +269,11 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
 
     private fun initGiveType() {
         viewModelScope.launch {
-            giveTypeList.value?.clear()
+            currentGiveTypeList.clear()
+            currentGiveTypeList.addAll(serverRepository.getAllGiveTypeList())
             giveTypeList.value = serverRepository.getAllGiveTypeList().toMutableList()
             giveTypeAdapter.notifyDataSetChanged()
+            _giveTypeChanged.value = false
             moveFragment(R.id.action_prefFragment_to_adminGiveTypeFragment)
         }
     }
@@ -299,6 +332,7 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         current[index] = giveType
         giveTypeList.value = current
         giveTypeAdapter.notifyDataSetChanged()
+        giveTypeChangeChecker()
     }
 
     private fun addGiveType(giveType: GiveType) {
@@ -307,6 +341,7 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         current.add(giveType)
         giveTypeList.value = current
         giveTypeAdapter.notifyDataSetChanged()
+        giveTypeChangeChecker()
     }
 
     private fun removeGiveType(index: Int) {
@@ -315,6 +350,20 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
         current.removeAt(index)
         giveTypeList.value = current
         giveTypeAdapter.notifyDataSetChanged()
+        giveTypeChangeChecker()
+    }
+
+    private fun giveTypeChangeChecker() {
+        if (giveTypeList.value.isNullOrEmpty()) {
+            _giveTypeChanged.value = false
+            return
+        }
+        if (currentGiveTypeList.size != giveTypeList.value!!.size) {
+            _giveTypeChanged.value = true
+            return
+        }
+        val isEqual = currentGiveTypeList == giveTypeList.value!!
+        _giveTypeChanged.value = !isEqual
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
