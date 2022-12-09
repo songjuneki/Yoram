@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.sjk.yoram.model.MutableListLiveData" />
         <variable
             name="prefVM"
             type="com.sjk.yoram.viewmodel.PrefViewModel" />
@@ -136,9 +135,9 @@
                 android:textSize="17sp"
                 android:fontFamily="@font/pretendard_bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@{@color/xd_light_dot_indicator_enabled}"
+                android:background="@{vm.isChanged() ? @color/xd_light_dot_indicator_enabled : @color/xd_light_text_hint }"
                 android:foreground="?attr/selectableItemBackground"
-                android:enabled="@{true}"
+                android:enabled="@{vm.isChanged()}"
                 android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                 android:clickable="true"
                 android:focusable="true"

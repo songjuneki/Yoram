@@ -45,8 +45,9 @@ class MutableListLiveData<T>() : MutableLiveData<MutableList<T>>() {
     fun isListEquals(other: List<T>): Boolean {
         if (value == null) return false
         if (value!!.size != other.size) return false
-        for (i in other.indices) {
-            if (!value!![i]?.equals(other[i])!!) return false
+        value?.forEachIndexed { index, t ->
+            if (value!![index]?.equals(other[index]) == false)
+                return false
         }
         return true
     }

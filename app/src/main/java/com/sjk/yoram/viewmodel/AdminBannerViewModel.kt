@@ -21,9 +21,13 @@ import kotlinx.coroutines.launch
 
 class AdminBannerViewModel(private val serverRepository: ServerRepository, private val userRepository: UserRepository): ViewModel() {
     var immutableBanners: List<Banner> = listOf()
-    val banners = MutableListLiveData<Banner>()
+    var banners = MutableListLiveData<Banner>()
 
     val editBanner = MutableLiveBannerData()
+
+    private val _isChanged = MutableLiveData<Boolean>(false)
+    val isChanged: LiveData<Boolean>
+        get() = _isChanged
 
     private val _editCancelEvent = MutableLiveData<Event<Unit>>()
     val editCancelEvent: LiveData<Event<Unit>>
@@ -66,6 +70,9 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
             override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
                 helper.startDrag(viewHolder)
             }
+            override fun onEndDrag(currentList: List<Banner>) {
+                bannerIsChanged()
+            }
         })
     }
     private val itemTouchHelper: AdminBannerTouchHelper = AdminBannerTouchHelper(adapter)
@@ -81,6 +88,7 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
         viewModelScope.launch {
             immutableBanners = serverRepository.getAllBanners(true)
             banners.value = serverRepository.getAllBanners(true).toMutableList()
+            _isChanged.value = false
         }
     }
 
@@ -110,13 +118,15 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
     }
 
     fun bannerIsChanged(): Boolean {
-        return !banners.isListEquals(immutableBanners)
+        val flag = !banners.isListEquals(immutableBanners)
+        _isChanged.value = flag
+        return flag
     }
 
     private fun bannerEditDone() {
         setBannerById(editBanner.getId(), editBanner.value!!)
-        this._editCancelEvent.value = Event(Unit)
-        this._editDoneEvent.value = Event(Unit)
+        _editCancelEvent.value = Event(Unit)
+        _editDoneEvent.value = Event(Unit)
     }
 
     private fun bannerDelete() {
@@ -124,7 +134,6 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
             viewModelScope.launch {
                 banners.value?.let {
                     serverRepository.deleteBanner(editBanner.value!!)
-//                    adapter.deleteItem(editBanner.value!!)
                     it.removeAt(getBannerPositionById(editBanner.value!!.id))
                     adapter.notifyDataSetChanged()
                 }
@@ -144,12 +153,11 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
     }
 
     private fun setBannerById(id: Int, banner: Banner) {
-        banners.value?.let {
-            for (i in 0 until it.size) {
-                if (it[i].id == id) {
-                    it[i] = banner
-                    return@let
-                }
+        banners.value?.forEachIndexed { index, it ->
+            if (it.id == id) {
+                banners.value?.set(index, banner)
+                bannerIsChanged()
+                return
             }
         }
     }
@@ -179,35 +187,6 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
         fun getId(): Int {
             if (value == null) return -1
             return value!!.id
-        }
-
-        fun modifyTitle(title: String) {
-            if (value == null)
-                return
-            val current = value!!
-            current.title = title
-            value = current
-        }
-
-        fun modifyLink(link: String) {
-            if (value == null) return
-            val current = value!!
-            current.link = link
-            value = current
-        }
-
-        fun modifyExpire(expire: String) {
-            if (value == null) return
-            val current = value!!
-            current.expire = expire
-            value = current
-        }
-
-        fun modifyShow() {
-            if (value == null) return
-            val current = value!!
-            current.show = !current.show
-            value = current
         }
 
         fun notifyChange() {

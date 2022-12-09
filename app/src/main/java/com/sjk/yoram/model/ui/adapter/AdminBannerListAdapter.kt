@@ -1,6 +1,7 @@
 package com.sjk.yoram.model.ui.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -61,6 +62,7 @@ class AdminBannerListAdapter(private val clickListener: AdminBannerClickListener
 
     interface ItemDragListener {
         fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
+        fun onEndDrag(currentList: List<Banner>)
     }
 
     fun setDragListener(listener: ItemDragListener) {
@@ -86,12 +88,12 @@ class AdminBannerListAdapter(private val clickListener: AdminBannerClickListener
         list.removeAt(from_position)
         list.add(to_position, item)
 
-        var i = 1
-        list.forEach {
-            it.order = i++
+        list.forEachIndexed { index, _ ->
+            list[index].order = index+1
         }
 
         submitList(list)
+        dragListener.onEndDrag(list)
         return true
     }
 
