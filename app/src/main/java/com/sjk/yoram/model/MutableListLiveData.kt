@@ -42,6 +42,12 @@ class MutableListLiveData<T>() : MutableLiveData<MutableList<T>>() {
         return value!!.toList()
     }
 
+    fun set(index: Int, item: T) {
+        val current = value
+        current!![index] = item
+        value = current
+    }
+
     fun isListEquals(other: List<T>): Boolean {
         if (value == null) return false
         if (value!!.size != other.size) return false

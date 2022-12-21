@@ -168,6 +168,28 @@ class DepartmentRepository(private val application: Application) {
         return list
     }
 
+    suspend fun getDtoDepartmentList(): MutableList<com.sjk.yoram.model.dto.Department> {
+        val list = MyRetrofit.dptmentApi.getAllDepartmentList()
+        if (!list.isSuccessful) {
+            return mutableListOf()
+        }
+        return list.body() ?: mutableListOf()
+    }
+
+    suspend fun getCheckDepartmentIsUsing(code: Int): Boolean {
+        val result = MyRetrofit.dptmentApi.getCheckDepartmentIsUsing(code)
+        if (!result.isSuccessful) {
+            return false
+        }
+        return result.body() ?: false
+    }
+
+    suspend fun uploadDepartmentList(dptList: List<com.sjk.yoram.model.dto.Department>): Boolean {
+        val result = MyRetrofit.dptmentApi.uploadDepartmentList(dptList)
+        if (!result.isSuccessful) return false
+        return result.body() ?: false
+    }
+
     companion object {
         private var instance: DepartmentRepository? = null
         fun getInstance(application: Application): DepartmentRepository? {

@@ -406,4 +406,10 @@ object BindingAdapters {
     fun setAdminGiveTypeList(view: RecyclerView, list: MutableList<GiveType>) {
         (view.adapter as AdminGiveTypeListAdapter).submitList(list)
     }
+
+    @BindingAdapter("AdminDepartmentList")
+    @JvmStatic
+    fun setAdminDepartmentList(view: RecyclerView, list: MutableList<com.sjk.yoram.model.dto.Department>) {
+        (view.adapter as AdminDepartmentListAdapter).submitList(list)
+    }
 }

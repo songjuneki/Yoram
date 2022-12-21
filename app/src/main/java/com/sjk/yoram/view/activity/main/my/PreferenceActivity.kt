@@ -10,11 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMyPrefBinding
-import com.sjk.yoram.view.fragment.main.my.AdminBannerFragment
-import com.sjk.yoram.view.fragment.main.my.AdminGiveTypeFragment
-import com.sjk.yoram.view.fragment.main.my.AdminWorshipFragment
-import com.sjk.yoram.view.fragment.main.my.PrefPrivacyFragment
+import com.sjk.yoram.view.fragment.main.my.*
 import com.sjk.yoram.viewmodel.AdminBannerViewModel
+import com.sjk.yoram.viewmodel.AdminDepartmentViewModel
 import com.sjk.yoram.viewmodel.FragPrivacyViewModel
 import com.sjk.yoram.viewmodel.PrefViewModel
 
@@ -23,6 +21,7 @@ class PreferenceActivity: AppCompatActivity() {
     private lateinit var viewModel: PrefViewModel
     private lateinit var privacyViewModel: FragPrivacyViewModel
     private lateinit var adminBannerViewModel: AdminBannerViewModel
+    private lateinit var adminDepartmentViewModel: AdminDepartmentViewModel
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -32,6 +31,7 @@ class PreferenceActivity: AppCompatActivity() {
         viewModel = ViewModelProvider(this, PrefViewModel.Factory(application))[PrefViewModel::class.java]
         privacyViewModel = ViewModelProvider(this, FragPrivacyViewModel.Factory(application))[FragPrivacyViewModel::class.java]
         adminBannerViewModel = ViewModelProvider(this, AdminBannerViewModel.Factory(application))[AdminBannerViewModel::class.java]
+        adminDepartmentViewModel = ViewModelProvider(this, AdminDepartmentViewModel.Factory(application))[AdminDepartmentViewModel::class.java]
 
         binding.vm = viewModel
         binding.lifecycleOwner = this
@@ -40,6 +40,7 @@ class PreferenceActivity: AppCompatActivity() {
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.my_pref_frame) as NavHostFragment
         navController = navHostFragment.navController
+
 
         viewModel.naviEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
@@ -66,6 +67,7 @@ class PreferenceActivity: AppCompatActivity() {
                     is AdminBannerFragment -> adminBannerViewModel.changedValueApply()
                     is AdminWorshipFragment -> viewModel.changedWorshipTypeApply()
                     is AdminGiveTypeFragment -> viewModel.changedGiveTypeApply()
+                    is AdminDepartmentFragment -> adminDepartmentViewModel.changedDepartmentListApply()
                 }
             }
         }
@@ -124,6 +126,12 @@ class PreferenceActivity: AppCompatActivity() {
             R.id.adminGiveTypeFragment -> {
                 if (viewModel.giveTypeChanged.value!!) {
                     navController.navigate(R.id.action_adminGiveTypeFragment_to_prefApplyDialogFragment)
+                    true
+                } else navController.navigateUp()
+            }
+            R.id.adminDepartmentFragment -> {
+                if (adminDepartmentViewModel.isChanged.value!!) {
+                    navController.navigate(R.id.action_adminDepartmentFragment_to_prefApplyDialogFragment)
                     true
                 } else navController.navigateUp()
             }

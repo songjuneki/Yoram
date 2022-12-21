@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogMyAdminGiveEditBinding
 import com.sjk.yoram.viewmodel.PrefViewModel
 
@@ -36,7 +38,7 @@ class EditGiveTypeDialogFragment: BottomSheetDialogFragment() {
                     setTitle("삭제하시겠습니까?")
                     setMessage("선택한 헌금 타입을 삭제합니다.")
                     setPositiveButton("삭제", it)
-                    setNegativeButton("취소") { p0, _ -> p0.dismiss()}
+                    setNegativeButton("취소") { p0, _ -> p0.dismiss() }
                 }
                 dialog.show()
             }
@@ -46,7 +48,7 @@ class EditGiveTypeDialogFragment: BottomSheetDialogFragment() {
                 val dialog = AlertDialog.Builder(requireContext()).apply {
                     setTitle("오류")
                     setMessage("사용중인 헌금 타입입니다. 수정만 가능합니다.")
-                    setPositiveButton("확인") { p0, _ -> p0.dismiss()}
+                    setPositiveButton("확인") { p0, _ -> p0.dismiss() }
                 }
                 dialog.show()
             }

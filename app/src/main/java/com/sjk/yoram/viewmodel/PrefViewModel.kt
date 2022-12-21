@@ -148,6 +148,8 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
             R.id.dialog_my_admin_give_edit_apply -> applyGiveTypeEdited()
             R.id.dialog_my_pref_logout_ok -> { _logoutEvent.value = Event(Unit) }
             R.id.dialog_my_pref_apply_cancel -> { _applyCancelEvent.value = Event(Unit) }
+            R.id.frag_my_pref_admin_department -> moveFragment(R.id.action_prefFragment_to_adminDepartmentFragment)
+            R.id.dialog_my_admin_department_edit_cancel -> _backEvent.value = Event(Unit)
         }
     }
     fun backBtn() {

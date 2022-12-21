@@ -52,6 +52,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_prefFragment_to_adminDepartmentFragment"
+            app:destination="@id/adminDepartmentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/prefRuleFragment"
@@ -164,4 +171,29 @@
         android:name="com.sjk.yoram.view.fragment.main.my.EditGiveTypeDialogFragment"
         android:label="EditGiveTypeDialogFragment"
         tools:layout="@layout/dialog_my_admin_give_edit"/>
+    <fragment
+        android:id="@+id/adminDepartmentFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.AdminDepartmentFragment"
+        android:label="AdminDepartmentFragment"
+        tools:layout="@layout/frag_my_pref_admin_department">
+        <action
+            android:id="@+id/action_adminDepartmentFragment_to_editDepartmentDialogFragment"
+            app:destination="@id/editDepartmentDialogFragment"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom"/>
+        <action
+            android:id="@+id/action_adminDepartmentFragment_to_prefApplyDialogFragment"
+            app:destination="@id/prefApplyDialogFragment"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_top_to_bottom"
+            app:popEnterAnim="@anim/anim_bottom_to_top"
+            app:popExitAnim="@anim/anim_top_to_bottom" />
+    </fragment>
+    <dialog
+        android:id="@+id/editDepartmentDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.EditDepartmentDialogFragment"
+        android:label="EditDepartmentDialogFragment"
+        tools:layout="@layout/dialog_my_admin_department_edit"/>
 </navigation>

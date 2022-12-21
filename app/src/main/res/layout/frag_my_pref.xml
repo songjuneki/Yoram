@@ -9,6 +9,7 @@
             type="com.sjk.yoram.viewmodel.PrefViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/frag_my_pref_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/xd_light_background"
@@ -557,8 +558,101 @@
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_give"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:visibility="visible"
+                    android:id="@+id/frag_my_pref_admin_department"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
+                    android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:soundEffectsEnabled="true"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_give"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
+                    <TextView
+                        android:id="@+id/frag_my_pref_admin_department_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="부서 관리"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"/>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/xd_light_text_hint"
+                        android:rotation="270"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_department"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:visibility="visible"
+                    android:id="@+id/frag_my_pref_admin_position"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
+                    android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:soundEffectsEnabled="true"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_department"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
+                    <TextView
+                        android:id="@+id/frag_my_pref_admin_position_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="직책 관리"
+                        android:textSize="16sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_medium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"/>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/xd_light_text_hint"
+                        android:rotation="270"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_position"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
+                    app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

@@ -1,6 +1,7 @@
 package com.sjk.yoram.view.fragment.main.my
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +26,16 @@ class PreferenceFragment: Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        binding.fragMyPrefScroll.scrollY = savedInstanceState?.getInt("scroll") ?: 0
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("scroll", binding.fragMyPrefScroll.scrollY)
     }
 }
