@@ -185,19 +185,6 @@ class AdminDepartmentViewModel(private val departmentRepository: DepartmentRepos
         }
     }
 
-    private fun sortDepartmentCodeNumber() {
-        val list = editableDepartmentList.toList().toMutableList()
-        val addedList = list.filter { it.code < 0 }.toMutableList()
-        val existedList = list.filter { it.code > 0 }.toMutableList()
-        val sortedList = mutableListOf<Department>()
-
-        addedList.forEachIndexed { i, dpt ->
-            val currentParentNum = dpt.parent.toString()[0].digitToInt()
-            var maxCode = list.sortedBy { it.code }.findLast { it.code.toString()[0].digitToInt() == currentParentNum }?.code
-
-            addedList[i].code = maxCode?.plus(100000) ?: -1
-        }
-    }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

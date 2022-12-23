@@ -190,6 +190,24 @@ class DepartmentRepository(private val application: Application) {
         return result.body() ?: false
     }
 
+    suspend fun getDtoPositionList(): MutableList<Position> {
+        val result = MyRetrofit.dptmentApi.getAllPositions()
+        if (!result.isSuccessful) return mutableListOf()
+        return result.body() ?: mutableListOf()
+    }
+
+    suspend fun getCheckPositionIsUsing(code: Int): Boolean {
+        val result = MyRetrofit.dptmentApi.getCheckPositionIsUsing(code)
+        if (!result.isSuccessful) return false
+        return result.body() ?: false
+    }
+
+    suspend fun uploadPositionList(posList: List<Position>): Boolean {
+        val result = MyRetrofit.dptmentApi.uploadPositionList(posList)
+        if (!result.isSuccessful) return false
+        return result.body() ?: false
+    }
+
     companion object {
         private var instance: DepartmentRepository? = null
         fun getInstance(application: Application): DepartmentRepository? {

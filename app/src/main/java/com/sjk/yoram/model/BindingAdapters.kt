@@ -412,4 +412,10 @@ object BindingAdapters {
     fun setAdminDepartmentList(view: RecyclerView, list: MutableList<com.sjk.yoram.model.dto.Department>) {
         (view.adapter as AdminDepartmentListAdapter).submitList(list)
     }
+
+    @BindingAdapter("AdminPositionList")
+    @JvmStatic
+    fun setAdminPositionList(view: RecyclerView, list: MutableList<Position>) {
+        (view.adapter as AdminPositionListAdapter).submitList(list)
+    }
 }

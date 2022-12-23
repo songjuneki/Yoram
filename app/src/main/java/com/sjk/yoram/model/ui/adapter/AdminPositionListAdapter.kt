@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ListAdminDepartmentItemBinding
-import com.sjk.yoram.model.dto.Department
 import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.ui.listener.AdminDepartmentClickListener
 
-class AdminDepartmentListAdapter(private val clickListener: AdminDepartmentClickListener, private val currentCode: Int = 0): ListAdapter<Department, AdminDepartmentListAdapter.ViewHolder>(diffUtil) {
+class AdminPositionListAdapter(private val clickListener: AdminDepartmentClickListener, private val currentCode: Int = 0): ListAdapter<Position, AdminPositionListAdapter.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ListAdminDepartmentItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
         R.layout.list_admin_department_item,
@@ -28,56 +27,50 @@ class AdminDepartmentListAdapter(private val clickListener: AdminDepartmentClick
     }
 
     override fun getItemCount(): Int {
-        return currentList.count { it.parent == currentCode }
+        return currentList.count { it.cat == currentCode }
     }
 
-    override fun getItem(position: Int): Department {
-        return currentList.filter { it.parent == currentCode }[position]
+    override fun getItem(position: Int): Position {
+        return currentList.filter { it.cat == currentCode }[position]
     }
+
 
     inner class ViewHolder(private val binding: ListAdminDepartmentItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Department) {
-            val subAdapter = AdminDepartmentListAdapter(this@AdminDepartmentListAdapter.clickListener, item.code)
+        fun bind(item: Position) {
             var isExpanded = false
-            var listCount = currentList.count { it.parent == item.code }
+            binding.isExpanded = isExpanded
+
+            val subAdapter = AdminPositionListAdapter(this@AdminPositionListAdapter.clickListener, item.code)
+
+            var listCount = currentList.count { it.cat == item.code }
             binding.listAdminDepartmentItemRootName.text = item.name
             binding.listAdminDepartmentItemSub.adapter = subAdapter
             subAdapter.submitList(currentList)
 
             binding.listAdminDepartmentItemRootLayout.setOnClickListener {
                 isExpanded = !isExpanded
+                binding.isExpanded = isExpanded
 
                 if (listCount < 1)
                     binding.listAdminDepartmentItemSubEmpty.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 else
-                    binding.listAdminDepartmentItemSub.visibility = if (isExpanded) View.VISIBLE else View.GONE
-
-                if (isExpanded)
-                    binding.listAdminDepartmentItemRootArrow.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_baseline_arrow_drop_down_24))
-                else
-                    binding.listAdminDepartmentItemRootArrow.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_baseline_arrow_right_24))
+                    binding.listAdminDepartmentItemSubEmpty.visibility = View.GONE
             }
 
-
-            if (listCount > 0) {
-                binding.listAdminDepartmentItemSubEmpty.visibility = View.GONE
-            } else {
-                binding.listAdminDepartmentItemSub.visibility = View.GONE
-            }
 
             binding.listAdminDepartmentItemRootEdit.setOnClickListener {
-                this@AdminDepartmentListAdapter.clickListener.onEditClick(item.code)
+                this@AdminPositionListAdapter.clickListener.onEditClick(item.code)
             }
             binding.listAdminDepartmentItemRootAdd.setOnClickListener {
-                this@AdminDepartmentListAdapter.clickListener.onAddClick(item.code)
+                this@AdminPositionListAdapter.clickListener.onAddClick(item.code)
             }
         }
     }
 
     companion object {
-        val diffUtil = object: DiffUtil.ItemCallback<Department>() {
-            override fun areItemsTheSame(oldItem: Department, newItem: Department): Boolean = oldItem.code == newItem.code
-            override fun areContentsTheSame(oldItem: Department, newItem: Department): Boolean = oldItem == newItem
+        val diffUtil = object: DiffUtil.ItemCallback<Position>() {
+            override fun areItemsTheSame(oldItem: Position, newItem: Position): Boolean = oldItem.code == newItem.code && oldItem.name == newItem.name && oldItem.cat == newItem.cat
+            override fun areContentsTheSame(oldItem: Position, newItem: Position): Boolean = oldItem == newItem
         }
     }
 }

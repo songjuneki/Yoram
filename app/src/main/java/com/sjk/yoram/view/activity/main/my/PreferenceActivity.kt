@@ -11,10 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMyPrefBinding
 import com.sjk.yoram.view.fragment.main.my.*
-import com.sjk.yoram.viewmodel.AdminBannerViewModel
-import com.sjk.yoram.viewmodel.AdminDepartmentViewModel
-import com.sjk.yoram.viewmodel.FragPrivacyViewModel
-import com.sjk.yoram.viewmodel.PrefViewModel
+import com.sjk.yoram.viewmodel.*
 
 class PreferenceActivity: AppCompatActivity() {
     private val binding by lazy { ActivityMyPrefBinding.inflate(layoutInflater) }
@@ -22,6 +19,7 @@ class PreferenceActivity: AppCompatActivity() {
     private lateinit var privacyViewModel: FragPrivacyViewModel
     private lateinit var adminBannerViewModel: AdminBannerViewModel
     private lateinit var adminDepartmentViewModel: AdminDepartmentViewModel
+    private lateinit var adminPositionViewModel: AdminPositionViewModel
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -32,6 +30,7 @@ class PreferenceActivity: AppCompatActivity() {
         privacyViewModel = ViewModelProvider(this, FragPrivacyViewModel.Factory(application))[FragPrivacyViewModel::class.java]
         adminBannerViewModel = ViewModelProvider(this, AdminBannerViewModel.Factory(application))[AdminBannerViewModel::class.java]
         adminDepartmentViewModel = ViewModelProvider(this, AdminDepartmentViewModel.Factory(application))[AdminDepartmentViewModel::class.java]
+        adminPositionViewModel = ViewModelProvider(this, AdminPositionViewModel.Factory(application))[AdminPositionViewModel::class.java]
 
         binding.vm = viewModel
         binding.lifecycleOwner = this
@@ -68,6 +67,7 @@ class PreferenceActivity: AppCompatActivity() {
                     is AdminWorshipFragment -> viewModel.changedWorshipTypeApply()
                     is AdminGiveTypeFragment -> viewModel.changedGiveTypeApply()
                     is AdminDepartmentFragment -> adminDepartmentViewModel.changedDepartmentListApply()
+                    is AdminPositionFragment -> adminPositionViewModel.changedPositionListApply()
                 }
             }
         }
@@ -132,6 +132,12 @@ class PreferenceActivity: AppCompatActivity() {
             R.id.adminDepartmentFragment -> {
                 if (adminDepartmentViewModel.isChanged.value!!) {
                     navController.navigate(R.id.action_adminDepartmentFragment_to_prefApplyDialogFragment)
+                    true
+                } else navController.navigateUp()
+            }
+            R.id.adminPositionFragment -> {
+                if (adminPositionViewModel.isChanged.value!!) {
+                    navController.navigate(R.id.action_adminPositionFragment_to_prefApplyDialogFragment)
                     true
                 } else navController.navigateUp()
             }

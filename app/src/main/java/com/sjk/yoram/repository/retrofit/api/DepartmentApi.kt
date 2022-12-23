@@ -18,6 +18,9 @@ interface DepartmentApi {
     suspend fun getAllDepartmentList(): Response<MutableList<Department>>
     @GET("dpt")
     suspend fun loadDepartmentbyCode(@Query("code")code: Int): Department
+
+    @GET("pos/all")
+    suspend fun getAllPositions(): Response<MutableList<Position>>
     @GET("pos/parent")
     suspend fun getAllTopPositions(): MutableList<Position>
     @GET("pos/child")
@@ -32,4 +35,9 @@ interface DepartmentApi {
     suspend fun getCheckDepartmentIsUsing(@Query("code")code: Int): Response<Boolean>
     @POST("dpt/edit")
     suspend fun uploadDepartmentList(@Body departmentList: List<Department>): Response<Boolean>
+
+    @GET("pos/edit/check")
+    suspend fun getCheckPositionIsUsing(@Query("code")code: Int): Response<Boolean>
+    @POST("pos/edit")
+    suspend fun uploadPositionList(@Body posList: List<Position>): Response<Boolean>
 }
