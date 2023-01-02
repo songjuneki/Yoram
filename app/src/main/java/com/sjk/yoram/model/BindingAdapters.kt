@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.budiyev.android.codescanner.*
@@ -417,5 +418,25 @@ object BindingAdapters {
     @JvmStatic
     fun setAdminPositionList(view: RecyclerView, list: MutableList<Position>) {
         (view.adapter as AdminPositionListAdapter).submitList(list)
+    }
+
+    @BindingAdapter("RefreshEvent")
+    @JvmStatic
+    fun setRefreshRecyclerAction(view: SwipeRefreshLayout, action: () -> Unit) {
+        view.setOnRefreshListener {
+            action()
+        }
+    }
+
+    @BindingAdapter("isRefreshing")
+    @JvmStatic
+    fun setRefreshLayoutIsRefresh(view: SwipeRefreshLayout, isRefresh: Boolean) {
+        view.isRefreshing = isRefresh
+    }
+
+    @BindingAdapter("AdminNewUserList")
+    @JvmStatic
+    fun setAdminNewUserList(view: RecyclerView, list: MutableList<NewUserForAdmin>) {
+        (view.adapter as AdminNewUserListAdapter).submitList(list)
     }
 }

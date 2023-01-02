@@ -20,6 +20,7 @@ class PreferenceActivity: AppCompatActivity() {
     private lateinit var adminBannerViewModel: AdminBannerViewModel
     private lateinit var adminDepartmentViewModel: AdminDepartmentViewModel
     private lateinit var adminPositionViewModel: AdminPositionViewModel
+    private lateinit var adminNewUserViewModel: AdminNewUserViewModel
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -31,6 +32,7 @@ class PreferenceActivity: AppCompatActivity() {
         adminBannerViewModel = ViewModelProvider(this, AdminBannerViewModel.Factory(application))[AdminBannerViewModel::class.java]
         adminDepartmentViewModel = ViewModelProvider(this, AdminDepartmentViewModel.Factory(application))[AdminDepartmentViewModel::class.java]
         adminPositionViewModel = ViewModelProvider(this, AdminPositionViewModel.Factory(application))[AdminPositionViewModel::class.java]
+        adminNewUserViewModel = ViewModelProvider(this, AdminNewUserViewModel.Factory(application))[AdminNewUserViewModel::class.java]
 
         binding.vm = viewModel
         binding.lifecycleOwner = this

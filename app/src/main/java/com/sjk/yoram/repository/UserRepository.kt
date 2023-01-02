@@ -300,6 +300,13 @@ class UserRepository(private val application: Application) {
         return MyRetrofit.userApi.editUserPrivacyPolicy(pp)
     }
 
+    suspend fun getNewUserList(request: AdminInfo): MutableList<NewUserForAdmin> {
+        val res = MyRetrofit.userApi.getNewUserList(request)
+        if (!res.isSuccessful)
+            return mutableListOf()
+        return res.body() ?: mutableListOf()
+    }
+
     companion object {
         private var instance: UserRepository? = null
         fun getInstance(application: Application): UserRepository? {

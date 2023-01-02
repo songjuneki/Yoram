@@ -66,6 +66,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_prefFragment_to_adminNewUserFragment"
+            app:destination="@id/adminNewUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/prefRuleFragment"
@@ -228,4 +235,9 @@
         android:name="com.sjk.yoram.view.fragment.main.my.EditPositionDialogFragment"
         android:label="EditPositionDialogFragment"
         tools:layout="@layout/dialog_my_admin_position_edit"/>
+    <fragment
+        android:id="@+id/adminNewUserFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.AdminNewUserFragment"
+        android:label="AdminNewUserFragment"
+        tools:layout="@layout/frag_my_pref_admin_new_user" />
 </navigation>

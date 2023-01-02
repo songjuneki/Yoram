@@ -1,12 +1,11 @@
 package com.sjk.yoram.repository.retrofit.api
 
-import androidx.annotation.Nullable
+import com.sjk.yoram.model.AdminInfo
 import com.sjk.yoram.model.LoginCheck
 import com.sjk.yoram.model.NewUser
 import com.sjk.yoram.model.dto.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 import java.math.BigInteger
@@ -59,6 +58,9 @@ interface UserApi {
 
     @GET("user/pp")
     suspend fun getUserPrivacyPolicy(@Query("id")id: Int): UserPrivacyPolicy
+
+    @POST("user/admin/new-user")
+    suspend fun getNewUserList(@Body request: AdminInfo): Response<MutableList<NewUserForAdmin>>
 
     // UPDATE
     @Multipart
