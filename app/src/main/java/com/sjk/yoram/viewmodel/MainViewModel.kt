@@ -14,6 +14,9 @@ import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MainViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
@@ -46,15 +49,27 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     val goDptSearchEvent: LiveData<Event<Unit>>
         get() = _goDptSearchEvent
 
-
     private val _moveFragmentEvent = MutableLiveData<Event<Int>>()
     val moveFragmentEvent: LiveData<Event<Int>>
         get() = _moveFragmentEvent
+
+    private val _privacyAgreeEvent = MutableLiveData<Event<Unit>>()
+    val privacyAgreeEvent: LiveData<Event<Unit>>
+        get() = _privacyAgreeEvent
+
+    private val _showExpiredDialog = MutableLiveData<Boolean>(false)
+    val showExpiredDialog: LiveData<Boolean>
+        get() = _showExpiredDialog
+
+    private val _backEvent = MutableLiveData<Event<Unit>>()
+    val backEvent: LiveData<Event<Unit>>
+        get() = _backEvent
 
 
     init {
         loadLoginData()
         loadGiveAmount()
+        checkRuleAgreeExpire()
     }
 
     fun fragMoveEvent(btnId: Int) {
@@ -63,6 +78,7 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
             R.id.home_dpt_search -> { _moveFragmentEvent.value = Event(R.id.navi_dptment); _goDptSearchEvent.value = Event(Unit) }
             R.id.frag_my_user_menus_board -> { _moveFragmentEvent.value = Event(R.id.navi_board) }
             R.id.home_checkin -> { _moveFragmentEvent.value = Event(R.id.navi_id) }
+            R.id.main_dialog_update_layout -> _privacyAgreeEvent.value = Event(Unit)
         }
     }
 
@@ -89,6 +105,29 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
                 total = userRepository.getCurrentMonthGiveAmount(id)
             val moneyFormat = DecimalFormat("#,###")
             _giveAmount.value = moneyFormat.format(total)
+        }
+    }
+
+    fun checkRuleAgreeExpire() {
+        viewModelScope.async {
+            val detail = userRepository.getUserDetail(userRepository.getLoginID())
+            Log.d("JKJK", "my=$detail")
+            if (detail.privacy_agree_date.isNullOrEmpty()) return@async
+
+            val privacyDateStr = detail.privacy_agree_date
+            val privacyDate = LocalDateTime.parse(privacyDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            _showExpiredDialog.value = privacyDate.plusMonths(6).isBefore(LocalDateTime.now().minusDays(1))
+            Log.d("JKJK", "isExpired? ${_showExpiredDialog.value}")
+        }
+    }
+
+    fun privacyRuleAgreeEvent() {
+        viewModelScope.launch {
+            val now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val detail = userRepository.getUserDetail(_loginData.value!!.id)
+            detail.privacy_agree_date = now
+
+            if (userRepository.editUserInfo(detail)) _backEvent.value = Event(Unit)
         }
     }
 

@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         myFragViewModel = ViewModelProvider(this, FragMyViewModel.Factory(application))[FragMyViewModel::class.java]
 
         binding.vm = viewModel
+        binding.lifecycleOwner = this
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.mainFrame) as NavHostFragment
         navController = navHostFragment.navController
@@ -71,6 +72,12 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNavi.selectedItemId = it
             }
         }
+
+        viewModel.privacyAgreeEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                navController.navigate(R.id.action_global_main_to_privacyAgreeFragment)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -88,6 +95,13 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "카메라 권한 거부", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadLoginData()
+        viewModel.loadGiveAmount()
+        viewModel.checkRuleAgreeExpire()
     }
 
 }

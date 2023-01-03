@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        android:background="@color/xd_light_background"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/dialog_privacy_rule_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/dialog_privacy_rule_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+        <TextView
+            android:id="@+id/dialog_privacy_rule_title"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:text="개인정보처리방침"
+            android:textSize="20sp"
+            android:textColor="@color/xd_light_title"
+            android:fontFamily="@font/pretendard_semibold"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/dialog_privacy_rule_body"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="wrap"
+            android:fadingEdge="horizontal"
+            android:requiresFadingEdge="vertical"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/dialog_privacy_rule_title"
+            app:layout_constraintLeft_toLeftOf="@id/dialog_privacy_rule_gv05"
+            app:layout_constraintRight_toRightOf="@id/dialog_privacy_rule_gv95"
+            app:layout_constraintBottom_toTopOf="@id/dialog_privacy_rule_agree">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/privacy_policy_rule"
+                android:textSize="12sp"
+                android:textColor="@color/xd_light_title"
+                android:fontFamily="@font/pretendard_regular"
+                android:paddingBottom="32dp"/>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_privacy_rule_agree"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="동의하기"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
+            app:layout_constraintTop_toBottomOf="@id/dialog_privacy_rule_body"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/xd_light_dot_indicator_enabled"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> vm.privacyRuleAgreeEvent()}"
+            android:clickable="true"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -13,6 +13,8 @@ data class MyLoginData(
     var position_name: String,
     var permission: Int,
     var attend_cnt: Int,
+    var app_agree_date: String,
+    var privacy_agree_date: String
 ) {
-    constructor(): this(-1, "", "익명", true, -1, "성도",-1, "성도", -1, "성도", 0, 0)
+    constructor(): this(-1, "", "익명", true, -1, "성도",-1, "성도", -1, "성도", 0, 0, "", "")
 }
