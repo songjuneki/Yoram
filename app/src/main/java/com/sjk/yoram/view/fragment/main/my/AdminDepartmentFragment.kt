@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragMyPrefAdminDepartmentBinding
-import com.sjk.yoram.model.Event
 import com.sjk.yoram.viewmodel.AdminDepartmentViewModel
 import com.sjk.yoram.viewmodel.PrefViewModel
 

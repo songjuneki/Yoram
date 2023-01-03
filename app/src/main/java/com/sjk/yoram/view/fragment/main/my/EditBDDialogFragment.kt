@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sjk.yoram.R
-import com.sjk.yoram.databinding.DialogBirthdayBinding
 import com.sjk.yoram.databinding.DialogEditBirthdayBinding
 import com.sjk.yoram.viewmodel.EditViewModel
-import com.sjk.yoram.viewmodel.InitViewModel
 import java.text.SimpleDateFormat
 
 class EditBDDialogFragment: BottomSheetDialogFragment() {

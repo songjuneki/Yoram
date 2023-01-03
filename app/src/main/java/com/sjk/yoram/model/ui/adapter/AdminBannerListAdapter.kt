@@ -14,7 +14,6 @@ import com.sjk.yoram.databinding.ListAdminBannerItemBinding
 import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.model.ui.listener.AdminBannerClickListener
 import com.sjk.yoram.model.ui.listener.AdminBannerItemTouchHelperListener
-import kotlin.math.abs
 
 class AdminBannerListAdapter(private val clickListener: AdminBannerClickListener): ListAdapter<Banner, AdminBannerListAdapter.ViewHolder>(diffUtil), AdminBannerItemTouchHelperListener {
     private lateinit var dragListener: ItemDragListener

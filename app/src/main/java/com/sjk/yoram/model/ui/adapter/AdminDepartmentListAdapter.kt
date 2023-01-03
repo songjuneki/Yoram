@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ListAdminDepartmentItemBinding
 import com.sjk.yoram.model.dto.Department
-import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.ui.listener.AdminDepartmentClickListener
 
 class AdminDepartmentListAdapter(private val clickListener: AdminDepartmentClickListener, private val currentCode: Int = 0): ListAdapter<Department, AdminDepartmentListAdapter.ViewHolder>(diffUtil) {

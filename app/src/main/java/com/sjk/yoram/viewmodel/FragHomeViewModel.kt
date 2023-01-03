@@ -6,7 +6,6 @@ import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class FragHomeViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {

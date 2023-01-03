@@ -11,7 +11,6 @@ import com.sjk.yoram.R
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.MutableListLiveData
 import com.sjk.yoram.model.dto.Position
-import com.sjk.yoram.model.ui.adapter.AdminDepartmentListAdapter
 import com.sjk.yoram.model.ui.adapter.AdminPositionListAdapter
 import com.sjk.yoram.model.ui.listener.AdminDepartmentClickListener
 import com.sjk.yoram.repository.DepartmentRepository

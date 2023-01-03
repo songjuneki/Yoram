@@ -1,21 +1,12 @@
 package com.sjk.yoram.model
 
 import android.util.Log
-import com.sjk.yoram.model.dto.*
-import com.sjk.yoram.model.dto.Department
 import com.sjk.yoram.repository.retrofit.api.DepartmentApi
 import com.sjk.yoram.repository.retrofit.api.ServerApi
 import com.sjk.yoram.repository.retrofit.api.UserApi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.callbackFlow
-import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit

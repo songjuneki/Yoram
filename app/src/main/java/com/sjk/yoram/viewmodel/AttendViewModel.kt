@@ -1,23 +1,12 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
-import android.graphics.Color
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.*
-import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
-import com.kizitonwose.calendarview.model.DayOwner
-import com.kizitonwose.calendarview.ui.DayBinder
-import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.sjk.yoram.R
 import com.sjk.yoram.model.Event
-import com.sjk.yoram.model.MutableListLiveData
-import com.sjk.yoram.model.MutableUserLiveData
-import com.sjk.yoram.model.dto.Attend
-import com.sjk.yoram.model.ui.calendar.DayViewContainer
-import com.sjk.yoram.model.ui.calendar.MonthViewContainer
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.async
 import java.time.LocalDate

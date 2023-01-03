@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.sjk.yoram.R
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.GiveListItem
-import com.sjk.yoram.model.MutableListLiveData
 import com.sjk.yoram.model.ui.adapter.GiveListAdapter
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository

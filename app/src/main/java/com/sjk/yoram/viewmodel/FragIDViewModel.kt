@@ -10,9 +10,7 @@ import com.sjk.yoram.R
 import com.sjk.yoram.model.AESUtil
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.MutableListLiveData
-import com.sjk.yoram.model.MyRetrofit
 import com.sjk.yoram.model.dto.Attend
-import com.sjk.yoram.model.dto.MyLoginData
 import com.sjk.yoram.model.dto.WorshipType
 import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.repository.ServerRepository

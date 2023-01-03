@@ -13,11 +13,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class MainViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
     private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)

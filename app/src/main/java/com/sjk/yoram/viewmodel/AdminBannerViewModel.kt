@@ -16,7 +16,6 @@ import com.sjk.yoram.model.ui.decorator.AdminBannerTouchHelper
 import com.sjk.yoram.model.ui.listener.AdminBannerClickListener
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class AdminBannerViewModel(private val serverRepository: ServerRepository, private val userRepository: UserRepository): ViewModel() {

@@ -10,7 +10,6 @@ import com.sjk.yoram.model.dto.Department
 import com.sjk.yoram.model.ui.adapter.AdminDepartmentListAdapter
 import com.sjk.yoram.model.ui.listener.AdminDepartmentClickListener
 import com.sjk.yoram.repository.DepartmentRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class AdminDepartmentViewModel(private val departmentRepository: DepartmentRepository): ViewModel() {

@@ -1,13 +1,7 @@
 package com.sjk.yoram.model.ui.adapter
 
-import android.graphics.Color
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.text.set
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,7 +12,6 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DptUserItemBinding
 import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.model.ui.listener.UserItemClickListener
-import io.github.bangjunyoung.KoreanTextMatcher
 
 class SimpleUserListAdapter(private val clickListener: UserItemClickListener): ListAdapter<SimpleUser, SimpleUserListAdapter.ViewHolder>(diffUtil) {
     private var keyword = ""

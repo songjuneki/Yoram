@@ -3,10 +3,8 @@ package com.sjk.yoram.view.fragment.main.my
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -26,7 +24,6 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
 import java.io.File
-import java.text.SimpleDateFormat
 
 class EditAvatarDialog: BottomSheetDialogFragment() {
     private lateinit var binding: DialogAvatarBinding

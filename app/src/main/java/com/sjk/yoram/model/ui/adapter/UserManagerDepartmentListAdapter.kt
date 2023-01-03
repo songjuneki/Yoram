@@ -3,14 +3,10 @@ package com.sjk.yoram.model.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ListUserManagerDptBinding
 import com.sjk.yoram.model.Department
