@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="mainVM"
+            type="com.sjk.yoram.viewmodel.MainViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -117,7 +122,7 @@
                 android:textColor="@color/xd_light_background"
                 android:textSize="16sp"
                 android:fontFamily="@font/pretendard_medium"
-                android:onClick="@{}"
+                android:onClick="@{(v) -> mainVM.fragMoveEvent(v.id)}"
                 android:layout_marginTop="32dp"
                 app:layout_constraintTop_toBottomOf="@id/frag_board_working_card"
                 app:layout_constraintLeft_toLeftOf="@id/frag_board_gv05"

@@ -76,6 +76,7 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
             R.id.frag_my_user_menus_board -> { _moveFragmentEvent.value = Event(R.id.navi_board) }
             R.id.home_checkin -> { _moveFragmentEvent.value = Event(R.id.navi_id) }
             R.id.main_dialog_update_layout -> _privacyAgreeEvent.value = Event(Unit)
+            R.id.frag_board_back_btn -> _moveFragmentEvent.value = Event(R.id.navi_home)
         }
     }
 
