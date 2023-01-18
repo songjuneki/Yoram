@@ -74,8 +74,8 @@ class DepartmentSubListAdapter(private val permission: Int, private val clickLis
     }
     inner class UserViewHolder(private val binding: DptUserItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SimpleUser) {
-            var avatar = if (item.avatar.isNullOrEmpty()) "http://3.39.51.49:8080/api/user/avatar?id=-1" else item.avatar
-            if (permission < 1) avatar = "http://3.39.51.49:8080/api/user/avatar?id=-1"
+            var avatar = if (item.avatar.isNullOrEmpty()) "http://hyuny840501.cafe24.com:8080/api/user/avatar?id=-1" else item.avatar
+            if (permission < 1) avatar = "http://hyuny840501.cafe24.com:8080/api/user/avatar?id=-1"
             binding.dptAvatarIv.load(avatar) {
                 crossfade(true)
                 crossfade(500)

@@ -108,13 +108,11 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     fun checkRuleAgreeExpire() {
         viewModelScope.async {
             val detail = userRepository.getUserDetail(userRepository.getLoginID())
-            Log.d("JKJK", "my=$detail")
             if (detail.privacy_agree_date.isNullOrEmpty()) return@async
 
             val privacyDateStr = detail.privacy_agree_date
             val privacyDate = LocalDateTime.parse(privacyDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             _showExpiredDialog.value = privacyDate.plusMonths(6).isBefore(LocalDateTime.now().minusDays(1))
-            Log.d("JKJK", "isExpired? ${_showExpiredDialog.value}")
         }
     }
 

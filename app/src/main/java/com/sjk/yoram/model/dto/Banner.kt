@@ -13,7 +13,7 @@ data class Banner(
     var show: Boolean
 ) {
     companion object {
-        const val URL = "http://3.39.51.49:8080/api/banner?id="
+        const val URL = "http://hyuny840501.cafe24.com:8080/api/banner?id="
     }
     fun isEqual(other: Banner?): Boolean {
         val flag = this.title == other!!.title

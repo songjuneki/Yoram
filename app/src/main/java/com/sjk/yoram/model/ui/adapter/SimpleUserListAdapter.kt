@@ -26,7 +26,7 @@ class SimpleUserListAdapter(private val clickListener: UserItemClickListener): L
 
     inner class ViewHolder(private val binding: DptUserItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SimpleUser, listener: UserItemClickListener) {
-            var avatar = if (item.avatar.isNullOrEmpty()) "http://3.39.51.49:8080/api/user/avatar?id=-1" else item.avatar
+            var avatar = if (item.avatar.isNullOrEmpty()) "http://hyuny840501.cafe24.com:8080/api/user/avatar?id=-1" else item.avatar
             binding.dptAvatarIv.load(avatar) {
                 crossfade(true)
                 crossfade(500)

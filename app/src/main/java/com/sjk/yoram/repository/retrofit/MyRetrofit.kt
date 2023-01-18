@@ -12,7 +12,7 @@ import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 object MyRetrofit {
-    const val SERVER = "http://3.39.51.49:8080/api/"
+    const val SERVER = "http://hyuny840501.cafe24.com:8080/api/"
 
     private fun getRetrofit(): Retrofit {
         val okHttp: OkHttpClient = OkHttpClient().newBuilder()

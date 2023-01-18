@@ -15,6 +15,8 @@ import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.*
 import java.security.MessageDigest
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.experimental.and
 
 class InitViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
@@ -294,6 +296,9 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     }
 
     fun checkAgree(list: MutableLiveData<MutableList<Boolean>>, bool: Boolean, index: Int) {
+        if (index == 5) _newUser.app_agree_date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        if (index == 6) _newUser.privacy_agree_date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
         setRequireBoolean(list, bool, index)
     }
 
@@ -329,8 +334,6 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         _newUser.pw = EncryptKey(newPw.value!!)
         _newUser.sex = newSex.value == SexState.MALE
         _newUser.birth = newBD.value!!
-        Log.d("JKJK", "Sign up ${newName.value}, ${newPw.value}, ${newSex.value}, ${newBD.value}")
-        Log.d("JKJK", "Sign up newUser=$_newUser")
         changeFragment(R.id.action_initSignUp_to_initSignUpAdd, InitFragmentType.InitFragment_SIGNUP_ADD)
     }
 
@@ -346,12 +349,10 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             _newUser.car = newCarNo.value!!
             val id = userRepository.userSignUp(_newUser)
             if (id == -1) {
-                Log.d("JKJK", "signup error")
                 hideLoading()
                 return@async
             }
             btnLogin(_newUser.name, newPw.value ?: AESUtil().Encrypt(_newUser.pw))
-            Log.d("JKJK", "signup complete $_newUser\nid=$id")
         }
     }
 

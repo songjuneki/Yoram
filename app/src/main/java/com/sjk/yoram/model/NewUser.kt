@@ -9,7 +9,9 @@ data class NewUser(
     var tel: String,
     var address: String,
     var address_more: String,
-    var car: String
+    var car: String,
+    var app_agree_date: String,
+    var privacy_agree_date: String
 ) {
-    constructor(): this("", true, "","", "", "", "", "", "")
+    constructor(): this("", true, "","", "", "", "", "", "", "", "")
 }
