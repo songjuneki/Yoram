@@ -37,6 +37,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_initLoginFragment_to_initFindPWFragment"
+            app:destination="@id/initFindPWFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/initSignUpFragment"
@@ -94,4 +101,9 @@
         android:name="com.sjk.yoram.view.fragment.init.InitAgreeDialogFragment"
         android:label="InitAppAgreeDialogFragment"
         tools:layout="@layout/dialog_agree"/>
+    <fragment
+        android:id="@+id/initFindPWFragment"
+        android:name="com.sjk.yoram.view.fragment.init.InitFindPWFragment"
+        android:label="InitFindPWFragment"
+        tools:layout="@layout/frag_init_find_pw"/>
 </navigation>

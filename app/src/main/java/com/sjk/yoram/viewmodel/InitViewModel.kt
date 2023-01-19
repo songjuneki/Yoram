@@ -124,7 +124,10 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
             R.id.init_signup_complete_btn -> btnSignUpComplete()
 
-            R.id.init_login_need_help, R.id.init_login_find_pw,  -> showToastMsg("기능 준비중입니다.")
+            R.id.init_login_need_help -> showToastMsg("현재 기능 준비중입니다. 관리자에게 문의해주세요")
+            R.id.init_login_find_pw -> changeFragment(R.id.action_initLoginFragment_to_initFindPWFragment, InitFragmentType.InitFragment_FIND_PW)
+
+            R.id.frag_init_find_pw_back_btn, R.id.frag_init_find_pw_alert_back_btn -> _backBtnEvent.value = Event(Unit)
         }
     }
 

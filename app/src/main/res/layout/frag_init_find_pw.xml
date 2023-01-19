@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="mainVM"
-            type="com.sjk.yoram.viewmodel.MainViewModel" />
+            name="vm"
+            type="com.sjk.yoram.viewmodel.InitViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/xd_light_background"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:background="@color/xd_light_background">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_init_find_pw_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_init_find_pw_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <ImageButton
+            android:id="@+id/frag_init_find_pw_back_btn"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/shape_circle_image_btn"
+            android:src="@drawable/ic_back"
+            android:scaleType="fitCenter"
+            android:soundEffectsEnabled="true"
+            android:onClick="@{(v) -> vm.btnClick(v.id)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/frag_init_find_pw_gv05" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/frag_init_find_pw_back_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/frag_init_find_pw_back_btn"
+            android:text="비밀번호 찾기"
+            android:textColor="@color/xd_light_title"
+            android:textSize="18sp"
+            android:fontFamily="@font/pretendard_semibold" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -17,50 +53,50 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv05"
+                android:id="@+id/frag_init_find_pw_alert_gv05"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.05" />
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv95"
+                android:id="@+id/frag_init_find_pw_alert_gv95"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.95" />
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv40"
+                android:id="@+id/frag_init_find_pw_alert_gv40"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.4" />
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv60"
+                android:id="@+id/frag_init_find_pw_alert_gv60"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.6" />
 
             <ImageView
-                android:id="@+id/frag_board_working_img"
+                android:id="@+id/frag_init_find_pw_alert_working_img"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_working"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_gv40"
-                app:layout_constraintRight_toRightOf="@id/frag_board_gv60"
-                app:layout_constraintBottom_toTopOf="@id/frag_board_title"/>
+                app:layout_constraintLeft_toLeftOf="@id/frag_init_find_pw_alert_gv40"
+                app:layout_constraintRight_toRightOf="@id/frag_init_find_pw_alert_gv60"
+                app:layout_constraintBottom_toTopOf="@id/frag_init_find_pw_alert_title"/>
 
             <LinearLayout
-                android:id="@+id/frag_board_title"
+                android:id="@+id/frag_init_find_pw_alert_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/frag_board_working_img"
+                app:layout_constraintTop_toBottomOf="@id/frag_init_find_pw_alert_working_img"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/frag_board_working_card">
+                app:layout_constraintBottom_toTopOf="@id/frag_init_find_pw_alert_working_card">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,21 +121,21 @@
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/frag_board_working_card"
+                android:id="@+id/frag_init_find_pw_alert_working_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#F0F4F7"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="0dp"
                 android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@id/frag_board_title"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_gv05"
-                app:layout_constraintRight_toRightOf="@id/frag_board_gv95"
-                app:layout_constraintBottom_toTopOf="@id/frag_board_back_btn">
+                app:layout_constraintTop_toBottomOf="@id/frag_init_find_pw_alert_title"
+                app:layout_constraintLeft_toLeftOf="@id/frag_init_find_pw_alert_gv05"
+                app:layout_constraintRight_toRightOf="@id/frag_init_find_pw_alert_gv95"
+                app:layout_constraintBottom_toTopOf="@id/frag_init_find_pw_alert_back_btn">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="보다 나은 서비스 제공을 위해 페이지 준비중에 있습니다.\n빠른 시일내에 준비하여 찾아뵙겠습니다."
+                    android:text="보다 나은 서비스 제공을 위해 페이지 준비중에 있습니다.\n빠른 시일내에 준비하여 찾아뵙겠습니다.\n비밀번호 찾기 업무는 관리자에게 문의해 주세요"
                     android:textSize="14sp"
                     android:textColor="@color/xd_light_hint"
                     android:fontFamily="@font/pretendard_medium"
@@ -109,7 +145,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/frag_board_back_btn"
+                android:id="@+id/frag_init_find_pw_alert_back_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -123,12 +159,16 @@
                 android:textColor="@color/xd_light_background"
                 android:textSize="16sp"
                 android:fontFamily="@font/pretendard_medium"
-                android:onClick="@{(v) -> mainVM.fragMoveEvent(v.id)}"
+                android:onClick="@{(v) -> vm.btnClick(v.id)}"
                 android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@id/frag_board_working_card"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_gv05"
-                app:layout_constraintRight_toRightOf="@id/frag_board_gv95"
+                app:layout_constraintTop_toBottomOf="@id/frag_init_find_pw_alert_working_card"
+                app:layout_constraintLeft_toLeftOf="@id/frag_init_find_pw_alert_gv05"
+                app:layout_constraintRight_toRightOf="@id/frag_init_find_pw_alert_gv95"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
