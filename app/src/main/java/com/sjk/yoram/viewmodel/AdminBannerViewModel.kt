@@ -179,18 +179,9 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
 
 
     inner class MutableLiveBannerData: MutableLiveData<Banner>() {
-        init {
-            value = null
-        }
-
         fun getId(): Int {
             if (value == null) return -1
             return value!!.id
-        }
-
-        fun notifyChange() {
-            val current = value
-            value = current
         }
     }
 }

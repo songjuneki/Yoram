@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintTop_toBottomOf="@id/dialog_bd_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
