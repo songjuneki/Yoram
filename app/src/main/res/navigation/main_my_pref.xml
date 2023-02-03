@@ -73,6 +73,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_prefFragment_to_accountDeleteFragment"
+            app:destination="@id/accountDeleteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/prefRuleFragment"
@@ -240,4 +247,9 @@
         android:name="com.sjk.yoram.view.fragment.main.my.AdminNewUserFragment"
         android:label="AdminNewUserFragment"
         tools:layout="@layout/frag_my_pref_admin_new_user" />
+    <fragment
+        android:id="@+id/accountDeleteFragment"
+        android:name="com.sjk.yoram.view.fragment.pref.AccountDeleteFragment"
+        android:label="AccountDeleteFragment"
+        tools:layout="@layout/frag_my_pref_account_delete"/>
 </navigation>

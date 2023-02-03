@@ -363,9 +363,16 @@
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_account_gv95" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/frag_my_pref_account_delete"
+                    android:id="@+id/frag_my_pref_account_delete_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
+                    android:onClick="@{(v) -> vm.btnEvent(v.id)}"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:soundEffectsEnabled="true"
+                    android:hapticFeedbackEnabled="true"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_account_logout"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_account_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_account_gv95">

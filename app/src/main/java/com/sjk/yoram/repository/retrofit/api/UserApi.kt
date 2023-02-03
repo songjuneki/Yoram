@@ -87,4 +87,6 @@ interface UserApi {
     // DELETE
     @POST("give/del")
     suspend fun deleteGive(@Body give: Give): Response<Boolean>
+    @POST("user/safe")
+    suspend fun deleteUser(@Body info: AccountDeleteInfo): Response<Boolean>
 }

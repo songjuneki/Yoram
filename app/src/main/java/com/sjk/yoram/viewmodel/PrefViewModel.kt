@@ -152,6 +152,7 @@ class PrefViewModel(private val userRepository: UserRepository, private val serv
             R.id.dialog_my_admin_department_edit_cancel -> _backEvent.value = Event(Unit)
             R.id.frag_my_pref_admin_position -> moveFragment(R.id.action_prefFragment_to_adminPositionFragment)
             R.id.frag_my_pref_admin_new_user -> moveFragment(R.id.action_prefFragment_to_adminNewUserFragment)
+            R.id.frag_my_pref_account_delete_layout -> moveFragment(R.id.action_prefFragment_to_accountDeleteFragment)
         }
     }
     fun backBtn() {

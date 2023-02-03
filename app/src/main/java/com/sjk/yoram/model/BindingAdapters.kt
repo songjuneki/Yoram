@@ -198,6 +198,13 @@ object BindingAdapters {
         if (bool) view.editText!!.addTextChangedListener(PhoneNumberFormattingTextWatcher())
     }
 
+    @BindingAdapter("errorMessage")
+    @JvmStatic
+    fun setErrorMessage(view: TextInputLayout, error: String?) {
+        if (view.editText == null) return
+        view.error = error
+    }
+
     @BindingAdapter("currencyFormatting")
     @JvmStatic
     fun setCurrencyFormatting(view: TextInputLayout, bool: Boolean) {

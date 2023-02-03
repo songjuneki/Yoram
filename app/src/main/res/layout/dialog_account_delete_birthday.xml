@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.AccountDeleteViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_account_delete_bd_layout"
+        android:background="@drawable/border_dialog"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/dialog_account_delete_bd_gv50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+        <TextView
+            android:id="@+id/dialog_account_delete_bd_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생년월일 입력"
+            android:textSize="18sp"
+            android:textColor="@color/xd_light_title"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="18dp" />
+        <DatePicker
+            android:id="@+id/dialog_account_delete_bd_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:year="@={vm.birthPickerYear}"
+            android:month="@={vm.birthPickerMonth}"
+            android:day="@={vm.birthPickerDay}"
+            app:layout_constraintTop_toBottomOf="@id/dialog_account_delete_bd_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="18dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_account_delete_bd_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:text="취소"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
+            app:layout_constraintTop_toBottomOf="@id/dialog_account_delete_bd_picker"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@id/dialog_account_delete_bd_gv50"
+            android:onClick="@{(v) -> vm.btnClick(v.id)}"
+            android:layout_marginTop="18dp"
+            android:background="@color/xd_light_text_hint"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_account_delete_bd_ok"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:text="선택"
+            android:textColor="@color/xd_light_background"
+            android:textSize="17sp"
+            android:fontFamily="@font/pretendard_bold"
+            app:layout_constraintTop_toBottomOf="@id/dialog_account_delete_bd_picker"
+            app:layout_constraintLeft_toLeftOf="@id/dialog_account_delete_bd_gv50"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="18dp"
+            android:background="@color/xd_light_dot_indicator_enabled"
+            android:foreground="?attr/selectableItemBackground"
+            android:soundEffectsEnabled="true"
+            android:hapticFeedbackEnabled="true"
+            android:onClick="@{(v) -> vm.btnClick(v.id)}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

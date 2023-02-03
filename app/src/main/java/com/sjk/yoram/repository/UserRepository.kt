@@ -307,6 +307,13 @@ class UserRepository(private val application: Application) {
         return res.body() ?: mutableListOf()
     }
 
+    suspend fun requestDeleteUser(info: AccountDeleteInfo): Boolean {
+        val res = MyRetrofit.userApi.deleteUser(info)
+        if (!res.isSuccessful)
+            return false
+        return res.body() ?: false
+    }
+
     companion object {
         private var instance: UserRepository? = null
         fun getInstance(application: Application): UserRepository? {

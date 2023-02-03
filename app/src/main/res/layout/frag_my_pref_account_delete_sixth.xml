@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="vm"
+            type="com.sjk.yoram.viewmodel.AccountDeleteViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/frag_my_pref_account_delete_sixth_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="계정 삭제"
+                    android:textColor="@color/xd_light_red_highlight"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/pretendard_medium" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="와 모든 약관이 "
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/pretendard_medium" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="철회됩니다."
+                    android:textColor="@color/xd_light_red_highlight"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/pretendard_medium" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이 작업은 복구가 "
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/pretendard_medium" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="불가능합니다."
+                    android:textColor="@color/xd_light_red_highlight"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/pretendard_medium" />
+            </LinearLayout>
+        </LinearLayout>
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.isNetworkProgress ? View.VISIBLE : View.GONE, default=gone}"
+            android:indeterminate="true"
+            app:trackColor="@color/xd_light_dot_indicator_enabled"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
