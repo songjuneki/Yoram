@@ -1,4 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <style name="Theme.Yoram" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -29,13 +30,16 @@
         <item name="colorShadow">@color/md_theme_light_shadow</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primary</item>
         <item name="android:statusBarColor">@color/xd_light_background</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="bottomSheetDialogTheme">@style/RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
     </style>
+
     <style name="Theme.Yoram.ActionBar" parent="Theme.Yoram">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
     </style>
+
     <style name="Theme.Yoram.AvatarEdit" parent="@style/Theme.Material3.Light">
         <item name="colorPrimary">@color/xd_light_background</item>
         <item name="titleTextColor">@color/xd_light_title</item>
@@ -44,6 +48,7 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
         <item name="android:textColorPrimary">@color/xd_light_title</item>
     </style>
+
     <style name="Theme.Yoram.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="trackTint">@color/switch_track</item>
         <item name="thumbTint">@color/xd_light_background</item>
