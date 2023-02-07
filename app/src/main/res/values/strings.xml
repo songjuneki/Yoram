@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Yoram</string>
+    <string name="app_name">구성교회 스마트요람</string>
     <attr name="colorInversePrimary" format="reference|color"/>
     <attr name="colorShadow" format="reference|color"/>
     <string name="YORAM_LOCAL_PREF">097A0F1E209E6D912A02BDB0201C6EBD</string>
