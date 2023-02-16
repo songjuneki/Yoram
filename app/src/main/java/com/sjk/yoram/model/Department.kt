@@ -1,8 +1,8 @@
 package com.sjk.yoram.model
 
-import android.util.Log
 import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import io.github.bangjunyoung.KoreanTextMatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

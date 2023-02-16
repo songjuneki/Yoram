@@ -4,6 +4,7 @@ import android.app.Application
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.dto.SimpleUser
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import io.github.bangjunyoung.KoreanChar
 
 

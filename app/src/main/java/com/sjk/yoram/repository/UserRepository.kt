@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
-import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
 import coil.ImageLoader
@@ -18,6 +17,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.*
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody

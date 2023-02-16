@@ -11,8 +11,8 @@ android {
         applicationId "com.sjk.yoram"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "0.5"
+        versionCode 3
+        versionName "0.5.2-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

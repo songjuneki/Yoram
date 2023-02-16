@@ -1,4 +1,4 @@
-package com.sjk.yoram.model
+package com.sjk.yoram.repository.retrofit
 
 import android.util.Log
 import com.sjk.yoram.repository.retrofit.api.DepartmentApi
@@ -32,15 +32,12 @@ object MyRetrofit {
 
 
     suspend fun checkServer(): Boolean {
-        try {
-            serverApi.serverCheck()
-        }catch(e: SocketTimeoutException){
-            Log.d("JKJk", "retrofit exception : $e")
-            return false
+        return try {
+            serverApi.serverCheck().isSuccessful
+        } catch(e: SocketTimeoutException) {
+            false
         } catch (e: ConnectException) {
-            Log.d("JKJK", "retrofit exception : $e")
-            return false
+            false
         }
-        return true
     }
 }

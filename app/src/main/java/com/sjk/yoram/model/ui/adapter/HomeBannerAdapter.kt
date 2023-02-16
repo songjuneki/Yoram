@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.github.ybq.android.spinkit.SpinKitView
 import com.github.ybq.android.spinkit.style.Wave
-import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import com.sjk.yoram.model.dto.Banner
 
 class HomeBannerAdapter(): RecyclerView.Adapter<HomeBannerAdapter.BannerHolder>() {

@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
-import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import com.sjk.yoram.model.NewUser
 import com.sjk.yoram.databinding.ActivityJoinUserBinding
 import kotlinx.coroutines.CoroutineScope

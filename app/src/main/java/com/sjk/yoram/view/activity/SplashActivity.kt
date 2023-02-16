@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.sjk.yoram.model.LoginCheck
-import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.SplashBinding
 import com.sjk.yoram.view.activity.main.MainActivity

@@ -4,7 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.os.Environment
 import android.util.Log
-import com.sjk.yoram.model.MyRetrofit
+import com.sjk.yoram.repository.retrofit.MyRetrofit
 import com.sjk.yoram.model.dto.Banner
 import com.sjk.yoram.model.dto.GiveType
 import com.sjk.yoram.model.dto.Juso

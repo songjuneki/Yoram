@@ -2,7 +2,7 @@
     <style name="Theme.Yoram" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorPrimaryContainer">@color/xd_light_background</item>
         <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
         <item name="colorSecondary">@color/md_theme_light_secondary</item>
         <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
@@ -27,7 +27,7 @@
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorInversePrimary">@color/md_theme_light_primary</item>
         <item name="colorShadow">@color/md_theme_light_shadow</item>
-        <item name="colorPrimaryInverse">@color/md_theme_light_primary</item>
+        <item name="colorPrimaryInverse">@color/xd_light_background</item>
         <item name="android:statusBarColor">@color/xd_light_background</item>
         <item name="bottomSheetDialogTheme">@style/RoundedBottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
