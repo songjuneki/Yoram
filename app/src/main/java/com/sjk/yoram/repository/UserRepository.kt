@@ -70,6 +70,7 @@ class UserRepository(private val application: Application) {
     }
 
     suspend fun getMyPermission(id: Int): Int {
+        if (id < 0) return 0
         val response = MyRetrofit.userApi.getMyPermission(id)
         if (response.isSuccessful)
             return response.body()!!
@@ -179,7 +180,8 @@ class UserRepository(private val application: Application) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val timeFormat = SimpleDateFormat("HH:mm:ss")
         val p = "GUSEONGCHURCH;BY.SONGJUNEKI;DATE:${dateFormat.format(date)};TIME:${timeFormat.format(date)};ID:${getLoginID()}"
-        content = AESUtil().Encrypt(p)
+
+        content = MySecurity().encodeBase64(p.toByteArray().toHex())
         size = 1000
         borderWidth = 10
         ecl = ErrorCorrectionLevel.M
@@ -202,7 +204,7 @@ class UserRepository(private val application: Application) {
 
     private fun makeFailureCode(error: String) = RenderOption().apply {
         val p = "GUSEONGCHURCH;BY.SONGJUNEKI;ERROR:${error}"
-        content = AESUtil().Encrypt(p)
+        content = MySecurity().encodeBase64(p.toByteArray().toHex())
         size = 1000
         borderWidth = 10
         ecl = ErrorCorrectionLevel.M

@@ -7,6 +7,7 @@ import com.sjk.yoram.model.dto.UserDetail
 import com.sjk.yoram.model.dto.UserPrivacyPolicy
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
 
@@ -35,6 +36,7 @@ class FragPrivacyViewModel(private val userRepository: UserRepository): ViewMode
 
     init {
         viewModelScope.launch {
+            if (userRepository.getLoginID() < 0) this.cancel()
             originalpp = userRepository.getUserPrivacyPolicy()
             _userDetail.value = userRepository.getUserDetail(userRepository.getLoginID())
             _pp.value = userRepository.getUserPrivacyPolicy()

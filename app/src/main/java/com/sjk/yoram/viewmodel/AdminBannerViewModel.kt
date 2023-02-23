@@ -79,7 +79,8 @@ class AdminBannerViewModel(private val serverRepository: ServerRepository, priva
 
     init {
         viewModelScope.launch {
-            loadBanners()
+            if (userRepository.getMyPermission(userRepository.getLoginID()) > 2)
+                loadBanners()
         }
     }
 

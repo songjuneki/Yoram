@@ -2,16 +2,16 @@ package com.sjk.yoram.viewmodel
 
 import android.app.Application
 import android.graphics.Bitmap
-import android.util.Log
 import android.widget.RadioGroup
 import androidx.lifecycle.*
 import com.budiyev.android.codescanner.DecodeCallback
 import com.sjk.yoram.R
-import com.sjk.yoram.model.AESUtil
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.MutableListLiveData
+import com.sjk.yoram.model.MySecurity
 import com.sjk.yoram.model.dto.Attend
 import com.sjk.yoram.model.dto.WorshipType
+import com.sjk.yoram.model.hexToByteArray
 import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
@@ -151,7 +151,7 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
     private var codeCheckerJob: Job? = null
     private fun codeChecker(code: String) {
         codeCheckerJob = viewModelScope.async {
-            val dec = AESUtil().Decrypt(code)
+            val dec = MySecurity().decodeBase64(code).hexToByteArray().decodeToString()
 
             if (dec == "####") {
                 codeFailure("QR SCAN :: not private qr!")

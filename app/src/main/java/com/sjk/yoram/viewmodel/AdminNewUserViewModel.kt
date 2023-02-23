@@ -76,7 +76,8 @@ class AdminNewUserViewModel(private val userRepository: UserRepository): ViewMod
     init {
         viewModelScope.launch {
             myInfo = AdminInfo(userRepository.getLoginID(), userRepository.getMyPermission(userRepository.getLoginID()))
-            refreshList()
+            if (myInfo.permission > 2)
+                refreshList()
         }
     }
 

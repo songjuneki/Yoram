@@ -14,10 +14,11 @@ import com.sjk.yoram.model.dto.Position
 import com.sjk.yoram.model.ui.adapter.AdminPositionListAdapter
 import com.sjk.yoram.model.ui.listener.AdminDepartmentClickListener
 import com.sjk.yoram.repository.DepartmentRepository
+import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
-class AdminPositionViewModel(private val departmentRepository: DepartmentRepository): ViewModel() {
+class AdminPositionViewModel(private val userRepository: UserRepository, private val departmentRepository: DepartmentRepository): ViewModel() {
     private val originalPositionList = mutableListOf<Position>()
 
     val editablePositionList = MutableListLiveData<Position>()
@@ -203,12 +204,15 @@ class AdminPositionViewModel(private val departmentRepository: DepartmentReposit
 
 
     init {
-        loadPositionList()
+        viewModelScope.launch {
+            if (userRepository.getMyPermission(userRepository.getLoginID()) > 2)
+                loadPositionList()
+        }
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AdminPositionViewModel(DepartmentRepository.getInstance(application)!!) as T
+            return AdminPositionViewModel(UserRepository.getInstance(application)!!, DepartmentRepository.getInstance(application)!!) as T
         }
     }
 

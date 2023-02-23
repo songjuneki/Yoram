@@ -10,9 +10,10 @@ import com.sjk.yoram.model.dto.Department
 import com.sjk.yoram.model.ui.adapter.AdminDepartmentListAdapter
 import com.sjk.yoram.model.ui.listener.AdminDepartmentClickListener
 import com.sjk.yoram.repository.DepartmentRepository
+import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class AdminDepartmentViewModel(private val departmentRepository: DepartmentRepository): ViewModel() {
+class AdminDepartmentViewModel(private val userRepository: UserRepository, private val departmentRepository: DepartmentRepository): ViewModel() {
     private val originalDepartmentList: MutableList<Department> = mutableListOf()
 
     val editableDepartmentList = MutableListLiveData<Department>()
@@ -73,7 +74,10 @@ class AdminDepartmentViewModel(private val departmentRepository: DepartmentRepos
         get() = _applyFailEvent
 
     init {
-        loadDepartmentList()
+        viewModelScope.launch {
+            if (userRepository.getMyPermission(userRepository.getLoginID()) > 2)
+                loadDepartmentList()
+        }
     }
 
     fun btnEvent(btnId: Int) {
@@ -187,7 +191,7 @@ class AdminDepartmentViewModel(private val departmentRepository: DepartmentRepos
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AdminDepartmentViewModel(DepartmentRepository.getInstance(application)!!) as T
+            return AdminDepartmentViewModel(UserRepository.getInstance(application)!!, DepartmentRepository.getInstance(application)!!) as T
         }
     }
 

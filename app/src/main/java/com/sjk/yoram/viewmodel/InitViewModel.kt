@@ -355,7 +355,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
                 hideLoading()
                 return@async
             }
-            btnLogin(_newUser.name, newPw.value ?: AESUtil().Encrypt(_newUser.pw))
+            btnLogin(_newUser.name, newPw.value ?: _newUser.pw)
         }
     }
 
