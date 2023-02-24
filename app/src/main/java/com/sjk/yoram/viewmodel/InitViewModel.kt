@@ -284,7 +284,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
     val carNoInputChanged = object: TextInputChanged {
         override fun afterTextChanged(view: TextInputLayout, input: String) {
-            val regex = Regex("^[0-9]{1,3}\\s*[가-힣]{1,2}\\s*[0-9]{0,4}$")
+            val regex = Regex("^\\d{1,3}\\s*[가-힣]{1,2}\\s*\\d{0,4}$")
             if (input.isEmpty()) {
                 view.error = ""
                 setRequireBoolean(isMoreReqDoneList, true, 4)

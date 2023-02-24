@@ -16,7 +16,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 import java.lang.Exception
 import java.time.LocalDateTime
 
@@ -43,7 +42,6 @@ class ServerRepository(private val application: Application) {
     }
 
     suspend fun uploadBanners(banners: List<Banner>): Boolean {
-        Log.d("JKJK", "upload banners : $banners")
         val res = MyRetrofit.serverApi.editBanners(banners)
         if (res.isSuccessful)
             return !res.body()!!.contains(false)
@@ -53,19 +51,20 @@ class ServerRepository(private val application: Application) {
     suspend fun uploadNewBanner(img: Bitmap?, owner: Int): Boolean {
         if (img == null) return false
 
-        val storageDir: File? = application.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir = application.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val file = File.createTempFile("JPEG_UPLOAD_TEMP", ".jpg", storageDir)
-        var out: OutputStream? = null
+        var out: FileOutputStream? = null
 
         try {
             out = FileOutputStream(file)
             img.compress(Bitmap.CompressFormat.JPEG, 100, out)
         } catch (e: Exception){
             e.printStackTrace()
-            out?.close()
             return false
+        } finally {
+            out?.flush()
+            out?.close()
         }
-        out?.close()
 
         val now = LocalDateTime.now()
 
@@ -129,8 +128,6 @@ class ServerRepository(private val application: Application) {
         }
         return true
     }
-
-
 
     companion object {
         private var instance: ServerRepository? = null

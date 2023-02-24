@@ -3,7 +3,6 @@ package com.sjk.yoram.view.activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,6 +13,7 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.SplashBinding
 import com.sjk.yoram.view.activity.main.MainActivity
 import kotlinx.coroutines.*
+import kotlin.system.exitProcess
 
 class SplashActivity: AppCompatActivity() {
     private lateinit var binding: SplashBinding
@@ -26,7 +26,6 @@ class SplashActivity: AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             if (serverCheck.await()) {
-                Log.d("JKJK", "server success")
                 val initIntent = Intent(this@SplashActivity, InitActivity::class.java)
                 val homeIntent = Intent(this@SplashActivity, MainActivity::class.java)
                 val sharedPref = this@SplashActivity.getSharedPreferences(getString(R.string.YORAM_LOCAL_PREF), MODE_PRIVATE)
@@ -56,10 +55,10 @@ class SplashActivity: AppCompatActivity() {
                 }
             }
             else {
-                Log.d("JKJK", "server failure")
                 val builder = AlertDialog.Builder(this@SplashActivity)
                 builder.setMessage("서버 연결에 실패하였습니다.\n 애플리케이션을 다시 실행해 주세요.\n 문제가 계속 되면 관리자에게 문의바랍니다.")
-                    .setPositiveButton("확인", DialogInterface.OnClickListener { _, _ -> ActivityCompat.finishAffinity(this@SplashActivity); System.exit(0)})
+                    .setPositiveButton("확인"
+                    ) { _, _ -> ActivityCompat.finishAffinity(this@SplashActivity); exitProcess(0) }
                     .create().show()
             }
         }

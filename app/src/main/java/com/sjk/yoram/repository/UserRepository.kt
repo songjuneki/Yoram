@@ -32,6 +32,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class UserRepository(private val application: Application) {
     private val sharedPref = application.getSharedPreferences(application.getString(R.string.YORAM_LOCAL_PREF), Context.MODE_PRIVATE)
@@ -172,13 +173,13 @@ class UserRepository(private val application: Application) {
 
     fun getNotValidUserCode(): Bitmap {
         return application.getDrawable(R.drawable.ic_blured_code)?.toBitmap()
-            ?: return AwesomeQrRenderer.render(makeFailureCode("cannot get blured code")).bitmap!!
+            ?: return AwesomeQrRenderer.render(makeFailureCode("cannot get blurred code")).bitmap!!
     }
 
     private fun makeCodeOption(special: Boolean = false) = RenderOption().apply {
         val date = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.KOREA)
         val p = "GUSEONGCHURCH;BY.SONGJUNEKI;DATE:${dateFormat.format(date)};TIME:${timeFormat.format(date)};ID:${getLoginID()}"
 
         content = MySecurity().encodeBase64(p.toByteArray().toHex())

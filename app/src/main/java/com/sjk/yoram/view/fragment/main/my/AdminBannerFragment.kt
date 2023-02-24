@@ -3,7 +3,6 @@ package com.sjk.yoram.view.fragment.main.my
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -43,9 +42,8 @@ class AdminBannerFragment: Fragment() {
 
     private val cropImgResult = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            val cropImgUri = result.uriContent
-            val input = requireActivity().contentResolver.openInputStream(cropImgUri!!)
-            viewModel.uploadNewBanner(BitmapFactory.decodeStream(input))
+//            val cropImgUri = result.uriContent
+            viewModel.uploadNewBanner(result.getBitmap(requireContext()))
         }
     }
 

@@ -59,8 +59,8 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     val searchEvent: LiveData<Event<Unit>>
         get() = _searchEvent
 
-    val isSearching = MutableLiveData<Boolean>(false)
-    val searchKeyword = MutableLiveData<String>("")
+    val isSearching = MutableLiveData(false)
+    val searchKeyword = MutableLiveData("")
 
     // - User Management
 
@@ -134,9 +134,9 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
     private var _giveDateList: HashMap<String, List<Int>> = hashMapOf()
 
-    val selectedIndexGiveYear = MutableLiveData<Int>(0)
+    val selectedIndexGiveYear = MutableLiveData(0)
 
-    val selectedIndexGiveMonth = MutableLiveData<Int>(0)
+    val selectedIndexGiveMonth = MutableLiveData(0)
 
     val userGiveList = MutableLiveData<MutableList<Give>>()
 
@@ -170,7 +170,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
-    val sortTypeListener = OnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+    val sortTypeListener = OnSpinnerItemSelectedListener<String> { _, _, newIndex, _ ->
         changeDptSortType(newIndex)
     }
 
@@ -265,10 +265,8 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private fun loadDepartmentList() {
         viewModelScope.launch {
             val selectedDpt = _checkedManagerDpt.value!!
-            departmentList.value = departmentRepository.getDepartmentList().apply {
-                this.forEach {
-                    if (selectedDpt.parentCode == it.code) it.isExpanded = true
-                }
+            departmentList.value = departmentRepository.getDepartmentList().onEach {
+                if (selectedDpt.parentCode == it.code) it.isExpanded = true
             }
         }
     }
@@ -276,10 +274,8 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private fun loadPositionList() {
         viewModelScope.launch {
             val selectedPos = _checkedManagerPos.value!!
-            positionList.value = departmentRepository.getPositionList().apply {
-                this.forEach {
-                    if (selectedPos.cat == it.code) it.isExpanded = true
-                }
+            positionList.value = departmentRepository.getPositionList().onEach {
+                if (selectedPos.cat == it.code) it.isExpanded = true
             }
         }
     }
@@ -439,7 +435,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     fun getLocalDateFromGive(give: Give): LocalDate =
         LocalDate.parse(give.date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-    val dateChangedListener = OnDateChangedListener { view, year, month, day ->
+    val dateChangedListener = OnDateChangedListener { _, year, month, day ->
         selectedGive.value?.date = "$year-${String.format("%02d", month+1)}-${String.format("%02d", day)}"
     }
 

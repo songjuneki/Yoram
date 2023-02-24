@@ -17,7 +17,7 @@ class AttendViewModel(private val userRepository: UserRepository): ViewModel() {
     val name = MutableLiveData<String>()
     val pos = MutableLiveData<String>()
 
-    private val _total = MutableLiveData<String>("0")
+    private val _total = MutableLiveData("0")
     val total: LiveData<String>
         get() = _total
 

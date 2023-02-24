@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 class MainViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
     private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)
     val currentFragmentType: LiveData<FragmentType> = _currentFragmentType
-    val dptClickState = MutableLiveData<Boolean>(false)
+    val dptClickState = MutableLiveData(false)
     val loginState = MutableLiveData(LoginState.NONE)
 
     private val _loginData = MutableLiveData<MyLoginData>()
@@ -54,7 +54,7 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     val privacyAgreeEvent: LiveData<Event<Unit>>
         get() = _privacyAgreeEvent
 
-    private val _showExpiredDialog = MutableLiveData<Boolean>(false)
+    private val _showExpiredDialog = MutableLiveData(false)
     val showExpiredDialog: LiveData<Boolean>
         get() = _showExpiredDialog
 
