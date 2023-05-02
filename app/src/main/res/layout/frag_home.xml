@@ -319,7 +319,7 @@
                         app:layout_constraintLeft_toRightOf="@id/home_id_attend"
                         app:layout_constraintBottom_toBottomOf="@id/home_id_attend"
                         android:layout_marginLeft="8dp"
-                        android:text="@{mainVM.loginData.attend_cnt, default=`0`}"
+                        android:text="@{mainVM.loginData.attend_cnt + ``, default=`0`}"
                         android:textColor="@color/xd_light_content"
                         android:textSize="18sp"
                         android:fontFamily="@font/pretendard_regular" />

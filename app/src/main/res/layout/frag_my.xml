@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/xd_light_background">
@@ -105,6 +106,12 @@
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="0.05" />
                     <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/frag_my_info_gv_30"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.30" />
+                    <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/frag_my_info_gv_95"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -112,54 +119,100 @@
                         app:layout_constraintGuide_percent="0.95" />
                     <ImageView
                         android:id="@+id/frag_my_info_avatar"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        tools:src="@drawable/ic_avatar"
                         bitmapImg="@{mainVM.avatar}"
                         error="@{@drawable/ic_avatar}"
                         circleImage="@{true}"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="@id/frag_my_info_gv_05"
+                        app:layout_constraintRight_toRightOf="@id/frag_my_info_gv_30"
                         app:layout_constraintBottom_toTopOf="@id/frag_my_info_btn"
+                        app:layout_constraintDimensionRatio="1:1"
                         android:layout_marginBottom="16dp"/>
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <TextView
+                        android:id="@+id/frag_my_info_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{mainVM.loginData.name, default=`...`}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_dot_indicator_enabled"
+                        android:fontFamily="@font/pretendard_semibold"
                         app:layout_constraintTop_toTopOf="@id/frag_my_info_avatar"
                         app:layout_constraintLeft_toRightOf="@id/frag_my_info_avatar"
-                        app:layout_constraintBottom_toBottomOf="@id/frag_my_info_avatar"
-                        android:layout_marginLeft="16dp">
-                        <TextView
-                            android:id="@+id/frag_my_info_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{mainVM.loginData.name}"
-                            android:textSize="18sp"
-                            android:textColor="@color/xd_light_dot_indicator_enabled"
-                            android:fontFamily="@font/pretendard_semibold"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent" />
-                        <TextView
-                            android:id="@+id/frag_my_info_pos"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{` ` + mainVM.loginData.position_name}"
-                            android:textSize="18sp"
-                            android:textColor="@color/xd_light_title"
-                            android:fontFamily="@font/pretendard_semibold"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintLeft_toRightOf="@id/frag_my_info_name" />
-                        <TextView
-                            android:id="@+id/frag_my_info_dpt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{mainVM.loginData.department_name.length() == 0 ? `성도` : mainVM.loginData.department_name}"
-                            android:textSize="16sp"
-                            android:textColor="@color/xd_light_title"
-                            android:fontFamily="@font/pretendard_regular"
-                            app:layout_constraintTop_toBottomOf="@id/frag_my_info_name"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_marginLeft="16dp"/>
+                    <TextView
+                        android:id="@+id/frag_my_info_pos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{` ` + mainVM.loginData.position_name, default=` ..`}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_title"
+                        android:fontFamily="@font/pretendard_semibold"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_info_name"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_name"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_info_name"
+                        app:layout_constraintBaseline_toBaselineOf="@id/frag_my_info_name"/>
+                    <ImageView
+                        android:id="@+id/frag_my_info_dpt_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/ic_blue_department"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_info_name"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_avatar"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_info_dpt"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="16dp"/>
+                    <TextView
+                        android:id="@+id/frag_my_info_dpt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mainVM.loginData.department_name.length() == 0 ? (mainVM.loginData.department_parent == 0 ? `성도` : mainVM.loginData.department_parent_name) : mainVM.loginData.department_name, default=`...`}"
+                        android:textSize="18sp"
+                        android:textColor="@color/xd_light_content"
+                        android:fontFamily="@font/pretendard_regular"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_info_name"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_dpt_icon"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp" />
+                    <ImageView
+                        android:id="@+id/frag_my_info_attend_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/ic_attend"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_info_dpt"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_avatar"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_info_attend"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="16dp"/>
+                    <TextView
+                        android:id="@+id/frag_my_info_attend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이번 달 출석"
+                        android:textColor="@color/xd_light_content"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_regular"
+                        app:layout_constraintTop_toBottomOf="@id/frag_my_info_dpt"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_attend_icon"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="8dp" />
+                    <TextView
+                        android:id="@+id/frag_my_info_attend_cnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mainVM.loginData.attend_cnt + ``, default=`0`}"
+                        android:textColor="@color/xd_light_content"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/pretendard_regular"
+                        app:layout_constraintTop_toTopOf="@id/frag_my_info_attend"
+                        app:layout_constraintLeft_toRightOf="@id/frag_my_info_attend"
+                        app:layout_constraintBottom_toBottomOf="@id/frag_my_info_attend"
+                        app:layout_constraintBaseline_toBaselineOf="@id/frag_my_info_attend"
+                        android:layout_marginLeft="8dp" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/frag_my_info_btn"
                         style="@style/Widget.AppCompat.Button.Borderless"
@@ -179,184 +232,8 @@
                         app:layout_constraintTop_toBottomOf="@id/frag_my_info_avatar"
                         app:layout_constraintLeft_toLeftOf="@id/frag_my_info_gv_05"
                         app:layout_constraintRight_toRightOf="@id/frag_my_info_gv_95"
-                        app:layout_constraintBottom_toTopOf="@id/frag_my_info_dashboard"
-                        android:layout_marginBottom="16dp"/>
-                    <LinearLayout
-                        android:id="@+id/frag_my_info_dashboard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@id/frag_my_info_btn"
-                        app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="16dp">
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/frag_my_info_dashboard_give"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:clickable="true"
-                            android:longClickable="true"
-                            android:contextClickable="true"
-                            android:focusable="true"
-                            android:background="@drawable/home_id_border">
-                            <ImageView
-                                android:id="@+id/frag_my_info_dashboard_give_img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                android:layout_marginTop="20dp"
-                                android:src="@drawable/ic_offering"
-                                android:scaleType="fitCenter"/>
-                            <TextView
-                                android:id="@+id/frag_my_info_dashboard_give_amount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_give_img"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                android:layout_marginTop="14dp"
-                                android:text="@{mainVM.giveAmount + ` 원`}"
-                                android:textSize="16sp"
-                                android:textColor="@color/xd_light_content_highlight"
-                                android:fontFamily="@font/pretendard_medium"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_give_amount"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginBottom="12dp"
-                                android:text="이번 달 헌금"
-                                android:textSize="14sp"
-                                android:textColor="@color/xd_light_content"
-                                android:fontFamily="@font/pretendard_regular"/>
-                            <com.google.android.material.divider.MaterialDivider
-                                android:layout_width="1dp"
-                                android:layout_height="0dp"
-                                android:orientation="vertical"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/frag_my_info_dashboard_attend"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:clickable="true"
-                            android:longClickable="true"
-                            android:contextClickable="true"
-                            android:focusable="true"
-                            android:background="@drawable/home_id_border">
-                            <ImageView
-                                android:id="@+id/frag_my_info_dashboard_attend_img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                android:layout_marginTop="20dp"
-                                android:src="@drawable/ic_attend"
-                                android:scaleType="fitCenter"/>
-                            <TextView
-                                android:id="@+id/frag_my_info_dashboard_attend_amount"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_attend_img"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/frag_my_info_dashboard_attend_amount_all"
-                                android:gravity="right"
-                                android:layout_marginTop="14dp"
-                                android:text="@{mainVM.loginData.attend_cnt + ` `}"
-                                android:textSize="16sp"
-                                android:textColor="@color/xd_light_content_highlight"
-                                android:fontFamily="@font/pretendard_medium"/>
-                            <TextView
-                                android:id="@+id/frag_my_info_dashboard_attend_amount_all"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_attend_img"
-                                app:layout_constraintLeft_toRightOf="@id/frag_my_info_dashboard_attend_amount"
-                                app:layout_constraintRight_toRightOf="parent"
-                                android:gravity="left"
-                                android:layout_marginTop="14dp"
-                                android:text="@{`/ ` + String.valueOf(vm.maxWeek)}"
-                                android:textSize="16sp"
-                                android:textColor="@color/xd_light_content"
-                                android:fontFamily="@font/pretendard_medium"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_attend_amount"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginBottom="12dp"
-                                android:text="이번 달 출석"
-                                android:textSize="14sp"
-                                android:textColor="@color/xd_light_content"
-                                android:fontFamily="@font/pretendard_regular"/>
-                            <com.google.android.material.divider.MaterialDivider
-                                android:layout_width="1dp"
-                                android:layout_height="0dp"
-                                android:orientation="vertical"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/frag_my_info_dashboard_department"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:clickable="true"
-                            android:longClickable="true"
-                            android:contextClickable="true"
-                            android:focusable="true"
-                            android:background="@drawable/home_id_border">
-                            <ImageView
-                                android:id="@+id/frag_my_info_dashboard_department_img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                android:layout_marginTop="20dp"
-                                android:src="@drawable/ic_blue_department"
-                                android:scaleType="fitCenter"/>
-                            <TextView
-                                android:id="@+id/frag_my_info_dashboard_department_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_department_img"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                android:layout_marginTop="14dp"
-                                android:text="@{mainVM.loginData.department_name.length() == 0 ? `성도` : mainVM.loginData.department_name}"
-                                android:textSize="16sp"
-                                android:textColor="@color/xd_light_content_highlight"
-                                android:fontFamily="@font/pretendard_medium"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toBottomOf="@id/frag_my_info_dashboard_department_tv"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginBottom="12dp"
-                                android:text="@{mainVM.loginData.department_parent == 0 ? mainVM.loginData.department_name : mainVM.loginData.department_parent_name}"
-                                android:textSize="14sp"
-                                android:textColor="@color/xd_light_content"
-                                android:fontFamily="@font/pretendard_regular"/>
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </LinearLayout>
+                        android:layout_marginBottom="16dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
