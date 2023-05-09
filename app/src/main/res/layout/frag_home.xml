@@ -286,7 +286,7 @@
                         app:layout_constraintLeft_toRightOf="@id/home_id_department_icon"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
-                        android:text="@{mainVM.loginData.department_name.length() == 0 ? `성도` : mainVM.loginData.department_name, default=`....`}"
+                        android:text="@{mainVM.loginData.department_name.length() == 0 ? (mainVM.loginData.department_parent == 0 ? `성도` : mainVM.loginData.department_parent_name) : mainVM.loginData.department_name, default=`....`}"
                         android:textColor="@color/xd_light_content"
                         android:textSize="18sp"
                         android:fontFamily="@font/pretendard_regular" />
