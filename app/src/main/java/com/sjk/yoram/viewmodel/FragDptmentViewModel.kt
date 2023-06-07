@@ -18,12 +18,15 @@ import com.sjk.yoram.repository.DepartmentRepository
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import okhttp3.internal.wait
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
@@ -33,9 +36,13 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private val _dptSortType = MutableLiveData(DptButtonType.NAME)
     val dptSortType: LiveData<DptButtonType> = _dptSortType
 
-    private val _departments = MutableLiveData<MutableList<Department>>()
-    val departments: LiveData<MutableList<Department>>
-        get() = _departments
+    val dptSortIdx = MutableLiveData<Int>(0)
+
+    val departmentNodeList = MutableListLiveData<DepartmentNode>()
+
+    private val _isLoadingDptServer = MutableLiveData(Event(true))
+    val isLoadingDptServer: LiveData<Event<Boolean>>
+        get() = _isLoadingDptServer
 
     private val _searchResult = MutableLiveData<MutableList<SimpleUser>>()
     val searchResult: LiveData<MutableList<SimpleUser>>
@@ -161,10 +168,9 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     init {
         viewModelScope.launch {
             _myPermission = userRepository.getMyPermission(userRepository.getLoginID())
-            _departments.value = mutableListOf()
+            departmentNodeList.value = mutableListOf()
             _searchResult.value = mutableListOf()
             loadDepartmentByName()
-
             departmentList.value = mutableListOf()
             positionList.value = mutableListOf()
         }
@@ -222,7 +228,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     private val dptClickListener = object: DepartmentItemClickListener {
-        override fun onClick(department: Department) {
+        override fun onClick(department: DepartmentNode) {
             department.isExpanded = !department.isExpanded
         }
     }
@@ -232,7 +238,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
-    fun listAdapter() : DepartmentListAdapter = DepartmentListAdapter(_myPermission, dptClickListener, if (_myPermission < 1) null else userClickListener)
+    fun listAdapter(): DepartmentNodeListAdapter = DepartmentNodeListAdapter(_myPermission, dptClickListener, if(_myPermission < 1) null else userClickListener)
     fun searchListAdapter() : SimpleUserListAdapter = SimpleUserListAdapter(userClickListener)
 
     private fun selectedUser(id: Int) {
@@ -242,6 +248,12 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
+    private fun getRequestUser(): RequestUser {
+        return RequestUser(userRepository.getLoginID(),
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+            _myPermission
+        )
+    }
 
     private var _searchJob: Job? = null
     private fun searchUserByName(name: String) {
@@ -251,15 +263,24 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     private fun loadDepartmentByName() = viewModelScope.launch {
-        _departments.value = departmentRepository.getAllDepartmentsByName(_myPermission)
+        departmentNodeList.clear()
+        _isLoadingDptServer.value = Event(true)
+        departmentNodeList.value = departmentRepository.getDepartmentNodeListByName(getRequestUser())
+        _isLoadingDptServer.value = Event(false)
     }
 
     private fun loadDepartmentByDepartment() = viewModelScope.launch {
-        _departments.value = departmentRepository.getAllDepartmentsByDepartment(_myPermission)
+        departmentNodeList.clear()
+        _isLoadingDptServer.value = Event(true)
+        departmentNodeList.value = departmentRepository.getDepartmentNodeListByDepartment(getRequestUser())
+        _isLoadingDptServer.value = Event(false)
     }
 
     private fun loadDepartmentByPosition() = viewModelScope.launch {
-        _departments.value = departmentRepository.getDepartmentsByPosition(_myPermission)
+        departmentNodeList.clear()
+        _isLoadingDptServer.value = Event(true)
+        departmentNodeList.value = departmentRepository.getDepartmentNodeListByPosition(getRequestUser())
+        _isLoadingDptServer.value = Event(false)
     }
 
     private fun loadDepartmentList() {
@@ -284,14 +305,17 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         when (index) {
             0 -> {
                 _dptSortType.value = DptButtonType.NAME
+                dptSortIdx.value = 0
                 loadDepartmentByName()
             }
             1 -> {
                 _dptSortType.value = DptButtonType.DEPARTMENT
+                dptSortIdx.value = 1
                 loadDepartmentByDepartment()
             }
             2 -> {
                 _dptSortType.value = DptButtonType.POSITION
+                dptSortIdx.value = 2
                 loadDepartmentByPosition()
             }
         }

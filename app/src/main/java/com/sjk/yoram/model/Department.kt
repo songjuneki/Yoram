@@ -40,6 +40,8 @@ data class Department (
             childDepartment.forEach {
                 count += it.users.size
             }
+
+            count = users.size + childDepartment.count { it.users.isNotEmpty() }
         }
 
 }

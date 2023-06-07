@@ -1,5 +1,6 @@
 package com.sjk.yoram.repository.retrofit.api
 
+import com.sjk.yoram.model.DepartmentNode
 import com.sjk.yoram.model.dto.*
 import retrofit2.Response
 import retrofit2.http.Body
@@ -12,6 +13,15 @@ interface DepartmentApi {
     suspend fun getChildDepartments(@Query("parent")parent: Int): MutableList<Department>
     @GET("dpt/tops")
     suspend fun getAllTopDepartments(): MutableList<Department>
+
+    @POST("dpt/name")
+    suspend fun getDepartmentNodeListByName(@Body request: RequestUser): Response<MutableList<DepartmentNode>>
+    @POST("dpt/dpt")
+    suspend fun getDepartmentNodeListByDepartment(@Body request: RequestUser): Response<MutableList<DepartmentNode>>
+
+    @POST("dpt/pos")
+    suspend fun getDepartmentNodeListByPosition(@Body request: RequestUser): Response<MutableList<DepartmentNode>>
+
     @GET("dpt/all")
     suspend fun getAllDepartmentList(): Response<MutableList<Department>>
     @GET("dpt")

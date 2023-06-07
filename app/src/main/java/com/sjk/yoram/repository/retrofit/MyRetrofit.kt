@@ -16,7 +16,7 @@ object MyRetrofit {
 
     private fun getRetrofit(): Retrofit {
         val okHttp: OkHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(20, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()

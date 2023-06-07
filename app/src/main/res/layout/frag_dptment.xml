@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
+        <import type="com.sjk.yoram.model.Event"/>
+        <import type="com.sjk.yoram.model.MutableListLiveData" />
         <variable
             name="vm"
             type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
@@ -58,7 +61,7 @@
                 app:spinner_popup_elevation="4dp"
                 app:spinner_popup_animation="normal"
                 android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
-                PowerSpinnerDefaultSelectIndex="@{0}"
+                PowerSpinnerSelection="@={vm.dptSortIdx}"
                 PowerSpinnerListener="@{vm.sortTypeListener}"
                 />
 
@@ -179,6 +182,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                tools:visibility="gone"
                 android:id="@+id/frag_dptment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -190,9 +194,10 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
                 android:adapter="@{vm.listAdapter()}"
-                DepartmentData="@{vm.departments}"/>
+                DepartmentNodeData="@{vm.departmentNodeList}" />
 
             <androidx.recyclerview.widget.RecyclerView
+                tools:visibility="gone"
                 android:id="@+id/frag_dptment_search_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -206,6 +211,34 @@
                 android:adapter="@{vm.searchListAdapter()}"
                 SimpleUserData="@{vm.searchResult}"
                 highlightKeyword="@{vm.searchKeyword}"/>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/frag_dptment_shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/frag_dptment_body_gv_05"
+                app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="8dp"
+                app:shimmer_auto_start="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/xd_light_background"
+                    android:orientation="vertical">
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                    <include layout="@layout/dpt_user_item_shimmer" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

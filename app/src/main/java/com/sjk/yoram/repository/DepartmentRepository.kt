@@ -3,9 +3,11 @@ package com.sjk.yoram.repository
 import android.app.Application
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.Position
+import com.sjk.yoram.model.dto.RequestUser
 import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.repository.retrofit.MyRetrofit
 import io.github.bangjunyoung.KoreanChar
+import java.net.SocketTimeoutException
 
 
 class DepartmentRepository(private val application: Application) {
@@ -44,6 +46,27 @@ class DepartmentRepository(private val application: Application) {
             }
         }
         return list
+    }
+
+    suspend fun getDepartmentNodeListByName(requestUser: RequestUser): MutableList<DepartmentNode> {
+        val response = MyRetrofit.dptmentApi.getDepartmentNodeListByName(requestUser)
+        if(!response.isSuccessful)
+            return mutableListOf()
+        return response.body() ?: mutableListOf()
+    }
+
+    suspend fun getDepartmentNodeListByDepartment(requestUser: RequestUser): MutableList<DepartmentNode> {
+        val response = MyRetrofit.dptmentApi.getDepartmentNodeListByDepartment(requestUser)
+        if(!response.isSuccessful)
+            return mutableListOf()
+        return response.body() ?: mutableListOf()
+    }
+
+    suspend fun getDepartmentNodeListByPosition(requestUser: RequestUser): MutableList<DepartmentNode> {
+        val response = MyRetrofit.dptmentApi.getDepartmentNodeListByPosition(requestUser)
+        if(!response.isSuccessful)
+            return mutableListOf()
+        return response.body() ?: mutableListOf()
     }
 
     suspend fun getAllDepartmentsByDepartment(request: Int): MutableList<Department> {

@@ -238,16 +238,34 @@ object BindingAdapters {
 
     @BindingAdapter("PowerSpinnerDefaultSelectIndex")
     @JvmStatic
-    fun setDefautSelectIndex(view: PowerSpinnerView, index: Int) {
+    fun setDefaultSelectIndex(view: PowerSpinnerView, index: Int) {
         view.selectItemByIndex(index)
     }
 
-
-
-    @BindingAdapter("DepartmentData")
+    @BindingAdapter("PowerSpinnerSelection")
     @JvmStatic
-    fun setOnRecyclerAdapterDepartmentData(view: RecyclerView, data: List<Department>) {
-        (view.adapter as DepartmentListAdapter).submitList(data)
+    fun setSpinnerSelectIndex(view: PowerSpinnerView, selection: Int) {
+        if(view.selectedIndex != selection)
+            view.selectItemByIndex(selection)
+    }
+    @BindingAdapter("PowerSpinnerSelectionAttrChanged")
+    @JvmStatic
+    fun setSelectionChangedListener(view: PowerSpinnerView, listener: InverseBindingListener?) {
+        if(view.hasSelection())
+            listener?.onChange()
+    }
+
+    @InverseBindingAdapter(attribute = "PowerSpinnerSelection")
+    @JvmStatic
+    fun getSpinnerSelectIndex(view: PowerSpinnerView): Int {
+        return view.selectedIndex
+    }
+
+
+    @BindingAdapter("DepartmentNodeData")
+    @JvmStatic
+    fun setOnRecyclerAdapterDepartmentNodeData(view: RecyclerView, data: List<DepartmentNode>) {
+        (view.adapter as DepartmentNodeListAdapter).submitList(data)
     }
     @BindingAdapter("SimpleUserData", "highlightKeyword")
     @JvmStatic

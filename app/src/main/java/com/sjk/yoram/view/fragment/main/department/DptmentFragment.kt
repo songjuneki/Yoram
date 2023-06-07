@@ -8,16 +8,22 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
 class DptmentFragment: Fragment() {
     private lateinit var binding: FragDptmentBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var viewModel: FragDptmentViewModel
+
+    private var showShimmer: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,9 +61,45 @@ class DptmentFragment: Fragment() {
             }
         }
 
+        viewModel.isLoadingDptServer.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                if(it)
+                    showShimmer = makeShowShimmerJob()
+                else
+                    hideShimmer()
+            }
+        }
+
         mainViewModel.goDptSearchEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 binding.fragDptmentHeaderSearch.callOnClick()
+            }
+        }
+
+
+    }
+
+    private fun makeShowShimmerJob() = lifecycleScope.launch {
+        binding.fragDptmentRecycler.visibility = View.INVISIBLE
+        binding.fragDptmentShimmer.startShimmer()
+        binding.fragDptmentShimmer.visibility = View.VISIBLE
+        delay(1500)
+    }
+
+    private fun hideShimmer() {
+        showShimmer?.let {
+            if(it.isActive) {
+                showShimmer?.invokeOnCompletion {
+                    binding.fragDptmentShimmer.stopShimmer()
+                    binding.fragDptmentShimmer.visibility = View.GONE
+                    binding.fragDptmentRecycler.visibility = View.VISIBLE
+                    showShimmer = null
+                }
+            } else {
+                binding.fragDptmentShimmer.stopShimmer()
+                binding.fragDptmentShimmer.visibility = View.GONE
+                binding.fragDptmentRecycler.visibility = View.VISIBLE
+                showShimmer = null
             }
         }
     }

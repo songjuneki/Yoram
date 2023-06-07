@@ -26,8 +26,7 @@ class MutableListLiveData<T>() : MutableLiveData<MutableList<T>>() {
     }
 
     fun clear() {
-        val current = value
-        current!!.clear()
+        val current = mutableListOf<T>()
         value = current
     }
 
@@ -56,5 +55,10 @@ class MutableListLiveData<T>() : MutableLiveData<MutableList<T>>() {
                 return false
         }
         return true
+    }
+
+    fun isEmpty(): Boolean {
+        if (value == null) return true
+        return value!!.isEmpty()
     }
 }

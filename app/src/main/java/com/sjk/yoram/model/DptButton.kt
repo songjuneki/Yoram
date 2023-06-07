@@ -6,9 +6,9 @@ data class DptButton (
     val code: Int? )
 
 enum class DptButtonType {
+    NAME,
     DEPARTMENT,
-    POSITION,
-    NAME
+    POSITION
 }
 
 data class SimpleDpt(
