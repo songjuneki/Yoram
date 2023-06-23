@@ -1,5 +1,6 @@
 package com.sjk.yoram.model
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.telephony.PhoneNumberFormattingTextWatcher
@@ -13,6 +14,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -30,9 +32,7 @@ import com.sjk.yoram.R
 import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.calendar.DayViewContainer
-import com.sjk.yoram.model.ui.listener.AddressItemClickListener
-import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
-import com.sjk.yoram.model.ui.listener.TextInputChanged
+import com.sjk.yoram.model.ui.listener.*
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
 import jp.wasabeef.transformers.coil.GrayscaleTransformation
@@ -261,12 +261,6 @@ object BindingAdapters {
         return view.selectedIndex
     }
 
-
-    @BindingAdapter("DepartmentNodeData")
-    @JvmStatic
-    fun setOnRecyclerAdapterDepartmentNodeData(view: RecyclerView, data: List<DepartmentNode>) {
-        (view.adapter as DepartmentNodeListAdapter).submitList(data)
-    }
     @BindingAdapter("SimpleUserData", "highlightKeyword")
     @JvmStatic
     fun setOnRecyclerAdapterSimpleUserData(view: RecyclerView, data: List<SimpleUser>, keyword: String) {
@@ -278,6 +272,11 @@ object BindingAdapters {
         (view.adapter as GiveListAdapter).submitList(data)
     }
 
+    @BindingAdapter("DepartmentNodeList")
+    @JvmStatic
+    fun setOnDepartmentListAdapter(view: RecyclerView, list: List<DepartmentNode>?) {
+        (view.adapter as ExpandableDepartmentNodeListAdapter).submitNodeList(list)
+    }
 
     @BindingAdapter("radioItems")
     @JvmStatic

@@ -1,7 +1,6 @@
 package com.sjk.yoram.view.fragment.main.department
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,6 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 class DptmentFragment: Fragment() {
     private lateinit var binding: FragDptmentBinding
@@ -47,7 +44,6 @@ class DptmentFragment: Fragment() {
             if (destination.id == R.id.dptmentFragment)
                 viewModel.hideSearchbar()
         }
-
         viewModel.userDetailEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 if (findNavController().currentDestination?.id == R.id.dptmentFragment)

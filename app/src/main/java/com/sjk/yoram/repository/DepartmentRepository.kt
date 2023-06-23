@@ -7,7 +7,6 @@ import com.sjk.yoram.model.dto.RequestUser
 import com.sjk.yoram.model.dto.SimpleUser
 import com.sjk.yoram.repository.retrofit.MyRetrofit
 import io.github.bangjunyoung.KoreanChar
-import java.net.SocketTimeoutException
 
 
 class DepartmentRepository(private val application: Application) {
@@ -69,73 +68,6 @@ class DepartmentRepository(private val application: Application) {
         return response.body() ?: mutableListOf()
     }
 
-    suspend fun getAllDepartmentsByDepartment(request: Int): MutableList<Department> {
-        val list = mutableListOf<Department>()
-        val root = MyRetrofit.dptmentApi.getAllTopDepartments()
-        list.addList(root)
-
-        list.forEach {
-            it.childDepartment = getChildDepartments(it.code, request)
-            it.users = getDepartmentsUsers(it.code, request)
-            it.getAllUserSize()
-        }
-        return list
-    }
-
-    private suspend fun getChildDepartments(code: Int, request: Int): MutableList<Department> {
-        val list = mutableListOf<Department>()
-        val child = MyRetrofit.dptmentApi.getChildDepartments(code)
-        list.addList(child)
-
-        list.forEach {
-            it.childDepartment = getChildDepartments(it.code, request)
-            it.users = getDepartmentsUsers(it.code, request)
-            it.getAllUserSize()
-        }
-        return list
-    }
-
-    private suspend fun getDepartmentsUsers(code: Int, request: Int): MutableList<SimpleUser> {
-        val users = MyRetrofit.userApi.getSimpleUsersDepartment(code, request)
-        return if (users.isNullOrEmpty())
-            mutableListOf()
-        else
-            users
-    }
-
-    suspend fun getDepartmentsByPosition(request: Int): MutableList<Department> {
-        val list = mutableListOf<Department>()
-        val root = MyRetrofit.dptmentApi.getAllTopPositions()
-        list.addList(root)
-
-        list.forEach {
-            it.childDepartment = getChildPositions(it.code, request)
-            it.users = getPositionsUsers(it.code, request)
-            it.getAllUserSize()
-        }
-        return list
-    }
-
-    private suspend fun getChildPositions(code: Int, request: Int): MutableList<Department> {
-        val list = mutableListOf<Department>()
-        val child = MyRetrofit.dptmentApi.getChildPosition(code)
-        list.addList(child)
-
-        list.forEach {
-            it.childDepartment = getChildPositions(it.code, request)
-            it.users = getPositionsUsers(it.code, request)
-            it.getAllUserSize()
-        }
-        return list
-    }
-
-    private suspend fun getPositionsUsers(code: Int, request: Int): MutableList<SimpleUser> {
-        val users = MyRetrofit.userApi.getSimpleUsersPosition(code, request)
-        return if (users.isNullOrEmpty())
-            mutableListOf()
-        else
-            users
-    }
 
     suspend fun getDepartmentList(): MutableList<Department> {
         val list = mutableListOf<Department>()

@@ -1,5 +1,6 @@
 package com.sjk.yoram.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
 import android.widget.DatePicker.OnDateChangedListener
@@ -10,7 +11,6 @@ import com.sjk.yoram.model.*
 import com.sjk.yoram.model.Department
 import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.ui.adapter.*
-import com.sjk.yoram.model.ui.listener.DepartmentItemClickListener
 import com.sjk.yoram.model.ui.listener.GiveItemClickListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.sjk.yoram.model.ui.listener.UserItemClickListener
@@ -19,10 +19,6 @@ import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onCompletion
-import okhttp3.internal.wait
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.time.LocalDate
@@ -36,9 +32,9 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private val _dptSortType = MutableLiveData(DptButtonType.NAME)
     val dptSortType: LiveData<DptButtonType> = _dptSortType
 
-    val dptSortIdx = MutableLiveData<Int>(0)
+    val dptSortIdx = MutableLiveData(0)
 
-    val departmentNodeList = MutableListLiveData<DepartmentNode>()
+    var departmentNodeList = MutableListLiveData<DepartmentNode>()
 
     private val _isLoadingDptServer = MutableLiveData(Event(true))
     val isLoadingDptServer: LiveData<Event<Boolean>>
@@ -91,11 +87,13 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         override var selectedDpt: Department = Department("성도", 0)
             get() = _checkedManagerDpt.value ?: Department("성도", 0)
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun onChanged(changedDpt: Department) {
             _checkedManagerDpt.value = changedDpt
             userManagerDepartmentAdapter.notifyDataSetChanged()
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun onExpanded() {
             userManagerDepartmentAdapter.notifyDataSetChanged()
         }
@@ -105,11 +103,13 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         override var selectedDpt: Department = Department("성도", 1050)
             get() = Department(_checkedManagerPos.value ?: Position(1050, "성도", 1050))
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun onChanged(changedDpt: Department) {
             _checkedManagerPos.value = Position(changedDpt.code, changedDpt.name, changedDpt.parentCode)
             userManagerPositionAdapter.notifyDataSetChanged()
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         override fun onExpanded() {
             userManagerPositionAdapter.notifyDataSetChanged()
         }
@@ -189,23 +189,23 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     fun managerClickEvent(btnId: Int) {
-         when(btnId) {
-             R.id.frag_user_manager_home_apply -> commitUserManagerEdited()
-             R.id.frag_user_manager_home_cancel -> _userManagerCloseEvent.value = Event(Unit)
-             R.id.frag_user_manager_home_dpt_btn -> initUserManagerDepartment()
-             R.id.frag_user_manager_dptment_back -> _userManagerBackEvent.value = Event(Unit)
-             R.id.frag_user_manager_home_pos_btn -> initUserManagerPosition()
-             R.id.frag_user_manager_pos_back -> _userManagerBackEvent.value = Event(Unit)
-             R.id.frag_user_manager_home_perm_btn -> _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerPermission)
-             R.id.frag_user_manager_perm_back -> _userManagerBackEvent.value = Event(Unit)
-             R.id.frag_user_manager_home_give_btn -> initUserManagerGive()
-             R.id.frag_user_manager_give_back -> _userManagerBackEvent.value = Event(Unit)
-             R.id.frag_user_manager_give_add -> initUserManagerGiveAdd()
-             R.id.frag_user_manager_give_detail_back, R.id.frag_user_manager_give_detail_cancel -> _userManagerBackEvent.value = Event(Unit)
-             R.id.frag_user_manager_give_detail_apply -> commitUserManagerGiveEdited()
-             R.id.frag_user_manager_give_detail_zero -> editableGiveAmount.value = "0"
-             R.id.frag_user_manager_give_detail_delete -> deleteUserManagerGive()
-         }
+        when(btnId) {
+            R.id.frag_user_manager_home_apply -> commitUserManagerEdited()
+            R.id.frag_user_manager_home_cancel -> _userManagerCloseEvent.value = Event(Unit)
+            R.id.frag_user_manager_home_dpt_btn -> initUserManagerDepartment()
+            R.id.frag_user_manager_dptment_back -> _userManagerBackEvent.value = Event(Unit)
+            R.id.frag_user_manager_home_pos_btn -> initUserManagerPosition()
+            R.id.frag_user_manager_pos_back -> _userManagerBackEvent.value = Event(Unit)
+            R.id.frag_user_manager_home_perm_btn -> _userManagerFragEvent.value = Event(R.id.action_userManagerHome_to_userManagerPermission)
+            R.id.frag_user_manager_perm_back -> _userManagerBackEvent.value = Event(Unit)
+            R.id.frag_user_manager_home_give_btn -> initUserManagerGive()
+            R.id.frag_user_manager_give_back -> _userManagerBackEvent.value = Event(Unit)
+            R.id.frag_user_manager_give_add -> initUserManagerGiveAdd()
+            R.id.frag_user_manager_give_detail_back, R.id.frag_user_manager_give_detail_cancel -> _userManagerBackEvent.value = Event(Unit)
+            R.id.frag_user_manager_give_detail_apply -> commitUserManagerGiveEdited()
+            R.id.frag_user_manager_give_detail_zero -> editableGiveAmount.value = "0"
+            R.id.frag_user_manager_give_detail_delete -> deleteUserManagerGive()
+        }
     }
 
     fun hideSearchbar() {
@@ -227,18 +227,12 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
-    private val dptClickListener = object: DepartmentItemClickListener {
-        override fun onClick(department: DepartmentNode) {
-            department.isExpanded = !department.isExpanded
-        }
-    }
     private val userClickListener = object: UserItemClickListener {
         override fun onClick(user: SimpleUser) {
             selectedUser(user.id)
         }
     }
-
-    fun listAdapter(): DepartmentNodeListAdapter = DepartmentNodeListAdapter(_myPermission, dptClickListener, if(_myPermission < 1) null else userClickListener)
+    fun nodeListAdapter() = ExpandableDepartmentNodeListAdapter(departmentNodeList.value!!, userClickListener)
     fun searchListAdapter() : SimpleUserListAdapter = SimpleUserListAdapter(userClickListener)
 
     private fun selectedUser(id: Int) {
@@ -436,7 +430,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     fun giveTypeSpinnerSelectedChanged(position: Int) {
-       selectedGive.value?.give_type = _giveTypeList[position].type
+        selectedGive.value?.give_type = _giveTypeList[position].type
     }
 
     fun giveWorshipTypeSpinnerSelectedChanged(position: Int) {

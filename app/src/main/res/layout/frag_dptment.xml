@@ -182,7 +182,6 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                tools:visibility="gone"
                 android:id="@+id/frag_dptment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -191,10 +190,10 @@
                 app:layout_constraintLeft_toLeftOf="@id/frag_dptment_body_gv_05"
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
                 android:layout_margin="8dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
-                android:adapter="@{vm.listAdapter()}"
-                DepartmentNodeData="@{vm.departmentNodeList}" />
+                android:adapter="@{vm.nodeListAdapter()}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                DepartmentNodeList="@{vm.departmentNodeList}"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 tools:visibility="gone"
