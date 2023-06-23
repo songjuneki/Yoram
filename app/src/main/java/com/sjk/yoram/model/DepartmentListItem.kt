@@ -3,7 +3,7 @@ package com.sjk.yoram.model
 import com.sjk.yoram.model.dto.SimpleUser
 
 data class DepartmentListItem(
-    val type: DepartmentNodeSubDataType,
+    val type: DepartmentListItemType,
     val department: ExpandableDepartment?,
     val user: SimpleUser?,
     val isHide: Boolean,
@@ -12,7 +12,7 @@ data class DepartmentListItem(
     constructor(nodeDpt: DepartmentNode,
                 isHide: Boolean = false,
                 isExpanded: Boolean = true):
-            this(DepartmentNodeSubDataType.DEPARTMENT,
+            this(DepartmentListItemType.DEPARTMENT,
                 ExpandableDepartment(nodeDpt),
                 null,
                 isHide,
@@ -20,7 +20,7 @@ data class DepartmentListItem(
     constructor(dpt: ExpandableDepartment,
                 isHide: Boolean = false,
                 isExpanded: Boolean = true):
-            this(DepartmentNodeSubDataType.DEPARTMENT,
+            this(DepartmentListItemType.DEPARTMENT,
                 dpt,
                 null,
                 isHide,
@@ -29,7 +29,7 @@ data class DepartmentListItem(
     constructor(user: SimpleUser,
                 isHide: Boolean = false,
                 isExpanded: Boolean = true):
-            this(DepartmentNodeSubDataType.USER,
+            this(DepartmentListItemType.USER,
                 null,
                 user,
                 isHide,
@@ -39,10 +39,10 @@ data class DepartmentListItem(
     override fun equals(other: Any?): Boolean {
         return if (other is DepartmentListItem) {
             when (this.type) {
-                DepartmentNodeSubDataType.DEPARTMENT ->
+                DepartmentListItemType.DEPARTMENT ->
                     this.department?.code == other.department?.code
                             && this.department?.parent == other.department?.parent
-                DepartmentNodeSubDataType.USER ->
+                DepartmentListItemType.USER ->
                     this.user?.id == other.user?.id
                             && this.user?.position == other.user?.position
                             && this.user?.department == other.user?.department

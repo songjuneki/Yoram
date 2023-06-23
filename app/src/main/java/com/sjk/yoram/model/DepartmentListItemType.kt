@@ -1,5 +1,5 @@
 package com.sjk.yoram.model
 
-enum class DepartmentNodeSubDataType {
+enum class DepartmentListItemType {
     DEPARTMENT, USER
 }

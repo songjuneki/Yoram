@@ -1,6 +1,5 @@
 package com.sjk.yoram.model.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -30,11 +29,11 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
-            DepartmentNodeSubDataType.DEPARTMENT.ordinal -> {
+            DepartmentListItemType.DEPARTMENT.ordinal -> {
                 val binding: DptHeaderItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.dpt_header_item, parent, false)
                 DepartmentViewHolder(binding)
             }
-            DepartmentNodeSubDataType.USER.ordinal -> {
+            DepartmentListItemType.USER.ordinal -> {
                 val binding: DptUserItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.dpt_user_item, parent, false)
                 UserViewHolder(binding)
             }
@@ -45,9 +44,9 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            DepartmentNodeSubDataType.DEPARTMENT.ordinal ->
+            DepartmentListItemType.DEPARTMENT.ordinal ->
                 (holder as DepartmentViewHolder).bind(position)
-            DepartmentNodeSubDataType.USER.ordinal ->
+            DepartmentListItemType.USER.ordinal ->
                 (holder as UserViewHolder).bind(position)
         }
     }
@@ -193,19 +192,19 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
                 if (oldItem.type != newItem.type)
                     return false
                 return when(newItem.type) {
-                    DepartmentNodeSubDataType.DEPARTMENT ->
+                    DepartmentListItemType.DEPARTMENT ->
                         oldItem.department?.code == newItem.department?.code
-                    DepartmentNodeSubDataType.USER ->
+                    DepartmentListItemType.USER ->
                         oldItem.user?.id == newItem.user?.id
                 }
             }
 
             override fun areContentsTheSame(oldItem: DepartmentListItem, newItem: DepartmentListItem): Boolean {
                 return when(newItem.type) {
-                    DepartmentNodeSubDataType.DEPARTMENT ->
+                    DepartmentListItemType.DEPARTMENT ->
                         oldItem.department?.code == newItem.department?.code
                                 && oldItem.department?.parent == newItem.department?.parent
-                    DepartmentNodeSubDataType.USER ->
+                    DepartmentListItemType.USER ->
                         oldItem.user?.id == newItem.user?.id
                                 && oldItem.user?.position == newItem.user?.position
                                 && oldItem.user?.department == newItem.user?.department
@@ -254,7 +253,7 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
         val map = hashMapOf<Int, DepartmentRelation>()
 
         list.forEach { item ->
-            if (item.type != DepartmentNodeSubDataType.DEPARTMENT)
+            if (item.type != DepartmentListItemType.DEPARTMENT)
                 return@forEach
             if (!map.contains(item.department!!.code))
                 map[item.department.code] = DepartmentRelation(mutableSetOf(), mutableSetOf())
@@ -266,7 +265,7 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
         }
 
         list.reversed().forEach { item ->
-            if (item.type != DepartmentNodeSubDataType.DEPARTMENT)
+            if (item.type != DepartmentListItemType.DEPARTMENT)
                 return@forEach
             if (!map.contains(item.department!!.code))
                 map[item.department.code] = DepartmentRelation(mutableSetOf(), mutableSetOf())
