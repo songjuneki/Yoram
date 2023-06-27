@@ -183,4 +183,7 @@
         <item name="colorOnSurface">#D7D7D7</item>
         <item name="colorSecondary">@color/xd_light_dot_indicator_enabled</item>
     </style>
+    <style name="ShapeAvatarCircle">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

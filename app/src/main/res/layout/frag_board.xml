@@ -5,130 +5,131 @@
             name="mainVM"
             type="com.sjk.yoram.viewmodel.MainViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/xd_light_background"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:background="@color/xd_light_background">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_board_gv05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/frag_board_gv95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frag_board_top_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_background"
+                android:elevation="10dp"
+                android:shadowRadius="5"
+                android:shadowColor="@color/xd_light_title"
+                android:outlineAmbientShadowColor="@color/xd_light_title"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_board_top_gv05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/frag_board_top_gv95"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+
+                <TextView
+                    android:id="@+id/frag_board_top_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="교회 소식"
+                    android:textColor="@color/xd_light_title"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:paddingVertical="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/frag_board_top_gv05"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/frag_board_top_post"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_post"
+                    android:scaleType="center"
+                    android:background="#00000000"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:soundEffectsEnabled="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/frag_board_top_gv95"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/frag_board_top_search"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    android:scaleType="center"
+                    android:background="#00000000"
+                    app:tint="#202020"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:soundEffectsEnabled="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/frag_board_top_post"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frag_board_category_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv05"
-                android:layout_width="wrap_content"
+            android:elevation="0dp"
+            android:background="@color/xd_light_card_divider"
+            app:layout_constraintTop_toBottomOf="@id/frag_board_top_layout">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv95"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv40"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.4" />
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/frag_board_gv60"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.6" />
-
-            <ImageView
-                android:id="@+id/frag_board_working_img"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_working"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_gv40"
-                app:layout_constraintRight_toRightOf="@id/frag_board_gv60"
-                app:layout_constraintBottom_toTopOf="@id/frag_board_title"/>
-
-            <LinearLayout
-                android:id="@+id/frag_board_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/frag_board_working_img"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frag_board_body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:elevation="10dp"
+            android:background="@color/xd_light_background"
+            app:layout_constraintTop_toBottomOf="@id/frag_board_category_layout"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_board_body_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/frag_board_working_card">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:textSize="20sp"
-                    android:textColor="@color/xd_light_title"
-                    android:text="&quot;현재 페이지는 서비스 " />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:textSize="20sp"
-                    android:textColor="@color/xd_light_dot_indicator_enabled"
-                    android:text="준비중" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:textSize="20sp"
-                    android:textColor="@color/xd_light_title"
-                    android:text="입니다.&quot;" />
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/frag_board_working_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#F0F4F7"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
-                android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@id/frag_board_title"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_gv05"
-                app:layout_constraintRight_toRightOf="@id/frag_board_gv95"
-                app:layout_constraintBottom_toTopOf="@id/frag_board_back_btn">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="보다 나은 서비스 제공을 위해 페이지 준비중에 있습니다.\n빠른 시일내에 준비하여 찾아뵙겠습니다."
-                    android:textSize="14sp"
-                    android:textColor="@color/xd_light_hint"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:lineSpacingExtra="4dp"
-                    android:gravity="center"
-                    android:padding="16dp"/>
-            </com.google.android.material.card.MaterialCardView>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/frag_board_back_btn"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:padding="8dp"
-                android:background="@drawable/border_init_login_button"
-                android:foreground="?attr/selectableItemBackground"
-                android:soundEffectsEnabled="true"
-                android:elevation="0dp"
-                android:text="돌아가기"
-                android:textColor="@color/xd_light_background"
-                android:textSize="16sp"
-                android:fontFamily="@font/pretendard_medium"
-                android:onClick="@{(v) -> mainVM.fragMoveEvent(v.id)}"
-                android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@id/frag_board_working_card"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_gv05"
-                app:layout_constraintRight_toRightOf="@id/frag_board_gv95"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
