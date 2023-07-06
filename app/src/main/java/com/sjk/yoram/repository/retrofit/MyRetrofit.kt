@@ -1,6 +1,7 @@
 package com.sjk.yoram.repository.retrofit
 
 import android.util.Log
+import com.sjk.yoram.repository.retrofit.api.BoardApi
 import com.sjk.yoram.repository.retrofit.api.DepartmentApi
 import com.sjk.yoram.repository.retrofit.api.ServerApi
 import com.sjk.yoram.repository.retrofit.api.UserApi
@@ -29,6 +30,7 @@ object MyRetrofit {
     val serverApi: ServerApi by lazy { getRetrofit().create(ServerApi::class.java) }
     val userApi: UserApi by lazy { getRetrofit().create(UserApi::class.java) }
     val dptmentApi: DepartmentApi by lazy { getRetrofit().create(DepartmentApi::class.java) }
+    val boardApi: BoardApi by lazy { getRetrofit().create(BoardApi::class.java) }
 
 
     suspend fun checkServer(): Boolean {

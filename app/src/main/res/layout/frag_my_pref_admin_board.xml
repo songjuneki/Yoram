@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xd_light_background">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/frag_my_pref_admin_board_gv05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/frag_my_pref_admin_board_gv95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/frag_my_pref_admin_board_gh_topbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="?attr/actionBarSize" />
+
+    <ImageButton
+        android:id="@+id/frag_my_pref_admin_board_back_btn"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/shape_circle_image_btn"
+        android:src="@drawable/ic_back"
+        android:scaleType="fitCenter"
+        android:clickable="true"
+        android:onClick="@{}"
+        android:soundEffectsEnabled="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_board_gv05"
+        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_admin_board_gh_topbar"/>
+    <TextView
+        android:id="@+id/farg_my_pref_admin_board_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="게시판 관리"
+        android:textSize="20sp"
+        android:textColor="@color/xd_light_title"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/frag_my_pref_admin_board_gh_topbar"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

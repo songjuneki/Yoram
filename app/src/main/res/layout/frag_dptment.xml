@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/frag_dptment_header_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/xd_light_background">
             <androidx.constraintlayout.widget.Guideline
@@ -84,6 +84,7 @@
                 android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
 
             <com.google.android.material.textfield.TextInputLayout
+                tools:visibility="gone"
                 android:id="@+id/frag_dptment_header_searchbar"
                 style="@style/BorderTextInputLayout"
                 android:layout_width="0dp"
@@ -112,6 +113,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                tools:visibility="gone"
                 android:id="@+id/frag_dptment_header_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,6 +159,7 @@
                 app:layout_constraintGuide_percent="0.95"/>
 
             <TextView
+                tools:visibility="gone"
                 android:id="@+id/frag_dptment_body_keyword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,6 +172,7 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:visibility="@{vm.searchKeyword.empty? View.INVISIBLE : View.VISIBLE}" />
             <TextView
+                tools:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -212,6 +216,7 @@
                 highlightKeyword="@{vm.searchKeyword}"/>
 
             <com.facebook.shimmer.ShimmerFrameLayout
+                tools:visibility="gone"
                 android:id="@+id/frag_dptment_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

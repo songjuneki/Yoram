@@ -463,4 +463,12 @@ object BindingAdapters {
     fun setAdminNewUserList(view: RecyclerView, list: MutableList<NewUserForAdmin>) {
         (view.adapter as AdminNewUserListAdapter).submitList(list)
     }
+
+
+    @BindingAdapter("CategoryList")
+    @JvmStatic
+    fun setCategoryList(view: RecyclerView, list: List<ReservedBoardCategory>?) {
+        if (list == null) return
+        (view.adapter as BoardCategoryListAdapter).submitList(list)
+    }
 }

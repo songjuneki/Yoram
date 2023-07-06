@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var homeFragViewModel: FragHomeViewModel
     private lateinit var dptFragViewModel: FragDptmentViewModel
+    private lateinit var boardFragViewModel: FragBoardViewModel
     private lateinit var idFragViewModel: FragIDViewModel
 
     private lateinit var myFragViewModel: FragMyViewModel
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, MainViewModel.Factory(application))[MainViewModel::class.java]
         homeFragViewModel = ViewModelProvider(this, FragHomeViewModel.Factory(application))[FragHomeViewModel::class.java]
         dptFragViewModel = ViewModelProvider(this, FragDptmentViewModel.Factory(application))[FragDptmentViewModel::class.java]
+        boardFragViewModel = ViewModelProvider(this, FragBoardViewModel.Factory(application))[FragBoardViewModel::class.java]
         idFragViewModel = ViewModelProvider(this, FragIDViewModel.Factory(application))[FragIDViewModel::class.java]
         myFragViewModel = ViewModelProvider(this, FragMyViewModel.Factory(application))[FragMyViewModel::class.java]
 
