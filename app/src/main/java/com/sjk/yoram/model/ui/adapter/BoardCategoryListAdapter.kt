@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,7 @@ import com.sjk.yoram.model.dto.ReservedBoardCategory
 import com.sjk.yoram.model.ui.listener.BoardCategoryChangedListener
 
 class BoardCategoryListAdapter(val categoryChangedListener: BoardCategoryChangedListener): ListAdapter<ReservedBoardCategory, RecyclerView.ViewHolder>(diffUtil) {
-    private var currentCategoryPos: Int = 0
+    var currentCategoryPos: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: BoardCategoryItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.board_category_item, parent, false)
@@ -25,7 +26,7 @@ class BoardCategoryListAdapter(val categoryChangedListener: BoardCategoryChanged
         (holder as ViewHolder).bind(getItem(position), position)
     }
 
-    inner class ViewHolder(val binding: BoardCategoryItemBinding): RecyclerView.ViewHolder(binding.root) {
+    private inner class ViewHolder(val binding: BoardCategoryItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ReservedBoardCategory, pos: Int) {
             binding.boardCategoryName.text = item.name
             (binding.root as MaterialCardView)
@@ -47,7 +48,7 @@ class BoardCategoryListAdapter(val categoryChangedListener: BoardCategoryChanged
         }
     }
 
-    private fun selectCategoryChange(pos: Int) {
+    fun selectCategoryChange(pos: Int) {
         if (pos == currentCategoryPos) return
         val oldPos = currentCategoryPos
         currentCategoryPos = pos

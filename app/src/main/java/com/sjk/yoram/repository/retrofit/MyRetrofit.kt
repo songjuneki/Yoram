@@ -1,6 +1,10 @@
 package com.sjk.yoram.repository.retrofit
 
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.sjk.yoram.model.dto.BoardMedia
+import com.sjk.yoram.model.dto.BoardMediaDeserializer
 import com.sjk.yoram.repository.retrofit.api.BoardApi
 import com.sjk.yoram.repository.retrofit.api.DepartmentApi
 import com.sjk.yoram.repository.retrofit.api.ServerApi
@@ -17,13 +21,16 @@ object MyRetrofit {
 
     private fun getRetrofit(): Retrofit {
         val okHttp: OkHttpClient = OkHttpClient().newBuilder()
+            .retryOnConnectionFailure(true)
             .connectTimeout(20, TimeUnit.SECONDS)
             .build()
+
+        val gson = GsonBuilder().registerTypeAdapter(BoardMedia::class.java, BoardMediaDeserializer()).create()
 
         return Retrofit.Builder()
             .baseUrl(SERVER)
             .client(okHttp)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

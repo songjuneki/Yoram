@@ -8,6 +8,6 @@ data class ReservedBoardCategory(
     val order: Int
 ) {
     fun toBoardCategory(): BoardCategory {
-        return BoardCategory(id, name, BoardCategoryType.valueOf(board_type))
+        return BoardCategory(board_id.toLong(), name, BoardCategoryType.valueOf(board_type))
     }
 }

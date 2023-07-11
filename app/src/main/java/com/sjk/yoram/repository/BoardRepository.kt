@@ -34,16 +34,12 @@ class BoardRepository(private val application: Application) {
     }.onStart { emit(ApiState.Loading()) }
         .catch { emit(ApiState.Error(it.message ?: "Cause unknown error")) }
 
-    suspend fun getPagedBoardList(category: BoardCategory, page: Int = 0): Flow<ApiState<List<Board>>> = flow {
+    suspend fun getPagedBoardList(category: BoardCategory, page: Int = 0): List<Board>? {
         val response = api.getPagedBoardListByCategory(category, page)
-        if (!response.isSuccessful) {
-            emit(ApiState.Error("Response unsuccessful"))
-            return@flow
-        }
-        emit(ApiState.Success(response.body()?.toList() ?: listOf()))
-    }.flowOn(Dispatchers.IO)
-        .onStart { emit(ApiState.Loading()) }
-        .catch { emit(ApiState.Error(it.message ?: "Cause unknown error")) }
+        if (!response.isSuccessful)
+            return null
+        return response.body() ?: emptyList()
+    }
 
 
     companion object {

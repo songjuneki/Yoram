@@ -3,6 +3,7 @@ package com.sjk.yoram.repository
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Environment
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
@@ -18,6 +19,8 @@ import com.sjk.yoram.R
 import com.sjk.yoram.model.*
 import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.repository.retrofit.MyRetrofit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -26,13 +29,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.lang.Exception
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import java.util.*
 
 class UserRepository(private val application: Application) {
     private val sharedPref = application.getSharedPreferences(application.getString(R.string.YORAM_LOCAL_PREF), Context.MODE_PRIVATE)
@@ -114,8 +116,12 @@ class UserRepository(private val application: Application) {
         val req = ImageRequest.Builder(application.applicationContext).data(url)
             .allowHardware(false)
             .build()
-        val result = (loader.execute(req) as SuccessResult).drawable
-        return result.toBitmap()
+        return try {
+            val result = (loader.execute(req) as SuccessResult).drawable
+            result.toBitmap()
+        } catch (e: Exception) {
+            BitmapFactory.decodeResource(application.resources, R.drawable.ic_avatar)
+        }
     }
 
     suspend fun uploadAvatar(img: Bitmap?): Boolean {
@@ -125,7 +131,9 @@ class UserRepository(private val application: Application) {
             return true
         }
         val storageDir: File? = application.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val file = File.createTempFile("JPEG_UPLOAD_TEMP", ".jpg", storageDir)
+        val file = withContext(Dispatchers.IO) {
+            File.createTempFile("JPEG_UPLOAD_TEMP", ".jpg", storageDir)
+        }
         var out: OutputStream? = null
 
         try {

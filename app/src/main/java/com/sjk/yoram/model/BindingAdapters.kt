@@ -471,4 +471,30 @@ object BindingAdapters {
         if (list == null) return
         (view.adapter as BoardCategoryListAdapter).submitList(list)
     }
+
+    @BindingAdapter("selectedCategory")
+    @JvmStatic
+    fun setSelectedCategory(view: RecyclerView, category: ReservedBoardCategory?) {
+        if (category == null)
+            (view.adapter as BoardCategoryListAdapter).selectCategoryChange(0)
+        val list = (view.adapter as BoardCategoryListAdapter).currentList
+        (view.adapter as BoardCategoryListAdapter).selectCategoryChange(list.indexOf(category))
+    }
+
+    @InverseBindingAdapter(attribute = "selectedCategory", event = "selectedCategoryChanged")
+    @JvmStatic
+    fun getSelectedCategory(view: RecyclerView): ReservedBoardCategory? {
+        if (view.adapter !is BoardCategoryListAdapter)
+            return null
+
+        val list = (view.adapter as BoardCategoryListAdapter).currentList
+        val pos = (view.adapter as BoardCategoryListAdapter).currentCategoryPos
+        return list.getOrNull(pos)
+    }
+
+    @BindingAdapter("selectedCategoryChanged")
+    @JvmStatic
+    fun selectedCategoryChange(view: RecyclerView, listener: InverseBindingListener) {
+        listener.onChange()
+    }
 }

@@ -1,74 +1,82 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.sjk.yoram.model.ApiState
-import com.sjk.yoram.model.MutableListLiveData
+import com.sjk.yoram.model.BoardPagingSource
+import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.dto.Board
-import com.sjk.yoram.model.dto.BoardCategory
 import com.sjk.yoram.model.dto.ReservedBoardCategory
 import com.sjk.yoram.model.ui.adapter.BoardCategoryListAdapter
+import com.sjk.yoram.model.ui.adapter.BoardListAdapter
+import com.sjk.yoram.model.ui.adapter.BoardListLoadStateAdapter
 import com.sjk.yoram.model.ui.listener.BoardCategoryChangedListener
+import com.sjk.yoram.model.ui.listener.BoardClickListener
 import com.sjk.yoram.repository.BoardRepository
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class FragBoardViewModel(private val boardRepository: BoardRepository): ViewModel() {
 
-    // Property :- StateFlow
-
+    // Property :- for Category
     private val _categoryList = MutableStateFlow<ApiState<List<ReservedBoardCategory>>>(ApiState.Loading())
     val categoryList: StateFlow<ApiState<List<ReservedBoardCategory>>> = _categoryList
 
-    private val _postList = MutableStateFlow<ApiState<List<Board>>>(ApiState.Loading())
-    val postList: StateFlow<ApiState<List<Board>>> = _postList
+    val currentBoardCategory = MutableStateFlow<ReservedBoardCategory?>(null)
 
-    private val _currentBoardCategory = MutableStateFlow<ReservedBoardCategory?>(null)
-    val currentBoardCategory: StateFlow<ReservedBoardCategory?> = _currentBoardCategory
 
-    private val _currentPage = MutableStateFlow<Int>(0)
-    val currentPage: StateFlow<Int> = _currentPage
-
+    // Property :- for Board
 
     // Property :- Adapter, Listener
-
     private val categoryClickListener = object: BoardCategoryChangedListener {
         override fun onChanged(changedCategory: ReservedBoardCategory) {
-            if (currentBoardCategory.value?.id == changedCategory.id) return        // 같은 게시판 클릭시
+            // 같은 게시판 클릭 시
+            if (currentBoardCategory.value?.id == changedCategory.id) {
+                _moveTopOfBoardListEvent.value = Event(Unit)
+                return
+            }
+            currentBoardCategory.update { changedCategory }
+        }
+    }
+    val categoryAdapter = BoardCategoryListAdapter(categoryClickListener)
 
-            _currentBoardCategory.update { changedCategory }
-            _currentPage.update { 0 }
-//            loadBoardsPostList()
+    private val boardClickListener = object: BoardClickListener {
+        override fun onClick(board: Board) {
+            Log.d("JKJK", "Board :: $board")
         }
     }
 
-    fun categoryAdapter() = BoardCategoryListAdapter(categoryClickListener)
+    val boardAdapter = BoardListAdapter(boardClickListener).apply {
+        this.withLoadStateFooter(BoardListLoadStateAdapter())
+    }
+
+    // Property :- for Event
+    private val _moveTopOfBoardListEvent = MutableLiveData<Event<Unit>>()
+    val moveTopOfBoardListEvent: LiveData<Event<Unit>>
+        get() = _moveTopOfBoardListEvent
 
     init {
         viewModelScope.launch {
             boardRepository.getReservedCategoryList()
-                .collect {
+                .collectLatest {
                     _categoryList.value = it
+                    currentBoardCategory.value = it.data?.firstOrNull()
                 }
         }
+
     }
 
-    fun loadBoardsPostList() {
-        viewModelScope.launch {
-            if (_currentBoardCategory.value == null)
-                return@launch
-            boardRepository.getPagedBoardList(currentBoardCategory.value!!.toBoardCategory(), _currentPage.value)
-                .collect {
-                    _postList.getAndUpdate { current ->
-                        val result = current.data?.toMutableList() ?: mutableListOf()
-                        result.addAll(it.data ?: emptyList())
-                        ApiState.Success(result)
-                    }
-                }
-        }
+    fun getBoardData(category: ReservedBoardCategory): Flow<PagingData<Board>> {
+        return Pager(config = PagingConfig(pageSize = 5, enablePlaceholders = true),
+        pagingSourceFactory = { BoardPagingSource(boardRepository, category.toBoardCategory()) })
+            .flow
+            .cachedIn(viewModelScope)
     }
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

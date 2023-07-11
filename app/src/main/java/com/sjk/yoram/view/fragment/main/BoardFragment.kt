@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragBoardBinding
 import com.sjk.yoram.model.ApiState
@@ -43,20 +46,51 @@ class BoardFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launchWhenCreated {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.categoryList.collectLatest {
+                    when (it) {
+                        is ApiState.Loading -> {
+                            showCategoryLoading().join()
+                            showBoardLoading().join()
+                        }
+                        is ApiState.Success ->  {
+                            showCategory()
+                            showBoard()
+
+                        }
+                        is ApiState.Error -> {
+                            // 카테고리 에러 뷰 핸들링
+                        }
+                    }
+                }
+
+            }
+
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.categoryList.collectLatest {
-                when (it) {
-                    is ApiState.Loading -> showCategoryLoading()
-                    is ApiState.Success ->  {
-                        makeCategoryShimmerJob().join()
-                        showCategory()
-                    }
-                    is ApiState.Error -> {
-                        // 카테고리 에러 뷰 핸들링
-                    }
+            viewModel.currentBoardCategory.collectLatest { cat ->
+                if (cat == null) {
+                    showBoardLoading().join()
+                    return@collectLatest
+                }
+
+                viewModel.getBoardData(cat).collectLatest { data ->
+                    viewModel.boardAdapter.submitData(data)
                 }
             }
         }
+
+
+        viewModel.moveTopOfBoardListEvent.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                binding.fragBoardBodyRecycler.smoothScrollToPosition(0)
+            }
+        }
+
+
+
 
     }
 
@@ -67,16 +101,27 @@ class BoardFragment: Fragment() {
         binding.fragBoardCategoryRecycler.visibility = View.VISIBLE
     }
 
-    private fun showCategoryLoading() {
+    private fun showCategoryLoading() = lifecycleScope.launch {
         binding.fragBoardCategoryRecycler.visibility = View.GONE
         binding.fragBoardCategoryLayoutShimmer.startShimmer()
         binding.fragBoardCategoryLayoutShimmer.visibility = View.VISIBLE
+        delay(1500)
     }
 
     private fun makeCategoryShimmerJob() = lifecycleScope.launch {
         binding.fragBoardCategoryRecycler.visibility = View.GONE
         binding.fragBoardCategoryLayoutShimmer.startShimmer()
         binding.fragBoardCategoryLayoutShimmer.visibility = View.VISIBLE
-        delay(3000)
+    }
+
+    private fun showBoard() {
+        binding.fragBoardBodyRecycler.visibility = View.VISIBLE
+        binding.fragBoardBodyShimmerLayout.visibility = View.GONE
+    }
+
+    private fun showBoardLoading() = lifecycleScope.launch {
+        binding.fragBoardBodyRecycler.visibility = View.GONE
+        binding.fragBoardBodyShimmerLayout.visibility = View.VISIBLE
+        delay(1500)
     }
 }
