@@ -29,7 +29,6 @@ class BoardRepository(private val application: Application) {
         if (!response.isSuccessful) {
             emit(ApiState.Error("Response unsuccessful"))
         }
-        Log.d("JKJK", "Repository::RAW(${response.body()}")
         emit(ApiState.Success(response.body()?.toList() ?: listOf()))
     }.onStart { emit(ApiState.Loading()) }
         .catch { emit(ApiState.Error(it.message ?: "Cause unknown error")) }

@@ -73,7 +73,7 @@ class FragBoardViewModel(private val boardRepository: BoardRepository): ViewMode
     }
 
     fun getBoardData(category: ReservedBoardCategory): Flow<PagingData<Board>> {
-        return Pager(config = PagingConfig(pageSize = 5, enablePlaceholders = true),
+        return Pager(config = PagingConfig(pageSize = 10, enablePlaceholders = true),
         pagingSourceFactory = { BoardPagingSource(boardRepository, category.toBoardCategory()) })
             .flow
             .cachedIn(viewModelScope)

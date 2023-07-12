@@ -1,6 +1,8 @@
 package com.sjk.yoram.model.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
@@ -10,6 +12,7 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.BoardItemBinding
 import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.dto.BoardMedia
+import com.sjk.yoram.model.dto.BoardMediaType
 import com.sjk.yoram.model.ui.listener.BoardClickListener
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,22 +34,76 @@ class BoardListAdapter(val boardClickListener: BoardClickListener): PagingDataAd
 
             binding.boardItemCategoryName.text = item?.category_name
             binding.boardItemOwnerName.text = item?.owner_user_name
-            binding.boardItemBody.text = item?.board_content
+            binding.boardItemBody.text = "${item?.board_title}\n\n${contentMediaParse(item)}".trimIndent()
             binding.boardItemOwnerDate.text = item?.board_date
 
+            if (item?.board_option_script?.isNotBlank() == true) {
+                binding.boardItemScript.visibility = View.VISIBLE
+                binding.boardItemScript.text = item.board_option_script
+            } else {
+                binding.boardItemScript.visibility = View.GONE
+            }
+
+            if (item?.board_option_script_date?.isNotBlank() == true) {
+                binding.boardItemScriptDate.visibility = View.VISIBLE
+                binding.boardItemScriptDate.text = "${item.board_option_script_date} 설교"
+            } else {
+                binding.boardItemScriptDate.visibility = View.GONE
+            }
 
             binding.root.setOnClickListener {
                 boardClickListener.onClick(item!!)
             }
 
+            binding.boardItemBodyMediaPager.adapter = BoardMediaListAdapter()
+            (binding.boardItemBodyMediaPager.adapter as BoardMediaListAdapter).submitList(
+                mediaList.filter { it.type == BoardMediaType.IMAGE || it.type == BoardMediaType.YOUTUBE || it.type == BoardMediaType.LINK }
+            )
 
         }
 
-//        private fun contentMediaParse(): String {
-//            mediaList.forEach {
-//
-//            }
-//        }
+        private fun contentMediaParse(item: Board?): String {
+            if (item == null) return ""
+            val content = StringBuilder(item.board_content)
+
+            val regex = "\\\\!%MEDIA%!\\\\".toRegex()
+            var match = regex.find(content.toString())
+            var index = 0
+
+            while (match != null) {
+                content.delete(match.range.first, match.range.last+1)
+
+                val media = mediaList.getOrNull(index)
+                when (media?.type) {
+                    BoardMediaType.NONE -> {}
+                    BoardMediaType.LINK -> {
+                        media as BoardMedia.Link
+                        if (media.url.endsWith("jpg", ignoreCase = true)
+                            || media.url.endsWith("jpeg", ignoreCase = true)
+                            || media.url.endsWith("png", ignoreCase = true)
+                            || media.url.endsWith("bmp", ignoreCase = true)) {
+                            mediaList.remove(media)
+                            index--
+                        }
+                    }
+                    BoardMediaType.IMAGE -> {}
+                    BoardMediaType.FILE -> {}
+                    BoardMediaType.YOUTUBE -> {}
+                    else -> {}
+                }
+                index++
+                match = regex.find(content.toString())
+            }
+
+            val blank = "&nbsp;".toRegex()
+            match = blank.find(content.toString())
+            while (match != null) {
+                content.replace(match.range.first, match.range.last+1, " ")
+                match = blank.find(content.toString())
+            }
+
+            return content.toString()
+        }
     }
 
 
