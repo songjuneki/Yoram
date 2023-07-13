@@ -115,10 +115,18 @@ class BoardMediaListAdapter(): ListAdapter<BoardMedia, RecyclerView.ViewHolder>(
                 listener(onStart = {
                     binding.boardMediaItemYoutubeProgress.visibility = View.VISIBLE
                     binding.boardMediaItemYoutubeIcon.visibility = View.INVISIBLE
+                    binding.boardMediaItemYoutubeError.visibility = View.GONE
                 },
                     onSuccess = { _, _ ->
                         binding.boardMediaItemYoutubeProgress.visibility = View.GONE
+                        binding.boardMediaItemYoutubeError.visibility = View.GONE
                         binding.boardMediaItemYoutubeIcon.visibility = View.VISIBLE
+                    },
+                    onError = { _, _ ->
+                        binding.boardMediaItemYoutubeIcon.visibility = View.GONE
+                        binding.boardMediaItemYoutubeProgress.visibility = View.GONE
+                        binding.boardMediaItemYoutubeThumbnail.visibility = View.GONE
+                        binding.boardMediaItemYoutubeError.visibility = View.VISIBLE
                     }
                 )
                 transformations(BlurTransformation(binding.root.context, 4, 1))
