@@ -1,6 +1,5 @@
 package com.sjk.yoram.model.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,6 +66,7 @@ class BoardMediaListAdapter(): ListAdapter<BoardMedia, RecyclerView.ViewHolder>(
                     onSuccess = { _, _ ->
                         binding.boardMediaItemImageProgress.visibility = View.GONE
                     })
+                memoryCacheKey(item.url.substringAfter("guseong.org/"))
             }
         }
     }

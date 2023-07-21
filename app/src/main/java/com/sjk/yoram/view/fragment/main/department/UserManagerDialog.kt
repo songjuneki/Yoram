@@ -8,7 +8,8 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -18,8 +19,8 @@ import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import com.sjk.yoram.viewmodel.MainViewModel
 
 class UserManagerDialog: DialogFragment() {
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var viewModel: FragDptmentViewModel
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val viewModel: FragDptmentViewModel by viewModels(ownerProducer = { requireParentFragment().childFragmentManager.fragments.first() })
     private lateinit var binding: DialogUserManagerBinding
 
     private lateinit var userManagerFragmentManager: FragmentManager
@@ -31,8 +32,6 @@ class UserManagerDialog: DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        viewModel = ViewModelProvider(requireActivity())[FragDptmentViewModel::class.java]
         binding = DialogUserManagerBinding.inflate(layoutInflater)
 
         binding.mainVM = mainViewModel

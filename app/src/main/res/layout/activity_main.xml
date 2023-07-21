@@ -11,7 +11,8 @@
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/xd_light_background">
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/main_gv10"
             android:layout_width="wrap_content"
@@ -25,16 +26,15 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mainFrame"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/main_frame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:background="@color/xd_light_background"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottomNavi"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            app:navGraph="@navigation/main_nav_graph"
-            app:defaultNavHost="true"
-            tools:layout="@layout/frag_home"/>
+            android:name="androidx.navigation.fragment.NavHostFragment" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavi"

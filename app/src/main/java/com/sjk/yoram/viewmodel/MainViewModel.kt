@@ -17,8 +17,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MainViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
-    private val _currentFragmentType = MutableLiveData(FragmentType.Fragment_HOME)
-    val currentFragmentType: LiveData<FragmentType> = _currentFragmentType
     val dptClickState = MutableLiveData(false)
     val loginState = MutableLiveData(LoginState.NONE)
 
@@ -34,8 +32,8 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     val giveAmount: LiveData<String>
         get() = _giveAmount
 
-    private val _currentFragment = MutableLiveData<Event<FragmentType>>()
-    val currentFragment: LiveData<Event<FragmentType>>
+    private val _currentFragment = MutableLiveData<FragmentType>(FragmentType.Fragment_HOME)
+    val currentFragment: LiveData<FragmentType>
         get() = _currentFragment
 
     private val _loginEvent = MutableLiveData<Event<Unit>>()
@@ -69,14 +67,53 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
         checkRuleAgreeExpire()
     }
 
+    // Function :- for Fragment
+
     fun fragMoveEvent(btnId: Int) {
         when (btnId) {
-            R.id.home_dpt_more, R.id.frag_my_user_menus_dpt -> { _moveFragmentEvent.value = Event(R.id.navi_dptment) }
-            R.id.home_dpt_search -> { _moveFragmentEvent.value = Event(R.id.navi_dptment); _goDptSearchEvent.value = Event(Unit) }
-            R.id.frag_my_user_menus_board -> { _moveFragmentEvent.value = Event(R.id.navi_board) }
-            R.id.home_checkin -> { _moveFragmentEvent.value = Event(R.id.navi_id) }
+            R.id.navi_home -> fragMoveHome()
+            R.id.navi_dptment -> fragMoveDepartment()
+            R.id.navi_id -> fragMoveID()
+            R.id.navi_board -> fragMoveBoard()
+            R.id.navi_my -> fragMoveMy()
+
+            R.id.home_dpt_more, R.id.frag_my_user_menus_dpt -> fragMoveDepartment()
+            R.id.home_dpt_search -> {
+                fragMoveDepartment()
+                _goDptSearchEvent.value = Event(Unit)
+            }
+            R.id.frag_my_user_menus_board -> fragMoveDepartment()
+            R.id.home_checkin -> fragMoveID()
             R.id.main_dialog_update_layout -> _privacyAgreeEvent.value = Event(Unit)
         }
+    }
+
+    fun fragMoveHome() {
+        _moveFragmentEvent.value = Event(R.id.navi_home)
+    }
+
+    fun fragMoveDepartment() {
+        _moveFragmentEvent.value = Event(R.id.navi_dptment)
+    }
+
+    fun fragMoveID() {
+        _moveFragmentEvent.value = Event(R.id.navi_id)
+    }
+
+    fun fragMoveBoard() {
+        _moveFragmentEvent.value = Event(R.id.navi_board)
+    }
+
+    fun fragMoveMy() {
+        _moveFragmentEvent.value = Event(R.id.navi_my)
+    }
+
+    fun getCurrentFragment(): FragmentType {
+        return _currentFragment.value ?: FragmentType.Fragment_HOME
+    }
+
+    fun setCurrentFragment(type: FragmentType) {
+        this._currentFragment.value = type
     }
 
     fun loadLoginData() {

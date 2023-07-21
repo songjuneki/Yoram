@@ -4,8 +4,8 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
@@ -14,13 +14,12 @@ import com.sjk.yoram.viewmodel.EditViewModel
 
 class EditActivity: AppCompatActivity() {
     private val binding by lazy { ActivityMyEditBinding.inflate(layoutInflater) }
-    private lateinit var viewModel: EditViewModel
+    private val viewModel: EditViewModel by viewModels { EditViewModel.Factory(application) }
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, EditViewModel.Factory(application))[EditViewModel::class.java]
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)

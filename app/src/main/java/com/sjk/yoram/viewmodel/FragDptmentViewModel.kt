@@ -242,13 +242,6 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         }
     }
 
-    private fun getRequestUser(): RequestUser {
-        return RequestUser(userRepository.getLoginID(),
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-            _myPermission
-        )
-    }
-
     private var _searchJob: Job? = null
     private fun searchUserByName(name: String) {
         _searchJob = viewModelScope.launch {
@@ -259,21 +252,21 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     private fun loadDepartmentByName() = viewModelScope.launch {
         departmentNodeList.clear()
         _isLoadingDptServer.value = Event(true)
-        departmentNodeList.value = departmentRepository.getDepartmentNodeListByName(getRequestUser())
+        departmentNodeList.value = departmentRepository.getDepartmentNodeListByName(userRepository.getRequestUser())
         _isLoadingDptServer.value = Event(false)
     }
 
     private fun loadDepartmentByDepartment() = viewModelScope.launch {
         departmentNodeList.clear()
         _isLoadingDptServer.value = Event(true)
-        departmentNodeList.value = departmentRepository.getDepartmentNodeListByDepartment(getRequestUser())
+        departmentNodeList.value = departmentRepository.getDepartmentNodeListByDepartment(userRepository.getRequestUser())
         _isLoadingDptServer.value = Event(false)
     }
 
     private fun loadDepartmentByPosition() = viewModelScope.launch {
         departmentNodeList.clear()
         _isLoadingDptServer.value = Event(true)
-        departmentNodeList.value = departmentRepository.getDepartmentNodeListByPosition(getRequestUser())
+        departmentNodeList.value = departmentRepository.getDepartmentNodeListByPosition(userRepository.getRequestUser())
         _isLoadingDptServer.value = Event(false)
     }
 

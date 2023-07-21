@@ -4,11 +4,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,8 +19,8 @@ import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import com.sjk.yoram.viewmodel.MainViewModel
 
 class UserInfoDialog: BottomSheetDialogFragment() {
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var dptViewModel: FragDptmentViewModel
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val viewModel: FragDptmentViewModel by viewModels(ownerProducer = { parentFragmentManager.fragments.first() })
     private lateinit var binding: DialogUserInfoBinding
 
     override fun onCreateView(
@@ -28,10 +28,8 @@ class UserInfoDialog: BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        dptViewModel = ViewModelProvider(requireActivity())[FragDptmentViewModel::class.java]
         binding = DialogUserInfoBinding.inflate(layoutInflater)
-        binding.vm = dptViewModel
+        binding.vm = viewModel
         binding.mainVM = mainViewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
         initView()
@@ -42,14 +40,14 @@ class UserInfoDialog: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dptViewModel.userCallEvent.observe(viewLifecycleOwner) { event ->
+        viewModel.userCallEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 val dial = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${it.replace("-", "")}"))
                 startActivity(dial)
             }
         }
 
-        dptViewModel.userMsgEvent.observe(viewLifecycleOwner) { event ->
+        viewModel.userMsgEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 val msg = Intent(Intent.ACTION_SENDTO, Uri.parse("sms:${it.replace("-", "")}"))
                 msg.putExtra("sms_body", "")
@@ -57,7 +55,7 @@ class UserInfoDialog: BottomSheetDialogFragment() {
             }
         }
 
-        dptViewModel.userManageEvent.observe(viewLifecycleOwner) { event ->
+        viewModel.userManageEvent.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 findNavController().navigate(R.id.action_userInfoDialog_to_userManagerDialog)
             }

@@ -132,7 +132,6 @@
             app:layout_constraintTop_toBottomOf="@id/frag_board_top_layout">
             <androidx.recyclerview.widget.RecyclerView
                 tools:visibility="visible"
-                android:visibility="invisible"
                 android:id="@+id/frag_board_category_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +149,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
             <com.facebook.shimmer.ShimmerFrameLayout
                 tools:visibility="gone"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:id="@+id/frag_board_category_layout_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,6 +187,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/frag_board_body_recycler"
+                tools:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -197,17 +197,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <LinearLayout
+            <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/frag_board_body_shimmer_layout"
                 tools:visibility="gone"
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="vertical">
-                <include
-                    layout="@layout/board_item_shimmer"/>
-            </LinearLayout>
+                android:layout_height="match_parent"
+                app:shimmer_auto_start="true"
+                app:layout_constraintTop_toTopOf="parent">
+                <include layout="@layout/board_shimmer" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <include
                 tools:visibility="gone"

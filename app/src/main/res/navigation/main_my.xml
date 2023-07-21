@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/myFragment"
-        android:name="com.sjk.yoram.view.fragment.main.MyFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.MyFragment"
         android:label="MyFragment"
         tools:layout="@layout/frag_my"/>
 </navigation>

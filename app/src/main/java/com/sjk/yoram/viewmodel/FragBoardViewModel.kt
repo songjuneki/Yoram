@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
+import com.sjk.yoram.R
 import com.sjk.yoram.model.ApiState
 import com.sjk.yoram.model.BoardPagingSource
 import com.sjk.yoram.model.Event
@@ -26,12 +27,14 @@ class FragBoardViewModel(private val boardRepository: BoardRepository): ViewMode
 
     // Property :- for Category
     private val _categoryList = MutableStateFlow<ApiState<List<ReservedBoardCategory>>>(ApiState.Loading())
-    val categoryList: StateFlow<ApiState<List<ReservedBoardCategory>>> = _categoryList
+    val categoryList: StateFlow<ApiState<List<ReservedBoardCategory>>>
+        get() = _categoryList
 
     val currentBoardCategory = MutableStateFlow<ReservedBoardCategory?>(null)
 
-
     // Property :- for Board
+    val detailBoard = MutableLiveData<Board>()
+
 
     // Property :- Adapter, Listener
     private val categoryClickListener = object: BoardCategoryChangedListener {
@@ -48,7 +51,8 @@ class FragBoardViewModel(private val boardRepository: BoardRepository): ViewMode
 
     private val boardClickListener = object: BoardClickListener {
         override fun onClick(board: Board) {
-            Log.d("JKJK", "Board :: $board")
+            detailBoard.value = board
+            _moveDetailEvent.value = Event(board)
         }
     }
 
@@ -61,12 +65,26 @@ class FragBoardViewModel(private val boardRepository: BoardRepository): ViewMode
     val moveTopOfBoardListEvent: LiveData<Event<Unit>>
         get() = _moveTopOfBoardListEvent
 
+    private val _moveDetailEvent = MutableLiveData<Event<Board>>()
+    val moveDetailEvent: LiveData<Event<Board>>
+        get() = _moveDetailEvent
+
+    private val _backEvent = MutableLiveData<Event<Unit>>()
+    val backEvent: LiveData<Event<Unit>>
+        get() = _backEvent
+
+    fun btnEvent(id: Int) {
+        when (id) {
+            R.id.frag_board_detail_top_back -> _backEvent.value = Event(Unit)
+        }
+    }
+
     init {
         viewModelScope.launch {
             boardRepository.getReservedCategoryList()
-                .collectLatest {
-                    _categoryList.value = it
-                    currentBoardCategory.value = it.data?.firstOrNull()
+                .collectLatest { data ->
+                    _categoryList.update { data }
+                    currentBoardCategory.update { data.data?.firstOrNull() }
                 }
         }
 

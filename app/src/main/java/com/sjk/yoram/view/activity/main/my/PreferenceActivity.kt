@@ -2,7 +2,6 @@ package com.sjk.yoram.view.activity.main.my
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +9,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMyPrefBinding
-import com.sjk.yoram.view.fragment.main.my.*
+import com.sjk.yoram.view.fragment.main.my.preference.PrefPrivacyFragment
+import com.sjk.yoram.view.fragment.main.my.preference.admin.*
 import com.sjk.yoram.viewmodel.*
 
 class PreferenceActivity: AppCompatActivity() {

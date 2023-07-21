@@ -33,6 +33,7 @@ import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -324,6 +325,8 @@ class UserRepository(private val application: Application) {
             return false
         return res.body() ?: false
     }
+
+    suspend fun getRequestUser(): RequestUser = RequestUser(getLoginID(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), getMyPermission(getLoginID()))
 
     companion object {
         private var instance: UserRepository? = null

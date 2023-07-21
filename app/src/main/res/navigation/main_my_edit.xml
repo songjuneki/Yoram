@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.EditFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.edit.EditFragment"
         android:label="EditFragment"
         tools:layout="@layout/frag_my_edit">
         <action
@@ -35,17 +35,17 @@
     </fragment>
     <dialog
         android:id="@+id/editAvatarDialog"
-        android:name="com.sjk.yoram.view.fragment.main.my.EditAvatarDialog"
+        android:name="com.sjk.yoram.view.fragment.main.my.edit.EditAvatarDialog"
         android:label="EditAvatarDialog"
         tools:layout="@layout/dialog_avatar"/>
     <dialog
         android:id="@+id/editBDDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.EditBDDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.edit.EditBDDialogFragment"
         android:label="EditBDDialogFragment"
         tools:layout="@layout/dialog_edit_birthday"/>
     <dialog
         android:id="@+id/editAddressDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.EditAddressDialogFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.edit.EditAddressDialogFragment"
         android:label="EditAddressDialogFragment"
         tools:layout="@layout/dialog_edit_address"/>
 </navigation>

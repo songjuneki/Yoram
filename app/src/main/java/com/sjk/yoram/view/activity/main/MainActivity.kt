@@ -4,56 +4,124 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityMainBinding
+import com.sjk.yoram.model.FragmentType
 import com.sjk.yoram.view.activity.InitActivity
+import com.sjk.yoram.view.fragment.main.*
 import com.sjk.yoram.viewmodel.*
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var viewModel: MainViewModel
-    private lateinit var homeFragViewModel: FragHomeViewModel
-    private lateinit var dptFragViewModel: FragDptmentViewModel
-    private lateinit var boardFragViewModel: FragBoardViewModel
-    private lateinit var idFragViewModel: FragIDViewModel
+    private val viewModel: MainViewModel by viewModels { MainViewModel.Factory(application) }
 
-    private lateinit var myFragViewModel: FragMyViewModel
+    private val homeFragment = HomeFragment()
+    private val departmentFragment = DepartmentFragment()
+    private val idFragment = IdFragment()
+    private val boardFragment = BoardFragment()
+    private val myFragment = MyFragment()
 
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val fragmentAdapter by lazy { FragmentAdapter(this, listOf(homeFragment, departmentFragment, idFragment, boardFragment, myFragment)) }
+
+    private var backPressedTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this, MainViewModel.Factory(application))[MainViewModel::class.java]
-        homeFragViewModel = ViewModelProvider(this, FragHomeViewModel.Factory(application))[FragHomeViewModel::class.java]
-        dptFragViewModel = ViewModelProvider(this, FragDptmentViewModel.Factory(application))[FragDptmentViewModel::class.java]
-        boardFragViewModel = ViewModelProvider(this, FragBoardViewModel.Factory(application))[FragBoardViewModel::class.java]
-        idFragViewModel = ViewModelProvider(this, FragIDViewModel.Factory(application))[FragIDViewModel::class.java]
-        myFragViewModel = ViewModelProvider(this, FragMyViewModel.Factory(application))[FragMyViewModel::class.java]
 
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.mainFrame) as NavHostFragment
-        navController = navHostFragment.navController
+        binding.mainFrame.isUserInputEnabled = false
+        binding.mainFrame.offscreenPageLimit = 2
+        binding.mainFrame.setPageTransformer { page, position ->
+            if (position <= -1.0f || position >= 1.0f) {
+                page.translationX = page.width * position
+                page.alpha = 0.0f
+            } else if (position == 0.0f) {
+                page.translationX = page.width * position
+                page.alpha = 1.0f
+            } else {
+                page.translationX = page.width * -position
+                page.alpha = 1.0f - abs(position)
+            }
+        }
+        binding.mainFrame.adapter = fragmentAdapter
 
-        binding.bottomNavi.setupWithNavController(navController)
+        binding.bottomNavi.setOnItemSelectedListener {
+            val page = when (it.itemId) {
+                R.id.navi_home -> 0
+                R.id.navi_dptment -> 1
+                R.id.navi_id -> 2
+                R.id.navi_board -> 3
+                R.id.navi_my -> 4
+                else -> 0
+            }
+            binding.mainFrame.setCurrentItem(page, false)
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.navi_home, R.id.navi_dptment, R.id.navi_id, R.id.navi_board, R.id.navi_my))
+            val type = when (it.itemId) {
+                R.id.navi_home -> FragmentType.Fragment_HOME
+                R.id.navi_dptment -> FragmentType.Fragment_DPTMENT
+                R.id.navi_id -> FragmentType.Fragment_ID
+                R.id.navi_board -> FragmentType.Fragment_BOARD
+                R.id.navi_my -> FragmentType.Fragment_MY
+                else -> FragmentType.Fragment_HOME
+            }
+            viewModel.setCurrentFragment(type)
+            true
+        }
         supportActionBar?.hide()
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
 
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                when (binding.bottomNavi.selectedItemId) {
+                    R.id.navi_home -> {
+                        if (System.currentTimeMillis() - backPressedTime <= 2000L)
+                            ActivityCompat.finishAffinity(this@MainActivity)
+                        else {
+                            backPressedTime = System.currentTimeMillis()
+                            Toast.makeText(this@MainActivity, "앱을 종료하려면 한번 더 눌러주세요", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    R.id.navi_dptment -> {
+                        val currentDestination = departmentFragment.getNavController().currentDestination?.id
+                        if (currentDestination == departmentFragment.getNavController().graph.startDestinationId)
+                            viewModel.fragMoveHome()
+                        else
+                            departmentFragment.getNavController().navigateUp()
+                    }
+                    R.id.navi_id -> {
+                        val currentDestination = idFragment.getNavController().currentDestination?.id
+                        if (currentDestination == idFragment.getNavController().graph.startDestinationId)
+                            viewModel.fragMoveHome()
+                        else
+                            idFragment.getNavController().navigateUp()
+                    }
+                    R.id.navi_board -> {
+                        val currentDestination = boardFragment.getNavController().currentDestination?.id
+                        if (currentDestination == boardFragment.getNavController().graph.startDestinationId)
+                            viewModel.fragMoveHome()
+                        else
+                            boardFragment.getNavController().navigateUp()
+                    }
+                    R.id.navi_my -> {
+                        val currentDestination = myFragment.getNavController().currentDestination?.id
+                        if (currentDestination == myFragment.getNavController().graph.startDestinationId)
+                            viewModel.fragMoveHome()
+                        else
+                            myFragment.getNavController().navigateUp()
+                    }
+                }
+            }
+        })
 
         viewModel.loginEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
@@ -74,13 +142,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.privacyAgreeEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                navController.navigate(R.id.action_global_main_to_privacyAgreeFragment)
+//                navController.navigate(R.id.action_global_main_to_privacyAgreeFragment)
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
     }
 
     override fun onRequestPermissionsResult(
@@ -103,4 +167,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.checkRuleAgreeExpire()
     }
 
+    inner class FragmentAdapter(activity: AppCompatActivity, private val fragments: List<Fragment>) : FragmentStateAdapter(activity) {
+        override fun getItemCount(): Int = fragments.size
+        override fun createFragment(position: Int): Fragment = fragments[position]
+    }
 }

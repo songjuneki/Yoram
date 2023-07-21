@@ -1,127 +1,19 @@
 package com.sjk.yoram.view.fragment.main
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.sjk.yoram.R
-import com.sjk.yoram.databinding.FragBoardBinding
-import com.sjk.yoram.model.ApiState
-import com.sjk.yoram.viewmodel.FragBoardViewModel
+import com.sjk.yoram.databinding.FragMainBoardBinding
+import com.sjk.yoram.model.YoramFragment
 import com.sjk.yoram.viewmodel.MainViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collectLatest
 
-class BoardFragment: Fragment() {
-    private lateinit var binding: FragBoardBinding
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var viewModel: FragBoardViewModel
+class BoardFragment: YoramFragment<FragMainBoardBinding>(R.layout.frag_main_board) {
+    private val mainViewModel: MainViewModel by activityViewModels()
 
-    private var showCategoryShimmer: Job? = null
-    private var showBoardShimmer: Job? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.frag_board, container, false)
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        viewModel = ViewModelProvider(requireActivity())[FragBoardViewModel::class.java]
-
-        binding.mainVM = mainViewModel
-        binding.vm = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        lifecycleScope.launchWhenCreated {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.categoryList.collectLatest {
-                    when (it) {
-                        is ApiState.Loading -> {
-                            showCategoryLoading().join()
-                            showBoardLoading().join()
-                        }
-                        is ApiState.Success ->  {
-                            showCategory()
-                            showBoard()
-
-                        }
-                        is ApiState.Error -> {
-                            // 카테고리 에러 뷰 핸들링
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewModel.currentBoardCategory.collectLatest { cat ->
-                if (cat == null) {
-                    showBoardLoading().join()
-                    return@collectLatest
-                }
-
-                viewModel.getBoardData(cat).collectLatest { data ->
-                    viewModel.boardAdapter.submitData(data)
-                }
-            }
-        }
-
-
-        viewModel.moveTopOfBoardListEvent.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                binding.fragBoardBodyRecycler.smoothScrollToPosition(0)
-            }
-        }
-
-
-
+    override fun init() {
 
     }
 
-
-    private fun showCategory() {
-        binding.fragBoardCategoryLayoutShimmer.stopShimmer()
-        binding.fragBoardCategoryLayoutShimmer.visibility = View.GONE
-        binding.fragBoardCategoryRecycler.visibility = View.VISIBLE
-    }
-
-    private fun showCategoryLoading() = lifecycleScope.launch {
-        binding.fragBoardCategoryRecycler.visibility = View.GONE
-        binding.fragBoardCategoryLayoutShimmer.startShimmer()
-        binding.fragBoardCategoryLayoutShimmer.visibility = View.VISIBLE
-        delay(1500)
-    }
-
-    private fun makeCategoryShimmerJob() = lifecycleScope.launch {
-        binding.fragBoardCategoryRecycler.visibility = View.GONE
-        binding.fragBoardCategoryLayoutShimmer.startShimmer()
-        binding.fragBoardCategoryLayoutShimmer.visibility = View.VISIBLE
-    }
-
-    private fun showBoard() {
-        binding.fragBoardBodyRecycler.visibility = View.VISIBLE
-        binding.fragBoardBodyShimmerLayout.visibility = View.GONE
-    }
-
-    private fun showBoardLoading() = lifecycleScope.launch {
-        binding.fragBoardBodyRecycler.visibility = View.GONE
-        binding.fragBoardBodyShimmerLayout.visibility = View.VISIBLE
-        delay(1500)
-    }
+    fun getNavController(): NavController = binding.fragMainBoardFrame.findNavController()
 }
