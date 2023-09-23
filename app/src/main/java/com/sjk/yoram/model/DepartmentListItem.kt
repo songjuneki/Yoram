@@ -6,25 +6,23 @@ data class DepartmentListItem(
     val type: DepartmentListItemType,
     val department: ExpandableDepartment?,
     val user: SimpleUser?,
-    val isHide: Boolean,
+    var isHide: Boolean,
     var isExpanded: Boolean
 ) {
     constructor(nodeDpt: DepartmentNode,
-                isHide: Boolean = false,
-                isExpanded: Boolean = true):
+                isHide: Boolean = false):
             this(DepartmentListItemType.DEPARTMENT,
                 ExpandableDepartment(nodeDpt),
                 null,
                 isHide,
-                isExpanded)
+                nodeDpt.isExpanded)
     constructor(dpt: ExpandableDepartment,
-                isHide: Boolean = false,
-                isExpanded: Boolean = true):
+                isHide: Boolean = false):
             this(DepartmentListItemType.DEPARTMENT,
                 dpt,
                 null,
                 isHide,
-                isExpanded)
+                dpt.isExpanded)
 
     constructor(user: SimpleUser,
                 isHide: Boolean = false,

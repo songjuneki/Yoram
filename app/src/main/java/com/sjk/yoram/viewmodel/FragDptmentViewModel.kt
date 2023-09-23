@@ -232,7 +232,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
             selectedUser(user.id)
         }
     }
-    fun nodeListAdapter() = ExpandableDepartmentNodeListAdapter(departmentNodeList.value!!, userClickListener)
+    var nodeListAdapter: ExpandableDepartmentNodeListAdapter = ExpandableDepartmentNodeListAdapter(departmentNodeList.value ?: mutableListOf(), userClickListener)
     fun searchListAdapter() : SimpleUserListAdapter = SimpleUserListAdapter(userClickListener)
 
     private fun selectedUser(id: Int) {

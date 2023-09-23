@@ -152,7 +152,7 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
 
     fun submitNodeList(list: List<DepartmentNode>?) {
         if (list.isNullOrEmpty()) {
-            submitList(mutableListOf<DepartmentListItem>())
+            submitList(mutableListOf())
             return
         }
 
@@ -160,17 +160,22 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
 
         list.forEach {
             newList.add(DepartmentListItem(it))
-            if (it.child.isNotEmpty()) {
+            if (it.child.isNotEmpty() && it.isExpanded) {
                 val subList = subListFlatten(it.child)
                 newList.addAll(subList)
             }
-            newList.addAll(it.users.map { user -> DepartmentListItem(user) })
+            newList.addAll(it.users.map { user -> DepartmentListItem(user, isHide = !it.isExpanded) })
         }
-        dptList = getExpandableDepartmentMapFromNodeList(list.toMutableList())
-        userList = getSimpleUserMapFromNodeList(list.toMutableList())
-        dptRelation = getDepartmentRelationFromItemList(newList.toMutableList())
-        userRelation = getUserRelationFromNodeList(list.toMutableList())
+        dptList = list.toExpandableDepartmentHashMap()
+        userList = list.toSimpleUserHashMap()
+        dptRelation = list.toDepartmentRelationHashMap()
+        userRelation = list.toUserRelationHashMap()
+
         submitList(newList.toMutableList())
+    }
+
+    override fun submitList(list: MutableList<DepartmentListItem>?) {
+        super.submitList(list?.filter { !it.isHide })
     }
 
     private fun subListFlatten(childList: List<DepartmentNode>): List<DepartmentListItem> {
@@ -178,9 +183,9 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
 
         childList.forEach {
             list.add(DepartmentListItem(it))
-            if (it.child.isNotEmpty())
+            if (it.child.isNotEmpty() && it.isExpanded)
                 list.addAll(subListFlatten(it.child))
-            list.addAll(it.users.mapNotNull { user -> DepartmentListItem(user) })
+            list.addAll(it.users.mapNotNull { user -> DepartmentListItem(user, isHide = !it.isExpanded) })
         }
 
         return list
@@ -214,88 +219,34 @@ class ExpandableDepartmentNodeListAdapter(nodeList: MutableList<DepartmentNode>,
         }
     }
 
-    private fun getExpandableDepartmentMapFromNodeList(nodeList: MutableList<DepartmentNode>): HashMap<Int, ExpandableDepartment> {
-        val map = hashMapOf<Int, ExpandableDepartment>()
-        nodeList.forEach {
-            if (!map.contains(it.code))
-                map[it.code] = ExpandableDepartment(it)
 
-            if (it.child.isNotEmpty()) {
-                val subMap = getExpandableDepartmentMapFromNodeList(it.child)
-                subMap.keys.forEach { subKey ->
-                    if (!map.contains(subKey))
-                        map[subKey] = subMap[subKey]!!
-                }
+    fun saveDepartmentNodeList(): List<DepartmentNode> {
+        val list = mutableListOf<DepartmentNode>()
+        list.addAll(
+            dptRelation[0]?.childList!!.mapNotNull { rootDpt ->
+                getDepartmentNodeFromCode(rootDpt)
             }
-        }
+        )
 
-        return map
+        return list
     }
 
-    private fun getSimpleUserMapFromNodeList(nodeList: MutableList<DepartmentNode>): HashMap<Int, SimpleUser> {
-        val map = hashMapOf<Int, SimpleUser>()
-        nodeList.forEach {
-            it.users.forEach { user -> map[user.id] = user }
+    private fun getDepartmentNodeFromCode(code: Int): DepartmentNode? {
+        if (!dptList.contains(code))
+            return null
+        val node = DepartmentNode(dptList[code]!!)
+        node.child.addAll(
+            dptRelation[code]?.childList?.mapNotNull {
+                getDepartmentNodeFromCode(it)
+            } ?: emptyList()
+        )
+        node.users.addAll(
+            userRelation[code]?.map {
+                userList[it]!!
+            } ?: emptyList()
+        )
 
-            if (it.child.isNotEmpty()) {
-                val subMap = getSimpleUserMapFromNodeList(it.child)
-                subMap.keys.forEach { subKey ->
-                    if (!map.contains(subKey))
-                        map[subKey] = subMap[subKey]!!
-                }
-            }
-        }
-
-        return map
+        return node
     }
 
-    private fun getDepartmentRelationFromItemList(list: List<DepartmentListItem>): HashMap<Int, DepartmentRelation> {
-        val map = hashMapOf<Int, DepartmentRelation>()
-
-        list.forEach { item ->
-            if (item.type != DepartmentListItemType.DEPARTMENT)
-                return@forEach
-            if (!map.contains(item.department!!.code))
-                map[item.department.code] = DepartmentRelation(mutableSetOf(), mutableSetOf())
-            if (!map.contains(item.department.parent))
-                map[item.department.parent] = DepartmentRelation(mutableSetOf(), mutableSetOf())
-
-            map[item.department.parent]!!.childList.add(item.department.code)
-            map[item.department.code]!!.parentList.add(item.department.parent)
-        }
-
-        list.reversed().forEach { item ->
-            if (item.type != DepartmentListItemType.DEPARTMENT)
-                return@forEach
-            if (!map.contains(item.department!!.code))
-                map[item.department.code] = DepartmentRelation(mutableSetOf(), mutableSetOf())
-            if (!map.contains(item.department.parent))
-                map[item.department.parent] = DepartmentRelation(mutableSetOf(), mutableSetOf())
-
-            map[item.department.code]!!.parentList.addAll(map[item.department.parent]!!.parentList)
-        }
-
-        return map
-    }
-
-    private fun getUserRelationFromNodeList(nodeList: MutableList<DepartmentNode>): HashMap<Int, MutableSet<Int>> {
-        val map = hashMapOf<Int, MutableSet<Int>>()
-        nodeList.forEach {
-            if (!map.contains(it.code))
-                map[it.code] = mutableSetOf()
-            map[it.code]!!.addAll(it.users.map { user -> user.id })
-
-            if (it.child.isNotEmpty()) {
-                val subMap = getUserRelationFromNodeList(it.child)
-                subMap.keys.forEach { subKey ->
-                    if (map.contains(subKey))
-                        map[subKey]!!.addAll(subMap[subKey]!!)
-                    else
-                        map[subKey] = subMap[subKey]!!
-                }
-            }
-        }
-
-        return map
-    }
 }

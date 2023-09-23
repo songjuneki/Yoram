@@ -195,7 +195,7 @@
                 app:layout_constraintRight_toRightOf="@id/frag_dptment_body_gv_95"
                 android:layout_margin="8dp"
                 android:visibility="@{vm.isSearching ? View.GONE : View.VISIBLE}"
-                android:adapter="@{vm.nodeListAdapter()}"
+                android:adapter="@{vm.nodeListAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 DepartmentNodeList="@{vm.departmentNodeList}"/>
 

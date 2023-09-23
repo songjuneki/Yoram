@@ -5,7 +5,8 @@ data class ExpandableDepartment(
     val name: String,
     val parent: Int,
     var count: Int = 0,
-    var isExpanded: Boolean = true
+    var isExpanded: Boolean = true,
+    var isHide: Boolean = false
 ) {
-    constructor(node: DepartmentNode): this(node.code, node.name, node.parent, node.count)
+    constructor(node: DepartmentNode): this(node.code, node.name, node.parent, node.count, node.isExpanded, !node.isExpanded)
 }
