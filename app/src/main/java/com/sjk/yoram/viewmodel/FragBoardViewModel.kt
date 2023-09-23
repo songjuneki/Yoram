@@ -1,105 +1,200 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
+import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.sjk.yoram.R
-import com.sjk.yoram.model.ApiState
-import com.sjk.yoram.model.BoardPagingSource
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.dto.ReservedBoardCategory
-import com.sjk.yoram.model.ui.adapter.BoardCategoryListAdapter
-import com.sjk.yoram.model.ui.adapter.BoardListAdapter
-import com.sjk.yoram.model.ui.adapter.BoardListLoadStateAdapter
-import com.sjk.yoram.model.ui.listener.BoardCategoryChangedListener
-import com.sjk.yoram.model.ui.listener.BoardClickListener
 import com.sjk.yoram.repository.BoardRepository
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
-class FragBoardViewModel(private val boardRepository: BoardRepository): ViewModel() {
+@OptIn(ExperimentalCoroutinesApi::class)
+class FragBoardViewModel(private val savedStateHandle: SavedStateHandle, private val boardRepository: BoardRepository): ViewModel() {
 
-    // Property :- for Category
-    private val _categoryList = MutableStateFlow<ApiState<List<ReservedBoardCategory>>>(ApiState.Loading())
-    val categoryList: StateFlow<ApiState<List<ReservedBoardCategory>>>
-        get() = _categoryList
+    private val _uiState = MutableStateFlow(BoardFragmentUiState())
+    val uiState: StateFlow<BoardFragmentUiState>
+        get() = _uiState.asStateFlow()
 
-    val currentBoardCategory = MutableStateFlow<ReservedBoardCategory?>(null)
+    val boardPagingDataFlow: Flow<PagingData<Board>>
 
-    // Property :- for Board
-    val detailBoard = MutableLiveData<Board>()
-
-
-    // Property :- Adapter, Listener
-    private val categoryClickListener = object: BoardCategoryChangedListener {
-        override fun onChanged(changedCategory: ReservedBoardCategory) {
-            // 같은 게시판 클릭 시
-            if (currentBoardCategory.value?.id == changedCategory.id) {
-                _moveTopOfBoardListEvent.value = Event(Unit)
-                return
-            }
-            currentBoardCategory.update { changedCategory }
-        }
-    }
-    val categoryAdapter = BoardCategoryListAdapter(categoryClickListener)
-
-    private val boardClickListener = object: BoardClickListener {
-        override fun onClick(board: Board) {
-            detailBoard.value = board
-            _moveDetailEvent.value = Event(board)
-        }
-    }
-
-    val boardAdapter = BoardListAdapter(boardClickListener).apply {
-        this.withLoadStateFooter(BoardListLoadStateAdapter())
-    }
-
-    // Property :- for Event
-    private val _moveTopOfBoardListEvent = MutableLiveData<Event<Unit>>()
-    val moveTopOfBoardListEvent: LiveData<Event<Unit>>
-        get() = _moveTopOfBoardListEvent
-
-    private val _moveDetailEvent = MutableLiveData<Event<Board>>()
-    val moveDetailEvent: LiveData<Event<Board>>
-        get() = _moveDetailEvent
-
-    private val _backEvent = MutableLiveData<Event<Unit>>()
-    val backEvent: LiveData<Event<Unit>>
-        get() = _backEvent
+    val accept: (BoardFragmentUiAction) -> Unit
 
     fun btnEvent(id: Int) {
         when (id) {
-            R.id.frag_board_detail_top_back -> _backEvent.value = Event(Unit)
+            R.id.frag_board_detail_top_back -> accept(BoardFragmentUiAction.OnClickBoardDetail(null))
         }
     }
 
+    override fun onCleared() {
+        savedStateHandle[LAST_CATEGORY_LIST] = uiState.value.boardCatList
+        savedStateHandle[LAST_SELECTED_CATEGORY] = uiState.value.currentCategory
+        super.onCleared()
+    }
     init {
-        viewModelScope.launch {
-            boardRepository.getReservedCategoryList()
-                .collectLatest { data ->
-                    _categoryList.update { data }
-                    currentBoardCategory.update { data.data?.firstOrNull() }
+        val lastCategoryList: List<ReservedBoardCategory> = savedStateHandle[LAST_CATEGORY_LIST] ?: emptyList()
+        val lastCategory: ReservedBoardCategory? = savedStateHandle[LAST_SELECTED_CATEGORY]
+        val actionStateFlow = MutableSharedFlow<BoardFragmentUiAction>()
+
+        val loadCategory = actionStateFlow
+            .filterIsInstance<BoardFragmentUiAction.LoadCategoryList>()
+            .distinctUntilChanged()
+            .shareIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                replay = 1
+            )
+            .onStart {
+                val list = lastCategoryList.ifEmpty { loadReservedCategoryList() }
+                _uiState.update { current ->
+                    current.copy(
+                        isCatInit = true,
+                        boardCatList = list,
+                        isBoardInit = current.currentCategory != null
+                                && current.currentCategory == lastCategory,
+                        currentCategory = lastCategory
+                    )
                 }
-        }
+                emit(BoardFragmentUiAction.LoadCategoryList(list))
+            }
+            .onEach {
+                _uiState.update { current ->
+                    current.copy(
+                        isCatInit = true,
+                        boardCatList = it.categoryList,
+                        isBoardInit = current.currentCategory != null
+                    )
+                }
+            }
 
-    }
+        val categoryChanged = actionStateFlow
+            .filterIsInstance<BoardFragmentUiAction.CategoryChange>()
+            .distinctUntilChanged()
+            .shareIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                replay = 1
+            )
+            .onStart {
+                val category = lastCategory
+                    ?: lastCategoryList.firstOrNull()
+                    ?: uiState.value.currentCategory
+                    ?: uiState.value.boardCatList.firstOrNull()
+                    ?: return@onStart
+                emit(BoardFragmentUiAction.CategoryChange(category = category))
+            }
+            .onEach {
+                _uiState.update { current ->
+                    current.copy(
+                        isBoardInit = false,
+                        currentCategory = it.category
+                    )
+                }
+            }
 
-    fun getBoardData(category: ReservedBoardCategory): Flow<PagingData<Board>> {
-        return Pager(config = PagingConfig(pageSize = 10, enablePlaceholders = true),
-        pagingSourceFactory = { BoardPagingSource(boardRepository, category.toBoardCategory()) })
-            .flow
+        val loadPagingData = actionStateFlow
+            .filterIsInstance<BoardFragmentUiAction.CategoryChange>()
+            .distinctUntilChanged()
+            .onStart { BoardFragmentUiAction.CategoryChange(lastCategory ?: return@onStart) }
+            .mapLatest { BoardFragmentUiAction.LoadBoardPagingData(loadBoardPagingData(it.category)) }
+            .shareIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                replay = 1
+            )
+            .onEach {
+                _uiState.update { current ->
+                    current.copy(
+                        isBoardInit = true
+                    )
+                }
+            }
+
+        boardPagingDataFlow = loadPagingData
+            .flatMapLatest { it.boardPagingDataFlow }
             .cachedIn(viewModelScope)
+
+        val onClickedBoard = actionStateFlow
+            .filterIsInstance<BoardFragmentUiAction.OnClickBoardDetail>()
+            .distinctUntilChanged()
+            .shareIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                replay = 0
+            )
+            .onEach {
+                Log.d("JKJK", "UiAction::OnClickBoardDetail::${it.board}")
+                _uiState.update { current ->
+                    current.copy(
+                        isBoardDetail = it.board != null,
+                        boardDetail = it.board
+                    )
+                }
+            }
+
+        accept = { action ->
+            viewModelScope.launch { actionStateFlow.emit(action) }
+        }
+
+        combine(loadCategory,
+            categoryChanged,
+            ::Pair)
+            .launchIn(viewModelScope)
+
+        onClickedBoard.launchIn(viewModelScope)
     }
 
-    class Factory(private val application: Application): ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FragBoardViewModel(BoardRepository.getInstance(application)!!) as T
+    private suspend fun loadReservedCategoryList(): List<ReservedBoardCategory> {
+        _uiState.update { currentUiState ->
+            currentUiState.copy(isCatInit = false)
         }
+        return boardRepository.getReservedCategoryList()
+    }
+    private fun loadBoardPagingData(category: ReservedBoardCategory?): Flow<PagingData<Board>> {
+        _uiState.update { currentUiState ->
+            currentUiState.copy(isBoardInit = false)
+        }
+        return boardRepository.getBoardPagingDataFlow(category)
+    }
+
+
+    class Factory(private val application: Application, val owner: SavedStateRegistryOwner, bundle: Bundle? = null): AbstractSavedStateViewModelFactory(owner, bundle) {
+        override fun <T : ViewModel> create(
+            key: String,
+            modelClass: Class<T>,
+            handle: SavedStateHandle
+        ): T {
+            return FragBoardViewModel(handle, BoardRepository.getInstance(application)!!) as T
+        }
+
     }
 }
+
+sealed class BoardFragmentUiAction {
+    data class LoadCategoryList(val categoryList: List<ReservedBoardCategory> = emptyList()): BoardFragmentUiAction()
+    data class CategoryChange(val category: ReservedBoardCategory): BoardFragmentUiAction()
+    data class LoadBoardPagingData(val boardPagingDataFlow: Flow<PagingData<Board>>): BoardFragmentUiAction()
+    data class OnClickBoardDetail(val board: Board?): BoardFragmentUiAction()
+}
+
+data class BoardFragmentUiState(
+    val isCatInit: Boolean = false,
+    val isBoardInit: Boolean = false,
+    val isBoardDetail: Boolean = false,
+    val boardCatList: List<ReservedBoardCategory> = emptyList(),
+    val currentCategory: ReservedBoardCategory? = null,
+    val boardDetail: Board? = null,
+    val error: ErrorType = ErrorType.STABLE,
+)
+
+enum class ErrorType {
+    STABLE, NO_INTERNET, UNKNOWN
+}
+
+private const val LAST_CATEGORY_LIST = "last_category_list"
+private const val LAST_SELECTED_CATEGORY = "last_selected_category"

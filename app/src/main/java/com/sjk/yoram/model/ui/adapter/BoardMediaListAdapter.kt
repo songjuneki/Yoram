@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +19,14 @@ import com.sjk.yoram.databinding.BoardMediaItemNoneBinding
 import com.sjk.yoram.databinding.BoardMediaItemYoutubeBinding
 import com.sjk.yoram.model.dto.BoardMedia
 import com.sjk.yoram.model.dto.BoardMediaType
+import com.sjk.yoram.repository.WebLinkOGTagHelper
 import com.soulsurfer.android.PageInfo
 import com.soulsurfer.android.PageInfoListener
 import com.soulsurfer.android.SoulSurfer
 import jp.wasabeef.transformers.coil.BlurTransformation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class BoardMediaListAdapter(): ListAdapter<BoardMedia, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -76,6 +81,15 @@ class BoardMediaListAdapter(): ListAdapter<BoardMedia, RecyclerView.ViewHolder>(
         fun bind(item: BoardMedia.Link) {
             binding.boardMediaItemLinkProgress.visibility = View.VISIBLE
             binding.boardMediaItemLinkUrl.text = item.url
+
+            binding.lifecycleOwner?.lifecycleScope?.launch(Dispatchers.IO) {
+
+//                val ogTag = WebLinkOGTagHelper.parse(item.url)
+
+            }
+            binding.boardMediaItemLinkProgress.visibility = View.GONE
+
+
             SoulSurfer.get(item.url)
                 .load(object: PageInfoListener {
                     override fun onError(url: String?) {

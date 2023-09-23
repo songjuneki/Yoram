@@ -8,13 +8,13 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.sjk.yoram.R
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.MutableListLiveData
-import com.sjk.yoram.model.MySecurity
 import com.sjk.yoram.model.dto.Attend
 import com.sjk.yoram.model.dto.WorshipType
-import com.sjk.yoram.model.hexToByteArray
 import com.sjk.yoram.model.ui.listener.RadioItemSelectedListener
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
+import com.sjk.yoram.util.MySecurity
+import com.sjk.yoram.util.hexToByteArray
 import kotlinx.coroutines.*
 
 class FragIDViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
@@ -44,7 +44,7 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
 
     private val worshipList = MutableListLiveData<WorshipType>()
     val worshipStringList: LiveData<List<String>>
-        get() = Transformations.map(worshipList) { list ->
+        get() = worshipList.map { list ->
             list.map { it.name }
         }
 

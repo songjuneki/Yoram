@@ -13,11 +13,11 @@ import com.sjk.yoram.databinding.BoardItemBinding
 import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.dto.BoardMedia
 import com.sjk.yoram.model.dto.BoardMediaType
-import com.sjk.yoram.model.ui.listener.BoardClickListener
+import com.sjk.yoram.viewmodel.BoardFragmentUiAction
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class BoardListAdapter(val boardClickListener: BoardClickListener): PagingDataAdapter<Board, RecyclerView.ViewHolder>(diffUtil) {
+class BoardListAdapter(val onBoardClick: (BoardFragmentUiAction.OnClickBoardDetail) -> Unit): PagingDataAdapter<Board, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return BoardViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.board_item, parent, false))
     }
@@ -34,7 +34,9 @@ class BoardListAdapter(val boardClickListener: BoardClickListener): PagingDataAd
 
             binding.boardItemCategoryName.text = item?.category_name
             binding.boardItemOwnerName.text = item?.owner_user_name
-            binding.boardItemBody.text = "${item?.board_title}\n\n${contentMediaParse(item)}".trimIndent()
+
+            val body = "${item?.board_title}\n\n${contentMediaParse(item)}".trimIndent()
+            binding.boardItemBody.text = body
             binding.boardItemOwnerDate.text = item?.board_date
 
             if (item?.board_option_script?.isNotBlank() == true) {
@@ -46,19 +48,20 @@ class BoardListAdapter(val boardClickListener: BoardClickListener): PagingDataAd
 
             if (item?.board_option_script_date?.isNotBlank() == true) {
                 binding.boardItemScriptDate.visibility = View.VISIBLE
-                binding.boardItemScriptDate.text = "${item.board_option_script_date} 설교"
+                val scriptDate = "${item.board_option_script_date} 설교"
+                binding.boardItemScriptDate.text = scriptDate
             } else {
                 binding.boardItemScriptDate.visibility = View.GONE
-            }
-
-            binding.root.setOnClickListener {
-                boardClickListener.onClick(item!!)
             }
 
             binding.boardItemBodyMediaPager.adapter = BoardMediaListAdapter()
             (binding.boardItemBodyMediaPager.adapter as BoardMediaListAdapter).submitList(
                 mediaList.filter { it.type == BoardMediaType.IMAGE || it.type == BoardMediaType.YOUTUBE || it.type == BoardMediaType.LINK }
             )
+
+            binding.root.setOnClickListener {
+                onBoardClick(BoardFragmentUiAction.OnClickBoardDetail(item ?: return@setOnClickListener))
+            }
 
         }
 

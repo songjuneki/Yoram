@@ -140,9 +140,6 @@
                 android:requiresFadingEdge="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
-                android:adapter="@{vm.categoryAdapter}"
-                CategoryList="@{vm.categoryList.data}"
-                selectedCategory="@={vm.currentBoardCategory}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -185,13 +182,48 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.95" />
 
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/frag_board_body_error"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.5"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_working"
+                    app:saturation="0"
+                    android:alpha="0.5"
+                    app:tint="@color/xd_light_hint" />
+                <TextView
+                    android:id="@+id/frag_board_body_error_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="16sp"
+                    android:autoSizeMaxTextSize="32sp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textColor="@color/xd_light_text_hint" />
+            </LinearLayout>
+
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/frag_board_body_recycler"
                 tools:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:adapter="@{vm.boardAdapter}"
                 android:orientation="vertical"
                 android:paddingVertical="8dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -207,16 +239,6 @@
                 app:layout_constraintTop_toTopOf="parent">
                 <include layout="@layout/board_shimmer" />
             </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <include
-                tools:visibility="gone"
-                android:visibility="gone"
-                android:id="@+id/frag_board_body_error"
-                layout="@layout/frag_error"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/frag_board_body_gv05"
-                app:layout_constraintRight_toRightOf="@id/frag_board_body_gv95"
-                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
