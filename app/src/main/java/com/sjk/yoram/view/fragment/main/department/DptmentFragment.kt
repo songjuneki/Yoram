@@ -1,7 +1,12 @@
 package com.sjk.yoram.view.fragment.main.department
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,19 +14,27 @@ import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragDptmentBinding
-import com.sjk.yoram.model.YoramFragment
 import com.sjk.yoram.viewmodel.FragDptmentViewModel
 import kotlinx.coroutines.*
 
-class DptmentFragment: YoramFragment<FragDptmentBinding>(R.layout.frag_dptment) {
+class DptmentFragment: Fragment() {
+    private lateinit var binding: FragDptmentBinding
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: FragDptmentViewModel by viewModels { FragDptmentViewModel.Factory(requireActivity().application) }
 
     private var showShimmer: Job? = null
 
-    override fun init() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.frag_dptment, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
         binding.fragDptmentHeaderSpinner.lifecycleOwner = this.viewLifecycleOwner
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,9 +71,14 @@ class DptmentFragment: YoramFragment<FragDptmentBinding>(R.layout.frag_dptment) 
                 binding.fragDptmentHeaderSearch.callOnClick()
             }
         }
-
-
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.departmentNodeList.value = viewModel.nodeListAdapter.saveDepartmentNodeList().toMutableList()
+    }
+
 
     private fun makeShowShimmerJob() = lifecycleScope.launch {
         binding.fragDptmentRecycler.visibility = View.INVISIBLE

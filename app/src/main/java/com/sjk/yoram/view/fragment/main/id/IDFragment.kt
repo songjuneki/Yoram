@@ -1,24 +1,35 @@
 package com.sjk.yoram.view.fragment.main.id
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragIdBinding
-import com.sjk.yoram.model.YoramFragment
 import com.sjk.yoram.viewmodel.FragIDViewModel
 
-class IDFragment: YoramFragment<FragIdBinding>(R.layout.frag_id) {
+class IDFragment: Fragment() {
+    private lateinit var binding: FragIdBinding
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: FragIDViewModel by navGraphViewModels(R.id.navi_id) { FragIDViewModel.Factory(requireActivity().application) }
 
-
-    override fun init() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.frag_id, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.mainVM = mainViewModel
         binding.vm = viewModel
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.sjk.yoram.model
+package com.sjk.yoram.util
 
 import android.util.Base64
 

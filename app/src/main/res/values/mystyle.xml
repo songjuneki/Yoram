@@ -166,6 +166,13 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
+    <style name="DialogFragmentSlideAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    </style>
+    <style name="DialogFragmentAnimationDisable">
+        <item name="android:windowEnterAnimation">@null</item>
+    </style>
     <style name="DividerStyle" parent="Widget.MaterialComponents.MaterialDivider">
         <item name="colorOnSurface">@color/xd_light_background</item>
         <item name="dividerColor">@color/xd_light_background</item>

@@ -3,28 +3,39 @@ package com.sjk.yoram.view.fragment.main.my
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.sjk.yoram.R
 import com.sjk.yoram.viewmodel.MainViewModel
 import com.sjk.yoram.databinding.FragMyBinding
-import com.sjk.yoram.model.YoramFragment
 import com.sjk.yoram.view.activity.main.my.AttendActivity
 import com.sjk.yoram.view.activity.main.my.EditActivity
 import com.sjk.yoram.view.activity.main.my.GiveActivity
 import com.sjk.yoram.view.activity.main.my.PreferenceActivity
 import com.sjk.yoram.viewmodel.FragMyViewModel
 
-class MyFragment: YoramFragment<FragMyBinding>(R.layout.frag_my) {
+class MyFragment: Fragment() {
+    private lateinit var binding: FragMyBinding
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: FragMyViewModel by navGraphViewModels(R.id.navi_my) { FragMyViewModel.Factory(requireActivity().application) }
 
-
-    override fun init() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.frag_my, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.mainVM = mainViewModel
         binding.vm = viewModel
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

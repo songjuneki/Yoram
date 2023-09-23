@@ -1,12 +1,10 @@
-package com.sjk.yoram.model
+package com.sjk.yoram.util
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.DatePicker.OnDateChangedListener
@@ -14,7 +12,6 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -29,6 +26,10 @@ import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.kizitonwose.calendarview.utils.yearMonth
 import com.sjk.yoram.R
+import com.sjk.yoram.model.Department
+import com.sjk.yoram.model.DepartmentNode
+import com.sjk.yoram.model.GiveListItem
+import com.sjk.yoram.model.SexState
 import com.sjk.yoram.model.dto.*
 import com.sjk.yoram.model.ui.adapter.*
 import com.sjk.yoram.model.ui.calendar.DayViewContainer
@@ -466,13 +467,6 @@ object BindingAdapters {
         (view.adapter as AdminNewUserListAdapter).submitList(list)
     }
 
-
-    @BindingAdapter("CategoryList")
-    @JvmStatic
-    fun setCategoryList(view: RecyclerView, list: List<ReservedBoardCategory>?) {
-        if (list == null) return
-        (view.adapter as BoardCategoryListAdapter).submitList(list)
-    }
 
     @BindingAdapter("selectedCategory")
     @JvmStatic
