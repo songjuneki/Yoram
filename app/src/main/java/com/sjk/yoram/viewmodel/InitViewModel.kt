@@ -309,6 +309,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
         when (currentFragmentType) {
             InitFragmentType.InitFragment_Dialog_APP_RULE -> checkAgree(isMoreReqDoneList, true, 5)
             InitFragmentType.InitFragment_Dialog_PRIVACY_RULE -> checkAgree(isMoreReqDoneList, true, 6)
+            else -> {}
         }
         _backBtnEvent.value = Event(Unit)
     }
