@@ -57,7 +57,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_circle_image_btn"
                 android:src="@drawable/ic_back"
-                android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                 app:layout_constraintLeft_toLeftOf="@id/frag_board_detail_top_gv05" />
             <ImageButton
                 android:id="@+id/frag_board_detail_top_more"

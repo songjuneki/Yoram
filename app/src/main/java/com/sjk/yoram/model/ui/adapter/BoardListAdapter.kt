@@ -13,11 +13,10 @@ import com.sjk.yoram.databinding.BoardItemBinding
 import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.dto.BoardMedia
 import com.sjk.yoram.model.dto.BoardMediaType
-import com.sjk.yoram.viewmodel.BoardFragmentUiAction
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class BoardListAdapter(val onBoardClick: (BoardFragmentUiAction.OnClickBoardDetail) -> Unit): PagingDataAdapter<Board, RecyclerView.ViewHolder>(diffUtil) {
+class BoardListAdapter(val onBoardClick: (Board?) -> Unit): PagingDataAdapter<Board, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return BoardViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.board_item, parent, false))
     }
@@ -25,7 +24,6 @@ class BoardListAdapter(val onBoardClick: (BoardFragmentUiAction.OnClickBoardDeta
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as BoardViewHolder).bind(getItem(position), position)
     }
-
 
     private inner class BoardViewHolder(val binding: BoardItemBinding): RecyclerView.ViewHolder(binding.root) {
         var mediaList = mutableListOf<BoardMedia>()
@@ -60,7 +58,7 @@ class BoardListAdapter(val onBoardClick: (BoardFragmentUiAction.OnClickBoardDeta
             )
 
             binding.root.setOnClickListener {
-                onBoardClick(BoardFragmentUiAction.OnClickBoardDetail(item ?: return@setOnClickListener))
+                onBoardClick(item ?: return@setOnClickListener)
             }
 
         }

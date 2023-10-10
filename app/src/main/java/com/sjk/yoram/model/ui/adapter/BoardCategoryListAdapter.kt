@@ -10,9 +10,8 @@ import com.google.android.material.card.MaterialCardView
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.BoardCategoryItemBinding
 import com.sjk.yoram.model.dto.ReservedBoardCategory
-import com.sjk.yoram.viewmodel.BoardFragmentUiAction
 
-class BoardCategoryListAdapter(val onCategoryChanged: (BoardFragmentUiAction.CategoryChange) -> Unit, val onSelectedClick: (Int) -> Unit): ListAdapter<ReservedBoardCategory, RecyclerView.ViewHolder>(diffUtil) {
+class BoardCategoryListAdapter(val onCategoryChanged: (ReservedBoardCategory?) -> Unit, val onSelectedClick: (Int) -> Unit): ListAdapter<ReservedBoardCategory, RecyclerView.ViewHolder>(diffUtil) {
     var currentCategoryPos: Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,10 +48,19 @@ class BoardCategoryListAdapter(val onCategoryChanged: (BoardFragmentUiAction.Cat
     }
 
     fun submitListWithSelection(list: List<ReservedBoardCategory>, selection: ReservedBoardCategory?) {
+        selection?.let {
+            currentCategoryPos = if (list.contains(it))
+                list.indexOf(it)
+            else
+                0
+        }
+
         super.submitList(list) {
-            selection?.let {
-                currentCategoryPos = list.indexOf(it)
-            } ?: selectCategoryChange(0)
+            if (list.contains(selection)) {
+                selectCategoryChange(list.indexOf(selection))
+            } else {
+                selectCategoryChange(0)
+            }
         }
     }
     fun selectCategoryChange(pos: Int) {
@@ -62,7 +70,7 @@ class BoardCategoryListAdapter(val onCategoryChanged: (BoardFragmentUiAction.Cat
         currentCategoryPos = pos
         notifyItemChanged(oldPos)
         notifyItemChanged(currentCategoryPos)
-        onCategoryChanged(BoardFragmentUiAction.CategoryChange(getItem(pos)))
+        onCategoryChanged(getItem(pos))
     }
 
     companion object {

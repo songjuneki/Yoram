@@ -1,8 +1,6 @@
 package com.sjk.yoram.view.fragment.main.board
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragBoardBinding
 import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.ui.adapter.BoardCategoryListAdapter
 import com.sjk.yoram.model.ui.adapter.BoardListAdapter
-import com.sjk.yoram.viewmodel.BoardFragmentUiAction
 import com.sjk.yoram.viewmodel.BoardFragmentUiState
 import com.sjk.yoram.viewmodel.FragBoardViewModel
 import com.sjk.yoram.viewmodel.MainViewModel
@@ -41,52 +38,47 @@ class BoardFragment: Fragment() {
         binding.mainVM = mainViewModel
         binding.vm = viewModel
 
+        binding.bindState(
+            viewModel = viewModel,
+            uiState = viewModel.uiState
+        )
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.bindState(
-            uiState = viewModel.uiState,
-            boardPagingData = viewModel.boardPagingDataFlow,
-            uiAction = viewModel.accept
-        )
-
     }
 
     private fun FragBoardBinding.bindState(
-        uiState: StateFlow<BoardFragmentUiState>,
-        boardPagingData: Flow<PagingData<Board>>,
-        uiAction: (BoardFragmentUiAction) -> Unit
+        viewModel: FragBoardViewModel,
+        uiState: StateFlow<BoardFragmentUiState>
     ) {
         val categoryAdapter = BoardCategoryListAdapter(
-            onCategoryChanged = uiAction,
+            onCategoryChanged = viewModel::changeCurrentCategory,
             onSelectedClick = { fragBoardBodyRecycler.smoothScrollToPosition(0) }
         )
         val boardAdapter = BoardListAdapter(
-            onBoardClick = uiAction
+            onBoardClick = viewModel::moveBoardDetail
         )
 
         bindCategoryList(
             uiState = uiState,
             categoryAdapter = categoryAdapter,
-            onCategoryChanged = uiAction
         )
 
         bindBoardList(
             uiState = uiState,
             categoryListAdapter = categoryAdapter,
             boardListAdapter = boardAdapter,
-            boardPagingData = boardPagingData,
-            onBoardDetail = uiAction
+            boardPagingData = viewModel.boardPagingData,
+            onRefresh = viewModel::refreshBoardData
         )
     }
 
     private fun FragBoardBinding.bindCategoryList(
         uiState: StateFlow<BoardFragmentUiState>,
         categoryAdapter: BoardCategoryListAdapter,
-        onCategoryChanged: (BoardFragmentUiAction.CategoryChange) -> Unit
     ) {
         fragBoardCategoryRecycler.adapter = categoryAdapter
 
@@ -95,12 +87,11 @@ class BoardFragment: Fragment() {
                 launch {
                     uiState
                         .map { Pair(it.boardCatList, it.currentCategory) }
-                        .collectLatest { (list, category) ->
-                            Log.d("JKJK", "UI::LoadedCategoryList And submit | $list | selected=$category")
-                            categoryAdapter.submitListWithSelection(list, category)
+                        .distinctUntilChanged()
+                        .collectLatest { (list, selected) ->
+                            categoryAdapter.submitListWithSelection(list, selected)
                         }
                 }
-
 
                 launch {
                     uiState
@@ -114,52 +105,57 @@ class BoardFragment: Fragment() {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun FragBoardBinding.bindBoardList(
         uiState: StateFlow<BoardFragmentUiState>,
         categoryListAdapter: BoardCategoryListAdapter,
         boardListAdapter: BoardListAdapter,
         boardPagingData: Flow<PagingData<Board>>,
-        onBoardDetail: (BoardFragmentUiAction.OnClickBoardDetail) -> Unit
+        onRefresh: () -> Job
     ) {
         fragBoardBodyRecycler.adapter = boardListAdapter
 
+        fragBoardBodyRefreshLayout.setOnRefreshListener {
+            onRefresh()
+                .invokeOnCompletion {
+                    fragBoardBodyRefreshLayout.isRefreshing = false
+                    boardListAdapter.refresh()
+                }
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val absoluteCurrentCategory = categoryListAdapter.currentList.getOrNull(categoryListAdapter.currentCategoryPos)
 
                 val isChangedCategory = uiState
-                    .map { it.currentCategory != absoluteCurrentCategory }
-                    .distinctUntilChanged()
+                    .map { it.currentCategory }
+                    .mapLatest { it != categoryListAdapter.currentList.getOrNull(categoryListAdapter.currentCategoryPos) }
 
-                val isAlreadyBoardInit = uiState
-                    .map { it.isBoardInit }
+                val isPagingDataRefresh = boardListAdapter
+                    .loadStateFlow
                     .distinctUntilChanged()
-
-                val categoryChangeDetect = combine(
-                    isChangedCategory,
-                    isAlreadyBoardInit,
-                    Boolean::and
-                )
-                    .distinctUntilChanged()
-
+                    .map { it.refresh is LoadState.Loading }
+                    .filter { it }
 
                 launch {
                     boardPagingData
+                        .distinctUntilChanged()
                         .collectLatest(boardListAdapter::submitData)
                 }
 
                 launch {
-                    categoryChangeDetect
+                    isChangedCategory
                         .filter { it }
-                        .collectLatest {
-                            fragBoardBodyRecycler.scrollToPosition(0)
-                        }
+                        .collectLatest { boardListAdapter.refresh() }
+                }
+
+                launch {
+                    isPagingDataRefresh
+                        .collectLatest { fragBoardBodyRecycler.scrollToPosition(0) }
                 }
 
                 launch {
                     uiState
                         .map { it.isBoardInit }
-                        .distinctUntilChanged()
                         .collect {
                             fragBoardBodyRecycler.isVisible = it
                             fragBoardBodyShimmerLayout.isVisible = !it
@@ -177,7 +173,6 @@ class BoardFragment: Fragment() {
                             if (it && findNavController().currentDestination?.id == R.id.boardFragment)
                                 findNavController().navigate(R.id.action_boardFragment_to_boardDetailFragment)
                         }
-
                 }
             }
         }

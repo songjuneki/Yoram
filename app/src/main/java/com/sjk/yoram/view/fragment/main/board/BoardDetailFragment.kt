@@ -26,7 +26,6 @@ import com.sjk.yoram.model.dto.BoardMediaType
 import com.sjk.yoram.model.ui.view.BoardContentTextView
 import com.sjk.yoram.model.ui.view.BoardMediaImageView
 import com.sjk.yoram.model.ui.view.BoardMediaYoutubeView
-import com.sjk.yoram.viewmodel.BoardFragmentUiAction
 import com.sjk.yoram.viewmodel.BoardFragmentUiState
 import com.sjk.yoram.viewmodel.FragBoardViewModel
 import kotlinx.coroutines.flow.*
@@ -48,6 +47,9 @@ class BoardDetailFragment: Fragment() {
         initBackPressedDispatcher()
 
         binding.fragBoardDetailBodyContentLayout.removeAllViews()
+        binding.fragBoardDetailTopBack.setOnClickListener {
+            viewModel.moveBoardDetail(null)
+        }
 
         return binding.root
     }
@@ -151,7 +153,7 @@ class BoardDetailFragment: Fragment() {
 
     private fun initBackPressedDispatcher() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            viewModel.accept(BoardFragmentUiAction.OnClickBoardDetail(null))
+            viewModel.moveBoardDetail(null)
         }
     }
 }
