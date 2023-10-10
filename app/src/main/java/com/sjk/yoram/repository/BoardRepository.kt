@@ -53,6 +53,21 @@ class BoardRepository(private val application: Application) {
             null
     }
 
+    suspend fun getHidingCategoryList(): List<BoardCategory> {
+        val response = api.getInReserveBoardCategoryList()
+        return if (response.isSuccessful)
+            response.body() ?: emptyList()
+        else
+            emptyList()
+    }
+
+    suspend fun uploadReserveCategoryList(list: List<ReservedBoardCategory>): Boolean {
+        val response = api.postReserveBoardCategoryList(list)
+        return if (response.isSuccessful)
+            response.body() ?: false
+        else
+            false
+    }
 
     companion object {
         private const val PAGE_PER_BOARD = 10
