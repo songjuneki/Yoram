@@ -3,6 +3,7 @@ package com.sjk.yoram.view.activity.main.my
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -21,6 +22,7 @@ class PreferenceActivity: AppCompatActivity() {
     private lateinit var adminDepartmentViewModel: AdminDepartmentViewModel
     private lateinit var adminPositionViewModel: AdminPositionViewModel
     private lateinit var adminNewUserViewModel: AdminNewUserViewModel
+    private lateinit var adminBoardViewModel: AdminBoardViewModel
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
@@ -33,6 +35,7 @@ class PreferenceActivity: AppCompatActivity() {
         adminDepartmentViewModel = ViewModelProvider(this, AdminDepartmentViewModel.Factory(application))[AdminDepartmentViewModel::class.java]
         adminPositionViewModel = ViewModelProvider(this, AdminPositionViewModel.Factory(application))[AdminPositionViewModel::class.java]
         adminNewUserViewModel = ViewModelProvider(this, AdminNewUserViewModel.Factory(application))[AdminNewUserViewModel::class.java]
+        adminBoardViewModel = ViewModelProvider(this, AdminBoardViewModel.Factory(application))[AdminBoardViewModel::class.java]
 
         binding.vm = viewModel
         binding.lifecycleOwner = this
@@ -42,6 +45,9 @@ class PreferenceActivity: AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.my_pref_frame) as NavHostFragment
         navController = navHostFragment.navController
 
+        onBackPressedDispatcher.addCallback {
+            onSupportNavigateUp()
+        }
 
         viewModel.naviEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
@@ -70,6 +76,7 @@ class PreferenceActivity: AppCompatActivity() {
                     is AdminGiveTypeFragment -> viewModel.changedGiveTypeApply()
                     is AdminDepartmentFragment -> adminDepartmentViewModel.changedDepartmentListApply()
                     is AdminPositionFragment -> adminPositionViewModel.changedPositionListApply()
+                    is AdminBoardFragment -> adminBoardViewModel.applyReserveBoardCategoryList()
                 }
             }
         }
@@ -145,10 +152,6 @@ class PreferenceActivity: AppCompatActivity() {
             }
             else -> navController.navigateUp()
         }
-    }
-
-    override fun onBackPressed() {
-        onSupportNavigateUp()
     }
 
     override fun onRequestPermissionsResult(

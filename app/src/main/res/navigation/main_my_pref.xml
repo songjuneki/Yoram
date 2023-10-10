@@ -80,6 +80,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_prefFragment_to_adminBoardFragment"
+            app:destination="@id/adminBoardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/prefRuleFragment"
@@ -252,4 +259,17 @@
         android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteFragment"
         android:label="AccountDeleteFragment"
         tools:layout="@layout/frag_my_pref_account_delete"/>
+    <fragment
+        android:id="@+id/adminBoardFragment"
+        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminBoardFragment"
+        android:label="AdminBoardFragment"
+        tools:layout="@layout/frag_my_pref_admin_board" >
+        <action
+            android:id="@+id/action_adminBoardFragment_to_prefApplyDialogFragment"
+            app:destination="@id/prefApplyDialogFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 </navigation>
