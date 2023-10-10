@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.animation.addListener
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.navGraphViewModels
 import com.budiyev.android.codescanner.AutoFocusMode
@@ -96,54 +97,35 @@ class ScannerDialog: DialogFragment() {
         }
 
         binding.dialogScannerSuccess.addAnimatorListener(object: Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 binding.dialogScannerSuccess.alpha = 1f
             }
-            override fun onAnimationEnd(p0: Animator?) {
+
+            override fun onAnimationEnd(animation: Animator) {
                 ObjectAnimator.ofFloat(binding.dialogScannerSuccess, "alpha", 1f, 0f).apply {
                     duration = 1000
                     start()
-                }.addListener(object: Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator?) {
-                    }
-                    override fun onAnimationEnd(p0: Animator?) {
-                        viewModel.notifyEnded()
-                    }
-                    override fun onAnimationCancel(p0: Animator?) {
-                    }
-                    override fun onAnimationRepeat(p0: Animator?) {
-                    }
-                })
+                }.addListener(onEnd = { viewModel.notifyEnded() })
             }
-            override fun onAnimationCancel(p0: Animator?) {
-            }
-            override fun onAnimationRepeat(p0: Animator?) {
-            }
+
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
+
         binding.dialogScannerFailure.addAnimatorListener(object: Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 binding.dialogScannerFailure.alpha = 1f
             }
-            override fun onAnimationEnd(p0: Animator?) {
+
+            override fun onAnimationEnd(animation: Animator) {
                 ObjectAnimator.ofFloat(binding.dialogScannerFailure, "alpha", 1f, 0f).apply {
                     duration = 1000
                     start()
-                }.addListener(object: Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator?) {
-                    }
-                    override fun onAnimationEnd(p0: Animator?) {
-                        viewModel.notifyEnded()
-                    }
-                    override fun onAnimationCancel(p0: Animator?) {
-                    }
-                    override fun onAnimationRepeat(p0: Animator?) {
-                    }
-                })
+                }.addListener(onEnd = { viewModel.notifyEnded() })
             }
-            override fun onAnimationCancel(p0: Animator?) {
-            }
-            override fun onAnimationRepeat(p0: Animator?) {
-            }
+
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 
 
