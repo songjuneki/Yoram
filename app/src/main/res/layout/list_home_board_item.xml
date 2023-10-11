@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+       <com.google.android.material.card.MaterialCardView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:cardBackgroundColor="@color/xd_light_background"
+           app:cardCornerRadius="5dp"
+           app:strokeWidth="1dp"
+           app:strokeColor="@color/xd_light_weak_border">
+
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+
+               <androidx.constraintlayout.widget.Guideline
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   app:layout_constraintGuide_percent="0.05" />
+
+               <ImageView
+                   android:id="@+id/list_home_board_item_img"
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:paddingBottom="16dp"
+                   android:scaleType="centerCrop"
+                   app:layout_constraintBottom_toTopOf="@id/list_home_board_item_title"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   app:layout_constraintTop_toTopOf="parent" />
+
+               <TextView
+                   android:id="@+id/list_home_board_item_title"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:autoSizeMaxTextSize="48sp"
+                   android:autoSizeMinTextSize="8sp"
+                   android:autoSizeStepGranularity="1sp"
+                   android:autoSizeTextType="uniform"
+                   android:ellipsize="end"
+                   android:fontFamily="@font/pretendard_bold"
+                   android:lines="1"
+                   android:maxLines="1"
+                   android:paddingLeft="16dp"
+                   android:paddingBottom="8dp"
+                   android:textColor="@color/xd_light_title"
+                   android:textSize="16sp"
+                   android:gravity="start"
+                   app:layout_constraintBottom_toTopOf="@id/list_home_board_item_content"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   tools:text="제목제목" />
+
+               <TextView
+                   android:id="@+id/list_home_board_item_content"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:autoSizeMaxTextSize="24sp"
+                   android:autoSizeMinTextSize="12sp"
+                   android:autoSizeStepGranularity="1sp"
+                   android:autoSizeTextType="uniform"
+                   android:ellipsize="end"
+                   android:fontFamily="@font/pretendard_regular"
+                   android:gravity="start"
+                   android:lines="1"
+                   android:maxLines="1"
+                   android:paddingLeft="16dp"
+                   android:paddingBottom="8dp"
+                   android:textColor="@color/xd_light_title"
+                   android:textSize="14sp"
+                   app:layout_constraintBottom_toTopOf="@id/list_home_board_item_date"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   tools:text="내용내용 내용 내용내용내용내용" />
+
+               <TextView
+                   android:id="@+id/list_home_board_item_date"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:autoSizeMaxTextSize="24sp"
+                   android:autoSizeMinTextSize="4sp"
+                   android:autoSizeStepGranularity="1sp"
+                   android:autoSizeTextType="uniform"
+                   android:fontFamily="@font/pretendard_regular"
+                   android:gravity="start"
+                   android:paddingLeft="16dp"
+                   android:paddingBottom="8dp"
+                   android:textColor="@color/xd_light_deep_border"
+                   android:textSize="14sp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toRightOf="parent"
+                   tools:text="2023.12.31" />
+
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
+       </com.google.android.material.card.MaterialCardView>
+</layout>
