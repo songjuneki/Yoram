@@ -146,7 +146,7 @@ class AdminBoardFragment: Fragment() {
                         .collectLatest {
                             val backgroundColor = resources.getColor(
                                 if (it) R.color.xd_light_dot_indicator_enabled
-                                else R.color.xd_light_dot_indicator_disabled,
+                                else R.color.xd_light_text_hint,
                                 null)
 
                             fragMyPrefAdminBoardDone.setBackgroundColor(backgroundColor)
