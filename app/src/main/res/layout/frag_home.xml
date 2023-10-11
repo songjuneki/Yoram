@@ -160,6 +160,8 @@
                     android:textColor="@color/xd_light_dot_indicator_enabled"
                     android:textSize="14sp"
                     android:fontFamily="@font/pretendard_medium"
+                    android:padding="8dp"
+                    android:layout_marginRight="-8dp"
                     app:layout_constraintTop_toTopOf="@id/home_dpt_title"
                     app:layout_constraintRight_toRightOf="@id/gv95_3"
                     app:layout_constraintBottom_toBottomOf="@id/home_dpt_title" />
@@ -168,7 +170,7 @@
                     android:id="@+id/home_dpt_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/home_dpt_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_dpt_more"
                     app:layout_constraintLeft_toLeftOf="@id/home_dpt_gv05"
                     app:layout_constraintRight_toRightOf="@id/gv95_3"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -364,7 +366,9 @@
                 app:layout_constraintTop_toBottomOf="@id/home_id_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:clipChildren="false"
                 android:layout_marginTop="8dp"
+                android:paddingBottom="16dp"
                 android:background="@color/xd_light_background">
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/home_board_gv05"
@@ -390,24 +394,55 @@
                     android:textColor="@color/xd_light_title"
                     android:fontFamily="@font/pretendard_bold" />
                 <TextView
+                    android:id="@+id/home_board_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="전체보기 >"
                     android:textColor="@color/xd_light_dot_indicator_enabled"
                     android:textSize="14sp"
                     android:fontFamily="@font/pretendard_medium"
+                    android:clickable="true"
+                    android:longClickable="true"
+                    android:contextClickable="true"
+                    android:soundEffectsEnabled="true"
+                    android:onClick="@{(v) -> mainVM.fragMoveEvent(v.id)}"
+                    android:padding="8dp"
+                    android:layout_marginRight="-8dp"
                     app:layout_constraintTop_toTopOf="@id/home_board_title"
                     app:layout_constraintRight_toRightOf="@id/home_board_gv95"
                     app:layout_constraintBottom_toBottomOf="@id/home_board_title" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/home_board_parent_pager"
-                    android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_board_category_list"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/home_board_title"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toBottomOf="@id/home_board_more"
                     app:layout_constraintLeft_toLeftOf="@id/home_board_gv05"
                     app:layout_constraintRight_toRightOf="@id/home_board_gv95"
-                    android:layout_marginTop="12dp"/>
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_board_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toBottomOf="@id/home_board_category_list"
+                    app:layout_constraintLeft_toLeftOf="@id/home_board_gv05"
+                    app:layout_constraintRight_toRightOf="@id/home_board_gv95"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

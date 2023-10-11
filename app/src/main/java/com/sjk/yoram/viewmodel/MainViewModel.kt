@@ -6,7 +6,9 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.sjk.yoram.R
 import com.sjk.yoram.model.*
+import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.dto.MyLoginData
+import com.sjk.yoram.model.dto.ReservedBoardCategory
 import com.sjk.yoram.repository.ServerRepository
 import com.sjk.yoram.repository.UserRepository
 import kotlinx.coroutines.async
@@ -43,6 +45,16 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     private val _goDptSearchEvent = MutableLiveData<Event<Unit>>()
     val goDptSearchEvent: LiveData<Event<Unit>>
         get() = _goDptSearchEvent
+
+
+    private val _boardCategoryEvent = MutableLiveData<Event<ReservedBoardCategory>>()
+    val boardCategoryEvent: LiveData<Event<ReservedBoardCategory>>
+        get() = _boardCategoryEvent
+
+    private val _goBoardDetailEvent = MutableLiveData<Event<Board>>()
+    val goBoardDetailEvent: LiveData<Event<Board>>
+        get() = _goBoardDetailEvent
+
 
     private val _moveFragmentEvent = MutableLiveData<Event<Int>>()
     val moveFragmentEvent: LiveData<Event<Int>>
@@ -85,6 +97,8 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
             R.id.frag_my_user_menus_board -> fragMoveDepartment()
             R.id.home_checkin -> fragMoveID()
             R.id.main_dialog_update_layout -> _privacyAgreeEvent.value = Event(Unit)
+
+            R.id.home_board_more -> fragMoveBoard()
         }
     }
 
@@ -100,8 +114,15 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
         _moveFragmentEvent.value = Event(R.id.navi_id)
     }
 
-    fun fragMoveBoard() {
+    fun fragMoveBoard(board: Board? = null, category: ReservedBoardCategory? = null) {
         _moveFragmentEvent.value = Event(R.id.navi_board)
+
+        board?.let {
+            _goBoardDetailEvent.value = Event(it)
+        }
+        category?.let {
+            _boardCategoryEvent.value = Event(it)
+        }
     }
 
     fun fragMoveMy() {

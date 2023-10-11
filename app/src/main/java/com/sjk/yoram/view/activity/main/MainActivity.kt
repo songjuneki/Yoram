@@ -17,6 +17,7 @@ import com.sjk.yoram.viewmodel.*
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel: MainViewModel by viewModels { MainViewModel.Factory(application) }
+    private val boardViewModel: FragBoardViewModel by viewModels { FragBoardViewModel.Factory(application, this) }
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -86,6 +87,18 @@ class MainActivity : AppCompatActivity() {
         viewModel.privacyAgreeEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
 //                navController.navigate(R.id.action_global_main_to_privacyAgreeFragment)
+            }
+        }
+
+        viewModel.goBoardDetailEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                boardViewModel.moveBoardDetail(it)
+            }
+        }
+
+        viewModel.boardCategoryEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                boardViewModel.changeCurrentCategory(it)
             }
         }
     }

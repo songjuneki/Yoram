@@ -40,8 +40,8 @@ class HomeBannerAdapter(): RecyclerView.Adapter<HomeBannerAdapter.BannerHolder>(
 
     override fun getItemCount(): Int = data.size
 
-    fun fetchBanner(data: MutableList<Banner>) {
-        this.data = data
+    fun fetchBanner(data: List<Banner>) {
+        this.data = data.toMutableList()
         notifyDataSetChanged()
     }
 
