@@ -1,10 +1,11 @@
 package com.sjk.yoram.model.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,14 +20,10 @@ import com.sjk.yoram.databinding.BoardMediaItemNoneBinding
 import com.sjk.yoram.databinding.BoardMediaItemYoutubeBinding
 import com.sjk.yoram.model.dto.BoardMedia
 import com.sjk.yoram.model.dto.BoardMediaType
-import com.sjk.yoram.repository.WebLinkOGTagHelper
-import com.soulsurfer.android.PageInfo
-import com.soulsurfer.android.PageInfoListener
-import com.soulsurfer.android.SoulSurfer
+import com.sjk.yoram.util.OpenGraphParser
 import jp.wasabeef.transformers.coil.BlurTransformation
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import jp.wasabeef.transformers.coil.GrayscaleTransformation
+import kotlinx.coroutines.*
 
 class BoardMediaListAdapter(): ListAdapter<BoardMedia, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -78,43 +75,50 @@ class BoardMediaListAdapter(): ListAdapter<BoardMedia, RecyclerView.ViewHolder>(
 
 
     private inner class LinkBoardMediaViewHolder(val binding: BoardMediaItemLinkBinding): RecyclerView.ViewHolder(binding.root) {
+        private var loadJob : Job? = null
         fun bind(item: BoardMedia.Link) {
             binding.boardMediaItemLinkProgress.visibility = View.VISIBLE
             binding.boardMediaItemLinkUrl.text = item.url
 
-            binding.lifecycleOwner?.lifecycleScope?.launch(Dispatchers.IO) {
+            loadJob = null
+        }
 
-//                val ogTag = WebLinkOGTagHelper.parse(item.url)
-
-            }
-            binding.boardMediaItemLinkProgress.visibility = View.GONE
-
-
-            SoulSurfer.get(item.url)
-                .load(object: PageInfoListener {
-                    override fun onError(url: String?) {
-                        binding.boardMediaItemLinkProgress.visibility = View.GONE
-                        binding.boardMediaItemLinkError.visibility = View.VISIBLE
+        fun makeLoadJob(url: String): Job = CoroutineScope(Dispatchers.IO).launch {
+            OpenGraphParser.parse(
+                url = url,
+                onLoading = {
+                    binding.boardMediaItemLinkUrl.text = url
+                    binding.boardMediaItemLinkTitle.text = url
+                    binding.boardMediaItemLinkProgress.isVisible = true
+                    binding.boardMediaItemLinkThumbnail.isVisible = false
+                    binding.boardMediaItemLinkError.isVisible = false
+                    binding.boardMediaItemLinkDescription.isVisible = false
+                },
+                onSuccess = { tags ->
+                    binding.boardMediaItemLinkTitle.text = tags.getOrDefault("title", url)
+                    binding.boardMediaItemLinkDescription.text = tags.getOrDefault("description", url)
+                    binding.boardMediaItemLinkUrl.text = tags.getOrDefault("url", url)
+                    binding.boardMediaItemLinkThumbnail.load(tags["image"] ?: R.drawable.ic_icon) {
+                        placeholder(R.drawable.ic_icon)
+                        size(ViewSizeResolver(binding.boardMediaItemLinkThumbnail))
+                        crossfade(true)
+                        crossfade(500)
+                        scale(Scale.FIT)
+                        error(R.drawable.ic_icon).transformations(GrayscaleTransformation())
                     }
-
-                    override fun onPageInfoLoaded(pageInfo: PageInfo?) {
-                        binding.boardMediaItemLinkTitle.text = pageInfo?.title ?: item.url
-                        binding.boardMediaItemLinkDescription.text = pageInfo?.description ?: item.url
-                        binding.boardMediaItemLinkThumbnail.load(pageInfo?.imageUrl) {
-                            allowHardware(true)
-                            size(ViewSizeResolver(binding.boardMediaItemLinkThumbnail))
-                            scale(Scale.FILL)
-                            crossfade(true)
-                            crossfade(500)
-                            listener(onSuccess = { _, _ ->
-                                binding.boardMediaItemLinkError.visibility = View.GONE
-                            }, onError = { _, _ ->
-                                binding.boardMediaItemLinkError.visibility = View.VISIBLE
-                            })
-                        }
-                        binding.boardMediaItemLinkProgress.visibility = View.GONE
+                    binding.boardMediaItemLinkError.isVisible = false
+                    binding.boardMediaItemLinkProgress.isVisible = false
+                    binding.boardMediaItemLinkDescription.isVisible = true
+                },
+                onFailure = {
+                    binding.boardMediaItemLinkThumbnail.load(R.drawable.baseline_error_outline_24) {
+                        transformations(GrayscaleTransformation())
+                        scale(Scale.FIT)
                     }
-                })
+                    binding.boardMediaItemLinkProgress.isVisible = false
+                    binding.boardMediaItemLinkError.isVisible = true
+                }
+            )
         }
     }
 
