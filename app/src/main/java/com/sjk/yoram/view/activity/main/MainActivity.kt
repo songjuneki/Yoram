@@ -22,8 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private var backPressedTime = 0L
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -86,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.privacyAgreeEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-//                navController.navigate(R.id.action_global_main_to_privacyAgreeFragment)
+                navController.navigate(R.id.action_global_main_to_privacyAgreeFragment)
             }
         }
 
