@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -52,10 +54,15 @@ class BoardListAdapter(val onBoardClick: (Board?) -> Unit): PagingDataAdapter<Bo
                 binding.boardItemScriptDate.visibility = View.GONE
             }
 
-            binding.boardItemBodyMediaPager.adapter = BoardMediaListAdapter()
-            (binding.boardItemBodyMediaPager.adapter as BoardMediaListAdapter).submitList(
-                mediaList.filter { it.type == BoardMediaType.IMAGE || it.type == BoardMediaType.YOUTUBE || it.type == BoardMediaType.LINK }
-            )
+            // LINK 타입 작업중
+            val filteredMediaList = mediaList.filter { it.type == BoardMediaType.IMAGE || it.type == BoardMediaType.YOUTUBE }
+            binding.boardItemBodyMediaPager.adapter = BoardMediaListAdapter().apply {
+                submitList(filteredMediaList)
+            }
+            binding.boardItemBodyMediaPager.updateLayoutParams {
+                this.height = binding.root.context.resources.displayMetrics.heightPixels / 4
+            }
+            binding.boardItemBodyMediaPager.isVisible = filteredMediaList.isNotEmpty()
 
             binding.root.setOnClickListener {
                 onBoardClick(item ?: return@setOnClickListener)
