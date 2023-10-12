@@ -1,6 +1,5 @@
 package com.sjk.yoram.model
 
-import android.util.Log
 import com.sjk.yoram.model.dto.SimpleUser
 
 data class DepartmentNode(
@@ -102,7 +101,6 @@ fun List<DepartmentNode>.toDepartmentRelationHashMap(): HashMap<Int, DepartmentR
         map[it.code]?.parentList?.addAll(map[it.parent]?.parentList ?: mutableSetOf())
     }
 
-    Log.d("JKJK", "relation=$map")
     return map
 }
 
