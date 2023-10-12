@@ -1,9 +1,11 @@
 package com.sjk.yoram.repository
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
@@ -113,6 +115,7 @@ class UserRepository(private val application: Application) {
 
     suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id, getLoginID())
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     suspend fun getAvatarBitmap(id: Int = getLoginID()): Bitmap {
         val url = MyRetrofit.userApi.getAvatar(id)
         val loader = ImageLoader(application.applicationContext)
@@ -123,7 +126,8 @@ class UserRepository(private val application: Application) {
             val result = (loader.execute(req) as SuccessResult).drawable
             result.toBitmap()
         } catch (e: Exception) {
-            BitmapFactory.decodeResource(application.resources, R.drawable.ic_avatar)
+            BitmapFactory.decodeResource(application.applicationContext.resources, R.drawable.ic_avatar)
+                ?: (application.resources.getDrawable(R.drawable.ic_avatar, application.theme) as BitmapDrawable).bitmap
         }
     }
 
