@@ -82,7 +82,8 @@ class BoardDetailFragment: Fragment() {
                             fragBoardDetailBodyLastUpdate.text = it.board_update
 
                             fragBoardDetailBodyOptionLayout.isVisible = it.board_option_script.isNotBlank() && it.board_option_script_date.isNotBlank()
-                            fragBoardDetailBodyOptionDate.text = it.board_option_script_date
+                            val scriptDate = "${it.board_option_script_date} 설교"
+                            fragBoardDetailBodyOptionDate.text = scriptDate
                             fragBoardDetailBodyOptionScriptText.text = it.board_option_script
 
                             parseContents(it)
