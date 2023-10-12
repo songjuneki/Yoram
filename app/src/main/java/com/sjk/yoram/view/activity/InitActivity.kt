@@ -1,6 +1,5 @@
 package com.sjk.yoram.view.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,8 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityInitBinding
-import com.sjk.yoram.model.LoginState
-import com.sjk.yoram.view.activity.main.MainActivity
 import com.sjk.yoram.viewmodel.InitViewModel
 
 class InitActivity: AppCompatActivity() {
@@ -51,20 +48,6 @@ class InitActivity: AppCompatActivity() {
             }
         }
 
-        viewModel.loginEvent.observe(this) { event ->
-            event.getContentIfNotHandled()?.let {
-                Log.d("JKJK", "loginEvent is changed $it")
-                if (it == LoginState.LOGIN) {
-                    Log.d("JKJK", "loginEvent is Login")
-                    val main = Intent(applicationContext, MainActivity::class.java)
-                    main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    finish()
-                    startActivity(main)
-                    overridePendingTransition(0, 0)
-                }
-            }
-        }
     }
 
 }
