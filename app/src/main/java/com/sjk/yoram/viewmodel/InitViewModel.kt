@@ -1,8 +1,6 @@
 package com.sjk.yoram.viewmodel
 
 import android.app.Application
-import android.telephony.PhoneNumberFormattingTextWatcher
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputLayout
@@ -133,7 +131,6 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
 
     fun sexBtnClick(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
-        Log.d("JKJK", "sex=${newSex.value}")
         when (checkedId) {
             R.id.init_signup_sex_male_btn -> {
                 if (isChecked) newSex.value = SexState.MALE
