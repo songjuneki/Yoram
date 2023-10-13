@@ -1,7 +1,7 @@
 package com.sjk.yoram.view.activity
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ActivityInitBinding
+import com.sjk.yoram.view.activity.main.MainActivity
 import com.sjk.yoram.viewmodel.InitViewModel
 
 class InitActivity: AppCompatActivity() {
@@ -45,6 +46,17 @@ class InitActivity: AppCompatActivity() {
         viewModel.msgEvent.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.anonymousLoginEvent.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                val main = Intent(this, MainActivity::class.java)
+                main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                finish()
+                startActivity(main)
+                overridePendingTransition(0, 0)
             }
         }
 
