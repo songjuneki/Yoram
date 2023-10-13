@@ -116,7 +116,7 @@ class UserRepository(private val application: Application) {
     suspend fun getUserDetail(id: Int): UserDetail = MyRetrofit.userApi.getUserDetail(id, getLoginID())
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    suspend fun getAvatarBitmap(id: Int = getLoginID()): Bitmap {
+    suspend fun getAvatarBitmap(id: Int = getLoginID()): Bitmap? {
         val url = MyRetrofit.userApi.getAvatar(id)
         val loader = ImageLoader(application.applicationContext)
         val req = ImageRequest.Builder(application.applicationContext).data(url)
@@ -127,7 +127,7 @@ class UserRepository(private val application: Application) {
             result.toBitmap()
         } catch (e: Exception) {
             BitmapFactory.decodeResource(application.applicationContext.resources, R.drawable.ic_avatar)
-                ?: (application.resources.getDrawable(R.drawable.ic_avatar, application.theme) as BitmapDrawable).bitmap
+                ?: application.applicationContext.resources.getDrawable(R.drawable.ic_avatar, application.theme).toBitmapOrNull()
         }
     }
 
