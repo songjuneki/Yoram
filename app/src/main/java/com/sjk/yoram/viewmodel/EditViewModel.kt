@@ -2,15 +2,12 @@ package com.sjk.yoram.viewmodel
 
 import android.app.Application
 import android.graphics.Bitmap
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.*
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
 import com.sjk.yoram.model.Event
 import com.sjk.yoram.model.MutableUserLiveData
 import com.sjk.yoram.model.dto.Juso
-import com.sjk.yoram.model.dto.UserDetail
 import com.sjk.yoram.model.ui.listener.AddressItemClickListener
 import com.sjk.yoram.model.ui.listener.TextInputChanged
 import com.sjk.yoram.repository.ServerRepository
