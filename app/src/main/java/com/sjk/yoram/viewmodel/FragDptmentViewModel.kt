@@ -2,7 +2,6 @@ package com.sjk.yoram.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import android.widget.DatePicker.OnDateChangedListener
 import androidx.lifecycle.*
 import com.google.android.material.textfield.TextInputLayout
@@ -22,7 +21,6 @@ import kotlinx.coroutines.*
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
