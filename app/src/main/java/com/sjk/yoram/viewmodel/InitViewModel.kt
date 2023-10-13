@@ -38,6 +38,10 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     val loginEvent: LiveData<Event<LoginState>>
         get() = _loginEvent
 
+    private val _anonymousLoginEvent = MutableLiveData<Event<Unit>>()
+    val anonymousLoginEvent: LiveData<Event<Unit>>
+        get() = _anonymousLoginEvent
+
     private val _msgEvent = MutableLiveData<Event<String>>()
     val msgEvent: LiveData<Event<String>>
         get() = _msgEvent
@@ -110,7 +114,10 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             R.id.init_go_login_btn -> changeFragment(R.id.action_initHome_to_initLogin, InitFragmentType.InitFragment_LOGIN)
             R.id.init_go_signup_btn -> changeFragment(R.id.action_initHome_to_initSignUp, InitFragmentType.InitFragment_SIGNUP)
 
-            R.id.init_go_anonymous_btn -> {_loginEvent.value = Event(LoginState.LOGIN); userRepository.setIsInit(false)}
+            R.id.init_go_anonymous_btn -> {
+                _anonymousLoginEvent.value = Event(Unit)
+                userRepository.setIsInit(false)
+            }
 
             R.id.init_login_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
 
