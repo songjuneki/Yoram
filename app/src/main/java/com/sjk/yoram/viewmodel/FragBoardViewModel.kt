@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.paging.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.sjk.yoram.R
 import com.sjk.yoram.model.dto.Board
 import com.sjk.yoram.model.dto.ReservedBoardCategory
 import com.sjk.yoram.repository.BoardRepository
