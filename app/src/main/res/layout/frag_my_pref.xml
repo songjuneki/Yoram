@@ -171,6 +171,7 @@
                     android:contextClickable="true"
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
+                    android:background="@color/xd_light_background"
                     android:soundEffectsEnabled="true"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_rule_title"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_rule_gv05"
@@ -218,6 +219,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_rule_rule"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_rule_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_rule_gv95">
@@ -292,6 +294,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_account_title"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_account_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_account_gv95">
@@ -339,6 +342,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
                     android:hapticFeedbackEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_account_privacy"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_account_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_account_gv95">
@@ -375,6 +379,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
                     android:hapticFeedbackEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_account_logout"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_account_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_account_gv95">
@@ -439,6 +444,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_title"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -485,6 +491,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_new_user"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -532,6 +539,7 @@
                     android:soundEffectsEnabled="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_banner"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -579,6 +587,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_worship"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -626,6 +635,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_give"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -673,6 +683,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_department"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
@@ -713,6 +724,7 @@
                     android:onClick="@{(v) -> vm.btnEvent(v.id)}"
                     android:foreground="?attr/selectableItemBackground"
                     android:soundEffectsEnabled="true"
+                    android:background="@color/xd_light_background"
                     app:layout_constraintTop_toBottomOf="@id/frag_my_pref_admin_position"
                     app:layout_constraintLeft_toLeftOf="@id/frag_my_pref_admin_gv05"
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95">
