@@ -137,8 +137,10 @@ class AccountDeleteViewModel(private val serverRepository: ServerRepository, pri
                         withContext(viewModelScope.coroutineContext) {
                             isNetworkProgress.value = true
                             userRepository.isValidAccount(
-                                _myInfo.id,
-                                this@AccountDeleteViewModel.encryptKey(inputPassword.value)
+                                id = _myInfo.id,
+                                name = inputName.value ?: "",
+                                pw = this@AccountDeleteViewModel.encryptKey(inputPassword.value),
+                                bd = inputBirth.value ?: ""
                             )
                         }
                     isNetworkProgress.value = false
@@ -154,7 +156,12 @@ class AccountDeleteViewModel(private val serverRepository: ServerRepository, pri
                 viewModelScope.launch {
                     val validation = withContext(viewModelScope.coroutineContext) {
                         isNetworkProgress.value = true
-                        userRepository.isValidAccount(_myInfo.id, this@AccountDeleteViewModel.encryptKey(inputPasswordValid.value))
+                        userRepository.isValidAccount(
+                            id = _myInfo.id,
+                            name = inputName.value ?: "",
+                            pw = this@AccountDeleteViewModel.encryptKey(inputPasswordValid.value),
+                            bd = inputBirth.value ?: ""
+                        )
                     }
                     isNetworkProgress.value = false
 

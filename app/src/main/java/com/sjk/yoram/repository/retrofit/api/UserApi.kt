@@ -20,9 +20,10 @@ interface UserApi {
 
     // Read
     @GET("user/find")
-    suspend fun get(@Query("name")name: String, @Query("bd")bd: String = ""): MutableList<User>
-    @POST("user/check")
-    suspend fun check(@Body checkData: LoginCheck): Boolean
+    suspend fun findUser(@Query("name")name: String, @Query("bd")bd: String = ""): Int
+
+    @POST("user/loginCheck")
+    suspend fun check(@Body checkData: LoginCheck): Response<LoginResult>
     @GET("user/my")
     suspend fun getMyInfo(@Query("id")id: Int): MyLoginData
     @GET("user/permission")

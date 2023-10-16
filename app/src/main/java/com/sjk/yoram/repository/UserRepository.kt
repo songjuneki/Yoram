@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toBitmapOrNull
@@ -46,12 +45,12 @@ class UserRepository(private val application: Application) {
 
     fun getIsInit(): Boolean = sharedPref.getBoolean(application.getString(R.string.YORAM_LOCAL_PREF_ISINIT), true)
     fun setIsInit(boolean: Boolean) {
-        sharedPref.edit().putBoolean(application.getString(R.string.YORAM_LOCAL_PREF_ISINIT), boolean).commit()
+        sharedPref.edit().putBoolean(application.getString(R.string.YORAM_LOCAL_PREF_ISINIT), boolean).apply()
     }
     fun getLoginID() = sharedPref.getInt(application.getString(R.string.YORAM_LOCAL_PREF_MYID), -1)
     fun getLoginPW() = sharedPref.getString(application.getString(R.string.YORAM_LOCAL_PREF_MYPW), "@")
     fun setLogin(id: Int, pw: String) {
-        sharedPref.edit().putInt(application.getString(R.string.YORAM_LOCAL_PREF_MYID), id).putString(application.getString(R.string.YORAM_LOCAL_PREF_MYPW), pw).commit()
+        sharedPref.edit().putInt(application.getString(R.string.YORAM_LOCAL_PREF_MYID), id).putString(application.getString(R.string.YORAM_LOCAL_PREF_MYPW), pw).apply()
     }
 
     suspend fun userSignUp(newUser: NewUser): Int {
@@ -59,22 +58,44 @@ class UserRepository(private val application: Application) {
     }
 
     suspend fun loginUser(name: String, pw: String, bd: String = ""): LoginState {
-        val id = getID(name, bd)
+        val id = findUserId(name, bd)
 
-        return if (id == NAME_DUPLICATED) LoginState.NAME_SUCCESS_NEED_BD
-        else if (id == NO_NAME) LoginState.NAME_FAIL
-        else {
-            if (isValidAccount(id, pw)){
+        if (id == NO_NAME) return LoginState.NAME_FAIL
+        if (id == NAME_DUPLICATED) return LoginState.NAME_SUCCESS_NEED_BD
+
+        val result = MyRetrofit.userApi.check(LoginCheck(id, name, pw, bd))
+
+        if (!result.isSuccessful)
+            return LoginState.NETWORK_ERROR
+
+
+        return when (result.body()) {
+            null -> LoginState.NETWORK_ERROR
+            LoginResult.NAME_FAIL -> LoginState.NAME_FAIL
+            LoginResult.PW_FAIL -> LoginState.PW_FAIL
+            LoginResult.NAME_OK_NEED_BD -> LoginState.NAME_SUCCESS_NEED_BD
+            LoginResult.BD_FAIL -> LoginState.BD_FAIL
+            LoginResult.NAME_OK_BD_OK_PW_FAIL -> LoginState.NAME_BD_OK_PW_FAIL
+            LoginResult.LOGIN ->  {
                 setLogin(id, pw)
                 setIsInit(false)
-                return LoginState.LOGIN
+                LoginState.LOGIN
             }
-            else return LoginState.PW_FAIL
         }
     }
 
-    suspend fun isValidAccount(id: Int, pw: String): Boolean {
-        return MyRetrofit.userApi.check(LoginCheck(id, pw))
+    suspend fun isValidAccount(id: Int, name: String, pw: String, bd: String): Boolean {
+        val result = MyRetrofit.userApi.check(
+            LoginCheck(id, name, pw, bd)
+        )
+
+        if (!result.isSuccessful)
+            return false
+
+        return when (result.body()) {
+            LoginResult.LOGIN -> true
+            else -> false
+        }
     }
 
     suspend fun getMyPermission(id: Int): Int {
@@ -85,21 +106,9 @@ class UserRepository(private val application: Application) {
         return 0
     }
 
-    suspend fun getCountByName(name: String): Int {
-        val user = MyRetrofit.userApi.get(name)
-        return user.size
-    }
 
-    suspend fun isSameName(name: String): Boolean {
-        return MyRetrofit.userApi.get(name).size > 1
-    }
-
-    suspend fun getID(name: String, bd: String = ""): Int {
-        var id = NO_NAME
-        val user = MyRetrofit.userApi.get(name, bd)
-        if (user.size == 1) id = user[0].id
-        if (user.size > 1) id = NAME_DUPLICATED
-        return id
+    suspend fun findUserId(name: String, bd: String = ""): Int {
+        return MyRetrofit.userApi.findUser(name, bd)
     }
 
     suspend fun getLoginData(id: Int): MyLoginData {

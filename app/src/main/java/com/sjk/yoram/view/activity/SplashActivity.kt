@@ -11,6 +11,7 @@ import com.sjk.yoram.model.LoginCheck
 import com.sjk.yoram.repository.retrofit.MyRetrofit
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.SplashBinding
+import com.sjk.yoram.model.dto.LoginResult
 import com.sjk.yoram.view.activity.main.MainActivity
 import kotlinx.coroutines.*
 import kotlin.system.exitProcess
@@ -42,9 +43,9 @@ class SplashActivity: AppCompatActivity() {
                     val localId = sharedPref.getInt(getString(R.string.YORAM_LOCAL_PREF_MYID), -1)
                     val localPw = sharedPref.getString(getString(R.string.YORAM_LOCAL_PREF_MYPW), "@")!!
                     val builder = AlertDialog.Builder(this@SplashActivity)
-                    val idCheck = isLogin(localId, localPw).await()
+                    val idCheck = isLogin(localId, localPw).await().body()
 
-                    if ((!idCheck && localId != -1) || isInit) {
+                    if ((idCheck != LoginResult.LOGIN && localId != -1) || isInit) {
                         builder.setMessage("로그인한 정보가 다릅니다. 다시 로그인 해주세요")
                             .setPositiveButton("확인", DialogInterface.OnClickListener{_, _ -> startActivity(initIntent); return@OnClickListener})    // 로그인 화면 인텐트로 수정
                             .create().show()
