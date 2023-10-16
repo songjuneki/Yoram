@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,8 @@ class InitLoginFragment: Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        viewModel.loginBirth.value = ""
+
         return binding.root
     }
 
@@ -46,6 +49,11 @@ class InitLoginFragment: Fragment() {
                 when (it) {
                     LoginState.PW_FAIL -> binding.initLoginPwEtLayout.error = "비밀번호가 일치하지 않습니다"
                     LoginState.NAME_FAIL -> binding.initLoginNameEtLayout.error = "이름을 확인해주세요"
+                    LoginState.NAME_SUCCESS_NEED_BD -> {
+                        binding.initLoginBdEtLayout.isVisible = true
+                        binding.initLoginBdEtLayout.error = ""
+                    }
+                    LoginState.BD_FAIL -> binding.initLoginBdEtLayout.error ="생년월일을 확인해주세요"
                     LoginState.LOGIN -> {
                         val main = Intent(requireContext(), MainActivity::class.java)
                         main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -54,6 +62,7 @@ class InitLoginFragment: Fragment() {
                         startActivity(main)
                         requireActivity().overridePendingTransition(0, 0)
                     }
+                    // 생년월일 입력 핸들링
                     else -> return@let
                 }
             }

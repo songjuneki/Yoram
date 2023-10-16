@@ -348,19 +348,33 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
 
 
     private fun btnSignUpComplete() {
-        viewModelScope.async {
+        viewModelScope.launch {
             showLoading()
-            _newUser.phone = newPhone.value!!
-            _newUser.tel = newTel.value!!
-            _newUser.address = newAdd.value!!
-            _newUser.address_more = newAddMore.value!!
-            _newUser.car = newCarNo.value!!
-            val id = userRepository.userSignUp(_newUser)
-            if (id == -1) {
+            val isCreated = userRepository.findUserId(newName.value ?: "", newBD.value ?: "") >= 0
+            if (isCreated) {
                 hideLoading()
-                return@async
+                showToastMsg("이미 존재하는 계정 입니다.")
+                return@launch
             }
-            btnLogin(_newUser.name, newPw.value ?: _newUser.pw)
+
+            val newUserId = userRepository.userSignUp(
+                _newUser.copy(
+                    phone = newPhone.value ?: "",
+                    tel = newTel.value ?: "",
+                    address = newAdd.value ?: "",
+                    address_more = newAddMore.value ?: "",
+                    car = newCarNo.value ?: ""
+                )
+            )
+
+            if (newUserId < 0) {
+                hideLoading()
+                showToastMsg("계정 생성에 오류가 발생했습니다. 다시 시도해주세요")
+                return@launch
+            }
+
+            hideLoading()
+            btnLogin(_newUser.name, EncryptKey(newPw.value ?: _newUser.pw), newBD.value ?: "")
         }
     }
 
