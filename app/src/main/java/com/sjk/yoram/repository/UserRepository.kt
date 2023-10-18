@@ -13,6 +13,7 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.github.sumimakito.awesomeqr.AwesomeQrRenderer
 import com.github.sumimakito.awesomeqr.option.RenderOption
+import com.github.sumimakito.awesomeqr.option.background.StillBackground
 import com.github.sumimakito.awesomeqr.option.color.Color
 import com.github.sumimakito.awesomeqr.option.logo.Logo
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
@@ -186,8 +187,8 @@ class UserRepository(private val application: Application) {
         return listOf()
     }
 
-    fun getUserCode(): Bitmap {
-        val option = makeCodeOption()
+    fun getUserCode(special: Boolean = false): Bitmap {
+        val option = makeCodeOption(special)
         val result = AwesomeQrRenderer.render(option)
         return if (result.bitmap != null)
             result.bitmap!!
@@ -199,6 +200,7 @@ class UserRepository(private val application: Application) {
         return application.getDrawable(R.drawable.ic_blured_code)?.toBitmap()
             ?: return AwesomeQrRenderer.render(makeFailureCode("cannot get blurred code")).bitmap!!
     }
+
 
     private fun makeCodeOption(special: Boolean = false) = RenderOption().apply {
         val date = System.currentTimeMillis()
@@ -214,6 +216,7 @@ class UserRepository(private val application: Application) {
         roundedPatterns = false
         clearBorder = true
 
+
         color = Color().apply {
             background = android.graphics.Color.TRANSPARENT
             dark = android.graphics.Color.BLACK
@@ -221,9 +224,22 @@ class UserRepository(private val application: Application) {
             auto = false
         }
 
+
         logo = Logo().apply {
             bitmap = application.getDrawable(R.drawable.icon_temp)?.toBitmapOrNull()
             this.scale = 0.3f
+        }
+
+        if (special) {
+            background = StillBackground(
+                alpha = 1.0f,
+                bitmap = BitmapFactory.decodeResource(application.resources, R.raw.cat)
+            )
+            color = color.apply {
+                dark = 0xFFFFFFFF.toInt()
+                light = 0x00000000.toInt()
+            }
+            logo = null
         }
     }
 
