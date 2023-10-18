@@ -523,6 +523,7 @@
                         app:layout_constraintRight_toRightOf="@id/frag_my_user_menus_gv95" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:visibility="gone"
                         android:id="@+id/frag_my_user_menus_notify"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -578,6 +579,7 @@
                             app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <com.google.android.material.divider.MaterialDivider
+                        android:visibility="gone"
                         android:id="@+id/frag_my_user_menus_notify_divider"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

@@ -31,97 +31,101 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/frag_board_top_layout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/xd_light_background"
-                android:elevation="10dp"
-                android:shadowRadius="5"
-                android:shadowColor="@color/xd_light_title"
-                android:outlineAmbientShadowColor="@color/xd_light_title"
-                app:layout_constraintTop_toTopOf="parent">
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/frag_board_top_gv05"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.05" />
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/frag_board_top_gv95"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.95" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frag_board_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/xd_light_background"
+            android:elevation="10dp"
+            android:shadowRadius="5"
+            android:shadowColor="@color/xd_light_title"
+            android:outlineAmbientShadowColor="@color/xd_light_title"
+            app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_board_top_gv05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/frag_board_top_gv95"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
 
-                <TextView
-                    android:id="@+id/frag_board_top_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="교회 소식"
-                    android:textColor="@color/xd_light_title"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:paddingVertical="8dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@id/frag_board_top_gv05"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:id="@+id/frag_board_top_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="교회 소식"
+                android:textColor="@color/xd_light_title"
+                android:textSize="20sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:paddingVertical="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/frag_board_top_gv05"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/frag_board_action_button_layout"
+            <LinearLayout
+                android:id="@+id/frag_board_action_button_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="@id/frag_board_top_gv95"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageButton
+                    android:visibility="gone"
+                    android:id="@+id/frag_board_top_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="@id/frag_board_top_gv95"
-                    app:layout_constraintBottom_toBottomOf="parent">
-                    <ImageButton
-                        android:visibility="@{mainVM.userPermission.ordinal() &gt;= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone }"
-                        android:id="@+id/frag_board_top_setting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_gray_preference"
-                        android:scaleType="center"
-                        android:background="#00000000"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="16dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:soundEffectsEnabled="true"
-                        android:foreground="?attr/selectableItemBackground" />
+                    android:src="@drawable/ic_gray_preference"
+                    android:scaleType="center"
+                    android:background="#00000000"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:soundEffectsEnabled="true"
+                    android:foreground="?attr/selectableItemBackground" />
+                <!--android:visibility="@{mainVM.userPermission.ordinal() &gt;= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone }"-->
 
-                    <ImageButton
-                        android:visibility="@{mainVM.userPermission.ordinal() &gt;= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone }"
-                        android:id="@+id/frag_board_top_post"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_post"
-                        android:scaleType="center"
-                        android:background="#00000000"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="16dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:soundEffectsEnabled="true"
-                        android:foreground="?attr/selectableItemBackground" />
 
-                    <ImageButton
-                        android:visibility="gone"
-                        android:id="@+id/frag_board_top_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_search"
-                        android:scaleType="center"
-                        android:background="#00000000"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="16dp"
-                        app:tint="#202020"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:soundEffectsEnabled="true"
-                        android:foreground="?attr/selectableItemBackground" />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageButton
+                    android:visibility="gone"
+                    android:id="@+id/frag_board_top_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_post"
+                    android:scaleType="center"
+                    android:background="#00000000"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:soundEffectsEnabled="true"
+                    android:foreground="?attr/selectableItemBackground" />
+                <!--android:visibility="@{mainVM.userPermission.ordinal() &gt;= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone }"-->
+
+                <ImageButton
+                    android:visibility="gone"
+                    android:id="@+id/frag_board_top_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_search"
+                    android:scaleType="center"
+                    android:background="#00000000"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    app:tint="#202020"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:soundEffectsEnabled="true"
+                    android:foreground="?attr/selectableItemBackground" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/frag_board_category_layout"
