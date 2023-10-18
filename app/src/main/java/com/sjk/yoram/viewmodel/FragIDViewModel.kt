@@ -67,8 +67,11 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
     val showToast: LiveData<Event<String>>
         get() = _showToast
 
+    private var _hiddenCount = 0
+
 
     init {
+        _hiddenCount = 0
         viewModelScope.launch {
             _timer.value = 0
             countStop()
@@ -94,7 +97,7 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
 
     private fun makeCode() {
         viewModelScope.launch {
-            _code.value = userRepository.getUserCode()
+            _code.value = userRepository.getUserCode(_hiddenCount > 15)
             _isValidCode.value = true
         }
     }
@@ -210,6 +213,9 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
         _scanEnabled.value = Event(true)
     }
 
+    fun hiddenFeature() {
+        _hiddenCount++
+    }
 
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

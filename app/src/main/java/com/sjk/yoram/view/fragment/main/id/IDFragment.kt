@@ -43,6 +43,12 @@ class IDFragment: Fragment() {
                 findNavController().navigate(it)
             }
         }
+
+        mainViewModel.onBottomMenuReselected.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                viewModel.hiddenFeature()
+            }
+        }
     }
 
     override fun onPause() {
