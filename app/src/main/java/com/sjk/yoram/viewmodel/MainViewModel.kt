@@ -68,6 +68,10 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
     val showExpiredDialog: LiveData<Boolean>
         get() = _showExpiredDialog
 
+    private val _onBottomMenuReSelected = MutableLiveData<Event<Unit>>()
+    val onBottomMenuReselected: LiveData<Event<Unit>>
+        get() = _onBottomMenuReSelected
+
     private val _backEvent = MutableLiveData<Event<Unit>>()
     val backEvent: LiveData<Event<Unit>>
         get() = _backEvent
@@ -196,6 +200,9 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
 //        _loginEvent.value = Event(Unit)
     }
 
+    fun reSelectMenuItem() {
+        _onBottomMenuReSelected.value = Event(Unit)
+    }
 
     fun getUserPermission(): UserPermission {
         val data = _loginData.value ?: MyLoginData()

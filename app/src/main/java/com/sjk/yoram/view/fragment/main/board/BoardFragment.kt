@@ -48,6 +48,12 @@ class BoardFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mainViewModel.onBottomMenuReselected.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                binding.fragBoardBodyRecycler.smoothScrollToPosition(0)
+            }
+        }
     }
 
     private fun FragBoardBinding.bindState(

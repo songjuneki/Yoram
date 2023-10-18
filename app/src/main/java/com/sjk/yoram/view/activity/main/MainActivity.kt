@@ -62,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(setOf(R.id.navi_home, R.id.navi_dptment, R.id.navi_id, R.id.navi_board, R.id.navi_my))
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.bottomNavi.setupWithNavController(navController)
+
+        binding.bottomNavi.setOnItemReselectedListener {
+            viewModel.reSelectMenuItem()
+        }
     }
 
     private fun initLiveDataObserve() {
