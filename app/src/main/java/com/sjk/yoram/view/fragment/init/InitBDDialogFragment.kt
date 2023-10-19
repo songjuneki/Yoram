@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogBirthdayBinding
+import com.sjk.yoram.model.InitFragmentType
 import com.sjk.yoram.viewmodel.InitViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -38,7 +39,10 @@ class InitBDDialogFragment: BottomSheetDialogFragment() {
         val day = bd.substring(8, 10).toInt()
         binding.dialogBdPicker.updateDate(year, month-1, day)
         binding.dialogBdOk.setOnClickListener {
-            viewModel.setBD("${binding.dialogBdPicker.year}-${String.format("%02d", binding.dialogBdPicker.month+1)}-${String.format("%02d", binding.dialogBdPicker.dayOfMonth)}")
+            if (viewModel.currentFragment.value == InitFragmentType.InitFragment_Dialog_BD)
+                viewModel.setBD("${binding.dialogBdPicker.year}-${String.format("%02d", binding.dialogBdPicker.month+1)}-${String.format("%02d", binding.dialogBdPicker.dayOfMonth)}")
+            else if (viewModel.currentFragment.value == InitFragmentType.InitFragment_LOGIN)
+                viewModel.loginBirth.value = "${binding.dialogBdPicker.year}-${String.format("%02d", binding.dialogBdPicker.month+1)}-${String.format("%02d", binding.dialogBdPicker.dayOfMonth)}"
             dismiss()
         }
     }

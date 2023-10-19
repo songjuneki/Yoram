@@ -17,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/xd_light_background">
+        android:background="@color/xd_light_background"
+        android:animateLayoutChanges="true">
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/init_login_gv05"
             android:layout_width="wrap_content"
@@ -71,6 +72,7 @@
             app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
             app:layout_constraintRight_toRightOf="@id/init_login_gv95"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             android:background="@color/xd_light_transparent"
             app:hintTextColor="@color/xd_light_text_hint"
             app:errorEnabled="true"
@@ -101,6 +103,7 @@
             app:layout_constraintTop_toBottomOf="@id/init_login_name_et_layout"
             app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
             app:layout_constraintRight_toRightOf="@id/init_login_gv95"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             android:layout_marginTop="20dp"
             android:background="@color/xd_light_transparent"
             app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
@@ -127,6 +130,40 @@
                 android:textColorHint="@color/xd_light_text_hint" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:visibility="gone"
+            android:id="@+id/init_login_bd_et_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintLeft_toLeftOf="@id/init_login_gv05"
+            app:layout_constraintRight_toRightOf="@id/init_login_gv95"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            android:layout_marginTop="20dp"
+            android:background="@color/xd_light_transparent"
+            app:boxStrokeColor="@color/xd_light_dot_indicator_enabled"
+            app:hintTextColor="@color/xd_light_text_hint"
+            app:errorTextAppearance="@style/ErrorInputTextStyle"
+            app:errorTextColor="@color/xd_light_red_highlight"
+            app:errorEnabled="true"
+            android:hint="생년월일"
+            app:hintEnabled="true"
+            android:clickable="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/init_login_bd_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/xd_light_transparent"
+                android:fontFamily="@font/pretendard_medium"
+                android:inputType="none"
+                android:maxLines="1"
+                android:text="@={vm.loginBirth}"
+                android:onClick="@{(v) -> vm.btnClick(v.id)}"
+                android:clickable="true"
+                android:focusable="false"
+                android:textColorHint="@color/xd_light_text_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/init_login_text_div"
@@ -144,7 +181,7 @@
             android:id="@+id/init_login_find_pw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintTop_toBottomOf="@id/init_login_bd_et_layout"
             app:layout_constraintRight_toLeftOf="@id/init_login_text_div"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
@@ -160,7 +197,7 @@
             android:id="@+id/init_login_signup_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/init_login_pw_et_layout"
+            app:layout_constraintTop_toBottomOf="@id/init_login_bd_et_layout"
             app:layout_constraintLeft_toRightOf="@id/init_login_text_div"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"

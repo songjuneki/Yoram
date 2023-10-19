@@ -46,6 +46,8 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
     val msgEvent: LiveData<Event<String>>
         get() = _msgEvent
 
+    val loginBirth = MutableLiveData("")
+
 
     private val _newUser = NewUser()
 
@@ -112,6 +114,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             R.id.dialog_address_close -> {_backBtnEvent.value = Event(Unit); _addrKeyword.value = ""; _addrSearchResult.value = listOf()}
 
             R.id.init_go_login_btn -> changeFragment(R.id.action_initHome_to_initLogin, InitFragmentType.InitFragment_LOGIN)
+
             R.id.init_go_signup_btn -> changeFragment(R.id.action_initHome_to_initSignUp, InitFragmentType.InitFragment_SIGNUP)
 
             R.id.init_go_anonymous_btn -> {
@@ -119,6 +122,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
                 userRepository.setIsInit(false)
             }
 
+            R.id.init_login_bd_et -> { changeFragment(R.id.action_initLoginFragment_to_initBDDialogFragment, InitFragmentType.InitFragment_LOGIN) }
             R.id.init_login_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
 
             R.id.init_signup_bd_et -> changeFragment(R.id.action_initSignup_to_dialogBD, InitFragmentType.InitFragment_Dialog_BD)
