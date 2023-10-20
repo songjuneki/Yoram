@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.department
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.sjk.yoram.databinding.FragUserManagerHomeBinding
+import com.sjk.yoram.presentation.main.department.FragDptmentViewModel
 
 class UserManagerHome: Fragment() {
     private lateinit var binding: FragUserManagerHomeBinding

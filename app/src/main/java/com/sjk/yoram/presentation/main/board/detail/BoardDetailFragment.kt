@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.board
+package com.sjk.yoram.presentation.main.board.detail
 
 import android.os.Bundle
 import android.text.util.Linkify
@@ -23,6 +23,9 @@ import com.sjk.yoram.data.entity.BoardContentsBody
 import com.sjk.yoram.data.entity.BoardMedia
 import com.sjk.yoram.data.entity.BoardMediaType
 import com.sjk.yoram.databinding.FragBoardDetailBinding
+import com.sjk.yoram.presentation.main.board.BoardContentTextView
+import com.sjk.yoram.presentation.main.board.BoardFragmentUiState
+import com.sjk.yoram.presentation.main.board.FragBoardViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

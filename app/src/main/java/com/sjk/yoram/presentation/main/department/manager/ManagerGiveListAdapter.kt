@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.department
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,9 @@ import com.sjk.yoram.databinding.ListMyGiveItemBinding
 import com.sjk.yoram.presentation.common.model.GiveListItem
 import java.text.DecimalFormat
 
-class ManagerGiveListAdapter(private val clickListener: GiveItemClickListener): ListAdapter<Give, ManagerGiveListAdapter.ViewHolder>(diffUtil) {
+class ManagerGiveListAdapter(private val clickListener: GiveItemClickListener): ListAdapter<Give, ManagerGiveListAdapter.ViewHolder>(
+    diffUtil
+) {
     interface GiveItemClickListener {
         fun onClick(give: Give)
     }

@@ -1,4 +1,4 @@
-package com.sjk.yoram.model.ui.adapter
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,9 @@ import com.sjk.yoram.R
 import com.sjk.yoram.databinding.ListUserManagerDptBinding
 import com.sjk.yoram.presentation.main.department.Department
 
-class UserManagerDepartmentListAdapter(val changedListener: UserManagerDepartmentChangedListener): ListAdapter<Department, UserManagerDepartmentListAdapter.ViewHolder>(diffUtil) {
+class UserManagerDepartmentListAdapter(val changedListener: UserManagerDepartmentChangedListener): ListAdapter<Department, UserManagerDepartmentListAdapter.ViewHolder>(
+    diffUtil
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ListUserManagerDptBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_user_manager_dpt, parent, false)
 

@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.board
+package com.sjk.yoram.presentation.main.board.detail
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.department
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.databinding.FragUserManagerPosBinding
+import com.sjk.yoram.presentation.main.department.FragDptmentViewModel
 
 class UserManagerPosition: Fragment() {
     private lateinit var binding: FragUserManagerPosBinding

@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.identification
+package com.sjk.yoram.presentation.main.identification.scanner
 
 import android.app.Dialog
 import android.content.pm.PackageManager
@@ -13,6 +13,7 @@ import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogScannerInitialBinding
+import com.sjk.yoram.presentation.main.identification.FragIDViewModel
 
 class ScannerInitDialog: BottomSheetDialogFragment() {
     private val viewModel: FragIDViewModel by navGraphViewModels(R.id.navi_id)

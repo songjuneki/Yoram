@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.department
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.FragUserManagerGiveBinding
+import com.sjk.yoram.presentation.main.department.FragDptmentViewModel
 
 class UserManagerGive: Fragment() {
     private lateinit var binding: FragUserManagerGiveBinding

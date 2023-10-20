@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.department
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.app.Dialog
 import android.content.res.Resources
@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogUserManagerBinding
 import com.sjk.yoram.presentation.main.MainViewModel
+import com.sjk.yoram.presentation.main.department.FragDptmentViewModel
 
 class UserManagerDialog: DialogFragment() {
     private val mainViewModel: MainViewModel by activityViewModels()

@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.department
+package com.sjk.yoram.presentation.main.department.manager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.sjk.yoram.databinding.FragUserManagerDptmentBinding
+import com.sjk.yoram.databinding.FragUserManagerGiveDetailBinding
+import com.sjk.yoram.presentation.main.department.FragDptmentViewModel
 
-class UserManagerDptment: Fragment() {
-    private lateinit var binding: FragUserManagerDptmentBinding
+class UserManagerGiveDetail: Fragment() {
+    private lateinit var binding: FragUserManagerGiveDetailBinding
     private val viewModel: FragDptmentViewModel by viewModels(ownerProducer = { requireParentFragment().requireParentFragment().parentFragmentManager.fragments.first()  })
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragUserManagerDptmentBinding.inflate(layoutInflater)
+        binding = FragUserManagerGiveDetailBinding.inflate(layoutInflater)
 
         binding.vm = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner

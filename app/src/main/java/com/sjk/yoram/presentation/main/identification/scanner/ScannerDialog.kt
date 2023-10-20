@@ -1,4 +1,4 @@
-package com.sjk.yoram.presentation.main.identification
+package com.sjk.yoram.presentation.main.identification.scanner
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -17,6 +17,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.google.zxing.BarcodeFormat
 import com.sjk.yoram.R
 import com.sjk.yoram.databinding.DialogScannerBinding
+import com.sjk.yoram.presentation.main.identification.FragIDViewModel
 
 class ScannerDialog: DialogFragment() {
     private val viewModel: FragIDViewModel by navGraphViewModels(R.id.navi_id)
