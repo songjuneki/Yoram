@@ -16,7 +16,7 @@
     </fragment>
     <dialog
         android:id="@+id/scannerInitDialog"
-        android:name="com.sjk.yoram.presentation.main.identification.ScannerInitDialog"
+        android:name="com.sjk.yoram.presentation.main.identification.scanner.ScannerInitDialog"
         android:label="ScannerInitDialog"
         tools:layout="@layout/dialog_scanner_initial">
         <action
@@ -25,7 +25,7 @@
     </dialog>
     <dialog
         android:id="@+id/scannerDialog"
-        android:name="com.sjk.yoram.presentation.main.identification.ScannerDialog"
+        android:name="com.sjk.yoram.presentation.main.identification.scanner.ScannerDialog"
         android:label="ScannerDialog"
         tools:layout="@layout/dialog_scanner"/>
 </navigation>

@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/boardDetailFragment"
-        android:name="com.sjk.yoram.presentation.main.board.BoardDetailFragment"
+        android:name="com.sjk.yoram.presentation.main.board.detail.BoardDetailFragment"
         android:label="BoardDetailFragment"
         tools:layout="@layout/frag_board_detail" />
 </navigation>
