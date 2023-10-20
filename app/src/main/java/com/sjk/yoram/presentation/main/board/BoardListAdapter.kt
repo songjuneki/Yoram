@@ -14,6 +14,7 @@ import com.sjk.yoram.data.entity.Board
 import com.sjk.yoram.data.entity.BoardMedia
 import com.sjk.yoram.data.entity.BoardMediaType
 import com.sjk.yoram.databinding.BoardItemBinding
+import com.sjk.yoram.presentation.main.board.detail.BoardMediaListAdapter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

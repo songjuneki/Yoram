@@ -4,7 +4,6 @@ import android.app.Application
 import com.sjk.yoram.data.entity.Position
 import com.sjk.yoram.data.entity.RequestUser
 import com.sjk.yoram.data.entity.SimpleUser
-import com.sjk.yoram.model.*
 import com.sjk.yoram.presentation.main.department.Department
 import com.sjk.yoram.presentation.main.department.DepartmentNode
 import com.sjk.yoram.presentation.main.department.findUser

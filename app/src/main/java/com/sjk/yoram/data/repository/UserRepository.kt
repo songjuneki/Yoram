@@ -19,7 +19,6 @@ import com.github.sumimakito.awesomeqr.option.logo.Logo
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.sjk.yoram.R
 import com.sjk.yoram.data.entity.*
-import com.sjk.yoram.model.*
 import com.sjk.yoram.presentation.common.model.GiveListItem
 import com.sjk.yoram.presentation.common.model.LoginCheck
 import com.sjk.yoram.presentation.common.model.LoginState
