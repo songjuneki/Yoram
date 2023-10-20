@@ -55,8 +55,7 @@ class AdminNewUserViewModel(private val userRepository: UserRepository): ViewMod
 
     private fun acceptNewUser(id: Int, position: Int) {
         viewModelScope.launch {
-            val detail = userRepository.getUserDetail(id)
-            detail.permission++
+            val detail = userRepository.getUserDetail(id).copy(permission = 1)
             if(userRepository.editUserInfo(detail))
                 removeUser(id, position)
             else
