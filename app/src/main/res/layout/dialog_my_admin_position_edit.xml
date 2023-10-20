@@ -2,14 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.sjk.yoram.viewmodel.AdminPositionViewModel.PositionDetailType" />
+        <import type="com.sjk.yoram.presentation.main.my.preference.admin.position.AdminPositionViewModel" />
+        <import type="com.sjk.yoram.presentation.main.my.preference.admin.position.AdminPositionViewModel.PositionDetailType" />
         <import type="android.view.View" />
         <variable
             name="prefVM"
-            type="com.sjk.yoram.viewmodel.PrefViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.PrefViewModel" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.AdminPositionViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.admin.position.AdminPositionViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

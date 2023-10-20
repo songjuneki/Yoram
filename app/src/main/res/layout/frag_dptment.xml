@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
-        <import type="com.sjk.yoram.model.Event"/>
-        <import type="com.sjk.yoram.model.MutableListLiveData" />
+        <import type="com.sjk.yoram.util.Event"/>
+        <import type="com.sjk.yoram.util.MutableListLiveData" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+            type="com.sjk.yoram.presentation.main.department.FragDptmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

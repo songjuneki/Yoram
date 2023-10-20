@@ -13,7 +13,7 @@
 
     <dialog
         android:id="@+id/privacyAgreeFragment"
-        android:name="com.sjk.yoram.view.fragment.main.home.PrivacyAgreeFragment"
+        android:name="com.sjk.yoram.presentation.main.home.PrivacyAgreeFragment"
         android:label="PrivacyAgreeFragment" />
 
     <action

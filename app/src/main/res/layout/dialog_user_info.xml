@@ -2,14 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.sjk.yoram.model.UserPermission" />
+        <import type="com.sjk.yoram.presentation.common.model.UserPermission" />
         <import type="android.view.View" />
         <variable
             name="mainVM"
-            type="com.sjk.yoram.viewmodel.MainViewModel" />
+            type="com.sjk.yoram.presentation.main.MainViewModel" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+            type="com.sjk.yoram.presentation.main.department.FragDptmentViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

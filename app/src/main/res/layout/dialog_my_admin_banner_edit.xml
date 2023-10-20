@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.AdminBannerViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.admin.banner.AdminBannerViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

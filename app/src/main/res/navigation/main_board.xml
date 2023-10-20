@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/boardFragment"
-        android:name="com.sjk.yoram.view.fragment.main.board.BoardFragment"
+        android:name="com.sjk.yoram.presentation.main.board.BoardFragment"
         android:label="BoardFragment"
         tools:layout="@layout/frag_board">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/boardDetailFragment"
-        android:name="com.sjk.yoram.view.fragment.main.board.BoardDetailFragment"
+        android:name="com.sjk.yoram.presentation.main.board.BoardDetailFragment"
         android:label="BoardDetailFragment"
         tools:layout="@layout/frag_board_detail" />
 </navigation>

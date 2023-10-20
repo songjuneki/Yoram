@@ -5,7 +5,7 @@
         <import type="kotlin.collections.AbstractMutableList"/>
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.InitViewModel" />
+            type="com.sjk.yoram.presentation.init.InitViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

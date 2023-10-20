@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <import type="com.sjk.yoram.model.LoginState" />
+        <import type="com.sjk.yoram.presentation.common.model.LoginState" />
         <import type="android.view.View" />
         <variable
             name="mainVM"
-            type="com.sjk.yoram.viewmodel.MainViewModel" />
+            type="com.sjk.yoram.presentation.main.MainViewModel" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.FragMyViewModel" />
+            type="com.sjk.yoram.presentation.main.my.FragMyViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

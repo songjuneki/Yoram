@@ -5,10 +5,10 @@
         <import type="android.view.View" />
         <variable
             name="item"
-            type="com.sjk.yoram.model.Department" />
+            type="com.sjk.yoram.presentation.main.department.Department" />
         <variable
             name="selectedDpt"
-            type="com.sjk.yoram.model.Department" />
+            type="com.sjk.yoram.presentation.main.department.Department" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

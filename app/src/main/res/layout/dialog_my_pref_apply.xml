@@ -4,7 +4,7 @@
     <data>
         <variable
             name="prefVM"
-            type="com.sjk.yoram.viewmodel.PrefViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.PrefViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -4,10 +4,10 @@
     <data>
         <variable
             name="mainVM"
-            type="com.sjk.yoram.viewmodel.MainViewModel" />
+            type="com.sjk.yoram.presentation.main.MainViewModel" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.FragDptmentViewModel" />
+            type="com.sjk.yoram.presentation.main.department.FragDptmentViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

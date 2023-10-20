@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.sjk.yoram.model.dto.NewUserForAdmin" />
+            type="com.sjk.yoram.data.entity.NewUserForAdmin" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

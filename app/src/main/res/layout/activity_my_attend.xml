@@ -5,7 +5,7 @@
         <import type="java.time.YearMonth" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.AttendViewModel" />
+            type="com.sjk.yoram.presentation.main.my.attend.AttendViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.sjk.yoram.model.MutableListLiveData" />
+        <import type="com.sjk.yoram.util.MutableListLiveData" />
         <variable
             name="prefVM"
-            type="com.sjk.yoram.viewmodel.PrefViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.PrefViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

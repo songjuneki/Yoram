@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.AdminBoardViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.admin.board.AdminBoardViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

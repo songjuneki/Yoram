@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/accountDeleteFirst"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteFirstFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteFirstFragment"
         android:label="AccountDeleteFirst"
         tools:layout="@layout/frag_my_pref_account_delete_first">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountDeleteSecondFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteSecondFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteSecondFragment"
         android:label="AccountDeleteSecondFragment"
         tools:layout="@layout/frag_my_pref_account_delete_second">
         <action
@@ -41,12 +41,12 @@
     </fragment>
     <dialog
         android:id="@+id/accountDeleteBirthEditDialog"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteBirthEditDialog"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteBirthEditDialog"
         android:label="AccountDeleteBirthEditDialog"
         tools:layout="@layout/dialog_account_delete_birthday"/>
     <fragment
         android:id="@+id/accountDeleteThirdFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteThirdFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteThirdFragment"
         android:label="AccountDeleteThirdFragment"
         tools:layout="@layout/frag_my_pref_account_delete_third">
         <action
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountDeleteFourthFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteFourthFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteFourthFragment"
         android:label="AccountDeleteFourthFragment"
         tools:layout="@layout/frag_my_pref_account_delete_fourth">
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountDeleteFifthFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteFifthFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteFifthFragment"
         android:label="AccountDeleteFifthFragment"
         tools:layout="@layout/frag_my_pref_account_delete_fifth">
         <action
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountDeleteSixthFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteSixthFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteSixthFragment"
         android:label="AccountDeleteSixthFragment"
         tools:layout="@layout/frag_my_pref_account_delete_sixth">
         <action
@@ -98,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountDeleteFinishFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteFinishFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteFinishFragment"
         android:label="AccountDeleteFinishFragment"
         tools:layout="@layout/frag_my_pref_account_delete_finish"/>
 </navigation>

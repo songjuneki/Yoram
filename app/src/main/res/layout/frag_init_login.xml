@@ -6,7 +6,7 @@
         <import type="android.text.InputType" />
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.InitViewModel" />
+            type="com.sjk.yoram.presentation.init.InitViewModel" />
         <variable
             name="name"
             type="String" />

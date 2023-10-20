@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/prefFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.PreferenceFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.PreferenceFragment"
         android:label="PreferenceFragment"
         tools:layout="@layout/frag_my_pref">
         <action
@@ -90,12 +90,12 @@
     </fragment>
     <fragment
         android:id="@+id/prefRuleFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.PrefRuleFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.PrefRuleFragment"
         android:label="PrefRuleFragment"
         tools:layout="@layout/frag_my_pref_rule"/>
     <fragment
         android:id="@+id/prefPrivacyFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.PrefPrivacyFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.PrefPrivacyFragment"
         android:label="PrefPrivacyFragment"
         tools:layout="@layout/frag_my_pref_privacy">
         <action
@@ -108,7 +108,7 @@
     </fragment>
     <dialog
         android:id="@+id/prefApplyDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.PrefApplyDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.PrefApplyDialogFragment"
         android:label="PrefApplyDialogFragment"
         tools:layout="@layout/dialog_my_pref_apply">
         <action
@@ -121,12 +121,12 @@
     </dialog>
     <dialog
         android:id="@+id/prefLogoutDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.PrefLogoutDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.PrefLogoutDialogFragment"
         android:label="PrefLogoutDialogFragment"
         tools:layout="@layout/dialog_my_pref_logout"/>
     <fragment
         android:id="@+id/adminBannerFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminBannerFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.banner.AdminBannerFragment"
         android:label="AdminBannerFragment"
         tools:layout="@layout/frag_my_pref_admin_banner">
         <action
@@ -146,12 +146,12 @@
     </fragment>
     <dialog
         android:id="@+id/editBannerDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.EditBannerDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.banner.EditBannerDialogFragment"
         android:label="EditBannerDialogFragment"
         tools:layout="@layout/dialog_my_admin_banner_edit"/>
     <fragment
         android:id="@+id/adminWorshipFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminWorshipFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.worship.AdminWorshipFragment"
         android:label="AdminWorshipFragment"
         tools:layout="@layout/frag_my_pref_admin_worship">
         <action
@@ -171,12 +171,12 @@
     </fragment>
     <dialog
         android:id="@+id/editWorshipDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.EditWorshipDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.worship.EditWorshipDialogFragment"
         android:label="EditWorshipDialogFragment"
         tools:layout="@layout/dialog_my_admin_worship_edit" />
     <fragment
         android:id="@+id/adminGiveTypeFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminGiveTypeFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.give.AdminGiveTypeFragment"
         android:label="AdminGiveTypeFragment"
         tools:layout="@layout/frag_my_pref_admin_give">
         <action
@@ -196,12 +196,12 @@
     </fragment>
     <dialog
         android:id="@+id/editGiveTypeDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.EditGiveTypeDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.give.EditGiveTypeDialogFragment"
         android:label="EditGiveTypeDialogFragment"
         tools:layout="@layout/dialog_my_admin_give_edit"/>
     <fragment
         android:id="@+id/adminDepartmentFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminDepartmentFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.department.AdminDepartmentFragment"
         android:label="AdminDepartmentFragment"
         tools:layout="@layout/frag_my_pref_admin_department">
         <action
@@ -221,12 +221,12 @@
     </fragment>
     <dialog
         android:id="@+id/editDepartmentDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.EditDepartmentDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.department.EditDepartmentDialogFragment"
         android:label="EditDepartmentDialogFragment"
         tools:layout="@layout/dialog_my_admin_department_edit"/>
     <fragment
         android:id="@+id/adminPositionFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminPositionFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.position.AdminPositionFragment"
         android:label="AdminPositionFragment"
         tools:layout="@layout/frag_my_pref_admin_position">
         <action
@@ -246,22 +246,22 @@
     </fragment>
     <dialog
         android:id="@+id/editPositionDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.EditPositionDialogFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.position.EditPositionDialogFragment"
         android:label="EditPositionDialogFragment"
         tools:layout="@layout/dialog_my_admin_position_edit"/>
     <fragment
         android:id="@+id/adminNewUserFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminNewUserFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.newuser.AdminNewUserFragment"
         android:label="AdminNewUserFragment"
         tools:layout="@layout/frag_my_pref_admin_new_user" />
     <fragment
         android:id="@+id/accountDeleteFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.delete.AccountDeleteFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteFragment"
         android:label="AccountDeleteFragment"
         tools:layout="@layout/frag_my_pref_account_delete"/>
     <fragment
         android:id="@+id/adminBoardFragment"
-        android:name="com.sjk.yoram.view.fragment.main.my.preference.admin.AdminBoardFragment"
+        android:name="com.sjk.yoram.presentation.main.my.preference.admin.board.AdminBoardFragment"
         android:label="AdminBoardFragment"
         tools:layout="@layout/frag_my_pref_admin_board" >
         <action

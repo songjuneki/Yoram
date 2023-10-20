@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="com.sjk.yoram.viewmodel.AccountDeleteViewModel" />
+            type="com.sjk.yoram.presentation.main.my.preference.delete.AccountDeleteViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

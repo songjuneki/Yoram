@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.Yoram">
-        <activity android:name=".view.activity.SplashActivity"
+        <activity android:name=".presentation.SplashActivity"
             android:theme="@style/Theme.App.Starting"
             android:screenOrientation="portrait"
             android:exported="true">
@@ -27,19 +27,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.InitActivity"
+        <activity android:name=".presentation.init.InitActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.activity.main.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:theme="@style/Theme.Yoram.ActionBar">
         </activity>
-        <activity android:name=".view.activity.main.my.EditActivity"
+        <activity android:name=".presentation.main.my.edit.EditActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/Theme.Yoram.ActionBar">
@@ -47,14 +47,14 @@
         <activity android:name="com.canhub.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Yoram.AvatarEdit"/>
-        <activity android:name=".view.activity.main.my.GiveActivity"
+        <activity android:name=".presentation.main.my.give.GiveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Yoram.ActionBar" />
-        <activity android:name=".view.activity.main.my.AttendActivity"
+        <activity android:name=".presentation.main.my.attend.AttendActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Yoram.ActionBar" />
 
-        <activity android:name=".view.activity.main.my.PreferenceActivity"
+        <activity android:name=".presentation.main.my.preference.PreferenceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/Theme.Yoram.ActionBar" />

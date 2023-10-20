@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/initHomeFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitHomeFragment"
+        android:name="com.sjk.yoram.presentation.init.InitHomeFragment"
         android:label=""
         tools:layout="@layout/frag_init_main">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/initLoginFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitLoginFragment"
+        android:name="com.sjk.yoram.presentation.init.InitLoginFragment"
         android:label="로그인"
         tools:layout="@layout/frag_init_login">
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/initSignUpFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitSignUpFragment"
+        android:name="com.sjk.yoram.presentation.init.InitSignUpFragment"
         android:label="회원가입"
         tools:layout="@layout/frag_init_signup">
         <action
@@ -67,13 +67,13 @@
     </fragment>
     <dialog
         android:id="@+id/initBDDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitBDDialogFragment"
+        android:name="com.sjk.yoram.presentation.init.InitBDDialogFragment"
         android:label="생년월일 다이얼로그"
         tools:layout="@layout/dialog_birthday" >
     </dialog>
     <fragment
         android:id="@+id/initSignUpAddFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitSignUpAddFragment"
+        android:name="com.sjk.yoram.presentation.init.InitSignUpAddFragment"
         android:label="InitSignUpAddFragment"
         tools:layout="@layout/frag_init_signup_add">
         <action
@@ -93,17 +93,17 @@
     </fragment>
     <dialog
         android:id="@+id/initAddressDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitAddressDialogFragment"
+        android:name="com.sjk.yoram.presentation.init.InitAddressDialogFragment"
         android:label="InitAddressDialogFragment"
         tools:layout="@layout/dialog_address"/>
     <dialog
         android:id="@+id/initAppAgreeDialogFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitAgreeDialogFragment"
+        android:name="com.sjk.yoram.presentation.init.InitAgreeDialogFragment"
         android:label="InitAppAgreeDialogFragment"
         tools:layout="@layout/dialog_agree"/>
     <fragment
         android:id="@+id/initFindPWFragment"
-        android:name="com.sjk.yoram.view.fragment.init.InitFindPWFragment"
+        android:name="com.sjk.yoram.presentation.init.InitFindPWFragment"
         android:label="InitFindPWFragment"
         tools:layout="@layout/frag_init_find_pw"/>
 </navigation>

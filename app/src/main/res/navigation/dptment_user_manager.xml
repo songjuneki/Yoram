@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/userManagerHome"
-        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerHome"
+        android:name="com.sjk.yoram.presentation.main.department.UserManagerHome"
         android:label="UserManagerHome"
         tools:layout="@layout/frag_user_manager_home">
         <action
@@ -41,22 +41,22 @@
     </fragment>
     <fragment
         android:id="@+id/userManagerDptment"
-        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerDptment"
+        android:name="com.sjk.yoram.presentation.main.department.UserManagerDptment"
         android:label="UserManagerDptment"
         tools:layout="@layout/frag_user_manager_dptment"/>
     <fragment
         android:id="@+id/userManagerPosition"
-        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerPosition"
+        android:name="com.sjk.yoram.presentation.main.department.UserManagerPosition"
         android:label="UserManagerPosition"
         tools:layout="@layout/frag_user_manager_pos"/>
     <fragment
         android:id="@+id/userManagerPermission"
-        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerPermission"
+        android:name="com.sjk.yoram.presentation.main.department.UserManagerPermission"
         android:label="UserManagerPermission"
         tools:layout="@layout/frag_user_manager_permission"/>
     <fragment
         android:id="@+id/userManagerGive"
-        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerGive"
+        android:name="com.sjk.yoram.presentation.main.department.UserManagerGive"
         android:label="UserManagerGive"
         tools:layout="@layout/frag_user_manager_give">
         <action
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/userManagerGiveDetail"
-        android:name="com.sjk.yoram.view.fragment.main.department.UserManagerGiveDetail"
+        android:name="com.sjk.yoram.presentation.main.department.UserManagerGiveDetail"
         android:label="UserManagerGiveDetail"
         tools:layout="@layout/frag_user_manager_give_detail"/>
 </navigation>
