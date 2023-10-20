@@ -26,14 +26,24 @@ import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.kizitonwose.calendarview.utils.yearMonth
 import com.sjk.yoram.R
-import com.sjk.yoram.model.Department
-import com.sjk.yoram.model.DepartmentNode
-import com.sjk.yoram.model.GiveListItem
-import com.sjk.yoram.model.SexState
-import com.sjk.yoram.model.dto.*
+import com.sjk.yoram.data.entity.*
+import com.sjk.yoram.presentation.common.model.GiveListItem
+import com.sjk.yoram.presentation.common.model.SexState
 import com.sjk.yoram.model.ui.adapter.*
-import com.sjk.yoram.model.ui.calendar.DayViewContainer
-import com.sjk.yoram.model.ui.listener.*
+import com.sjk.yoram.presentation.main.my.attend.DayViewContainer
+import com.sjk.yoram.presentation.common.listener.TextInputChanged
+import com.sjk.yoram.presentation.common.adapter.AddressListAdapter
+import com.sjk.yoram.presentation.common.listener.RadioItemSelectedListener
+import com.sjk.yoram.presentation.main.board.BoardCategoryListAdapter
+import com.sjk.yoram.presentation.main.department.*
+import com.sjk.yoram.presentation.main.department.Department
+import com.sjk.yoram.presentation.main.my.give.GiveListAdapter
+import com.sjk.yoram.presentation.main.my.preference.admin.banner.AdminBannerListAdapter
+import com.sjk.yoram.presentation.main.my.preference.admin.department.AdminDepartmentListAdapter
+import com.sjk.yoram.presentation.main.my.preference.admin.give.AdminGiveTypeListAdapter
+import com.sjk.yoram.presentation.main.my.preference.admin.newuser.AdminNewUserListAdapter
+import com.sjk.yoram.presentation.main.my.preference.admin.position.AdminPositionListAdapter
+import com.sjk.yoram.presentation.main.my.preference.admin.worship.AdminWorshipListAdapter
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
 import com.skydoves.powerspinner.PowerSpinnerView
 import jp.wasabeef.transformers.coil.GrayscaleTransformation
@@ -186,7 +196,7 @@ object BindingAdapters {
 
     @BindingAdapter("setAddressItems", "highlightKeyword", "onItemClickListener")
     @JvmStatic
-    fun setAddressItems(view: RecyclerView, items: List<Juso>?, keyword: String, listener: AddressItemClickListener) {
+    fun setAddressItems(view: RecyclerView, items: List<Juso>?, keyword: String, listener: AddressListAdapter.AddressItemClickListener) {
         if (view.adapter == null) view.adapter = AddressListAdapter(listener)
         if (items.isNullOrEmpty()) (view.adapter as AddressListAdapter).submitList(listOf(), "")
         else (view.adapter as AddressListAdapter).submitList(items, keyword)
@@ -437,7 +447,7 @@ object BindingAdapters {
 
     @BindingAdapter("AdminDepartmentList")
     @JvmStatic
-    fun setAdminDepartmentList(view: RecyclerView, list: MutableList<com.sjk.yoram.model.dto.Department>) {
+    fun setAdminDepartmentList(view: RecyclerView, list: MutableList<com.sjk.yoram.data.entity.Department>) {
         (view.adapter as AdminDepartmentListAdapter).submitList(list)
     }
 
