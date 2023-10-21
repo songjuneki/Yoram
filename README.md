@@ -155,6 +155,7 @@ Play Store 출시 이후엔 **Clean Architecture**를 따르고 안드로이드�
 - Paging3
 - Flow
 - Retrofit2
+- Coil
 - etc..
 
 ---
