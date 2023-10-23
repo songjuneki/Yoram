@@ -8,7 +8,8 @@ data class SimpleUser(
     val position_name: String,
     val department: Int,
     val department_name: String,
-    val avatar: String
+    val avatar: String,
+    val carno: String
 ) {
-    constructor(user: User): this(user.id, user.name, user.sex, user.position, "" ,user.department, "" ,user.avatar)
+    constructor(user: User): this(user.id, user.name, user.sex, user.position, "" ,user.department, "" ,user.avatar, "")
 }
