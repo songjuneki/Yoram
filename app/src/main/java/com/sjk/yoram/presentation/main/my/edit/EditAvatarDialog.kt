@@ -5,13 +5,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -40,6 +43,13 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
         }
     }
 
+    private val tiramisuImageResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri == null)
+            return@registerForActivityResult
+
+        openCropper(uri)
+    }
+
     private val cameraResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val filePath = file.absolutePath
@@ -49,8 +59,8 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
 
     private val cropImgResult = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            val cropImgUri = result.uriContent
-            val input = requireActivity().contentResolver.openInputStream(cropImgUri!!)
+            val cropImgUri = result.uriContent ?: return@registerForActivityResult
+            val input = requireActivity().contentResolver.openInputStream(cropImgUri)
             viewModel.avatar.value = BitmapFactory.decodeStream(input)
             dismiss()
         }
@@ -93,15 +103,19 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
 
 
     private fun openGalleryPicker() {
-        if (checkReadStoragePermission()) {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-            imageResult.launch(intent)
+        if (checkReadImagePermission()) {
+            if (Build.VERSION.SDK_INT < 33) {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+                imageResult.launch(intent)
+            } else {
+                tiramisuImageResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
     }
 
     private fun openCameraPicker() {
-        if (checkCameraPermission() || checkWriteStoragePermission() || checkReadStoragePermission()) {
+        if (checkCameraPermission() || checkWriteStoragePermission() || checkReadImagePermission()) {
             val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             file = File.createTempFile("JPEG_TEMP", ".jpg", storageDir)
             photoUri = FileProvider.getUriForFile(requireContext(), "com.sjk.yoram.fileprovider", file)
@@ -124,7 +138,7 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
 
 
     private fun checkCameraPermission(): Boolean {
-        val cameraPermissionCheck = ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA)
+        val cameraPermissionCheck = ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.CAMERA)
         return if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -135,8 +149,16 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
         } else true
     }
 
+
+    private fun checkReadImagePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT < 33)
+            checkReadStoragePermission()
+        else
+            checkReadImagePermissionForTiramisuAndOver()
+    }
+
     private fun checkReadStoragePermission(): Boolean {
-        val readStoragePermissionCheck = ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        val readStoragePermissionCheck = ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
         return if (readStoragePermissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -147,8 +169,21 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
         } else true
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkReadImagePermissionForTiramisuAndOver(): Boolean {
+        val readImagePermissionCheck = ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.READ_MEDIA_IMAGES)
+        return if (readImagePermissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.READ_MEDIA_IMAGES),
+                1150
+            )
+            false
+        } else true
+    }
+
     private fun checkWriteStoragePermission(): Boolean {
-        val readStoragePermissionCheck = ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val readStoragePermissionCheck = ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         return if (readStoragePermissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 requireActivity(),

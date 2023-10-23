@@ -61,21 +61,25 @@ class EditActivity: AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == 1000) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "카메라 권한 거부", Toast.LENGTH_SHORT).show()
+            if (grantResults.getOrNull(0) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "카메라 권한을 허용해주세요", Toast.LENGTH_SHORT).show()
             }
         }
         if (requestCode == 1100) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "파일 읽기 권한 거부", Toast.LENGTH_SHORT).show()
+            if (grantResults.getOrNull(0) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "파일 읽기 권한을 허용해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+        if (requestCode == 1150) {
+            if (grantResults.getOrNull(0) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "이미지 읽기 권한을 허용해주세요", Toast.LENGTH_SHORT).show()
             }
         }
         if (requestCode == 1200) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "파일 쓰기 권한 거부", Toast.LENGTH_SHORT).show()
+            if (grantResults.getOrNull(0) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "파일 쓰기 권한을 허용해 주세요", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
 
