@@ -6,6 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hapticFeedbackEnabled="true"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@color/xd_light_background">
         <ImageView
             android:id="@+id/dpt_avatar_iv"
