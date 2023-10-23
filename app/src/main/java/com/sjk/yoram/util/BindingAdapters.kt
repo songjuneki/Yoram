@@ -276,7 +276,7 @@ object BindingAdapters {
     @BindingAdapter("SimpleUserData", "highlightKeyword")
     @JvmStatic
     fun setOnRecyclerAdapterSimpleUserData(view: RecyclerView, data: List<SimpleUser>?, keyword: String) {
-        if (data.isNullOrEmpty())
+        if (data == null)
                 return
         (view.adapter as SimpleUserListAdapter).submitList(data, keyword)
     }
