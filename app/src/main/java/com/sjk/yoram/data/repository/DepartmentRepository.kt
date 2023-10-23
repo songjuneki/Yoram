@@ -6,23 +6,41 @@ import com.sjk.yoram.data.entity.RequestUser
 import com.sjk.yoram.data.entity.SimpleUser
 import com.sjk.yoram.presentation.main.department.Department
 import com.sjk.yoram.presentation.main.department.DepartmentNode
-import com.sjk.yoram.presentation.main.department.findUser
 import com.sjk.yoram.data.repository.retrofit.MyRetrofit
 import com.sjk.yoram.presentation.main.department.addList
 import io.github.bangjunyoung.KoreanChar
+import io.github.bangjunyoung.KoreanTextMatcher
 
 
 class DepartmentRepository(private val application: Application) {
-    suspend fun searchUserByName(name: String, request: Int): MutableList<SimpleUser> {
-        val all = getAllDepartmentsByName(request)
-        return all.findUser(name)
+    suspend fun searchUserByName(keyword: String, request: RequestUser): List<SimpleUser> {
+        val users = getDepartmentNodeListByName(request)
+        val result = mutableListOf<SimpleUser>()
+
+        users.forEach { node ->
+            result.addAll(
+                node.users.filter { user ->
+                    KoreanTextMatcher(keyword).match(user.name).success()
+                }
+            )
+        }
+
+        return result
     }
 
-    suspend fun searchUserByNumber(number: String, request: Int): MutableList<SimpleUser> {
-        val list = mutableListOf<SimpleUser>()
-        val all = getAllDepartmentsByName(request)
+    suspend fun searchUserByNum(keyword: String, requestUser: RequestUser): List<SimpleUser> {
+        val users = getDepartmentNodeListByName(requestUser)
+        val result = mutableListOf<SimpleUser>()
 
-        return list
+        users.forEach { node ->
+            result.addAll(
+                node.users.filter { user ->
+                    user.carno.contains(keyword)
+                }
+            )
+        }
+
+        return result
     }
 
     suspend fun getAllDepartmentsByName(request: Int): MutableList<Department> {

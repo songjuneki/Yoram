@@ -3,6 +3,7 @@ package com.sjk.yoram.presentation.main.department
 import android.annotation.SuppressLint
 import android.app.Application
 import android.widget.DatePicker.OnDateChangedListener
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.*
 import com.google.android.material.textfield.TextInputLayout
 import com.sjk.yoram.R
@@ -42,8 +43,8 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     val isLoadingDptServer: LiveData<Event<Boolean>>
         get() = _isLoadingDptServer
 
-    private val _searchResult = MutableLiveData<MutableList<SimpleUser>>()
-    val searchResult: LiveData<MutableList<SimpleUser>>
+    private val _searchResult = MutableLiveData<List<SimpleUser>>()
+    val searchResult: LiveData<List<SimpleUser>>
         get() = _searchResult
 
     val userDetail = MutableUserLiveData()
@@ -171,7 +172,7 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
         viewModelScope.launch {
             _myPermission = userRepository.getMyPermission(userRepository.getLoginID())
             departmentNodeList.value = mutableListOf()
-            _searchResult.value = mutableListOf()
+            _searchResult.value = listOf()
             loadDepartmentByName()
             departmentList.value = mutableListOf()
             positionList.value = mutableListOf()
@@ -218,11 +219,19 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
 
     val searchInputChanged = object: TextInputChanged {
         override fun afterTextChanged(view: TextInputLayout, input: String) {
-            viewModelScope.async {
-                _searchJob?.cancel()
-                if (input.isEmpty()) {
-                    _searchResult.value = mutableListOf()
-                } else {
+            _searchJob?.cancel()
+            _searchJob = null
+            if (input.isBlank()) {
+                _searchResult.value = listOf()
+                return
+            }
+
+            if (input.isDigitsOnly()) {
+                viewModelScope.launch {
+                    searchUserByNumber(input)
+                }
+            } else {
+                viewModelScope.launch {
                     searchUserByName(input)
                 }
             }
@@ -245,9 +254,15 @@ class FragDptmentViewModel(private val userRepository: UserRepository, private v
     }
 
     private var _searchJob: Job? = null
-    private fun searchUserByName(name: String) {
+    private fun searchUserByName(keyword: String) {
         _searchJob = viewModelScope.launch {
-            _searchResult.value = departmentRepository.searchUserByName(name, _myPermission)
+            _searchResult.value = departmentRepository.searchUserByName(keyword, userRepository.getRequestUser())
+        }
+    }
+
+    private fun searchUserByNumber(keyword: String) {
+        _searchJob = viewModelScope.launch {
+            _searchResult.value = departmentRepository.searchUserByNum(keyword, userRepository.getRequestUser())
         }
     }
 

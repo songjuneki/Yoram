@@ -39,7 +39,7 @@ class DptmentFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         findNavController().addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.dptmentFragment)
+            if (destination.id == R.id.dptmentFragment && viewModel.isSearching.value == false)
                 viewModel.hideSearchbar()
         }
         viewModel.userDetailEvent.observe(viewLifecycleOwner) { event ->
