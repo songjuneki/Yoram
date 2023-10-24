@@ -63,8 +63,9 @@ class EditViewModel(private val userRepository: UserRepository, private val serv
 
     init {
         viewModelScope.async {
-            user.value = userRepository.getUserDetail(userRepository.getLoginID())
-            avatar.value = userRepository.getAvatarBitmap(userRepository.getLoginID())
+            val detail = userRepository.getUserDetail(userRepository.getLoginID())
+            user.value = detail
+            avatar.value = if (detail.avatar.isBlank()) null else userRepository.getAvatarBitmap(userRepository.getLoginID())
         }
     }
 
