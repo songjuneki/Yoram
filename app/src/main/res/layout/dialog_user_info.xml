@@ -45,7 +45,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_gravity="right"
                     app:layout_collapseMode="pin"
-                    android:visibility="@{mainVM.loginData.permission >= UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{mainVM.userPermission.ordinal() >= UserPermission.FINANCE.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:onClick="@{(v) -> vm.clickEvent(v.id)}"/>
                 <ImageView
                     android:id="@+id/dialog_user_info_avatar"

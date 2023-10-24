@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
+        <import type="com.sjk.yoram.presentation.common.model.UserPermission" />
         <variable
             name="mainVM"
             type="com.sjk.yoram.presentation.main.MainViewModel" />
@@ -36,6 +39,8 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/frag_user_manager_home_dpt_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                tools:visibility="visible"
+                android:visibility="@{mainVM.userPermission.ordinal() >= UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="@{(v) -> vm.managerClickEvent(v.id)}"
@@ -53,6 +58,8 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/frag_user_manager_home_pos_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                tools:visibility="visible"
+                android:visibility="@{mainVM.userPermission.ordinal() >= UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
@@ -71,6 +78,8 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/frag_user_manager_home_perm_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                tools:visibility="visible"
+                android:visibility="@{mainVM.userPermission.ordinal() >= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
@@ -89,6 +98,8 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/frag_user_manager_home_give_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                tools:visibility="visible"
+                android:visibility="@{mainVM.userPermission.ordinal() == UserPermission.FINANCE.ordinal() || mainVM.userPermission.ordinal() >= UserPermission.FINANCE_PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"

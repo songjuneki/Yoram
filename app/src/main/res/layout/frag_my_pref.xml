@@ -44,6 +44,7 @@
                     android:layout_width="0dp"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@drawable/shape_circle_image_btn"
+                    android:contentDescription="뒤로가기"
                     android:src="@drawable/ic_back"
                     android:scaleType="fitCenter"
                     android:clickable="true"
@@ -251,7 +252,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:visibility="@{vm.userPermission.ordinal() &lt; 1 ? View.GONE : View.VISIBLE, default=visible}"
+                android:visibility="@{UserPermission.NORMAL.ordinal() > vm.userPermission.ordinal() ? View.GONE : View.VISIBLE, default=visible}"
                 android:id="@+id/frag_my_pref_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -400,9 +401,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                tools:visibility="visible"
                 android:id="@+id/frag_my_pref_admin"
-                android:visibility="@{vm.userPermission.ordinal() > 4 ? View.VISIBLE : View.GONE, default=gone}"
+                tools:visibility="visible"
+                android:visibility="@{vm.userPermission.ordinal() > UserPermission.NORMAL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/xd_light_background"
@@ -435,6 +436,8 @@
                     android:layout_marginTop="16dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    tools:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() >= UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:id="@+id/frag_my_pref_admin_new_user"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -483,6 +486,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/frag_my_pref_admin_banner"
+                    tools:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() >= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -529,7 +534,8 @@
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() >= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:id="@+id/frag_my_pref_admin_worship"
                     android:clickable="true"
                     android:longClickable="true"
@@ -577,7 +583,8 @@
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() == UserPermission.FINANCE.ordinal() || vm.userPermission.ordinal() >= UserPermission.FINANCE_PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:id="@+id/frag_my_pref_admin_give"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -625,7 +632,8 @@
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() > UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:id="@+id/frag_my_pref_admin_department"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -673,7 +681,8 @@
                     app:layout_constraintRight_toRightOf="@id/frag_my_pref_admin_gv95" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() > UserPermission.PERSONNEL.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:id="@+id/frag_my_pref_admin_position"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -714,7 +723,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:visibility="visible"
+                    android:visibility="@{vm.userPermission.ordinal() >= UserPermission.ADMIN.ordinal() ? View.VISIBLE : View.GONE, default=gone}"
                     android:id="@+id/frag_my_pref_admin_board"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
