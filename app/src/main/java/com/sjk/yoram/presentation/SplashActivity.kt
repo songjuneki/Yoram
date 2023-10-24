@@ -54,8 +54,8 @@ class SplashActivity: AppCompatActivity() {
                 if (isInit) {
                     // 앱 초기 상태일시
                     initIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    initIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(initIntent)
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     finish()
                 } else {
                     // 앱 초기 진행 했을 시
@@ -70,6 +70,7 @@ class SplashActivity: AppCompatActivity() {
                             .create().show()
                     } else {
                         startActivity(homeIntent)       // 메인화면으로
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
                     }
                 }
@@ -83,21 +84,6 @@ class SplashActivity: AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(0, 0)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        overridePendingTransition(0, 0)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        overridePendingTransition(0 , 0)
-    }
-
 
     private suspend fun checkInternetConnection(): Boolean = withContext(Dispatchers.Main) {
         try {
@@ -109,8 +95,7 @@ class SplashActivity: AppCompatActivity() {
                     caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
                     caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
                     caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) ||
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) ||
-                    caps.hasTransport(NetworkCapabilities.TRANSPORT_USB)
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
         } catch (e: Exception) {
             return@withContext false
         }
