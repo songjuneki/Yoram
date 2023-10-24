@@ -84,7 +84,7 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
 
     fun btnEvent(id: Int) {
         when (id) {
-            R.id.frag_id_refresh -> { makeCode(); countDown() }
+            R.id.frag_id_body_refresh -> { makeCode(); countDown() }
             R.id.frag_id_scanner -> {
                 loadWorshipList()
                 _navEvent.value = Event(R.id.action_iDFragment_to_scannerInitDialog)
