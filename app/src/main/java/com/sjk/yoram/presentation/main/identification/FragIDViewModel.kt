@@ -15,6 +15,9 @@ import com.sjk.yoram.data.repository.UserRepository
 import com.sjk.yoram.util.MySecurity
 import com.sjk.yoram.util.hexToByteArray
 import kotlinx.coroutines.*
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class FragIDViewModel(private val userRepository: UserRepository, private val serverRepository: ServerRepository): ViewModel() {
     private val _isValidCode = MutableLiveData<Boolean>()
@@ -188,6 +191,26 @@ class FragIDViewModel(private val userRepository: UserRepository, private val se
                 codeFailure("QR SCAN :: qr is something wrong! [ID]")
                 return@async
             }
+
+
+            val dateStr = info[0].substringAfter("DATE:")
+            val date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val nowDate = LocalDate.now()
+
+            val timeStr = info[1].substringAfter("TIME:")
+            val time = LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm:ss"))
+            val nowTime = LocalTime.now()
+
+            if (!date.isEqual(nowDate)) {
+                codeFailure("만료된 교인증 입니다.")
+                return@async
+            }
+
+            if (time.plusSeconds(15).isBefore(nowTime)) {
+                codeFailure("만료된 교인증 입니다.")
+                return@async
+            }
+
             val attend = com.sjk.yoram.data.entity.Attend(
                 info[2].substring(3).toInt(),
                 info[0].substring(5),
