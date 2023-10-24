@@ -207,6 +207,10 @@ class MainViewModel(private val userRepository: UserRepository, private val serv
 
     fun getUserPermission(): UserPermission {
         val data = _loginData.value ?: MyLoginData()
+        if (data.permission < 1)
+            return UserPermission.NONE
+        if (data.permission >= UserPermission.values().size)
+            return UserPermission.SUPER_ADMIN
         return UserPermission.values()[data.permission]
     }
 
