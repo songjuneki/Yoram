@@ -122,7 +122,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
                 userRepository.setIsInit(false)
             }
 
-            R.id.init_login_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
+            R.id.init_login_body_signup_tv -> changeFragment(R.id.action_initLogin_to_initSignup, InitFragmentType.InitFragment_SIGNUP)
 
             R.id.init_signup_bd_et -> changeFragment(R.id.action_initSignup_to_dialogBD, InitFragmentType.InitFragment_Dialog_BD)
             R.id.init_signup_address_et -> changeFragment(R.id.action_initSignUpAdd_to_dialogAdd, InitFragmentType.InitFragment_Dialog_ADD)
@@ -133,7 +133,7 @@ class InitViewModel(private val userRepository: UserRepository, private val serv
             R.id.init_signup_complete_btn -> btnSignUpComplete()
 
             R.id.init_login_need_help -> showToastMsg("현재 기능 준비중입니다. 관리자에게 문의해주세요")
-            R.id.init_login_find_pw -> changeFragment(R.id.action_initLoginFragment_to_initFindPWFragment, InitFragmentType.InitFragment_FIND_PW)
+            R.id.init_login_body_find_pw -> changeFragment(R.id.action_initLoginFragment_to_initFindPWFragment, InitFragmentType.InitFragment_FIND_PW)
 
             R.id.frag_init_find_pw_back_btn, R.id.frag_init_find_pw_alert_back_btn -> _backBtnEvent.value = Event(Unit)
         }
