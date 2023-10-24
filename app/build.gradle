@@ -12,8 +12,8 @@ android {
         applicationId "com.sjk.yoram"
         minSdk 26
         targetSdk 33
-        versionCode 30
-        versionName "0.9.8-rc2"
+        versionCode 31
+        versionName "0.9.9-rc2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -70,6 +70,7 @@ dependencies {
     implementation 'com.github.skydoves:powerspinner:1.2.3'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
     implementation 'com.github.cielsk:clearable-edittext:0.0.8'
     implementation 'com.google.zxing:core:3.3.0'
     implementation ('com.github.SumiMakito:AwesomeQRCode:1.2.0') {
