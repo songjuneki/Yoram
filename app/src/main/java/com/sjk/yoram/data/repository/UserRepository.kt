@@ -19,11 +19,11 @@ import com.github.sumimakito.awesomeqr.option.logo.Logo
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.sjk.yoram.R
 import com.sjk.yoram.data.entity.*
+import com.sjk.yoram.data.repository.retrofit.MyRetrofit
 import com.sjk.yoram.presentation.common.model.GiveListItem
 import com.sjk.yoram.presentation.common.model.LoginCheck
 import com.sjk.yoram.presentation.common.model.LoginState
 import com.sjk.yoram.presentation.common.model.NewUser
-import com.sjk.yoram.data.repository.retrofit.MyRetrofit
 import com.sjk.yoram.util.MySecurity
 import com.sjk.yoram.util.toHex
 import kotlinx.coroutines.Dispatchers
@@ -147,28 +147,38 @@ class UserRepository(private val application: Application) {
     suspend fun uploadAvatar(img: Bitmap?): Boolean {
         if (img == null) {
             val body = getLoginID().toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            MyRetrofit.userApi.initAvatar(body)
-            return true
+            val result = MyRetrofit.userApi.initAvatar(body)
+            if (!result.isSuccessful)
+                return false
+            return result.body() ?: false
         }
         val storageDir: File? = application.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val file = withContext(Dispatchers.IO) {
-            File.createTempFile("JPEG_UPLOAD_TEMP", ".jpg", storageDir)
+            File.createTempFile("AVATAR_UPLOAD_TEMP", ".png", storageDir)
         }
         var out: OutputStream? = null
 
         try {
-            out = FileOutputStream(file)
-            img.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out = withContext(Dispatchers.IO) {
+                FileOutputStream(file)
+            }
+            img.compress(Bitmap.CompressFormat.PNG, 100, out)
         } catch (e: Exception){
             e.printStackTrace()
-            out?.close()
             return false
+        } finally {
+            out?.let {
+                withContext(Dispatchers.IO) {
+                    it.close()
+                }
+            }
         }
-        out?.close()
 
-        val requestBody = MultipartBody.Part.createFormData("pic", "avatar.jpg", file.asRequestBody("image/*".toMediaType()))
+        val requestBody = MultipartBody.Part.createFormData("pic", "avatar.png", file.asRequestBody("image/*".toMediaType()))
         val upload = MyRetrofit.userApi.uploadAvatar(requestBody, getLoginID().toString().toRequestBody("text/plain".toMediaTypeOrNull()))
-        return upload.isSuccessful
+        if (!upload.isSuccessful)
+            return false
+        return upload.body() ?: false
     }
 
     suspend fun editUserInfo(info: UserDetail): Boolean {

@@ -3,6 +3,7 @@ package com.sjk.yoram.presentation.main.my.edit
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -61,7 +62,10 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
         if (result.isSuccessful) {
             val cropImgUri = result.uriContent ?: return@registerForActivityResult
             val input = requireActivity().contentResolver.openInputStream(cropImgUri)
-            viewModel.avatar.value = BitmapFactory.decodeStream(input)
+            val bitmapOption = BitmapFactory.Options().apply {
+                outMimeType = "image/png"
+            }
+            viewModel.avatar.value = BitmapFactory.decodeStream(input, null, bitmapOption)
             dismiss()
         }
     }
@@ -130,6 +134,7 @@ class EditAvatarDialog: BottomSheetDialogFragment() {
             options(uri = uri) {
                 setGuidelines(CropImageView.Guidelines.ON_TOUCH)
                 setCropShape(CropImageView.CropShape.RECTANGLE)
+                setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                 setActivityMenuIconColor(R.color.md_theme_light_shadow)
                 setActivityTitle("사진 수정")
             }
