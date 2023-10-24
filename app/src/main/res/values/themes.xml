@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.App.Starting" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="windowSplashScreenBackground" tools:targetApi="S">@color/xd_light_logo_accent</item>
-        <item name="windowSplashScreenAnimatedIcon" tools:targetApi="S">@drawable/logo_with_title_x3</item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="S">@color/xd_light_logo_accent</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="S">@color/xd_light_transparent</item>
         <item name="postSplashScreenTheme" tools:targetApi="S">@style/Theme.Yoram</item>
     </style>
     <style name="Theme.Yoram" parent="Theme.MaterialComponents.Light.NoActionBar">
