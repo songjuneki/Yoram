@@ -173,6 +173,7 @@
             app:layout_constraintLeft_toLeftOf="@id/frag_id_gv05"
             app:layout_constraintRight_toRightOf="@id/frag_id_gv95"
             app:layout_constraintBottom_toTopOf="@id/frag_id_remain_layout"
+            app:layout_constraintDimensionRatio="1:1"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
